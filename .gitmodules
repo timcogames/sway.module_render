@@ -1,0 +1,9 @@
+[submodule "modules/sway.module_math"]
+	path = modules/sway.module_math
+	url = git://github.com/timcogames/sway.module_math.git
+[submodule "modules/sway.module_core"]
+	path = modules/sway.module_core
+	url = git://github.com/timcogames/sway.module_core.git
+[submodule "modules/sway.module_gapi-ogl"]
+	path = modules/sway.module_gapi-ogl
+	url = git://github.com/timcogames/sway.module_gapi-ogl.git
