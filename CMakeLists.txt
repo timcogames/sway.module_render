@@ -43,7 +43,7 @@ endif()
 
 add_library(${MODULE_GRAPHICS_PROJECT_NAME} SHARED ${MODULE_GRAPHICS_SOURCE})
 
-target_link_libraries(${MODULE_GRAPHICS_PROJECT_NAME} GL X11 Boost::system Boost::filesystem Boost::thread)
+target_link_libraries(${MODULE_GRAPHICS_PROJECT_NAME} module_gapi_ogl GL X11 Boost::system Boost::filesystem Boost::thread)
 
 set_target_properties(${MODULE_GRAPHICS_PROJECT_NAME} PROPERTIES SUFFIX ".so.${MODULE_GRAPHICS_VERSION_STRING}")
 set_target_properties(${MODULE_GRAPHICS_PROJECT_NAME} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
