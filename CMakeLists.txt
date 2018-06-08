@@ -25,7 +25,7 @@ set(MODULE_GRAPHICS_DIR ${CMAKE_CURRENT_LIST_DIR})
 include_directories(${MODULE_GRAPHICS_DIR}/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_core/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_math/include)
-include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi-ogl/include)
+include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi-gl/include)
 
 file(GLOB_RECURSE MODULE_GRAPHICS_HEADERS ${MODULE_GRAPHICS_DIR}/include/*.*)
 file(GLOB_RECURSE MODULE_GRAPHICS_SOURCE ${MODULE_GRAPHICS_DIR}/src/*.*)
@@ -41,9 +41,12 @@ find_package(Boost 1.58.0 COMPONENTS system filesystem thread)
 if (Boost_FOUND)
 endif()
 
-add_library(${MODULE_GRAPHICS_PROJECT_NAME} SHARED ${MODULE_GRAPHICS_SOURCE})
+add_subdirectory(modules/sway.module_core)
+add_subdirectory(modules/sway.module_gapi-gl)
 
-target_link_libraries(${MODULE_GRAPHICS_PROJECT_NAME} module_gapi_ogl GL X11 Boost::system Boost::filesystem Boost::thread)
+add_library(${MODULE_GRAPHICS_PROJECT_NAME} SHARED ${MODULE_GRAPHICS_SOURCE})
+add_dependencies(${GAME_SEEKER_PROJECT_NAME} module_gapi_gl module_core)
+target_link_libraries(${MODULE_GRAPHICS_PROJECT_NAME} module_gapi_gl GL X11 Boost::system Boost::filesystem Boost::thread)
 
 set_target_properties(${MODULE_GRAPHICS_PROJECT_NAME} PROPERTIES SUFFIX ".so.${MODULE_GRAPHICS_VERSION_STRING}")
 set_target_properties(${MODULE_GRAPHICS_PROJECT_NAME} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)

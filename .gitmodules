@@ -4,6 +4,6 @@
 [submodule "modules/sway.module_core"]
 	path = modules/sway.module_core
 	url = git://github.com/timcogames/sway.module_core.git
-[submodule "modules/sway.module_gapi-ogl"]
-	path = modules/sway.module_gapi-ogl
-	url = git://github.com/timcogames/sway.module_gapi-ogl.git
+[submodule "modules/sway.module_gapi-gl"]
+	path = modules/sway.module_gapi-gl
+	url = git://github.com/timcogames/sway.module_gapi-gl.git
