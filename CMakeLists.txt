@@ -6,12 +6,13 @@ set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 2)
-set(META_VERSION_PATCH 0)
+set(META_VERSION_PATCH 1)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
 option(BUILD_SHARED "Build shared library" OFF)
 option(ENABLE_COVERAGE "Enable coverage builds" OFF)
+option(ENABLE_TESTS "Enable test builds" OFF)
 
 project(${META_PROJECT_NAME} C CXX)
 

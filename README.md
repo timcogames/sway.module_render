@@ -1,4 +1,6 @@
-# sway.module_graphics [![Discord](https://discordapp.com/api/guilds/402238411639095297/widget.png)](https://discord.gg/vCMcgwQ)
+# sway.module_graphics
+
+[![Documentation](https://codedocs.xyz/timcogames/sway.module_graphics.svg)](https://codedocs.xyz/timcogames/sway.module_graphics/)
 
 ### Клонирование проекта
 
@@ -23,7 +25,8 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 Опция сборки | Описание | По умолчанию
 :---|:---|:---:
 `BUILD_SHARED_LIBS` | Сборка библиотеки общего пользования | `OFF`
-`ENABLE_COVERAGE` | Enable coverage builds | `OFF`
+`ENABLE_COVERAGE` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
+`ENABLE_TESTS` | Включает построение тестов | `OFF`
 
 Запускаем сборку
 
