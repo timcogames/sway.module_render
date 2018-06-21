@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(graphics)
 RenderSubsystem::RenderSubsystem() {
 	_caps = new gapi::Capabilities();
 	
-	auto version = _caps->getVersion();
+	auto version = _caps->getGLVersion();
 	std::cout << boost::str(boost::format("%1%.%2%") % version.getMajor() % version.getMinor()) << std::endl;
 }
 

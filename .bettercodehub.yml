@@ -1,0 +1,15 @@
+component_depth: 8
+
+languages:
+  - name: cpp
+    
+    production:
+      include:
+        - /src/.*\.cpp
+        - /include/sway/.*\.h
+      exclude:
+        - /tests/.*
+
+    test:
+      include:
+        - /tests/.*\.cpp
