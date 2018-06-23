@@ -1,0 +1,108 @@
+language: cpp
+dist: trusty
+
+branches:
+  only:
+  - master
+
+before_script:
+  - mkdir build && cd build
+  - . ./../scripts/travis/install-cmake.sh
+
+matrix:
+  include:
+  #
+  # G++ 5
+  #
+  - os: linux
+    env:
+      - TASK="G++ 5"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+          - sourceline: ppa:kzemek/boost
+        packages:
+          - gcc-5
+          - g++-5
+          - libboost1.58-dev
+          - libboost-filesystem1.58-dev
+          - libboost-system1.58-dev
+          - libboost-thread1.58-dev
+          - libboost-test1.58-dev
+    script:
+      - |
+        cmake .. \
+        -DCMAKE_CXX_COMPILER=g++-5 \
+        -DCMAKE_BUILD_TYPE=Debug
+      - cmake --build .
+
+  #
+  # Clang 3.8
+  #
+  - os: linux
+    env:
+      - TASK="Clang 3.8"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-trusty-4.0
+          - sourceline: ppa:kzemek/boost
+        packages:
+          - clang-3.8
+          - gcc-5
+          - g++-5
+          - libboost1.58-dev
+          - libboost-filesystem1.58-dev
+          - libboost-system1.58-dev
+          - libboost-thread1.58-dev
+          - libboost-test1.58-dev
+    script:
+      - |
+        cmake .. \
+        -DCMAKE_C_COMPILER=clang-3.8 \
+        -DCMAKE_CXX_COMPILER=clang++-3.8 \
+        -DCMAKE_BUILD_TYPE=Debug
+      - cmake --build .
+
+  #
+  # Codecov
+  #
+  - os: linux
+    env:
+      - TASK="Codecov"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+          - sourceline: ppa:kzemek/boost
+        packages:
+          - gcc-5
+          - g++-5
+          - libboost1.58-dev
+          - libboost-filesystem1.58-dev
+          - libboost-system1.58-dev
+          - libboost-thread1.58-dev
+          - libboost-test1.58-dev
+    install:
+      - pip install --user --upgrade pip
+      - pip --version
+      - pip install --user codecov
+      - codecov --version
+      - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
+      - which gcov
+      - gcov --version
+    script:
+      - |
+        cmake .. \
+        -DCMAKE_CXX_COMPILER=g++-5 \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DENABLE_COVERAGE=ON
+      - cmake --build .
+      - bash ./../scripts/travis/codecov.sh
+    after_success:
+      - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email: false

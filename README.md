@@ -1,5 +1,7 @@
 # sway.module_graphics
 
+[![Build Status](https://travis-ci.com/timcogames/sway.module_graphics.svg?branch=master)](https://travis-ci.com/timcogames/sway.module_graphics)
+[![codecov](https://codecov.io/gh/timcogames/sway.module_graphics/branch/master/graph/badge.svg)](https://codecov.io/gh/timcogames/sway.module_graphics)
 [![Documentation](https://codedocs.xyz/timcogames/sway.module_graphics.svg)](https://codedocs.xyz/timcogames/sway.module_graphics/)
 
 ### Клонирование проекта
