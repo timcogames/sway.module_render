@@ -1,12 +1,11 @@
 #include <sway/graphics/rendersubsystem.h>
 #include <iostream>
-
 #include <boost/format.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubsystem::RenderSubsystem() {
+RenderSubsystem::RenderSubsystem(core::foundation::Context * context) : core::foundation::Object(context) {
 	_caps = new gapi::Capabilities();
 	
 	auto version = _caps->getGLVersion();

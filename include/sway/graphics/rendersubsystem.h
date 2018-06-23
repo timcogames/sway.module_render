@@ -1,22 +1,25 @@
 #ifndef SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 #define SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 
-#include <sway/core.h>
-#include <sway/math.h>
-#include <sway/gapi.h>
+#include <sway/graphics/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-class RenderSubsystem {
+class RenderSubsystem : public core::foundation::Object {
+	DECLARE_OBJECT(RenderSubsystem, core::foundation::Object)
+
 public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] context
+	 *    Контекст подсистемы.
 	 */
-	RenderSubsystem();
+	RenderSubsystem(core::foundation::Context * context);
 
 	/*!
 	 * \brief
@@ -24,7 +27,7 @@ public:
 	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
-	~RenderSubsystem();
+	virtual ~RenderSubsystem();
 
 private:
 	gapi::Capabilities * _caps;
