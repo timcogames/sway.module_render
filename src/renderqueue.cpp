@@ -1,12 +1,11 @@
 #include <sway/graphics/renderqueue.h>
-#include <sway/graphics/renderqueuepriorities.h>
 #include <sway/graphics/rendersubqueue.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderQueue::RenderQueue()
-	: _priority(kRenderQueuePriority_Normal) {
+RenderQueue::RenderQueue(u32_t priority)
+	: _priority(priority) {
 	// Empty
 }
 
@@ -16,22 +15,19 @@ RenderQueue::~RenderQueue() {
 }
 
 void RenderQueue::addSubqueue(const RenderSubqueueRef_t & subqueue) {
-	u32_t groupIndex = subqueue->getGroupIdx();
-	if (groupIndex > RENDER_SUBQUEUE_GROUP_COUNT)
-		std::invalid_argument("groupIndex");
-
-	_subqueues[groupIndex].push_back(subqueue);
+	u32_t groupIdx = subqueue->getGroupIdx();
+	_subqueues[groupIdx].push_back(subqueue);
 }
 
 void RenderQueue::removeSubqueue(const RenderSubqueueRef_t & subqueue) {
-	u32_t groupIndex = subqueue->getGroupIdx();
-	if (groupIndex > RENDER_SUBQUEUE_GROUP_COUNT)
-		std::invalid_argument("groupIndex");
-
-	_subqueues[groupIndex].erase(std::remove(_subqueues[groupIndex].begin(), _subqueues[groupIndex].end(), subqueue), _subqueues[groupIndex].end());
+	u32_t groupIdx = subqueue->getGroupIdx();
+	_subqueues[groupIdx].erase(std::remove(_subqueues[groupIdx].begin(), _subqueues[groupIdx].end(), subqueue), _subqueues[groupIdx].end());
 }
 
 RenderSubqueueRefVector_t & RenderQueue::getSubqueueGroupByIdx(u32_t groupIdx) {
+	if (groupIdx > RENDER_SUBQUEUE_GROUP_COUNT)
+		throw ArgumentException("groupIdx");
+
 	return _subqueues[groupIdx];
 }
 

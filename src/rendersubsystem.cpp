@@ -18,8 +18,8 @@ RenderSubsystem::~RenderSubsystem() {
 	_queues.clear();
 }
 
-RenderQueueRef_t RenderSubsystem::createQueue() {
-	_queues.push_back(boost::make_shared<RenderQueue>());
+RenderQueueRef_t RenderSubsystem::createQueue(u32_t priority) {
+	_queues.push_back(boost::make_shared<RenderQueue>(priority));
 	return _queues.back();
 }
 

@@ -2,6 +2,7 @@
 #define SWAY_GRAPHICS_RENDERSUBQUEUE_H
 
 #include <sway/graphics/prereqs.h>
+#include <sway/graphics/rendersubqueuegroups.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -13,8 +14,11 @@ public:
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] groupIdx
+	 *    Индекс группы.
 	 */
-	RenderSubqueue();
+	RenderSubqueue(u32_t groupIdx = kRenderSubqueueGroup_Opaque);
 
 	/*!
 	 * \brief
@@ -23,17 +27,6 @@ public:
 	 *    Освобождает захваченные ресурсы.
 	 */
 	~RenderSubqueue();
-
-	/*!
-	 * \brief
-	 *    Конструктор класса.
-	 *
-	 *    Выполняет инициализацию нового экземпляра класса.
-	 * 
-	 * \param[in] groupIdx
-	 *    Индекс группы.
-	 */
-	explicit RenderSubqueue(u32_t groupIdx);
 
 	void addDrawable(DrawableRef_t drawable);
 

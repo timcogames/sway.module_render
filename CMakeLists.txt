@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 5)
-set(META_VERSION_PATCH 6)
+set(META_VERSION_MINOR 6)
+set(META_VERSION_PATCH 11)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -75,3 +75,12 @@ else()
 endif()
 
 target_link_libraries(${META_LIB_NAME} GL X11 Boost::system Boost::filesystem Boost::thread)
+
+# Добавляем построение тестов
+if(ENABLE_TESTS)
+	message(STATUS "Tests have been enabled")
+	add_subdirectory(modules/sway.module_core)
+	add_subdirectory(modules/sway.module_gapi-gl)
+	add_subdirectory(tests)
+endif()
+

@@ -2,6 +2,7 @@
 #define SWAY_GRAPHICS_RENDERQUEUE_H
 
 #include <sway/graphics/prereqs.h>
+#include <sway/graphics/renderqueuepriorities.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -13,8 +14,11 @@ public:
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] priority
+	 *    Приоритет очереди.
 	 */
-	RenderQueue();
+	RenderQueue(u32_t priority = kRenderQueuePriority_Normal);
 
 	/*!
 	 * \brief

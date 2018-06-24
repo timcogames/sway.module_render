@@ -2,6 +2,7 @@
 #define SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 
 #include <sway/graphics/prereqs.h>
+#include <sway/graphics/renderqueuepriorities.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -32,11 +33,14 @@ public:
 	/*!
 	 * \brief
 	 *    Создает новую очередь и добавляет её в контейнер.
+	 * 
+	 * \param[in] priority
+	 *    Приоритет очереди.
 	 *
 	 * \return
 	 *    Умный указатель на объект класса очереди.
 	 */
-	RenderQueueRef_t createQueue();
+	RenderQueueRef_t createQueue(u32_t priority = kRenderQueuePriority_Normal);
 
 	/*!
 	 * \brief

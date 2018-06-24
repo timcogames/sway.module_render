@@ -1,18 +1,11 @@
 #include <sway/graphics/rendersubqueue.h>
-#include <sway/graphics/rendersubqueuegroups.h>
 #include <sway/graphics/drawable.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubqueue::RenderSubqueue()
-	: _group(kRenderSubqueueGroup_Opaque) {
-	// Empty
-}
-
-RenderSubqueue::RenderSubqueue(u32_t groupIdx)
-	: _group(groupIdx) {
-	// Empty
+RenderSubqueue::RenderSubqueue(u32_t groupIdx) {
+	setGroupIdx(groupIdx);
 }
 
 RenderSubqueue::~RenderSubqueue() {
@@ -30,6 +23,9 @@ void RenderSubqueue::render() {
 }
 
 void RenderSubqueue::setGroupIdx(u32_t groupIdx) {
+	if (groupIdx > RENDER_SUBQUEUE_GROUP_COUNT)
+		throw ArgumentException("groupIdx");
+
 	_group = groupIdx;
 }
 
