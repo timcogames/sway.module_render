@@ -34,7 +34,8 @@ matrix:
       - |
         cmake .. \
         -DCMAKE_CXX_COMPILER=g++-5 \
-        -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DENABLE_TESTS=ON
       - cmake --build .
 
   #
@@ -63,7 +64,8 @@ matrix:
         cmake .. \
         -DCMAKE_C_COMPILER=clang-3.8 \
         -DCMAKE_CXX_COMPILER=clang++-3.8 \
-        -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DENABLE_TESTS=ON
       - cmake --build .
 
   #
@@ -98,7 +100,8 @@ matrix:
         cmake .. \
         -DCMAKE_CXX_COMPILER=g++-5 \
         -DCMAKE_BUILD_TYPE=Debug \
-        -DENABLE_COVERAGE=ON
+        -DENABLE_COVERAGE=ON \
+        -DENABLE_TESTS=ON
       - cmake --build .
       - bash ./../scripts/travis/codecov.sh
     after_success:
