@@ -2,6 +2,7 @@
 #include <boost/make_shared.hpp>
 
 #include <sway/core.h>
+#include <sway/core/intrusive/priorities.h>
 #include <sway/graphics.h>
 
 using namespace sway;
@@ -16,8 +17,8 @@ BOOST_AUTO_TEST_SUITE(RenderQueue_AutoTestSuite)
  *    которые были заданы.
  */
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_ComponentConstructor) {
-	graphics::RenderQueue queue(graphics::kRenderQueuePriority_High);
-	BOOST_CHECK_EQUAL(queue.getPriority(), graphics::kRenderQueuePriority_High);
+	graphics::RenderQueue queue(core::intrusive::kPriority_High);
+	BOOST_CHECK_EQUAL(queue.getPriority(), core::intrusive::kPriority_High);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -33,7 +34,7 @@ BOOST_FIXTURE_TEST_SUITE(RenderQueue_FixtureTestSuite, graphics::RenderQueue)
  *    Убеждаемся, что конструктор приводит свойства к значению по умолчанию.
  */
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_DefaultConstructor) {
-	BOOST_CHECK_EQUAL(getPriority(), graphics::kRenderQueuePriority_Normal);
+	BOOST_CHECK_EQUAL(getPriority(), core::intrusive::kPriority_Normal);
 }
 
 /*!
@@ -41,8 +42,8 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_DefaultConstructor) {
  *    Убеждаемся, что установка всех свойств очереди проходит правильно.
  */
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Setters) {
-	setPriority(graphics::kRenderQueuePriority_VeryLow);
-	BOOST_CHECK_EQUAL(getPriority(), graphics::kRenderQueuePriority_VeryLow);
+	setPriority(core::intrusive::kPriority_VeryLow);
+	BOOST_CHECK_EQUAL(getPriority(), core::intrusive::kPriority_VeryLow);
 }
 
 /*!

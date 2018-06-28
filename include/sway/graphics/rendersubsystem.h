@@ -2,7 +2,7 @@
 #define SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 
 #include <sway/graphics/prereqs.h>
-#include <sway/graphics/renderqueuepriorities.h>
+#include <sway/core/intrusive/priorities.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -40,7 +40,7 @@ public:
 	 * \return
 	 *    Умный указатель на объект класса очереди.
 	 */
-	RenderQueueRef_t createQueue(u32_t priority = kRenderQueuePriority_Normal);
+	RenderQueueRef_t createQueue(u32_t priority = core::intrusive::kPriority_Normal);
 
 	/*!
 	 * \brief

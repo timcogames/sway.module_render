@@ -2,6 +2,7 @@
 #include <boost/make_shared.hpp>
 
 #include <sway/core.h>
+#include <sway/core/intrusive/priorities.h>
 #include <sway/graphics.h>
 
 using namespace sway;
@@ -25,17 +26,17 @@ BOOST_FIXTURE_TEST_SUITE(RenderSubsystemFixture_TestSuite, RenderSubsystemFixtur
 
 BOOST_AUTO_TEST_CASE(RenderSubsystemFixture_TestCase) {
 	auto queue_h = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
-	queue_h->setPriority(graphics::kRenderQueuePriority_High);
+	queue_h->setPriority(core::intrusive::kPriority_High);
 	queue_h->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_h = queue_h->getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent);
 
 	auto queue_l = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
-	queue_l->setPriority(graphics::kRenderQueuePriority_Low);
+	queue_l->setPriority(core::intrusive::kPriority_Low);
 	queue_l->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_l = queue_l->getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent);
  
 	auto queue_n = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
-	queue_n->setPriority(graphics::kRenderQueuePriority_Normal);
+	queue_n->setPriority(core::intrusive::kPriority_Normal);
 	queue_n->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_n = queue_n->getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent);
 

@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 6)
-set(META_VERSION_PATCH 11)
+set(META_VERSION_MINOR 7)
+set(META_VERSION_PATCH 16)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -83,4 +83,3 @@ if(ENABLE_TESTS)
 	add_subdirectory(modules/sway.module_gapi-gl)
 	add_subdirectory(tests)
 endif()
-

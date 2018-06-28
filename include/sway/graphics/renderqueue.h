@@ -2,7 +2,7 @@
 #define SWAY_GRAPHICS_RENDERQUEUE_H
 
 #include <sway/graphics/prereqs.h>
-#include <sway/graphics/renderqueuepriorities.h>
+#include <sway/core/intrusive/priorities.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -18,7 +18,7 @@ public:
 	 * \param[in] priority
 	 *    Приоритет очереди.
 	 */
-	RenderQueue(u32_t priority = kRenderQueuePriority_Normal);
+	RenderQueue(u32_t priority = core::intrusive::kPriority_Normal);
 
 	/*!
 	 * \brief

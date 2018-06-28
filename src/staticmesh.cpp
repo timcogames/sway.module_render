@@ -1,13 +1,13 @@
-#include <sway/graphics/drawable.h>
+#include <sway/graphics/staticmesh.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-Drawable::Drawable() {
+StaticMesh::StaticMesh() {
 	// Empty
 }
 
-Drawable::~Drawable() {
+StaticMesh::~StaticMesh() {
 	// Empty
 }
 
