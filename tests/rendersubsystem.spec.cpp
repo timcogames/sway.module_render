@@ -22,7 +22,7 @@ private:
 	boost::shared_ptr<graphics::RenderSubsystem> _subsystem;
 };
 
-BOOST_FIXTURE_TEST_SUITE(RenderSubsystemFixture_TestSuite, RenderSubsystemFixture);
+BOOST_FIXTURE_TEST_SUITE(RenderSubsystem_FixtureTestSuite, RenderSubsystemFixture);
 
 BOOST_AUTO_TEST_CASE(RenderSubsystemFixture_TestCase) {
 	auto queue_h = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();

@@ -79,6 +79,7 @@ target_link_libraries(${META_LIB_NAME} GL X11 Boost::system Boost::filesystem Bo
 # Добавляем построение тестов
 if(ENABLE_TESTS)
 	message(STATUS "Tests have been enabled")
+
 	add_subdirectory(modules/sway.module_core)
 	add_subdirectory(modules/sway.module_gapi-gl)
 	add_subdirectory(tests)
