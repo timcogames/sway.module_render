@@ -3,8 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-StaticMesh::StaticMesh() {
-	// Empty
+StaticMesh::StaticMesh(RenderSubqueueRef_t subqueue) {
+	subqueue->addDrawable(boost::make_shared<Drawable>());
 }
 
 StaticMesh::~StaticMesh() {

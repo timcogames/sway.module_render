@@ -44,7 +44,7 @@ void RenderSubsystem::render() {
 }
 
 void RenderSubsystem::_renderSubqueues(RenderQueueRef_t queue, u32_t group) {
-	const RenderSubqueueRefVector_t & subqueues = queue->getSubqueueGroupByIdx(group);
+	const RenderSubqueueRefVec_t & subqueues = queue->getSubqueueGroupByIdx(group);
 
 	if (subqueues.size() > 0) {
 		BOOST_FOREACH (const RenderSubqueueRef_t & subqueue, subqueues)

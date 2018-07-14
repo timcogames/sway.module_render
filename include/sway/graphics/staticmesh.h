@@ -14,7 +14,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	StaticMesh();
+	StaticMesh(RenderSubqueueRef_t subqueue);
 
 	/*!
 	 * \brief

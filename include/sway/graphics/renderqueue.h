@@ -59,7 +59,7 @@ public:
 	 * \param[in] groupIdx
 	 *    Индекс группы.
 	 */
-	RenderSubqueueRefVector_t & getSubqueueGroupByIdx(u32_t groupIdx);
+	RenderSubqueueRefVec_t & getSubqueueGroupByIdx(u32_t groupIdx);
 
 	/*!
 	 * \brief
@@ -87,7 +87,7 @@ public:
 
   private:
 	u32_t _priority; /*!< Приоритет очереди. */
-	RenderSubqueueRefVector_t _subqueues[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
+	RenderSubqueueRefVec_t _subqueues[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
 };
 
 NAMESPACE_END(graphics)

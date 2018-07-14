@@ -24,7 +24,7 @@ void RenderQueue::removeSubqueue(const RenderSubqueueRef_t & subqueue) {
 	_subqueues[groupIdx].erase(std::remove(_subqueues[groupIdx].begin(), _subqueues[groupIdx].end(), subqueue), _subqueues[groupIdx].end());
 }
 
-RenderSubqueueRefVector_t & RenderQueue::getSubqueueGroupByIdx(u32_t groupIdx) {
+RenderSubqueueRefVec_t & RenderQueue::getSubqueueGroupByIdx(u32_t groupIdx) {
 	if (groupIdx > RENDER_SUBQUEUE_GROUP_COUNT)
 		throw ArgumentException("groupIdx");
 

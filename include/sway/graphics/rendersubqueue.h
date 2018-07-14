@@ -50,7 +50,8 @@ public:
 
 private:
 	u32_t _group; /*!< Индекс группы подочереди. */
-	DrawableRefVector_t _drawables;
+	DrawableRefVec_t _drawables;
+	gapi::BufferDrawCall _drawCall;
 };
 
 NAMESPACE_END(graphics)

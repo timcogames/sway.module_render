@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Setters) {
  *    Убеждаемся, что добавление и удаление подочередей проходит правильно.
  */
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Subqueues) {
-	graphics::RenderSubqueueRefVector_t opaqueGroup, transparentGroup;
+	graphics::RenderSubqueueRefVec_t opaqueGroup, transparentGroup;
 	BOOST_CHECK_THROW(addSubqueue(boost::make_shared<graphics::RenderSubqueue>(RENDER_SUBQUEUE_GROUP_COUNT + 1)), ArgumentException);
 	
 	BOOST_CHECK(getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Opaque).empty());

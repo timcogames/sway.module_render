@@ -27,10 +27,10 @@ class RenderQueue;
 class RenderSubsystem;
 
 using DrawableRef_t = boost::shared_ptr<class Drawable>;
-using DrawableRefVector_t = std::vector<DrawableRef_t>;
+using DrawableRefVec_t = std::vector<DrawableRef_t>;
 
 using RenderSubqueueRef_t = boost::shared_ptr<class RenderSubqueue>;
-using RenderSubqueueRefVector_t = std::vector<RenderSubqueueRef_t>;
+using RenderSubqueueRefVec_t = std::vector<RenderSubqueueRef_t>;
 
 using RenderQueueRef_t = boost::shared_ptr<class RenderQueue>;
 using RenderQueueRefVector_t = std::vector<RenderQueueRef_t>;
