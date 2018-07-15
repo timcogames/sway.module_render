@@ -6,7 +6,7 @@ set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 7)
-set(META_VERSION_PATCH 19)
+set(META_VERSION_PATCH 20)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -80,7 +80,13 @@ target_link_libraries(${META_LIB_NAME} GL X11 Boost::system Boost::filesystem Bo
 if(ENABLE_TESTS)
 	message(STATUS "Tests have been enabled")
 
-	add_subdirectory(modules/sway.module_core)
-	add_subdirectory(modules/sway.module_gapi-gl)
+	if(NOT TARGET libmodule_core)
+		add_subdirectory(modules/sway.module_core)
+	endif()
+
+	if(NOT TARGET libmodule_gapi_gl)
+		add_subdirectory(modules/module_gapi-gl)
+	endif()
+
 	add_subdirectory(tests)
 endif()
