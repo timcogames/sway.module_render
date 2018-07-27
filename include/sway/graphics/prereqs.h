@@ -3,7 +3,7 @@
 
 #include <sway/core.h>
 #include <sway/math.h>
-#include <sway/gapi.h>
+#include <sway/gapi/gl.h>
 
 #include <iostream> // std::cout
 #include <vector> // std::vector

@@ -6,7 +6,7 @@ set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 7)
-set(META_VERSION_PATCH 20)
+set(META_VERSION_PATCH 21)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -42,6 +42,7 @@ set(MODULE_GRAPHICS_DIR ${CMAKE_CURRENT_LIST_DIR})
 include_directories(${MODULE_GRAPHICS_DIR}/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_core/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_math/include)
+include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi-gl/include)
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
@@ -85,7 +86,7 @@ if(ENABLE_TESTS)
 	endif()
 
 	if(NOT TARGET libmodule_gapi_gl)
-		add_subdirectory(modules/module_gapi-gl)
+		add_subdirectory(modules/sway.module_gapi-gl)
 	endif()
 
 	add_subdirectory(tests)

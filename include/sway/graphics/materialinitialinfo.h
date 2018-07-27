@@ -7,8 +7,8 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 struct MaterialInitialInfo {
-	gapi::ShaderObjectCreateInfo vsoInfo;
-	gapi::ShaderObjectCreateInfo fsoInfo;
+	gapi::ShaderCreateInfo vsoInfo;
+	gapi::ShaderCreateInfo fsoInfo;
 };
 
 NAMESPACE_END(graphics)

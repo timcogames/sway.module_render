@@ -1,4 +1,6 @@
 #include <sway/graphics/staticmesh.h>
+#include <sway/graphics/rendersubqueue.h>
+#include <sway/graphics/drawable.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
