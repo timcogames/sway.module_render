@@ -1,6 +1,7 @@
 #ifndef SWAY_GRAPHICS_RENDERQUEUE_H
 #define SWAY_GRAPHICS_RENDERQUEUE_H
 
+#include <sway/graphics/rendersubqueuegroups.h>
 #include <sway/graphics/prereqs.h>
 #include <sway/core/intrusive/priorities.h>
 
@@ -54,12 +55,12 @@ public:
 
 	/*!
 	 * \brief
-	 *    Получает группу подочередей по индексу.
+	 *    Получает коллекцию подочередей.
 	 *
-	 * \param[in] groupIdx
-	 *    Индекс группы.
+	 * \param[in] group
+	 *    Группа подочереди.
 	 */
-	RenderSubqueueRefVec_t & getSubqueueGroupByIdx(u32_t groupIdx);
+	RenderSubqueueRefVec_t & getSubqueues(RenderSubqueueGroup_t group);
 
 	/*!
 	 * \brief
@@ -87,7 +88,7 @@ public:
 
   private:
 	u32_t _priority; /*!< Приоритет очереди. */
-	RenderSubqueueRefVec_t _subqueues[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
+	RenderSubqueueRefVec_t _subqueues[MAX_RENDER_SUBQUEUE_GROUP]; /*!< Контейнер подочередей. */
 };
 
 NAMESPACE_END(graphics)

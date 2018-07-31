@@ -15,10 +15,10 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
-	 * \param[in] groupIdx
-	 *    Индекс группы.
+	 * \param[in] group
+	 *    Группа подочереди.
 	 */
-	RenderSubqueue(u32_t groupIdx = kRenderSubqueueGroup_Opaque);
+	RenderSubqueue(RenderSubqueueGroup_t group = RenderSubqueueGroup_t::kOpaque);
 
 	/*!
 	 * \brief
@@ -28,6 +28,13 @@ public:
 	 */
 	~RenderSubqueue();
 
+	/*!
+	 * \brief
+	 *    Добавляет отрисовываемый объект.
+	 * 
+	 * \param[in] drawable
+	 *    Отрисовываемый объект.
+	 */
 	void addDrawable(DrawableRef_t drawable);
 
 	/*!
@@ -38,18 +45,21 @@ public:
 
 	/*!
 	 * \brief
-	 *    Устанавливает индекс группы.
+	 *    Устанавливает группу подочереди.
+	 * 
+	 * \param[in] group
+	 *    Группа подочереди.
 	 */
-	void setGroupIdx(u32_t groupIdx);
+	void setGroup(RenderSubqueueGroup_t group);
 
 	/*!
 	 * \brief
-	 *    Получает индекс группы.
+	 *    Получает группу подочереди.
 	 */
-	u32_t getGroupIdx() const;
+	RenderSubqueueGroup_t getGroup() const;
 
 private:
-	u32_t _group; /*!< Индекс группы подочереди. */
+	RenderSubqueueGroup_t _group; /*!< Группа подочереди. */
 	DrawableRefVec_t _drawables;
 	gapi::IDrawCallBase * _drawCall;
 };

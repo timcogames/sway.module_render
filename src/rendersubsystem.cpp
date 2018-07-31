@@ -38,13 +38,13 @@ void RenderSubsystem::sortQueues() {
 
 void RenderSubsystem::render() {
 	for (u32_t i = 0; i < _queues.size(); ++i) {
-		_renderSubqueues(_queues[i], kRenderSubqueueGroup_Opaque);
-		_renderSubqueues(_queues[i], kRenderSubqueueGroup_Transparent);
+		_renderSubqueues(_queues[i], RenderSubqueueGroup_t::kOpaque);
+		_renderSubqueues(_queues[i], RenderSubqueueGroup_t::kTransparent);
 	}
 }
 
-void RenderSubsystem::_renderSubqueues(RenderQueueRef_t queue, u32_t group) {
-	const RenderSubqueueRefVec_t & subqueues = queue->getSubqueueGroupByIdx(group);
+void RenderSubsystem::_renderSubqueues(RenderQueueRef_t queue, RenderSubqueueGroup_t group) {
+	const RenderSubqueueRefVec_t & subqueues = queue->getSubqueues(group);
 
 	if (subqueues.size() > 0) {
 		BOOST_FOREACH (const RenderSubqueueRef_t & subqueue, subqueues)

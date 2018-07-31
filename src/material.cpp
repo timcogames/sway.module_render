@@ -7,9 +7,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const MaterialInitialInfo & info) {
-	_shader = new gapi::ShaderProgram();
-	_shader->attach(gapi::ShaderObject::create(info.vsoInfo));
-	_shader->attach(gapi::ShaderObject::create(info.fsoInfo));
+	_shader = gapi::createShaderProgram();
+	_shader->attach(gapi::createShader(info.vsoInfo));
+	_shader->attach(gapi::createShader(info.fsoInfo));
 	
 	_shader->link();
 	if (_shader->isLinked()) {

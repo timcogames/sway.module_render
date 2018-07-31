@@ -1,6 +1,7 @@
 #ifndef SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 #define SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 
+#include <sway/graphics/rendersubqueuegroups.h>
 #include <sway/graphics/prereqs.h>
 #include <sway/core/intrusive/priorities.h>
 
@@ -73,7 +74,7 @@ public:
 	void render();
 
 private:
-	void _renderSubqueues(RenderQueueRef_t queue, u32_t group);
+	void _renderSubqueues(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
 
 private:
 	RenderQueueRefVector_t _queues; /*!< Контейнер очередей. */

@@ -15,8 +15,6 @@
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 
-#define RENDER_SUBQUEUE_GROUP_COUNT 2
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 

@@ -2,7 +2,6 @@
 #include <boost/make_shared.hpp>
 
 #include <sway/core.h>
-#include <sway/core/intrusive/priorities.h>
 #include <sway/graphics.h>
 
 using namespace sway;
@@ -52,25 +51,26 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Setters) {
  */
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Subqueues) {
 	graphics::RenderSubqueueRefVec_t opaqueGroup, transparentGroup;
-	BOOST_CHECK_THROW(addSubqueue(boost::make_shared<graphics::RenderSubqueue>(RENDER_SUBQUEUE_GROUP_COUNT + 1)), ArgumentException);
-	
-	BOOST_CHECK(getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Opaque).empty());
-	BOOST_CHECK_NO_THROW(addSubqueue(boost::make_shared<graphics::RenderSubqueue>()));
-	BOOST_CHECK_NO_THROW(addSubqueue(boost::make_shared<graphics::RenderSubqueue>()));
-	BOOST_CHECK_NO_THROW(opaqueGroup = getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Opaque));
+
+	BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque).empty());
+
+	addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque);
 	BOOST_CHECK_EQUAL(opaqueGroup.size(), 2);
 
-	BOOST_CHECK_NO_THROW(removeSubqueue(opaqueGroup[0]));
-	BOOST_CHECK_NO_THROW(opaqueGroup = getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Opaque));
+	removeSubqueue(opaqueGroup[0]);
+	opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque);
 	BOOST_CHECK_EQUAL(opaqueGroup.size(), 1);
 
-	BOOST_CHECK(getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent).empty());
-	BOOST_CHECK_NO_THROW(addSubqueue(boost::make_shared<graphics::RenderSubqueue>(graphics::kRenderSubqueueGroup_Transparent)));
-	BOOST_CHECK_NO_THROW(transparentGroup = getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent));
+	BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent).empty());
+
+	addSubqueue(boost::make_shared<graphics::RenderSubqueue>(graphics::RenderSubqueueGroup_t::kTransparent));
+	transparentGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
 	BOOST_CHECK_EQUAL(transparentGroup.size(), 1);
 
-	BOOST_CHECK_NO_THROW(removeSubqueue(transparentGroup[0]));
-	BOOST_CHECK_NO_THROW(transparentGroup = getSubqueueGroupByIdx(graphics::kRenderSubqueueGroup_Transparent));
+	removeSubqueue(transparentGroup[0]);
+	transparentGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
 	BOOST_CHECK_EQUAL(transparentGroup.size(), 0);
 }
 

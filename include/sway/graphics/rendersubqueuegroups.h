@@ -6,10 +6,13 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-enum RenderSubqueueGroups {
-	kRenderSubqueueGroup_Opaque      = 0, /*!< Отрисовывать только непрозрачные части. */
-	kRenderSubqueueGroup_Transparent = 1  /*!< Отрисовывать только прозрачные части. */
+enum class RenderSubqueueGroup_t : u32_t {
+	kOpaque, /*!< Отрисовывать только непрозрачные части. */
+	kTransparent, /*!< Отрисовывать только прозрачные части. */
+	kMax
 };
+
+#define MAX_RENDER_SUBQUEUE_GROUP (core::detail::toUnderlying(graphics::RenderSubqueueGroup_t::kMax))
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

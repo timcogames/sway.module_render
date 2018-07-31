@@ -4,8 +4,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubqueue::RenderSubqueue(u32_t groupIdx) {
-	setGroupIdx(groupIdx);
+RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
+	: _group(group) {
+	// Empty
 }
 
 RenderSubqueue::~RenderSubqueue() {
@@ -22,14 +23,11 @@ void RenderSubqueue::render() {
 	}
 }
 
-void RenderSubqueue::setGroupIdx(u32_t groupIdx) {
-	if (groupIdx > RENDER_SUBQUEUE_GROUP_COUNT)
-		throw ArgumentException("groupIdx");
-
-	_group = groupIdx;
+void RenderSubqueue::setGroup(RenderSubqueueGroup_t group) {
+	_group = group;
 }
 
-u32_t RenderSubqueue::getGroupIdx() const {
+RenderSubqueueGroup_t RenderSubqueue::getGroup() const {
 	return _group;
 }
 
