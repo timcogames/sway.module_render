@@ -40,10 +40,10 @@ public:
 	 */
 	void unbind();
 
-	gapi::IShaderProgramBase * getShader();
+	gapi::ShaderProgramRef_t getShaderProgram();
 
 private:
-	gapi::IShaderProgramBase * _shader; /*!< Указатель на шейдерную программу. */
+	gapi::ShaderProgramRef_t _shaderProgram; /*!< Указатель на шейдерную программу. */
 };
 
 NAMESPACE_END(graphics)

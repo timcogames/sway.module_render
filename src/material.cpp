@@ -1,41 +1,41 @@
 #include <sway/graphics/material.h>
 
-#include <sway/gapi/gl/shaderobject.h>
+#include <sway/gapi/gl/shader.h>
 #include <sway/gapi/gl/shaderprogram.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const MaterialInitialInfo & info) {
-	_shader = gapi::createShaderProgram();
-	_shader->attach(gapi::createShader(info.vsoInfo));
-	_shader->attach(gapi::createShader(info.fsoInfo));
+	_shaderProgram = gapi::createShaderProgram();
+	_shaderProgram->attach(gapi::createShader(info.vsoInfo));
+	_shaderProgram->attach(gapi::createShader(info.fsoInfo));
 	
-	_shader->link();
-	if (_shader->isLinked()) {
+	_shaderProgram->link();
+	if (_shaderProgram->isLinked()) {
 		// Empty
 	}
 
-	_shader->validate();
-	if (_shader->isValidated()) {
+	_shaderProgram->validate();
+	if (_shaderProgram->isValidated()) {
 		// Empty
 	}
 }
 
 Material::~Material() {
-	SAFE_DELETE(_shader);
+	// Empty
 }
 
 void Material::bind() {
-	_shader->use();
+	_shaderProgram->use();
 }
 
 void Material::unbind() {
-	_shader->unuse();
+	_shaderProgram->unuse();
 }
 
-gapi::IShaderProgramBase * Material::getShader() {
-	return _shader;
+gapi::ShaderProgramRef_t Material::getShaderProgram() {
+	return _shaderProgram;
 }
 
 NAMESPACE_END(graphics)

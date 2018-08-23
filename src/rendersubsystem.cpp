@@ -3,18 +3,16 @@
 #include <sway/graphics/rendersubqueue.h>
 #include <sway/graphics/renderqueue.h>
 
+#include <sway/gapi/gl/capability.h>
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 RenderSubsystem::RenderSubsystem(core::foundation::Context * context) : core::foundation::Object(context) {
-	_caps = new gapi::Capabilities();
-	
-	auto version = _caps->getGLVersion();
-	std::cout << boost::str(boost::format("%1%.%2%") % version.getMajor() % version.getMinor()) << std::endl;
+	_capability = gapi::createCapability();
 }
 
 RenderSubsystem::~RenderSubsystem() {
-	SAFE_DELETE(_caps);
 	_queues.clear();
 }
 

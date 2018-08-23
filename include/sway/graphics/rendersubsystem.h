@@ -77,8 +77,8 @@ private:
 	void _renderSubqueues(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
 
 private:
+	gapi::CapabilityRef_t _capability;
 	RenderQueueRefVector_t _queues; /*!< Контейнер очередей. */
-	gapi::Capabilities * _caps;
 };
 
 NAMESPACE_END(graphics)
