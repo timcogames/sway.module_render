@@ -3,17 +3,19 @@
 #include <sway/graphics/rendersubqueue.h>
 #include <sway/graphics/renderqueue.h>
 
-#include <sway/gapi/gl/capability.h>
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubsystem::RenderSubsystem(core::foundation::Context * context) : core::foundation::Object(context) {
-	_capability = gapi::createCapability();
+RenderSubsystem::RenderSubsystem(const PluginDescriptor & desc, core::foundation::Context * context) : core::foundation::Object(context) {
+	Plugin::open(desc);
+
+	_capability = Plugin::createCapability();
 }
 
 RenderSubsystem::~RenderSubsystem() {
 	_queues.clear();
+
+	//Plugin::close(handle);
 }
 
 RenderQueueRef_t RenderSubsystem::createQueue(u32_t priority) {

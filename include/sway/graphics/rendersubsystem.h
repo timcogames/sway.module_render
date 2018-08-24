@@ -1,6 +1,7 @@
 #ifndef SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 #define SWAY_GRAPHICS_RENDERSUBSYSTEM_H
 
+#include <sway/graphics/plugin.h>
 #include <sway/graphics/rendersubqueuegroups.h>
 #include <sway/graphics/prereqs.h>
 #include <sway/core/intrusive/priorities.h>
@@ -21,7 +22,7 @@ public:
 	 * \param[in] context
 	 *    Контекст подсистемы.
 	 */
-	RenderSubsystem(core::foundation::Context * context);
+	RenderSubsystem(const PluginDescriptor & desc, core::foundation::Context * context);
 
 	/*!
 	 * \brief

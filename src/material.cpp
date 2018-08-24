@@ -1,15 +1,13 @@
 #include <sway/graphics/material.h>
-
-#include <sway/gapi/gl/shader.h>
-#include <sway/gapi/gl/shaderprogram.h>
+#include <sway/graphics/plugin.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const MaterialInitialInfo & info) {
-	_shaderProgram = gapi::createShaderProgram();
-	_shaderProgram->attach(gapi::createShader(info.vsoInfo));
-	_shaderProgram->attach(gapi::createShader(info.fsoInfo));
+	_shaderProgram = Plugin::createShaderProgram();
+	_shaderProgram->attach(Plugin::createShader(info.vsoInfo));
+	_shaderProgram->attach(Plugin::createShader(info.fsoInfo));
 	
 	_shaderProgram->link();
 	if (_shaderProgram->isLinked()) {

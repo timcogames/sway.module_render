@@ -25,6 +25,6 @@ file(GLOB MODULE_GRAPHICS_SOURCE_TESTS ${PROJECT_SOURCE_DIR}/*.cpp)
 add_executable(${META_LIB_NAME_TESTS} ${MODULE_GRAPHICS_SOURCE_TESTS})
 
 target_include_directories(${META_LIB_NAME_TESTS} PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(${META_LIB_NAME_TESTS} libmodule_graphics libmodule_gapi_gl libmodule_core ${Boost_LIBRARIES})
+target_link_libraries(${META_LIB_NAME_TESTS} libmodule_graphics libmodule_gapi_dummy libmodule_core ${Boost_LIBRARIES} ${CMAKE_DL_LIBS})
 
 add_custom_command(TARGET ${META_LIB_NAME_TESTS} POST_BUILD COMMAND ${META_LIB_NAME_TESTS})

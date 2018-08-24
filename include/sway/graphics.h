@@ -1,6 +1,7 @@
 #ifndef SWAY_GRAPHICS_H
 #define SWAY_GRAPHICS_H
 
+#include <sway/graphics/plugindescriptor.h>
 #include <sway/graphics/rendersubqueuegroups.h>
 #include <sway/graphics/rendersubqueue.h>
 #include <sway/graphics/renderqueue.h>

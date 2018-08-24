@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 9)
+set(META_VERSION_MINOR 10)
 set(META_VERSION_PATCH 27)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
@@ -43,6 +43,7 @@ include_directories(${MODULE_GRAPHICS_DIR}/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_core/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_math/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi/include)
+include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi-dummy/include)
 include_directories(${MODULE_GRAPHICS_DIR}/modules/sway.module_gapi-gl/include)
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
@@ -85,8 +86,8 @@ if(ENABLE_TESTS)
 		add_subdirectory(modules/sway.module_core)
 	endif()
 
-	if(NOT TARGET libmodule_gapi_gl)
-		add_subdirectory(modules/sway.module_gapi-gl)
+	if(NOT TARGET libmodule_gapi_dummy)
+		add_subdirectory(modules/sway.module_gapi-dummy)
 	endif()
 
 	add_subdirectory(tests)

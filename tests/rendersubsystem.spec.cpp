@@ -5,12 +5,22 @@
 #include <sway/core/intrusive/priorities.h>
 #include <sway/graphics.h>
 
+#include <sway/graphics/plugindescriptor.h>
+
 using namespace sway;
 
 class RenderSubsystemFixture : public core::foundation::Context {
 public:
 	RenderSubsystemFixture() {
-		_subsystem = boost::make_shared<graphics::RenderSubsystem>(this);
+		char path[PATH_MAX + 1];
+		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
+
+		graphics::PluginDescriptor desc;
+		desc.version = core::Version(0, 1, 0);
+		desc.fullname = (boost::format("%s/module_gapi_dummy.so.%d.%d.%d") % path
+			% desc.version.getMajor() % desc.version.getMinor() % desc.version.getPatch()).str();
+
+		_subsystem = boost::make_shared<graphics::RenderSubsystem>(desc, this);
 		BOOST_CHECK_NO_THROW(registerObject(_subsystem.get()));
 	}
 

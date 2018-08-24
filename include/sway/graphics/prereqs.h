@@ -16,6 +16,17 @@
 #include <boost/format.hpp>
 
 NAMESPACE_BEGIN(sway)
+NAMESPACE_BEGIN(gapi)
+
+typedef core::binding::TFunction<CapabilityRef_t (void)> CreateCapabilityFunc_t;
+typedef core::binding::TFunction<ShaderRef_t (const ShaderCreateInfo &)> CreateShaderFunc_t;
+typedef core::binding::TFunction<ShaderProgramRef_t (void)> CreateShaderProgramFunc_t;
+typedef core::binding::TFunction<BufferRef_t (const BufferCreateInfo &)> CreateBufferFunc_t;
+typedef core::binding::TFunction<VertexLayoutRef_t (ShaderProgramRef_t)> CreateVertexLayoutFunc_t;
+typedef core::binding::TFunction<DrawCallRef_t (void)> CreateDrawCallFunc_t;
+typedef core::binding::TFunction<ViewportRef_t (void)> CreateViewportFunc_t;
+
+NAMESPACE_END(gapi)
 NAMESPACE_BEGIN(graphics)
 
 class Material;
