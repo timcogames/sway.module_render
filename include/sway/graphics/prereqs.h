@@ -35,14 +35,16 @@ class RenderSubqueue;
 class RenderQueue;
 class RenderSubsystem;
 
-using DrawableRef_t = boost::shared_ptr<class Drawable>;
-using DrawableRefVec_t = std::vector<DrawableRef_t>;
+typedef boost::shared_ptr<class Drawable> DrawableRef_t;
+typedef std::vector<DrawableRef_t> DrawableRefVec_t;
 
-using RenderSubqueueRef_t = boost::shared_ptr<class RenderSubqueue>;
-using RenderSubqueueRefVec_t = std::vector<RenderSubqueueRef_t>;
+typedef boost::shared_ptr<class RenderSubqueue> RenderSubqueueRef_t;
+typedef std::vector<RenderSubqueueRef_t> RenderSubqueueRefVec_t;
 
-using RenderQueueRef_t = boost::shared_ptr<class RenderQueue>;
-using RenderQueueRefVector_t = std::vector<RenderQueueRef_t>;
+typedef boost::shared_ptr<class RenderQueue> RenderQueueRef_t;
+typedef std::vector<RenderQueueRef_t> RenderQueueRefVector_t;
+
+typedef boost::shared_ptr<class RenderSubsystem> RenderSubsystemRef_t;
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
