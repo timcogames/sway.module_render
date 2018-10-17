@@ -14,6 +14,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
+#include <boost/property_tree/ptree.hpp> // boost::property_tree::ptree
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -29,11 +30,17 @@ typedef core::binding::TFunction<ViewportRef_t (void)> CreateViewportFunc_t;
 NAMESPACE_END(gapi)
 NAMESPACE_BEGIN(graphics)
 
+class StaticMesh;
 class Material;
+class MaterialManager;
 class Drawable;
 class RenderSubqueue;
 class RenderQueue;
 class RenderSubsystem;
+
+typedef boost::shared_ptr<class StaticMesh> StaticMeshRef_t;
+typedef boost::shared_ptr<class Material> MaterialRef_t;
+typedef boost::shared_ptr<class MaterialManager> MaterialManagerRef_t;
 
 typedef boost::shared_ptr<class Drawable> DrawableRef_t;
 typedef std::vector<DrawableRef_t> DrawableRefVec_t;

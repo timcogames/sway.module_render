@@ -4,10 +4,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-Material::Material(const MaterialInitialInfo & info) {
+Material::Material(const gapi::ShaderCreateInfoSet & infoSet) {
 	_shaderProgram = Plugin::createShaderProgram();
-	_shaderProgram->attach(Plugin::createShader(info.vsoInfo));
-	_shaderProgram->attach(Plugin::createShader(info.fsoInfo));
+	_shaderProgram->attach(Plugin::createShader(infoSet.vs));
+	_shaderProgram->attach(Plugin::createShader(infoSet.fs));
 	
 	_shaderProgram->link();
 	if (_shaderProgram->isLinked()) {
@@ -21,6 +21,10 @@ Material::Material(const MaterialInitialInfo & info) {
 }
 
 Material::~Material() {
+	// Empty
+}
+
+void Material::loadFromXml() {
 	// Empty
 }
 

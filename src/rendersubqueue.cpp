@@ -1,12 +1,14 @@
 #include <sway/graphics/rendersubqueue.h>
 #include <sway/graphics/drawable.h>
+#include <sway/graphics/material.h>
+#include <sway/graphics/plugin.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
 	: _group(group) {
-	// Empty
+	_drawCall = Plugin::createDrawCall();
 }
 
 RenderSubqueue::~RenderSubqueue() {
@@ -18,8 +20,23 @@ void RenderSubqueue::addDrawable(DrawableRef_t drawable) {
 }
 
 void RenderSubqueue::render() {
+	gapi::BufferRef_t currVBO = nullptr, currIBO = nullptr;
+
 	BOOST_FOREACH (DrawableRef_t drawable, _drawables) {
-		// Empty
+		currVBO = drawable->getVBO();
+		currIBO = drawable->getIBO();
+
+		drawable->getMaterial()->bind();
+
+		currVBO->bind();
+		drawable->getVertexLayout()->enable();
+
+		_drawCall->execute(gapi::PrimitiveType_t::kTriangleList, currVBO->getCapacity(), NULL, Type_t::kNone);
+		
+		drawable->getVertexLayout()->disable();
+		currVBO->unbind();
+
+		drawable->getMaterial()->unbind();
 	}
 }
 

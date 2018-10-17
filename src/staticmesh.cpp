@@ -5,8 +5,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-StaticMesh::StaticMesh(RenderSubqueueRef_t subqueue) {
-	subqueue->addDrawable(boost::make_shared<Drawable>());
+StaticMesh::StaticMesh(RenderSubqueueRef_t subqueue, MaterialRef_t material, const gapi::BufferCreateInfoSet & infoSet) {
+	auto drawable = boost::make_shared<Drawable>(material, false);
+	drawable->create(infoSet);
+	subqueue->addDrawable(drawable);
 }
 
 StaticMesh::~StaticMesh() {

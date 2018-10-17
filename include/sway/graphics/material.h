@@ -2,7 +2,6 @@
 #define SWAY_GRAPHICS_MATERIAL_H
 
 #include <sway/graphics/prereqs.h>
-#include <sway/graphics/materialinitialinfo.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -15,10 +14,10 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
-	 * \param[in] info
+	 * \param[in] infoSet
 	 *    Первоначальная информация о материале.
 	 */
-	Material(const MaterialInitialInfo & info);
+	Material(const gapi::ShaderCreateInfoSet & infoSet);
 
 	/*!
 	 * \brief
@@ -27,6 +26,8 @@ public:
 	 *    Освобождает захваченные ресурсы.
 	 */
 	~Material();
+
+	void loadFromXml();
 
 	/*!
 	 * \brief
