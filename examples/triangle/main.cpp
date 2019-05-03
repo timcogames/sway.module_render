@@ -43,7 +43,7 @@ public:
 		bufferCreateInfoSet.vb.desc.usage = gapi::BufferUsage_t::kStatic;
 		bufferCreateInfoSet.vb.desc.byteStride = sizeof(math::VertexPosition);
 		bufferCreateInfoSet.vb.desc.capacity = data->getVertexCount();
-		bufferCreateInfoSet.vb.data = (void *)data->getRaw();
+		bufferCreateInfoSet.vb.data = data->getRaw();
 
 		auto subqueue = std::make_shared<graphics::RenderSubqueue>();
 		auto staticMesh = std::make_shared<graphics::StaticMesh>(subqueue, material, data, bufferCreateInfoSet);

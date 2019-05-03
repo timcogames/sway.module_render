@@ -38,7 +38,7 @@ public:
 
 	u32_t getVertexCount() const;
 
-	f32_t * getRaw();
+	void * getRaw();
 
 private:
 	VertexChannelRefUmap_t _channels;
