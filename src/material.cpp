@@ -1,13 +1,19 @@
 #include <sway/graphics/material.h>
-#include <sway/graphics/plugin.h>
+#include <sway/graphics/rendersubsystem.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const gapi::ShaderCreateInfoSet & infoSet) {
-	_shaderProgram = Plugin::createShaderProgram();
-	_shaderProgram->attach(Plugin::createShader(infoSet.vs));
-	_shaderProgram->attach(Plugin::createShader(infoSet.fs));
+	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
+	core::Plugin * plugin = getPluginInstance();
+	if (plugin->isLoaded()) {
+		plugin->initialize(pluginFuncSet);
+	}
+
+	_shaderProgram = pluginFuncSet->createShaderProgram();
+	_shaderProgram->attach(pluginFuncSet->createShader(infoSet.vs));
+	_shaderProgram->attach(pluginFuncSet->createShader(infoSet.fs));
 	
 	_shaderProgram->link();
 	if (_shaderProgram->isLinked()) {

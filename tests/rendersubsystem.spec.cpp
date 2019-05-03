@@ -1,26 +1,16 @@
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
+#include <memory> // std::shared_ptr, std::make_shared
 
 #include <sway/core.h>
 #include <sway/core/intrusive/priorities.h>
 #include <sway/graphics.h>
-
-#include <sway/graphics/plugindescriptor.h>
 
 using namespace sway;
 
 class RenderSubsystemFixture : public core::foundation::Context {
 public:
 	RenderSubsystemFixture() {
-		char path[PATH_MAX + 1];
-		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
-
-		graphics::PluginDescriptor desc;
-		desc.version = core::Version(0, 1, 0);
-		desc.fullname = (boost::format("%s/module_gapi_dummy.so.%d.%d.%d") % path
-			% desc.version.getMajor() % desc.version.getMinor() % desc.version.getPatch()).str();
-
-		_subsystem = boost::make_shared<graphics::RenderSubsystem>(desc, this);
+		_subsystem = std::make_shared<graphics::RenderSubsystem>(this);
 		BOOST_CHECK_NO_THROW(registerObject(_subsystem.get()));
 	}
 
@@ -29,7 +19,7 @@ public:
 	}
 
 private:
-	boost::shared_ptr<graphics::RenderSubsystem> _subsystem;
+	std::shared_ptr<graphics::RenderSubsystem> _subsystem;
 };
 
 BOOST_FIXTURE_TEST_SUITE(RenderSubsystem_FixtureTestSuite, RenderSubsystemFixture);
@@ -37,17 +27,17 @@ BOOST_FIXTURE_TEST_SUITE(RenderSubsystem_FixtureTestSuite, RenderSubsystemFixtur
 BOOST_AUTO_TEST_CASE(RenderSubsystemFixture_TestCase) {
 	auto queue_h = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
 	queue_h->setPriority(core::intrusive::kPriority_High);
-	queue_h->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	queue_h->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_h = queue_h->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
 
 	auto queue_l = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
 	queue_l->setPriority(core::intrusive::kPriority_Low);
-	queue_l->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	queue_l->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_l = queue_l->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
  
 	auto queue_n = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
 	queue_n->setPriority(core::intrusive::kPriority_Normal);
-	queue_n->addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	queue_n->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
 	auto subqueueGroup_n = queue_n->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
 
 	auto unsortedQueues = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->getQueues();

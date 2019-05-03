@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
+#include <memory> // std::shared_ptr, std::make_shared
 
 #include <sway/core.h>
 #include <sway/graphics.h>

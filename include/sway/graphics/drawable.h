@@ -11,7 +11,6 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	Drawable(MaterialRef_t material, bool indexed);
@@ -19,12 +18,11 @@ public:
 	/*!
 	 * \brief
 	 *    Деструктор класса.
-	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
 	~Drawable();
 
-	void create(const gapi::BufferCreateInfoSet & infoSet);
+	void create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet & infoSet);
 
 	/*!
 	 * \brief 
@@ -52,6 +50,7 @@ private:
 	gapi::BufferRef_t _vbo; /*!< Объект буфера вершин. */
 	gapi::BufferRef_t _ibo; /*!< Объект буфера индексов. */
 	gapi::VertexLayoutRef_t _vlayout;
+	VertexDataRef_t _vertexData;
 	MaterialRef_t _material;
 	bool _indexed;
 };

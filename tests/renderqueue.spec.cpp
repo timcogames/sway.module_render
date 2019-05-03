@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
+#include <memory> // std::shared_ptr, std::make_shared
 
 #include <sway/core.h>
 #include <sway/graphics.h>
@@ -54,8 +54,8 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Subqueues) {
 
 	BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque).empty());
 
-	addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
-	addSubqueue(boost::make_shared<graphics::RenderSubqueue>());
+	addSubqueue(std::make_shared<graphics::RenderSubqueue>());
+	addSubqueue(std::make_shared<graphics::RenderSubqueue>());
 	opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque);
 	BOOST_CHECK_EQUAL(opaqueGroup.size(), 2);
 
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Subqueues) {
 
 	BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent).empty());
 
-	addSubqueue(boost::make_shared<graphics::RenderSubqueue>(graphics::RenderSubqueueGroup_t::kTransparent));
+	addSubqueue(std::make_shared<graphics::RenderSubqueue>(graphics::RenderSubqueueGroup_t::kTransparent));
 	transparentGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
 	BOOST_CHECK_EQUAL(transparentGroup.size(), 1);
 

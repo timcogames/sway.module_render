@@ -1,15 +1,16 @@
 # Мета-информация о проекте
-set(META_PROJECT_NAME_TESTS module_graphics_tests)
-set(META_LIB_NAME_TESTS lib${META_PROJECT_NAME_TESTS})
+set(META_PROJECT_NAME_EXAMPLES module_graphics_examples_triangle)
+set(META_LIB_NAME_EXAMPLES lib${META_PROJECT_NAME_EXAMPLES})
 
-project(${META_PROJECT_NAME_TESTS} C CXX)
+project(${META_PROJECT_NAME_EXAMPLES} C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_NO_SYSTEM_PATHS TRUE)
-set(BOOST_COMPONENTS unit_test_framework)
+set(BOOST_COMPONENTS filesystem)
 set(BOOST_INCLUDEDIR "${BOOST_ROOT}/")
 set(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib")
 
@@ -24,11 +25,9 @@ else()
 endif()
 
 # Получаем пути ко всем исходникам с тестами
-file(GLOB MODULE_GRAPHICS_SOURCE_TESTS ${PROJECT_SOURCE_DIR}/*.cpp)
+file(GLOB MODULE_GRAPHICS_SOURCE_EXAMPLES ${PROJECT_SOURCE_DIR}/*.cpp)
 
-add_executable(${META_LIB_NAME_TESTS} ${MODULE_GRAPHICS_SOURCE_TESTS})
+add_executable(${META_LIB_NAME_EXAMPLES} ${MODULE_GRAPHICS_SOURCE_EXAMPLES})
 
-target_include_directories(${META_LIB_NAME_TESTS} PRIVATE ${BOOST_INCLUDEDIR})
-target_link_libraries(${META_LIB_NAME_TESTS} libmodule_graphics libmodule_gapi_dummy libmodule_core ${BOOST_LIBRARYDIR} ${CMAKE_DL_LIBS})
-
-add_custom_command(TARGET ${META_LIB_NAME_TESTS} POST_BUILD COMMAND ${META_LIB_NAME_TESTS})
+target_include_directories(${META_LIB_NAME_EXAMPLES} PRIVATE ${BOOST_INCLUDEDIR})
+target_link_libraries(${META_LIB_NAME_EXAMPLES} libmodule_platform_glx11 libmodule_graphics libmodule_core ${BOOST_LIBRARIES})

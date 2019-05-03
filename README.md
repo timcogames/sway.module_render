@@ -19,14 +19,17 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release ../
+cmake -DBOOST_ROOT=/usr/local -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_BUILD_SHARED=ON -DMODULE_GRAPHICS_ENABLE_EXAMPLES=ON -DMODULE_GRAPHICS_ENABLE_TESTS=ON ../
 ```
 
-Опция сборки | Описание | По умолчанию
-:---|:---|:---:
-`BUILD_SHARED_LIBS` | Сборка библиотеки общего пользования | `OFF`
-`ENABLE_COVERAGE` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
-`ENABLE_TESTS` | Включает построение тестов | `OFF`
+Опция сборки | Тип | Описание | По умолчанию
+:---|:---|:---|:---:
+`BOOST_ROOT` | PATH | Путь до корневой директории Boost библиотеки | `-`
+`CMAKE_BUILD_TYPE` | STRING | Тип сборки | `Debug`
+`MODULE_GRAPHICS_BUILD_SHARED` | BOOL | Сборка библиотеки общего пользования | `OFF`
+`MODULE_GRAPHICS_ENABLE_COVERAGE` | BOOL | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
+`MODULE_GRAPHICS_ENABLE_TESTS` | BOOL | Включает построение тестов | `OFF`
+`MODULE_GRAPHICS_ENABLE_EXAMPLES` | BOOL | Включает построение примеров | `OFF`
 
 Запускаем сборку
 

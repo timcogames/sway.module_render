@@ -13,3 +13,6 @@
 [submodule "modules/sway.module_gapi-gl"]
 	path = modules/sway.module_gapi-gl
 	url = git://github.com/timcogames/sway.module_gapi-gl.git
+[submodule "modules/sway.module_platform-glx11"]
+	path = modules/sway.module_platform-glx11
+	url = https://github.com/timcogames/sway.module_platform-glx11.git

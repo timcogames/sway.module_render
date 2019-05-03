@@ -13,18 +13,23 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
+	 *    Выполняет инициализацию нового экземпляра класса.
+	 */
+	RenderQueue();
+
+	/*!
+	 * \brief
+	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
 	 * \param[in] priority
 	 *    Приоритет очереди.
 	 */
-	RenderQueue(u32_t priority = core::intrusive::kPriority_Normal);
+	RenderQueue(u32_t priority);
 
 	/*!
 	 * \brief
 	 *    Деструктор класса.
-	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
 	~RenderQueue();
@@ -88,7 +93,7 @@ public:
 
   private:
 	u32_t _priority; /*!< Приоритет очереди. */
-	RenderSubqueueRefVec_t _subqueues[MAX_RENDER_SUBQUEUE_GROUP]; /*!< Контейнер подочередей. */
+	RenderSubqueueRefVec_t _subqueues[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
 };
 
 NAMESPACE_END(graphics)

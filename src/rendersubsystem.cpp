@@ -6,20 +6,35 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubsystem::RenderSubsystem(const PluginDescriptor & desc, core::foundation::Context * context) : core::foundation::Object(context) {
-	Plugin::open(desc);
+static core::Plugin * pluginInstance = nullptr;
 
-	_capability = Plugin::createCapability();
+core::Plugin * getPluginInstance() {
+	if (pluginInstance == nullptr) {
+		char path[PATH_MAX + 1];
+		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
+		//pluginInstance = new core::Plugin((boost::format("%s/module_gapi_dummy.so.0.1.0") % path).str());
+		pluginInstance = new core::Plugin((boost::format("%s/module_gapi_gl.so.0.14.33") % path).str());
+
+	}
+
+	return pluginInstance;
+}
+
+RenderSubsystem::RenderSubsystem(core::foundation::Context * context) : core::foundation::Object(context) {
+	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
+	core::Plugin * plugin = getPluginInstance();
+	if (plugin->isLoaded())
+		plugin->initialize(pluginFuncSet);
+
+	_capability = pluginFuncSet->createCapability();
 }
 
 RenderSubsystem::~RenderSubsystem() {
 	_queues.clear();
-
-	//Plugin::close(handle);
 }
 
 RenderQueueRef_t RenderSubsystem::createQueue(u32_t priority) {
-	_queues.push_back(boost::make_shared<RenderQueue>(priority));
+	_queues.push_back(std::make_shared<RenderQueue>(priority));
 	return _queues.back();
 }
 

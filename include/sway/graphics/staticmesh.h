@@ -11,15 +11,13 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	StaticMesh(RenderSubqueueRef_t subqueue, MaterialRef_t material, const gapi::BufferCreateInfoSet & infoSet);
+	StaticMesh(RenderSubqueueRef_t subqueue, MaterialRef_t material, VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet & infoSet);
 
 	/*!
 	 * \brief
 	 *    Деструктор класса.
-	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
 	~StaticMesh();

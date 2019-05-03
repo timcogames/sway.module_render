@@ -1,6 +1,8 @@
 #include <sway/graphics/drawable.h>
+#include <sway/graphics/vertexchannel.h>
+#include <sway/graphics/vertexdata.h>
 #include <sway/graphics/material.h>
-#include <sway/graphics/plugin.h>
+#include <sway/graphics/rendersubsystem.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -18,14 +20,22 @@ Drawable::~Drawable() {
 	// Empty
 }
 
-void Drawable::create(const gapi::BufferCreateInfoSet & infoSet) {
-	_vbo = Plugin::createBuffer(infoSet.vb);
+void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet & infoSet) {
+	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
+	core::Plugin * plugin = getPluginInstance();
+	if (plugin->isLoaded())
+		plugin->initialize(pluginFuncSet);
 
-	if (_indexed)
-		_ibo = Plugin::createBuffer(infoSet.ib);
+	_vlayout = pluginFuncSet->createVertexLayout(_material->getShaderProgram());
+	BOOST_FOREACH (auto channel, vertexData->getChannels()) {
+		_vlayout->addAttribute(channel.second->getVertexAttribDescriptor());
+	}
 
-	_vlayout = Plugin::createVertexLayout(_material->getShaderProgram());
-	_vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
+	if (infoSet.vb.data != nullptr)
+		_vbo = pluginFuncSet->createBuffer(infoSet.vb);
+
+	if (infoSet.ib.data != nullptr && _indexed)
+		_ibo = pluginFuncSet->createBuffer(infoSet.ib);
 }
 
 gapi::BufferRef_t Drawable::getVBO() {

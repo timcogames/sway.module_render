@@ -4,13 +4,18 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
+RenderQueue::RenderQueue()
+	: _priority(core::intrusive::kPriority_Normal) {
+	// Empty
+}
+
 RenderQueue::RenderQueue(u32_t priority)
 	: _priority(priority) {
 	// Empty
 }
 
 RenderQueue::~RenderQueue() {
-	for (u32_t i = 0; i < MAX_RENDER_SUBQUEUE_GROUP; ++i)
+	for (u32_t i = 0; i < RENDER_SUBQUEUE_GROUP_COUNT; ++i)
 		_subqueues[i].clear();
 }
 

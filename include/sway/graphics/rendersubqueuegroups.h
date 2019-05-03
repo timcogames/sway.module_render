@@ -9,10 +9,10 @@ NAMESPACE_BEGIN(graphics)
 enum class RenderSubqueueGroup_t : u32_t {
 	kOpaque, /*!< Отрисовывать только непрозрачные части. */
 	kTransparent, /*!< Отрисовывать только прозрачные части. */
-	kMax
+	kLast
 };
 
-#define MAX_RENDER_SUBQUEUE_GROUP (core::detail::toUnderlying(graphics::RenderSubqueueGroup_t::kMax))
+#define RENDER_SUBQUEUE_GROUP_COUNT (core::detail::toUnderlying(RenderSubqueueGroup_t::kLast))
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

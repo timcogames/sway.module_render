@@ -1,5 +1,4 @@
 #include <sway/graphics/materialmanager.h>
-#include <sway/graphics/plugin.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)

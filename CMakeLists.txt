@@ -5,21 +5,21 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_graphics)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 12)
-set(META_VERSION_PATCH 30)
+set(META_VERSION_MINOR 14)
+set(META_VERSION_PATCH 48)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
-option(BUILD_SHARED "Build shared library" OFF)
-option(ENABLE_COVERAGE "Enable coverage builds" OFF)
-option(ENABLE_TESTS "Enable test builds" OFF)
+option(MODULE_GRAPHICS_BUILD_SHARED "Build shared library" OFF)
+option(MODULE_GRAPHICS_ENABLE_COVERAGE "Enable coverage builds" OFF)
+option(MODULE_GRAPHICS_ENABLE_TESTS "Enable test builds" OFF)
 
 project(${META_PROJECT_NAME} C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if(ENABLE_COVERAGE)
+if(MODULE_GRAPHICS_ENABLE_COVERAGE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs")
@@ -51,18 +51,24 @@ file(GLOB_RECURSE MODULE_GRAPHICS_HEADERS ${MODULE_GRAPHICS_DIR}/include/*.*)
 file(GLOB_RECURSE MODULE_GRAPHICS_SOURCE ${MODULE_GRAPHICS_DIR}/src/*.*)
 
 set(Boost_USE_STATIC_LIBS ON)
-set(BOOST_COMPONENTS system filesystem thread)
-find_package(Boost 1.58 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Fatal error: Boost (version >= 1.58) required.")
-else()
-	message(STATUS "Boost includes: ${Boost_INCLUDE_DIRS}")
-	message(STATUS "Boost libs: ${Boost_LIBRARIES}")
+set(Boost_NO_SYSTEM_PATHS TRUE)
+set(BOOST_COMPONENTS filesystem)
+set(BOOST_INCLUDEDIR "${BOOST_ROOT}/")
+set(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib")
 
-	include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost 1.69.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+if(NOT Boost_FOUND)
+	message(FATAL_ERROR "Fatal error: Boost (version >= 1.69.0) required.")
+else()
+	message(STATUS "Boost includes: ${BOOST_INCLUDEDIR}")
+	message(STATUS "Boost libs: ${BOOST_LIBRARYDIR}")
+
+	include_directories(${BOOST_INCLUDEDIR})
 endif()
 
-if(BUILD_SHARED)
+if(MODULE_GRAPHICS_BUILD_SHARED)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+
 	# Добавляем в проект цель для сборки динамической библиотеки
 	add_library(${META_LIB_NAME} SHARED ${MODULE_GRAPHICS_SOURCE})
 	set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
@@ -76,15 +82,35 @@ else()
 	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
 endif()
 
-target_link_libraries(${META_LIB_NAME} GL X11 Boost::system Boost::filesystem Boost::thread)
+target_link_libraries(${META_LIB_NAME} GL X11 ${BOOST_LIBRARIES})
 
-# Добавляем построение тестов
-if(ENABLE_TESTS)
-	message(STATUS "Tests have been enabled")
-
+if(MODULE_GRAPHICS_ENABLE_EXAMPLES OR ENABLE_TESTS)
 	if(NOT TARGET libmodule_core)
 		add_subdirectory(modules/sway.module_core)
 	endif()
+endif()
+
+# Добавляем построение примеров
+if(MODULE_GRAPHICS_ENABLE_EXAMPLES)
+	message(STATUS "Examples have been enabled")
+
+	# Добавляем пути для поиска хедеров
+	include_directories(${CMAKE_SOURCE_DIR}/modules/sway.module_platform-glx11/include)
+
+	if(NOT TARGET module_platform_glx11)
+		add_subdirectory(modules/sway.module_platform-glx11)
+	endif()
+
+	if(NOT TARGET module_gapi_gl)
+		add_subdirectory(modules/sway.module_gapi-gl)
+	endif()
+
+	add_subdirectory(examples/triangle)
+endif()
+
+# Добавляем построение тестов
+if(MODULE_GRAPHICS_ENABLE_TESTS)
+	message(STATUS "Tests have been enabled")
 
 	if(NOT TARGET libmodule_gapi_dummy)
 		add_subdirectory(modules/sway.module_gapi-dummy)
