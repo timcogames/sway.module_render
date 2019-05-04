@@ -1,5 +1,6 @@
 #include <sway/graphics/vertexdata.h>
 #include <sway/graphics/vertexchannel.h>
+#include <algorithm>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -18,7 +19,7 @@ VertexData::~VertexData() {
 	// Empty
 }
 
-VertexChannelRefUmap_t VertexData::getChannels() const {
+VertexChannelRefMap_t VertexData::getChannels() {
 	return _channels;
 }
 
@@ -30,13 +31,12 @@ void * VertexData::getRaw() {
 	u32_t channelOffset = 0;
 	void * dataArray = (void *) malloc(sizeof(math::VertexPosition) * getVertexCount());
 	for (int vertexIdx = 0; vertexIdx < getVertexCount(); ++vertexIdx) {
-		BOOST_FOREACH (auto channel, getChannels() | boost::adaptors::map_values) {
-			auto attribDescriptor = channel->getVertexAttribDescriptor();
-			auto component = static_cast<f32_t *>(channel->getData(vertexIdx));
+		for (const auto & channel : getChannels()) {
+			auto attribDescriptor = channel.second->getVertexAttribDescriptor();
+			auto component = static_cast<f32_t *>(channel.second->getData(vertexIdx));
 
-			for (int num = 0; num < attribDescriptor.numComponents; ++num) {
+			for (int num = 0; num < attribDescriptor.numComponents; ++num)
 				*((f32_t *) dataArray + channelOffset + num) = component[num];
-			}
 
 			channelOffset += attribDescriptor.numComponents;
 		}

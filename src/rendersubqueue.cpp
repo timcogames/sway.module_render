@@ -8,13 +8,7 @@ NAMESPACE_BEGIN(graphics)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
 	: _group(group) {
-	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
-	core::Plugin * plugin = getPluginInstance();
-	if (plugin->isLoaded()) {
-		plugin->initialize(pluginFuncSet);
-	}
-
-	_drawCall = pluginFuncSet->createDrawCall();
+	_drawCall = global::getGapiFunctionSet()->createDrawCall();
 }
 
 RenderSubqueue::~RenderSubqueue() {
@@ -28,7 +22,7 @@ void RenderSubqueue::addDrawable(DrawableRef_t drawable) {
 void RenderSubqueue::render() {
 	gapi::BufferRef_t currVBO = nullptr, currIBO = nullptr;
 
-	BOOST_FOREACH (DrawableRef_t drawable, _drawables) {
+	for (const DrawableRef_t & drawable : _drawables) {
 		currVBO = drawable->getVBO();
 		currIBO = drawable->getIBO();
 

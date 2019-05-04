@@ -5,11 +5,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const gapi::ShaderCreateInfoSet & infoSet) {
-	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
-	core::Plugin * plugin = getPluginInstance();
-	if (plugin->isLoaded()) {
-		plugin->initialize(pluginFuncSet);
-	}
+	auto pluginFuncSet = global::getGapiFunctionSet();
 
 	_shaderProgram = pluginFuncSet->createShaderProgram();
 	_shaderProgram->attach(pluginFuncSet->createShader(infoSet.vs));

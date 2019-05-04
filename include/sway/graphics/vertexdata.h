@@ -34,14 +34,14 @@ public:
 	template<typename TYPE>
 	VertexChannelRef_t createChannel(gapi::VertexSemantic_t semantic);
 
-	VertexChannelRefUmap_t getChannels() const;
+	VertexChannelRefMap_t getChannels();
 
 	u32_t getVertexCount() const;
 
 	void * getRaw();
 
 private:
-	VertexChannelRefUmap_t _channels;
+	VertexChannelRefMap_t _channels;
 	u32_t _vertexCount;
 };
 

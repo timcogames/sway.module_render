@@ -12,7 +12,12 @@ using namespace sway;
 class RenderSubsystemContext : public core::foundation::Context {
 public:
 	RenderSubsystemContext() {
-		_subsystem = std::make_shared<graphics::RenderSubsystem>(this);
+		char path[PATH_MAX + 1];
+		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
+		std::string plugname = core::misc::format("%s/module_gapi_gl.so.0.14.33", path);
+		//std::string plugpath = core::generic::io::Path(plugname).toString();
+
+		_subsystem = std::make_shared<graphics::RenderSubsystem>(plugname, this);
 
 		gapi::ShaderCreateInfoSet shaderCreateInfoSet;
 		shaderCreateInfoSet.vs.type = gapi::ShaderType_t::kVertex;

@@ -8,7 +8,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-core::Plugin * getPluginInstance();
+namespace global {
+	gapi::ConcreatePluginFunctionSet * getGapiFunctionSet();
+} // namespace global
 
 class RenderSubsystem : public core::foundation::Object {
 	DECLARE_OBJECT(RenderSubsystem, core::foundation::Object)
@@ -22,7 +24,7 @@ public:
 	 * \param[in] context
 	 *    Контекст подсистемы.
 	 */
-	RenderSubsystem(core::foundation::Context * context);
+	RenderSubsystem(const std::string & plugname, core::foundation::Context * context);
 
 	/*!
 	 * \brief

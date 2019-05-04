@@ -6,31 +6,29 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-static core::Plugin * pluginInstance = nullptr;
+namespace global {
+	core::Plugin * _pluginInstance = nullptr;
+	gapi::ConcreatePluginFunctionSet * _pluginFunctionSet = nullptr;
 
-core::Plugin * getPluginInstance() {
-	if (pluginInstance == nullptr) {
-		char path[PATH_MAX + 1];
-		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
-		//pluginInstance = new core::Plugin((boost::format("%s/module_gapi_dummy.so.0.1.0") % path).str());
-		pluginInstance = new core::Plugin((boost::format("%s/module_gapi_gl.so.0.14.33") % path).str());
+	gapi::ConcreatePluginFunctionSet * getGapiFunctionSet() {
+		if (_pluginFunctionSet == nullptr)
+			_pluginInstance->initialize(_pluginFunctionSet = new gapi::ConcreatePluginFunctionSet());
 
+		return _pluginFunctionSet;
 	}
+} // namespace global
 
-	return pluginInstance;
-}
+RenderSubsystem::RenderSubsystem(const std::string & plugname, core::foundation::Context * context) : core::foundation::Object(context) {
+	global::_pluginInstance = new core::Plugin(plugname);
 
-RenderSubsystem::RenderSubsystem(core::foundation::Context * context) : core::foundation::Object(context) {
-	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
-	core::Plugin * plugin = getPluginInstance();
-	if (plugin->isLoaded())
-		plugin->initialize(pluginFuncSet);
-
-	_capability = pluginFuncSet->createCapability();
+	_capability = global::getGapiFunctionSet()->createCapability();
 }
 
 RenderSubsystem::~RenderSubsystem() {
 	_queues.clear();
+
+	//SAFE_DELETE(global::_pluginFunctionSet);
+	//SAFE_DELETE(global::_pluginInstance);
 }
 
 RenderQueueRef_t RenderSubsystem::createQueue(u32_t priority) {
@@ -62,7 +60,7 @@ void RenderSubsystem::_renderSubqueues(RenderQueueRef_t queue, RenderSubqueueGro
 	const RenderSubqueueRefVec_t & subqueues = queue->getSubqueues(group);
 
 	if (subqueues.size() > 0) {
-		BOOST_FOREACH (const RenderSubqueueRef_t & subqueue, subqueues)
+		for (const RenderSubqueueRef_t & subqueue : subqueues)
 			subqueue->render();
 	}
 }

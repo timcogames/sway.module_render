@@ -10,10 +10,8 @@
 #include <functional> // std::bind
 #include <algorithm> // std::sort
 #include <memory> // std::shared_ptr, std::make_shared
+#include <unordered_map> // std::unordered_map
 
-#include <boost/unordered_map.hpp> // boost::unordered_map
-#include <boost/foreach.hpp>
-#include <boost/format.hpp>
 #include <boost/property_tree/ptree.hpp> // boost::property_tree::ptree
 
 NAMESPACE_BEGIN(sway)
@@ -30,7 +28,7 @@ class RenderQueue;
 class RenderSubsystem;
 
 typedef std::shared_ptr<class TVertexChannel<math::vec3f_t>> VertexChannelRef_t;
-typedef boost::unordered_map<gapi::VertexSemantic_t, VertexChannelRef_t> VertexChannelRefUmap_t;
+typedef std::map<gapi::VertexSemantic_t, VertexChannelRef_t> VertexChannelRefMap_t;
 
 typedef std::shared_ptr<class VertexData> VertexDataRef_t;
 typedef std::shared_ptr<class StaticMesh> StaticMeshRef_t;

@@ -21,15 +21,11 @@ Drawable::~Drawable() {
 }
 
 void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet & infoSet) {
-	gapi::ConcreatePluginFunctionSet * pluginFuncSet = new gapi::ConcreatePluginFunctionSet();
-	core::Plugin * plugin = getPluginInstance();
-	if (plugin->isLoaded())
-		plugin->initialize(pluginFuncSet);
+	auto pluginFuncSet = global::getGapiFunctionSet();
 
 	_vlayout = pluginFuncSet->createVertexLayout(_material->getShaderProgram());
-	BOOST_FOREACH (auto channel, vertexData->getChannels()) {
+	for (const auto & channel : vertexData->getChannels())
 		_vlayout->addAttribute(channel.second->getVertexAttribDescriptor());
-	}
 
 	if (infoSet.vb.data != nullptr)
 		_vbo = pluginFuncSet->createBuffer(infoSet.vb);

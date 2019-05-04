@@ -10,7 +10,11 @@ using namespace sway;
 class RenderSubsystemFixture : public core::foundation::Context {
 public:
 	RenderSubsystemFixture() {
-		_subsystem = std::make_shared<graphics::RenderSubsystem>(this);
+		char path[PATH_MAX + 1];
+		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
+		std::string plugname = core::misc::format("%s/module_gapi_dummy.so.0.1.0", path);
+
+		_subsystem = std::make_shared<graphics::RenderSubsystem>(plugname, this);
 		BOOST_CHECK_NO_THROW(registerObject(_subsystem.get()));
 	}
 
