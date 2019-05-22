@@ -7,42 +7,65 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-template<typename TYPE>
-class TVertexChannel {
+class IVertexChannelBase {
 public:
 	/*!
-	 * \brief Конструктор класса.
-	 *        Выполняет инициализацию нового экземпляра класса.
+	 * \brief
+	 *    Виртуальный деструктор класса.
 	 */
-	TVertexChannel(gapi::VertexSemantic_t semantic, std::size_t num) {
-		_descriptor = gapi::VertexAttribute::merge<TYPE>(semantic, false, true);
-		_data.reserve(num);
-	}
+	virtual ~IVertexChannelBase() {};
+
+	virtual void addAnyData(f32_t * data, int & capacity) = 0;
+
+	virtual f32_t getData(u32_t idx) const = 0;
+
+	virtual s32_t getVertCount() const = 0;
+
+	virtual gapi::VertexAttributeDescriptor getVertexAttribDescriptor() = 0;
+};
+
+template<typename TYPE>
+class TVertexChannel : public IVertexChannelBase {
+public:
+	/*!
+	 * \brief
+	 *    Конструктор класса.
+	 *    Выполняет инициализацию нового экземпляра класса.
+	 */
+	TVertexChannel(gapi::VertexSemantic_t semantic, std::size_t reserve = 8);
 
 	/*!
-	 * \brief Деструктор класса.
+	 * \brief
+	 *    Деструктор класса.
 	 */
-	~TVertexChannel() = default;
+	virtual ~TVertexChannel() = default;
 
-	std::size_t addAnyData(float * data) {
-		_data.push_back(data);
-		return _data.size() - 1;
-	}
+	virtual void addAnyData(f32_t * data, int & capacity);
 
-	gapi::VertexAttributeDescriptor getVertexAttribDescriptor() {
-		return _descriptor;
-	}
+	virtual f32_t getData(u32_t idx) const;
 
-	void * getData(u32_t idx) const {
-		if (idx >= _data.size())
-			throw std::runtime_error("Data out of range.");
+	virtual s32_t getVertCount() const;
 
-		return _data[idx];
+	virtual gapi::VertexAttributeDescriptor getVertexAttribDescriptor();
+
+private:
+	void _reallocate(s32_t & capacity) {
+		capacity = !capacity ? _vertexReserve : capacity * 2;
+
+		f32_t * tmp = new f32_t[capacity * _descriptor.numComponents];
+		if (_vertexCount)
+			memcpy(tmp, _vertexData, _vertexCount * _descriptor.stride);
+
+		SAFE_DELETE_ARRAY(_vertexData);
+
+		_vertexData = tmp;
 	}
 
 private:
 	gapi::VertexAttributeDescriptor _descriptor;
-	std::vector<float *> _data;
+	std::size_t _vertexReserve;
+	f32_t * _vertexData; /*!< Набор данных. */
+	s32_t _vertexCount;
 };
 
 #include <sway/graphics/vertexchannel.inl>

@@ -14,7 +14,7 @@ public:
 	RenderSubsystemContext() {
 		char path[PATH_MAX + 1];
 		strncpy(path, "/home/bonus85/Projects/sway.modules/sway.module_graphics/bin", PATH_MAX);
-		std::string plugname = core::misc::format("%s/module_gapi_gl.so.0.14.33", path);
+		std::string plugname = core::misc::format("%s/module_gapi_gl.so.0.16.34", path);
 		//std::string plugpath = core::generic::io::Path(plugname).toString();
 
 		_subsystem = std::make_shared<graphics::RenderSubsystem>(plugname, this);
@@ -23,35 +23,22 @@ public:
 		shaderCreateInfoSet.vs.type = gapi::ShaderType_t::kVertex;
 		shaderCreateInfoSet.vs.code = 
 			"attribute vec3 attr_position;" \
+			"attribute vec4 attr_color;" \
+			"varying vec4 color;" \
 			"void main() {" \
 			"	gl_Position = vec4(attr_position, 1.0);" \
+			"	color = attr_color;" \
 			"}";
 		shaderCreateInfoSet.fs.type = gapi::ShaderType_t::kFragment;
 		shaderCreateInfoSet.fs.code = 
+			"varying vec4 color;" \
 			"void main() {" \
-			"	gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);" \
+				"	gl_FragColor = color;" \
 			"}";
-		auto material = std::make_shared<graphics::Material>(shaderCreateInfoSet);
-
-		auto data = std::make_shared<graphics::VertexData>(3);
-		auto channel = data->createChannel<math::vec3f_t>(gapi::VertexSemantic_t::kPosition);
-
-		auto o = math::vec3f_t(-0.5f,-0.5f, 0.0f);
-		channel->addAnyData(o.data());
-		auto t = math::vec3f_t( 0.5f,-0.5f, 0.0f);
-		channel->addAnyData(t.data());
-		auto f = math::vec3f_t( 0.0f, 0.5f, 0.0f);
-		channel->addAnyData(f.data());
-
-		gapi::BufferCreateInfoSet bufferCreateInfoSet;
-		bufferCreateInfoSet.vb.desc.target = gapi::BufferTarget_t::kArray;
-		bufferCreateInfoSet.vb.desc.usage = gapi::BufferUsage_t::kStatic;
-		bufferCreateInfoSet.vb.desc.byteStride = sizeof(math::VertexPosition);
-		bufferCreateInfoSet.vb.desc.capacity = data->getVertexCount();
-		bufferCreateInfoSet.vb.data = data->getRaw();
 
 		auto subqueue = std::make_shared<graphics::RenderSubqueue>();
-		auto staticMesh = std::make_shared<graphics::StaticMesh>(subqueue, material, data, bufferCreateInfoSet);
+		auto material = std::make_shared<graphics::Material>(shaderCreateInfoSet);
+		auto staticMesh = std::make_shared<graphics::StaticMesh>(subqueue, material);
 		auto queue = _subsystem->createQueue();
 		queue->setPriority(core::intrusive::kPriority_High);
 		queue->addSubqueue(subqueue);

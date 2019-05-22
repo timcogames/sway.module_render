@@ -20,22 +20,22 @@ void RenderSubqueue::addDrawable(DrawableRef_t drawable) {
 }
 
 void RenderSubqueue::render() {
-	gapi::BufferRef_t currVBO = nullptr, currIBO = nullptr;
+	gapi::BufferSet bufset = { nullptr, nullptr };
 
 	for (const DrawableRef_t & drawable : _drawables) {
-		currVBO = drawable->getVBO();
-		currIBO = drawable->getIBO();
+		bufset.vbo = drawable->getVBO();
+		bufset.ibo = drawable->getIBO();
 
 		drawable->getMaterial()->bind();
 
-		currVBO->bind();
+		bufset.vbo->bind();
 		drawable->getVertexLayout()->enable();
 
 		if (_drawCall)
-			_drawCall->execute(gapi::PrimitiveType_t::kTriangleList, currVBO->getCapacity(), NULL, core::detail::DataType_t::kChar);
+			_drawCall->execute(gapi::TopologyType_t::kTriangleList, bufset, core::detail::DataType_t::kUInt);
 		
 		drawable->getVertexLayout()->disable();
-		currVBO->unbind();
+		bufset.vbo->unbind();
 
 		drawable->getMaterial()->unbind();
 	}

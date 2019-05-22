@@ -17,6 +17,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
+class IVertexChannelBase;
 template <typename TYPE> class TVertexChannel;
 class VertexData;
 class StaticMesh;
@@ -27,8 +28,9 @@ class RenderSubqueue;
 class RenderQueue;
 class RenderSubsystem;
 
-typedef std::shared_ptr<class TVertexChannel<math::vec3f_t>> VertexChannelRef_t;
+typedef std::shared_ptr<class IVertexChannelBase> VertexChannelRef_t;
 typedef std::map<gapi::VertexSemantic_t, VertexChannelRef_t> VertexChannelRefMap_t;
+typedef std::vector<u32_t> IndexVec_t;
 
 typedef std::shared_ptr<class VertexData> VertexDataRef_t;
 typedef std::shared_ptr<class StaticMesh> StaticMeshRef_t;
@@ -45,6 +47,14 @@ typedef std::shared_ptr<class RenderQueue> RenderQueueRef_t;
 typedef std::vector<RenderQueueRef_t> RenderQueueRefVector_t;
 
 typedef std::shared_ptr<class RenderSubsystem> RenderSubsystemRef_t;
+
+NAMESPACE_BEGIN(primitives)
+
+class Quad;
+
+typedef std::shared_ptr<class Quad> QuadRef_t;
+
+NAMESPACE_END(primitives)
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
