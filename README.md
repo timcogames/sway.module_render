@@ -34,7 +34,7 @@ cmake -DBOOST_ROOT=/usr/local -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_BUILD_SHA
 Запускаем сборку
 
 ```console
-cmake --build .
+cmake --build ./
 ```
 
 ## Contributing
