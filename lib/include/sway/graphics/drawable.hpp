@@ -47,12 +47,12 @@ public:
   MaterialRef_t getMaterial();
 
 private:
-  gapi::BufferRef_t _vbo; /*!< Объект буфера вершин. */
-  gapi::BufferRef_t _ibo; /*!< Объект буфера индексов. */
-  gapi::VertexLayoutRef_t _vlayout;
-  VertexDataRef_t _vertexData;
-  MaterialRef_t _material;
-  bool _indexed;
+  gapi::BufferRef_t vbo_; /*!< Объект буфера вершин. */
+  gapi::BufferRef_t ibo_; /*!< Объект буфера индексов. */
+  gapi::VertexLayoutRef_t vlayout_;
+  VertexDataRef_t vertexData_;
+  MaterialRef_t material_;
+  bool indexed_;
 };
 
 NAMESPACE_END(graphics)

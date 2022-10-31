@@ -92,8 +92,8 @@ public:
   };
 
 private:
-  u32_t _priority; /*!< Приоритет очереди. */
-  RenderSubqueueRefVec_t _subqueues[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
+  u32_t priority_; /*!< Приоритет очереди. */
+  RenderSubqueueRefVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< Контейнер подочередей. */
 };
 
 NAMESPACE_END(graphics)

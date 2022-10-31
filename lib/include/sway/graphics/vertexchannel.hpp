@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/graphics/prereqs.hpp>
+#include <sway/keywords.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
@@ -13,15 +14,15 @@ public:
    * \brief
    *    Виртуальный деструктор класса.
    */
-  virtual ~IVertexChannelBase(){};
+  virtual ~IVertexChannelBase() = default;
 
-  virtual void addAnyData(f32_t *data, int &capacity) = 0;
+  PURE_VIRTUAL(void addAnyData(f32_t *data, int &capacity));
 
-  virtual f32_t getData(u32_t idx) const = 0;
+  PURE_VIRTUAL(f32_t getData(u32_t idx) const);
 
-  virtual s32_t getVertCount() const = 0;
+  PURE_VIRTUAL(s32_t getVertCount() const);
 
-  virtual gapi::VertexAttributeDescriptor getVertexAttribDescriptor() = 0;
+  PURE_VIRTUAL(gapi::VertexAttributeDescriptor getVertexAttribDescriptor());
 };
 
 template <typename TYPE>
@@ -40,33 +41,32 @@ public:
    */
   virtual ~TVertexChannel() = default;
 
-  virtual void addAnyData(f32_t *data, int &capacity);
+  MTHD_OVERRIDE(void addAnyData(f32_t *data, int &capacity));
 
-  virtual f32_t getData(u32_t idx) const;
+  MTHD_OVERRIDE(f32_t getData(u32_t idx) const);
 
-  virtual s32_t getVertCount() const;
+  MTHD_OVERRIDE(s32_t getVertCount() const);
 
-  virtual gapi::VertexAttributeDescriptor getVertexAttribDescriptor();
+  MTHD_OVERRIDE(gapi::VertexAttributeDescriptor getVertexAttribDescriptor());
 
 private:
-  void _reallocate(s32_t &capacity) {
-    capacity = !capacity ? _vertexReserve : capacity * 2;
+  void reallocate_(s32_t &capacity) {
+    capacity = !capacity ? vertexReserve_ : capacity * 2;
 
-    f32_t *tmp = new f32_t[capacity * _descriptor.numComponents];
-    if (_vertexCount) {
-      memcpy(tmp, _vertexData, _vertexCount * _descriptor.stride);
+    f32_t *tmp = new f32_t[capacity * descriptor_.numComponents];
+    if (vertexCount_) {
+      memcpy(tmp, vertexData_, vertexCount_ * descriptor_.stride);
     }
 
-    SAFE_DELETE_ARRAY(_vertexData);
+    SAFE_DELETE_ARRAY(vertexData_);
 
-    _vertexData = tmp;
+    vertexData_ = tmp;
   }
 
-private:
-  gapi::VertexAttributeDescriptor _descriptor;
-  std::size_t _vertexReserve;
-  f32_t *_vertexData; /*!< Набор данных. */
-  s32_t _vertexCount;
+  gapi::VertexAttributeDescriptor descriptor_;
+  std::size_t vertexReserve_;
+  f32_t *vertexData_; /*!< Набор данных. */
+  s32_t vertexCount_;
 };
 
 #include <sway/graphics/vertexchannel.inl>

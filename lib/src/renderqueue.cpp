@@ -5,18 +5,18 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 RenderQueue::RenderQueue()
-    : _priority(core::intrusive::kPriority_Normal) {
+    : priority_(core::intrusive::kPriority_Normal) {
   // Empty
 }
 
 RenderQueue::RenderQueue(u32_t priority)
-    : _priority(priority) {
+    : priority_(priority) {
   // Empty
 }
 
 RenderQueue::~RenderQueue() {
   for (u32_t i = 0; i < RENDER_SUBQUEUE_GROUP_COUNT; ++i) {
-    _subqueues[i].clear();
+    subqueues_[i].clear();
   }
 }
 
@@ -30,12 +30,12 @@ void RenderQueue::removeSubqueue(const RenderSubqueueRef_t &subqueue) {
 }
 
 RenderSubqueueRefVec_t &RenderQueue::getSubqueues(RenderSubqueueGroup_t group) {
-  return _subqueues[core::detail::toUnderlying(group)];
+  return subqueues_[core::detail::toUnderlying(group)];
 }
 
-void RenderQueue::setPriority(u32_t priority) { _priority = priority; }
+void RenderQueue::setPriority(u32_t priority) { priority_ = priority; }
 
-u32_t RenderQueue::getPriority() const { return _priority; }
+u32_t RenderQueue::getPriority() const { return priority_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

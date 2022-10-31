@@ -76,11 +76,10 @@ public:
   void render();
 
 private:
-  void _renderSubqueues(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
+  void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
 
-private:
-  gapi::CapabilityRef_t _capability;
-  RenderQueueRefVector_t _queues; /*!< Контейнер очередей. */
+  gapi::CapabilityRef_t capability_;
+  RenderQueueRefVector_t queues_; /*!< Контейнер очередей. */
 };
 
 NAMESPACE_END(graphics)

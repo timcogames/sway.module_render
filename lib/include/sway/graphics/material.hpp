@@ -42,7 +42,7 @@ public:
   gapi::ShaderProgramRef_t getShaderProgram();
 
 private:
-  gapi::ShaderProgramRef_t _shaderProgram; /*!< Указатель на шейдерную программу. */
+  gapi::ShaderProgramRef_t shaderProgram_; /*!< Указатель на шейдерную программу. */
 };
 
 NAMESPACE_END(graphics)

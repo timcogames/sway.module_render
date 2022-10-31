@@ -23,7 +23,7 @@ public:
    *    Деструктор класса.
    *    Освобождает захваченные ресурсы.
    */
-  virtual ~Quad();
+  virtual ~Quad() = default;
 };
 
 NAMESPACE_END(primitives)

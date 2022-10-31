@@ -7,20 +7,20 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
-    : _group(group) {
-  _drawCall = global::getGapiFunctionSet()->createDrawCall();
+    : group_(group) {
+  drawCall_ = global::getGapiFunctionSet()->createDrawCall();
 }
 
 RenderSubqueue::~RenderSubqueue() {
   // Empty
 }
 
-void RenderSubqueue::addDrawable(DrawableRef_t drawable) { _drawables.push_back(drawable); }
+void RenderSubqueue::addDrawable(DrawableRef_t drawable) { drawables_.push_back(drawable); }
 
 void RenderSubqueue::render() {
   gapi::BufferSet bufset = {nullptr, nullptr};
 
-  for (const DrawableRef_t &drawable : _drawables) {
+  for (const DrawableRef_t &drawable : drawables_) {
     bufset.vbo = drawable->getVBO();
     bufset.ibo = drawable->getIBO();
 
@@ -29,8 +29,8 @@ void RenderSubqueue::render() {
     bufset.vbo->bind();
     drawable->getVertexLayout()->enable();
 
-    if (_drawCall) {
-      _drawCall->execute(gapi::TopologyType_t::kTriangleList, bufset, core::detail::DataType_t::kUInt);
+    if (drawCall_) {
+      drawCall_->execute(gapi::TopologyType_t::kTriangleList, bufset, core::detail::DataType_t::kUInt);
     }
 
     drawable->getVertexLayout()->disable();
@@ -40,9 +40,9 @@ void RenderSubqueue::render() {
   }
 }
 
-void RenderSubqueue::setGroup(RenderSubqueueGroup_t group) { _group = group; }
+void RenderSubqueue::setGroup(RenderSubqueueGroup_t group) { group_ = group; }
 
-RenderSubqueueGroup_t RenderSubqueue::getGroup() const { return _group; }
+RenderSubqueueGroup_t RenderSubqueue::getGroup() const { return group_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

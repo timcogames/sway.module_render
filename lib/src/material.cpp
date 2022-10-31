@@ -5,19 +5,19 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Material::Material(const gapi::ShaderCreateInfoSet &infoSet) {
-  auto pluginFuncSet = global::getGapiFunctionSet();
+  auto *pluginFuncSet = global::getGapiFunctionSet();
 
-  _shaderProgram = pluginFuncSet->createShaderProgram();
-  _shaderProgram->attach(pluginFuncSet->createShader(infoSet.vs));
-  _shaderProgram->attach(pluginFuncSet->createShader(infoSet.fs));
+  shaderProgram_ = pluginFuncSet->createShaderProgram();
+  shaderProgram_->attach(pluginFuncSet->createShader(infoSet.vs));
+  shaderProgram_->attach(pluginFuncSet->createShader(infoSet.fs));
 
-  _shaderProgram->link();
-  if (_shaderProgram->isLinked()) {
+  shaderProgram_->link();
+  if (shaderProgram_->isLinked()) {
     // Empty
   }
 
-  _shaderProgram->validate();
-  if (_shaderProgram->isValidated()) {
+  shaderProgram_->validate();
+  if (shaderProgram_->isValidated()) {
     // Empty
   }
 }
@@ -30,11 +30,11 @@ void Material::loadFromXml() {
   // Empty
 }
 
-void Material::bind() { _shaderProgram->use(); }
+void Material::bind() { shaderProgram_->use(); }
 
-void Material::unbind() { _shaderProgram->unuse(); }
+void Material::unbind() { shaderProgram_->unuse(); }
 
-gapi::ShaderProgramRef_t Material::getShaderProgram() { return _shaderProgram; }
+gapi::ShaderProgramRef_t Material::getShaderProgram() { return shaderProgram_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

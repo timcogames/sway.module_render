@@ -53,10 +53,9 @@ public:
   u32_t getIndexCount() const;
 
 private:
-  VertexChannelRefMap_t _channels;
-  u32_t _vertexCount;
-
-  IndexVec_t _indices;
+  VertexChannelRefMap_t channels_;
+  u32_t vertexCount_;
+  IndexVec_t indices_;
 };
 
 #include <sway/graphics/vertexdata.inl>

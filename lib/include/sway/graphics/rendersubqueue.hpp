@@ -57,9 +57,9 @@ public:
   RenderSubqueueGroup_t getGroup() const;
 
 private:
-  gapi::DrawCallRef_t _drawCall;
-  DrawableRefVec_t _drawables;
-  RenderSubqueueGroup_t _group; /*!< Группа подочереди. */
+  gapi::DrawCallRef_t drawCall_;
+  DrawableRefVec_t drawables_;
+  RenderSubqueueGroup_t group_; /*!< Группа подочереди. */
 };
 
 NAMESPACE_END(graphics)

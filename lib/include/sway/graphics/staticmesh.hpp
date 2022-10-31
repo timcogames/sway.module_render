@@ -20,10 +20,10 @@ public:
    *    Деструктор класса.
    *    Освобождает захваченные ресурсы.
    */
-  ~StaticMesh();
+  ~StaticMesh() = default;
 
 private:
-  VertexDataRef_t _vertexData;
+  VertexDataRef_t vertexData_;
 };
 
 NAMESPACE_END(graphics)
