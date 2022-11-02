@@ -2,7 +2,7 @@
 #define SWAY_GRAPHICS_PREREQS_HPP
 
 #include <sway/core.hpp>
-#include <sway/gapi/gl.hpp>
+#include <sway/gapi.hpp>
 #include <sway/math.hpp>
 
 // #include <boost/property_tree/ptree.hpp>  // boost::property_tree::ptree
