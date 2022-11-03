@@ -12,10 +12,10 @@ namespace global {
 gapi::ConcreatePluginFunctionSet *getGapiFunctionSet();
 }  // namespace global
 
-class RenderSubsystem : public core::foundation::Object {
-  // DECLARE_OBJECT(RenderSubsystem, core::foundation::Object);
-
+class RenderSubsystem : public core::foundation::Subsystem {
 public:
+  DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
+
   /*!
    * \brief
    *    Конструктор класса.
@@ -74,6 +74,12 @@ public:
    *    Метод отрисовки.
    */
   void render();
+
+  MTHD_OVERRIDE(bool initialize()) { return true; }
+
+  MTHD_OVERRIDE(void tick(float timestep)) {}
+
+  MTHD_OVERRIDE(void shutdown()) {}
 
 private:
   void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group);

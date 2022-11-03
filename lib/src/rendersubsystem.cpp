@@ -20,7 +20,7 @@ gapi::ConcreatePluginFunctionSet *getGapiFunctionSet() {
 }  // namespace global
 
 RenderSubsystem::RenderSubsystem(const std::string &plugname, core::foundation::Context *context)
-    : core::foundation::Object(context) {
+    : core::foundation::Subsystem(context) {
   global::_pluginInstance = new core::Plugin(plugname);
   auto *pluginFuncSet = global::getGapiFunctionSet();
 
