@@ -41,12 +41,12 @@ endif ()
 
 set(MODULE_GRAPHICS_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-set(GLUT_INCLUDE_DIRS "/opt/X11/include")
-set(GLUT_LIBRARY_DIRS "/opt/X11/lib")
+set(SYSTEM_X11_INCLUDE_DIRS "/opt/X11/include")
+set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 set(MODULE_GAPI_GL_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
-include_directories("${GLUT_INCLUDE_DIRS}")
+include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${MODULE_GRAPHICS_DIR}/lib/include")
 include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_core/lib/include")
 include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_math/lib/include")
@@ -57,29 +57,11 @@ include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_gapi-gl/lib/i
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
-link_directories("${GLUT_LIBRARY_DIRS}")
+link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_GRAPHICS_HEADERS "${MODULE_GRAPHICS_DIR}/lib/include/*.*")
 file(GLOB_RECURSE MODULE_GRAPHICS_SOURCES "${MODULE_GRAPHICS_DIR}/lib/src/*.*")
-
-# set(Boost_NO_WARN_NEW_VERSIONS 1)
-# set(Boost_USE_STATIC_LIBS ON)
-# set(Boost_NO_BOOST_CMAKE TRUE)
-# set(Boost_NO_SYSTEM_PATHS TRUE)
-# set(BOOST_COMPONENTS filesystem)
-# set(BOOST_INCLUDEDIR "${BOOST_ROOT}/")
-# set(BOOST_LIBRARYDIR "${BOOST_ROOT}/libs")
-
-# find_package(Boost 1.78.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-# if (NOT Boost_FOUND)
-#   message(FATAL_ERROR "Fatal error: Boost (version >= 1.78.0) required.")
-# else ()
-#   message(STATUS "Boost includes: ${BOOST_INCLUDEDIR}")
-#   message(STATUS "Boost libs: ${BOOST_LIBRARYDIR}")
-
-#   include_directories(${BOOST_INCLUDEDIR})
-# endif ()
 
 if (MODULE_GRAPHICS_BUILD_SHARED)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
@@ -98,7 +80,7 @@ else ()
 endif ()
 
 # target_link_libraries(${META_GRAPHICS_LIBNAME} GL X11 ${BOOST_LIBRARIES})
-target_link_libraries(${META_GRAPHICS_LIBNAME} GL X11 ${BOOST_LIBRARIES})
+target_link_libraries(${META_GRAPHICS_LIBNAME} GL X11)
 
 custom_enable_cxx17(${META_GRAPHICS_LIBNAME})
 
