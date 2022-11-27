@@ -10,47 +10,47 @@ NAMESPACE_BEGIN(graphics)
 
 class VertexData {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   VertexData();
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
    *
-   * \param[in] count
-   *    Количество вершин.
+   * @param[in] count Количество вершин.
+   *
    */
   VertexData(u32_t count);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   virtual ~VertexData();
 
   template <typename TYPE>
-  VertexChannelRef_t createChannel(gapi::VertexSemantic_t semantic, u32_t count);
+  auto createChannel(gapi::VertexSemantic_t semantic, u32_t count) -> VertexChannelRef_t;
 
-  VertexChannelRefMap_t getChannels();
-  VertexChannelRef_t getChannel(gapi::VertexSemantic_t semantic);
+  auto getChannels() -> VertexChannelRefMap_t;
 
-  u32_t getVertexCount() const;
+  auto getChannel(gapi::VertexSemantic_t semantic) -> VertexChannelRef_t;
 
-  void *getRaw();
+  auto getVertexCount() const -> u32_t;
+
+  auto getRaw() -> void *;
 
   void addTriIndices(u32_t a, u32_t b, u32_t c);
 
   void addIndex(u32_t index);
 
-  IndexVec_t &getIndices();
+  auto getIndices() -> IndexVec_t &;
 
-  u32_t getIndexCount() const;
+  auto getIndexCount() const -> u32_t;
 
 private:
   VertexChannelRefMap_t channels_;
@@ -63,4 +63,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_VERTEXDATA_HPP

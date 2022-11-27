@@ -8,38 +8,37 @@ NAMESPACE_BEGIN(graphics)
 
 class Material {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
    *
-   * \param[in] infoSet
-   *    Первоначальная информация о материале.
+   * @param[in] infoSet Первоначальная информация о материале.
+   *
    */
   Material(const gapi::ShaderCreateInfoSet &infoSet);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   ~Material();
 
   void loadFromXml();
 
-  /*!
-   * \brief
-   *    Привязывает.
+  /**
+   * @brief Привязывает.
+   *
    */
   void bind();
 
-  /*!
-   * \brief
-   *    Отвязывает.
+  /**
+   * @brief Отвязывает.
+   *
    */
   void unbind();
 
-  gapi::ShaderProgramRef_t getShaderProgram();
+  auto getShaderProgram() -> gapi::ShaderProgramRef_t;
 
 private:
   gapi::ShaderProgramRef_t shaderProgram_; /*!< Указатель на шейдерную программу. */
@@ -48,4 +47,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_MATERIAL_HPP

@@ -60,4 +60,4 @@ NAMESPACE_END(primitives)
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_PREREQS_HPP

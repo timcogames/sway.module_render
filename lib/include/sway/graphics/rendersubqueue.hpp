@@ -9,52 +9,49 @@ NAMESPACE_BEGIN(graphics)
 
 class RenderSubqueue {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
    *
-   * \param[in] group
-   *    Группа подочереди.
+   * @param[in] group Группа подочереди.
+   *
    */
   RenderSubqueue(RenderSubqueueGroup_t group = RenderSubqueueGroup_t::kOpaque);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   ~RenderSubqueue();
 
-  /*!
-   * \brief
-   *    Добавляет отрисовываемый объект.
+  /**
+   * @brief Добавляет отрисовываемый объект.
    *
-   * \param[in] drawable
-   *    Отрисовываемый объект.
+   * @param[in] drawable Отрисовываемый объект.
+   *
    */
   void addDrawable(DrawableRef_t drawable);
 
-  /*!
-   * \brief
-   *    Метод отрисовки.
+  /**
+   * @brief Метод отрисовки.
+   *
    */
   void render();
 
-  /*!
-   * \brief
-   *    Устанавливает группу подочереди.
+  /**
+   * @brief Устанавливает группу подочереди.
    *
-   * \param[in] group
-   *    Группа подочереди.
+   * @param[in] group Группа подочереди.
+   *
    */
   void setGroup(RenderSubqueueGroup_t group);
 
-  /*!
-   * \brief
-   *    Получает группу подочереди.
+  /**
+   * @brief Получает группу подочереди.
+   *
    */
-  RenderSubqueueGroup_t getGroup() const;
+  auto getGroup() const -> RenderSubqueueGroup_t;
 
 private:
   gapi::DrawCallRef_t drawCall_;
@@ -65,4 +62,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_RENDERSUBQUEUE_HPP

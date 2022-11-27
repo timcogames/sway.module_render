@@ -10,44 +10,50 @@ NAMESPACE_BEGIN(graphics)
 
 class IVertexChannelBase {
 public:
-  /*!
-   * \brief
-   *    Виртуальный деструктор класса.
+  /**
+   * @brief Виртуальный деструктор класса.
+   *
    */
   virtual ~IVertexChannelBase() = default;
 
   PURE_VIRTUAL(void addAnyData(f32_t *data, int &capacity));
 
-  PURE_VIRTUAL(f32_t getData(u32_t idx) const);
+  // clang-format off
+  PURE_VIRTUAL(auto getData(u32_t idx) const -> f32_t);  // clang-format on
 
-  PURE_VIRTUAL(s32_t getVertCount() const);
+  // clang-format off
+  PURE_VIRTUAL(auto getVertCount() const -> s32_t);  // clang-format on
 
-  PURE_VIRTUAL(gapi::VertexAttributeDescriptor getVertexAttribDescriptor());
+  // clang-format off
+  PURE_VIRTUAL(auto getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor);  // clang-format on
 };
 
 template <typename TYPE>
 class TVertexChannel : public IVertexChannelBase {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   TVertexChannel(gapi::VertexSemantic_t semantic, std::size_t reserve = 8);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
+  /**
+   * @brief Деструктор класса.
+   *
    */
   virtual ~TVertexChannel() = default;
 
   MTHD_OVERRIDE(void addAnyData(f32_t *data, int &capacity));
 
-  MTHD_OVERRIDE(f32_t getData(u32_t idx) const);
+  // clang-format off
+  MTHD_OVERRIDE(auto getData(u32_t idx) const -> f32_t);  // clang-format on
 
-  MTHD_OVERRIDE(s32_t getVertCount() const);
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertCount() const -> s32_t);  // clang-format on
 
-  MTHD_OVERRIDE(gapi::VertexAttributeDescriptor getVertexAttribDescriptor());
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor);  // clang-format on
 
 private:
   void reallocate_(s32_t &capacity) {
@@ -74,4 +80,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_VERTEXCHANNEL_HPP

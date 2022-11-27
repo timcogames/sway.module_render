@@ -12,4 +12,4 @@
 #include <sway/graphics/staticmesh.hpp>
 #include <sway/graphics/vertexdata.hpp>
 
-#endif
+#endif  // SWAY_GRAPHICS_HPP

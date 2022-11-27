@@ -17,4 +17,4 @@ enum class RenderSubqueueGroup_t : u32_t {
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_RENDERSUBQUEUEGROUPS_HPP

@@ -8,43 +8,41 @@ NAMESPACE_BEGIN(graphics)
 
 class Drawable {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   Drawable(MaterialRef_t material, bool indexed);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   ~Drawable();
 
   void create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet &infoSet);
 
-  /*!
-   * \brief
-   *   Получает указатель на объект вершинного буфера.
+  /**
+   * @brief Получает указатель на объект вершинного буфера.
    *
-   * \sa
-   *   getIBO()
-   */
-  gapi::BufferRef_t getVBO();
-
-  /*!
-   * \brief
-   *   Получает указатель на объект индексного буфера.
+   * @sa getIBO()
    *
-   * \sa
-   *   getVBO()
    */
-  gapi::BufferRef_t getIBO();
+  auto getVBO() -> gapi::BufferRef_t;
 
-  gapi::VertexLayoutRef_t getVertexLayout();
+  /**
+   * @brief Получает указатель на объект индексного буфера.
+   *
+   * @sa getVBO()
+   *
+   */
+  auto getIBO() -> gapi::BufferRef_t;
 
-  MaterialRef_t getMaterial();
+  auto getVertexLayout() -> gapi::VertexLayoutRef_t;
+
+  auto getMaterial() -> MaterialRef_t;
 
 private:
   gapi::BufferRef_t vbo_; /*!< Объект буфера вершин. */

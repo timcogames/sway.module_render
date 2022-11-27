@@ -11,17 +11,17 @@ NAMESPACE_BEGIN(primitives)
 
 class Quad : public VertexData {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   Quad(f32_t width, f32_t height);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   virtual ~Quad() = default;
 };
@@ -30,4 +30,4 @@ NAMESPACE_END(primitives)
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_PRIMITIVES_QUAD_HPP

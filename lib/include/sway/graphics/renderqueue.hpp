@@ -10,80 +10,72 @@ NAMESPACE_BEGIN(graphics)
 
 class RenderQueue {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   RenderQueue();
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
    *
-   * \param[in] priority
-   *    Приоритет очереди.
+   * @param[in] priority Приоритет очереди.
+   *
    */
   RenderQueue(u32_t priority);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   ~RenderQueue();
 
-  /*!
-   * \brief
-   *    Добавляет подочередь \ref RenderSubqueue в группу.
+  /**
+   * @brief Добавляет подочередь @ref RenderSubqueue в группу.
    *
-   * \param[in] subqueue
-   *    Указатель на обьект класса подочереди, которой следует добавить в контейнер.
+   * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
    *
-   * \sa
-   *    removeSubqueue(const RenderSubqueueRef_t &)
+   * @sa removeSubqueue(const RenderSubqueueRef_t &)
+   *
    */
   void addSubqueue(const RenderSubqueueRef_t &subqueue);
 
-  /*!
-   * \brief
-   *    Удаляет подочередь \ref RenderSubqueue из группы.
+  /**
+   * @brief Удаляет подочередь @ref RenderSubqueue из группы.
    *
-   * \param[in] subqueue
-   *    Указатель на обьект класса подочереди, которой следует удалить из контейнера.
+   * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
    *
-   * \sa
-   *    addSubqueue(const RenderSubqueueRef_t &)
+   * @sa addSubqueue(const RenderSubqueueRef_t &)
+   *
    */
   void removeSubqueue(const RenderSubqueueRef_t &subqueue);
 
-  /*!
-   * \brief
-   *    Получает коллекцию подочередей.
+  /**
+   * @brief Получает коллекцию подочередей.
    *
-   * \param[in] group
-   *    Группа подочереди.
+   * @param[in] group Группа подочереди.
+   *
    */
-  RenderSubqueueRefVec_t &getSubqueues(RenderSubqueueGroup_t group);
+  auto getSubqueues(RenderSubqueueGroup_t group) -> RenderSubqueueRefVec_t &;
 
-  /*!
-   * \brief
-   *    Устанавливает значение приоритета.
+  /**
+   * @brief Устанавливает значение приоритета.
    *
-   * \sa
-   *    getPriority() const
+   * @sa getPriority() const
+   *
    */
   void setPriority(u32_t priority);
 
-  /*!
-   * \brief
-   *    Получает значение приоритета.
+  /**
+   * @brief Получает значение приоритета.
    *
-   * \sa
-   *    setPriority(u32_t)
+   * @sa setPriority(u32_t)
+   *
    */
-  u32_t getPriority() const;
+  auto getPriority() const -> u32_t;
 
   struct PriorityInDescendingOrder {
     bool operator()(const RenderQueueRef_t &lhs, const RenderQueueRef_t &rhs) const {
@@ -99,4 +91,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_RENDERQUEUE_HPP

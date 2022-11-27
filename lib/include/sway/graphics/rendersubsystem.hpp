@@ -9,69 +9,64 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 namespace global {
-gapi::ConcreatePluginFunctionSet *getGapiFunctionSet();
+auto getGapiFunctionSet() -> gapi::ConcreatePluginFunctionSet *;
 }  // namespace global
 
 class RenderSubsystem : public core::foundation::Subsystem {
 public:
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
    *
-   * \param[in] context
-   *    Контекст подсистемы.
+   * @param[in] context Контекст подсистемы.
+   *
    */
   RenderSubsystem(const std::string &plugname, core::foundation::Context *context);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   virtual ~RenderSubsystem();
 
-  /*!
-   * \brief
-   *    Создает новую очередь и добавляет её в контейнер.
+  /**
+   * @brief Создает новую очередь и добавляет её в контейнер.
    *
-   * \param[in] priority
-   *    Приоритет очереди.
+   * @param[in] priority Приоритет очереди.
    *
-   * \return
-   *    Умный указатель на объект класса очереди.
+   * @return Умный указатель на объект класса очереди.
+   *
    */
-  RenderQueueRef_t createQueue(u32_t priority = core::intrusive::kPriority_Normal);
+  auto createQueue(u32_t priority = core::intrusive::kPriority_Normal) -> RenderQueueRef_t;
 
-  /*!
-   * \brief
-   *    Получает очередь по индексу.
+  /**
+   * @brief Получает очередь по индексу.
    *
-   * \param[in] index
-   *    Индекс очереди.
+   * @param[in] index Индекс очереди.
    *
-   * \return
-   *    Умный указатель на объект класса очереди.
+   * @return Умный указатель на объект класса очереди.
+   *
    */
-  RenderQueueRef_t getQueueByIdx(u32_t index);
+  auto getQueueByIdx(u32_t index) -> RenderQueueRef_t;
 
-  /*!
-   * \brief
-   *    Получает все очереди.
+  /**
+   * @brief Получает все очереди.
+   *
    */
-  RenderQueueRefVector_t getQueues();
+  auto getQueues() -> RenderQueueRefVector_t;
 
-  /*!
-   * \brief
-   *    Сортирует очереди по приоритету.
+  /**
+   * @brief Сортирует очереди по приоритету.
+   *
    */
   void sortQueues();
 
-  /*!
-   * \brief
-   *    Метод отрисовки.
+  /**
+   * @brief Метод отрисовки.
+   *
    */
   void render();
 
@@ -91,4 +86,4 @@ private:
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GRAPHICS_RENDERSUBSYSTEM_HPP
