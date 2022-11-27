@@ -30,7 +30,7 @@ void RenderSubqueue::render() {
     drawable->getVertexLayout()->enable();
 
     if (drawCall_) {
-      drawCall_->execute(gapi::TopologyType_t::kTriangleList, bufset, core::detail::DataType_t::kUInt);
+      drawCall_->execute(gapi::TopologyType_t::kTriangleList, bufset, core::ValueDataType::UInt);
     }
 
     drawable->getVertexLayout()->disable();
