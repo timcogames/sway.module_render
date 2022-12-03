@@ -12,13 +12,7 @@ Drawable::Drawable(MaterialRef_t material, bool indexed)
     , ibo_(nullptr)
     , vlayout_(nullptr)
     , material_(material)
-    , indexed_(indexed) {
-  // Empty
-}
-
-Drawable::~Drawable() {
-  // Empty
-}
+    , indexed_(indexed) {}
 
 void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet &infoSet) {
   auto *pluginFuncSet = global::getGapiFunctionSet();
@@ -36,14 +30,6 @@ void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSe
     vlayout_->addAttribute(channel.second->getVertexAttribDescriptor());
   }
 }
-
-gapi::BufferRef_t Drawable::getVBO() { return vbo_; }
-
-gapi::BufferRef_t Drawable::getIBO() { return ibo_; }
-
-gapi::VertexLayoutRef_t Drawable::getVertexLayout() { return vlayout_; }
-
-MaterialRef_t Drawable::getMaterial() { return material_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

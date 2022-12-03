@@ -12,7 +12,6 @@ class IVertexChannelBase {
 public:
   /**
    * @brief Виртуальный деструктор класса.
-   *
    */
   virtual ~IVertexChannelBase() = default;
 
@@ -33,14 +32,12 @@ class TVertexChannel : public IVertexChannelBase {
 public:
   /**
    * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   TVertexChannel(gapi::VertexSemantic_t semantic, std::size_t reserve = 8);
 
   /**
    * @brief Деструктор класса.
-   *
    */
   virtual ~TVertexChannel() = default;
 
@@ -71,7 +68,7 @@ private:
 
   gapi::VertexAttributeDescriptor descriptor_;
   std::size_t vertexReserve_;
-  f32_t *vertexData_; /*!< Набор данных. */
+  f32_t *vertexData_;  // Набор данных.
   s32_t vertexCount_;
 };
 

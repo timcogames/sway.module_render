@@ -7,8 +7,8 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 enum class RenderSubqueueGroup_t : u32_t {
-  kOpaque, /*!< Отрисовывать только непрозрачные части. */
-  kTransparent, /*!< Отрисовывать только прозрачные части. */
+  kOpaque,  // Отрисовывать только непрозрачные части.
+  kTransparent,  // Отрисовывать только прозрачные части.
   kLast
 };
 

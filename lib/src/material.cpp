@@ -22,10 +22,6 @@ Material::Material(const gapi::ShaderCreateInfoSet &infoSet) {
   }
 }
 
-Material::~Material() {
-  // Empty
-}
-
 void Material::loadFromXml() {
   // Empty
 }
@@ -33,8 +29,6 @@ void Material::loadFromXml() {
 void Material::bind() { shaderProgram_->use(); }
 
 void Material::unbind() { shaderProgram_->unuse(); }
-
-gapi::ShaderProgramRef_t Material::getShaderProgram() { return shaderProgram_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

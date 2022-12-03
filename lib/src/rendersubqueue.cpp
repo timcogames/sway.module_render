@@ -11,10 +11,6 @@ RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
   drawCall_ = global::getGapiFunctionSet()->createDrawCall();
 }
 
-RenderSubqueue::~RenderSubqueue() {
-  // Empty
-}
-
 void RenderSubqueue::addDrawable(DrawableRef_t drawable) { drawables_.push_back(drawable); }
 
 void RenderSubqueue::render() {
@@ -39,10 +35,6 @@ void RenderSubqueue::render() {
     drawable->getMaterial()->unbind();
   }
 }
-
-void RenderSubqueue::setGroup(RenderSubqueueGroup_t group) { group_ = group; }
-
-RenderSubqueueGroup_t RenderSubqueue::getGroup() const { return group_; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

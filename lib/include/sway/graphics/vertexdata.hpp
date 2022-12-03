@@ -12,35 +12,27 @@ class VertexData {
 public:
   /**
    * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   VertexData();
 
   /**
    * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   *        Выполняет инициализацию нового экземпляра класса.
    * @param[in] count Количество вершин.
-   *
    */
   VertexData(u32_t count);
 
-  /**
-   * @brief Деструктор класса.
-   * Освобождает захваченные ресурсы.
-   *
-   */
-  virtual ~VertexData();
+  ~VertexData() = default;
 
   template <typename TYPE>
   auto createChannel(gapi::VertexSemantic_t semantic, u32_t count) -> VertexChannelRef_t;
 
-  auto getChannels() -> VertexChannelRefMap_t;
+  auto getChannels() -> VertexChannelRefMap_t { return channels_; }
 
-  auto getChannel(gapi::VertexSemantic_t semantic) -> VertexChannelRef_t;
+  auto getChannel(gapi::VertexSemantic_t semantic) -> VertexChannelRef_t { return channels_[semantic]; }
 
-  auto getVertexCount() const -> u32_t;
+  auto getVertexCount() const -> u32_t { return vertexCount_; }
 
   auto getRaw() -> void *;
 
@@ -48,9 +40,9 @@ public:
 
   void addIndex(u32_t index);
 
-  auto getIndices() -> IndexVec_t &;
+  auto getIndices() -> IndexVec_t & { return indices_; }
 
-  auto getIndexCount() const -> u32_t;
+  auto getIndexCount() const -> u32_t { return indices_.size(); }
 
 private:
   VertexChannelRefMap_t channels_;

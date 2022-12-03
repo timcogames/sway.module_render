@@ -7,24 +7,10 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 VertexData::VertexData()
-    : vertexCount_(0) {
-  // Empty
-}
+    : vertexCount_(0) {}
 
 VertexData::VertexData(u32_t count)
-    : vertexCount_(count) {
-  // Empty
-}
-
-VertexData::~VertexData() {
-  // Empty
-}
-
-VertexChannelRefMap_t VertexData::getChannels() { return channels_; }
-
-VertexChannelRef_t VertexData::getChannel(gapi::VertexSemantic_t semantic) { return channels_[semantic]; }
-
-u32_t VertexData::getVertexCount() const { return vertexCount_; }
+    : vertexCount_(count) {}
 
 void *VertexData::getRaw() {
   void *dataArray = (void *)malloc(sizeof(math::VertexColor) * getVertexCount());
@@ -64,10 +50,6 @@ void VertexData::addTriIndices(u32_t a, u32_t b, u32_t c) {
 }
 
 void VertexData::addIndex(u32_t index) { indices_.push_back(index); }
-
-IndexVec_t &VertexData::getIndices() { return indices_; }
-
-u32_t VertexData::getIndexCount() const { return indices_.size(); }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

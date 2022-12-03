@@ -22,16 +22,16 @@ void TVertexChannel<TYPE>::addAnyData(f32_t *data, int &capacity) {
 }
 
 template <typename TYPE>
-f32_t TVertexChannel<TYPE>::getData(u32_t idx) const {
+auto TVertexChannel<TYPE>::getData(u32_t idx) const -> f32_t {
   return vertexData_[idx];
 }
 
 template <typename TYPE>
-s32_t TVertexChannel<TYPE>::getVertCount() const {
+auto TVertexChannel<TYPE>::getVertCount() const -> s32_t {
   return vertexCount_;
 }
 
 template <typename TYPE>
-gapi::VertexAttributeDescriptor TVertexChannel<TYPE>::getVertexAttribDescriptor() {
+auto TVertexChannel<TYPE>::getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor {
   return descriptor_;
 }

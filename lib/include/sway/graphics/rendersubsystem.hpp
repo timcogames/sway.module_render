@@ -18,55 +18,42 @@ public:
 
   /**
    * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   *        Выполняет инициализацию нового экземпляра класса.
    * @param[in] context Контекст подсистемы.
-   *
    */
   RenderSubsystem(const std::string &plugname, core::foundation::Context *context);
 
   /**
-   * @brief Деструктор класса.
-   * Освобождает захваченные ресурсы.
-   *
+   * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
   virtual ~RenderSubsystem();
 
   /**
    * @brief Создает новую очередь и добавляет её в контейнер.
-   *
    * @param[in] priority Приоритет очереди.
-   *
    * @return Умный указатель на объект класса очереди.
-   *
    */
   auto createQueue(u32_t priority = core::intrusive::kPriority_Normal) -> RenderQueueRef_t;
 
   /**
    * @brief Получает очередь по индексу.
-   *
    * @param[in] index Индекс очереди.
-   *
    * @return Умный указатель на объект класса очереди.
-   *
    */
-  auto getQueueByIdx(u32_t index) -> RenderQueueRef_t;
+  auto getQueueByIdx(u32_t index) -> RenderQueueRef_t { return queues_[index]; }
 
   /**
    * @brief Получает все очереди.
-   *
    */
-  auto getQueues() -> RenderQueueRefVector_t;
+  auto getQueues() -> RenderQueueRefVector_t { return queues_; }
 
   /**
    * @brief Сортирует очереди по приоритету.
-   *
    */
   void sortQueues();
 
   /**
    * @brief Метод отрисовки.
-   *
    */
   void render();
 
@@ -80,7 +67,7 @@ private:
   void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
 
   gapi::CapabilityRef_t capability_;
-  RenderQueueRefVector_t queues_; /*!< Контейнер очередей. */
+  RenderQueueRefVector_t queues_;  // Контейнер очередей.
 };
 
 NAMESPACE_END(graphics)

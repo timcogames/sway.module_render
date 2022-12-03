@@ -10,38 +10,29 @@ class Material {
 public:
   /**
    * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   *        Выполняет инициализацию нового экземпляра класса.
    * @param[in] infoSet Первоначальная информация о материале.
-   *
    */
   Material(const gapi::ShaderCreateInfoSet &infoSet);
 
-  /**
-   * @brief Деструктор класса.
-   * Освобождает захваченные ресурсы.
-   *
-   */
-  ~Material();
+  ~Material() = default;
 
   void loadFromXml();
 
   /**
    * @brief Привязывает.
-   *
    */
   void bind();
 
   /**
    * @brief Отвязывает.
-   *
    */
   void unbind();
 
-  auto getShaderProgram() -> gapi::ShaderProgramRef_t;
+  auto getShaderProgram() -> gapi::ShaderProgramRef_t { return shaderProgram_; }
 
 private:
-  gapi::ShaderProgramRef_t shaderProgram_; /*!< Указатель на шейдерную программу. */
+  gapi::ShaderProgramRef_t shaderProgram_;  // Указатель на шейдерную программу.
 };
 
 NAMESPACE_END(graphics)

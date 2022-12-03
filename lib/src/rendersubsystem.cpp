@@ -10,7 +10,7 @@ namespace global {
 core::Plugin *_pluginInstance = nullptr;
 gapi::ConcreatePluginFunctionSet *_pluginFunctionSet = nullptr;
 
-gapi::ConcreatePluginFunctionSet *getGapiFunctionSet() {
+auto getGapiFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
   if (_pluginFunctionSet == nullptr) {
     _pluginInstance->initialize(_pluginFunctionSet = new gapi::ConcreatePluginFunctionSet());
   }
@@ -34,14 +34,10 @@ RenderSubsystem::~RenderSubsystem() {
   // SAFE_DELETE(global::_pluginInstance);
 }
 
-RenderQueueRef_t RenderSubsystem::createQueue(u32_t priority) {
+auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueueRef_t {
   queues_.push_back(std::make_shared<RenderQueue>(priority));
   return queues_.back();
 }
-
-RenderQueueRef_t RenderSubsystem::getQueueByIdx(u32_t index) { return queues_[index]; }
-
-RenderQueueRefVector_t RenderSubsystem::getQueues() { return queues_; }
 
 void RenderSubsystem::sortQueues() {
   if (queues_.size() >= 2) {
@@ -50,9 +46,9 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  for (u32_t i = 0; i < queues_.size(); ++i) {
-    renderSubqueues_(queues_[i], RenderSubqueueGroup_t::kOpaque);
-    renderSubqueues_(queues_[i], RenderSubqueueGroup_t::kTransparent);
+  for (auto &queue : queues_) {
+    renderSubqueues_(queue, RenderSubqueueGroup_t::kOpaque);
+    renderSubqueues_(queue, RenderSubqueueGroup_t::kTransparent);
   }
 }
 
