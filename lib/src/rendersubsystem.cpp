@@ -54,11 +54,12 @@ void RenderSubsystem::render() {
 
 void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group) {
   const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
+  if (subqueues.empty()) {
+    return;
+  }
 
-  if (subqueues.size() > 0) {
-    for (const RenderSubqueueRef_t &subqueue : subqueues) {
-      subqueue->render();
-    }
+  for (const RenderSubqueueRef_t &subqueue : subqueues) {
+    subqueue->render();
   }
 }
 

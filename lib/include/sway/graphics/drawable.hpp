@@ -20,23 +20,25 @@ public:
 
   /**
    * @brief Получает указатель на объект вершинного буфера.
+   *
    * @sa getIBO()
    */
-  auto getVBO() -> gapi::BufferRef_t { return vbo_; }
+  auto getVBO() -> gapi::BufferRef_t { return vbuffer_; }
 
   /**
    * @brief Получает указатель на объект индексного буфера.
+   *
    * @sa getVBO()
    */
-  auto getIBO() -> gapi::BufferRef_t { return ibo_; }
+  auto getIBO() -> gapi::BufferRef_t { return ibuffer_; }
 
   auto getVertexLayout() -> gapi::VertexLayoutRef_t { return vlayout_; }
 
   auto getMaterial() -> MaterialRef_t { return material_; }
 
 private:
-  gapi::BufferRef_t vbo_;  // Объект буфера вершин.
-  gapi::BufferRef_t ibo_;  // Объект буфера индексов.
+  gapi::BufferRef_t vbuffer_;  // Объект буфера вершин.
+  gapi::BufferRef_t ibuffer_;  // Объект буфера индексов.
   gapi::VertexLayoutRef_t vlayout_;
   VertexDataRef_t vertexData_;
   MaterialRef_t material_;

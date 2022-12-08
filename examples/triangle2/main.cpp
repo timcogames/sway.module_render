@@ -20,16 +20,16 @@ public:
     subsystem_ = std::make_shared<graphics::RenderSubsystem>(plugname, this);
 
     gapi::ShaderCreateInfoSet shaderCreateInfoSet;
-    shaderCreateInfoSet.vs.type = gapi::ShaderType_t::kVertex;
+    shaderCreateInfoSet.vs.type = gapi::ShaderType_t::Vertex;
     shaderCreateInfoSet.vs.code = "attribute vec3 attr_position;"
                                   "attribute vec4 attr_color;"
-                                  "uniform mat4 projectionMat4f;"
+                                  "uniform mat4 projection_mat4f;"
                                   "varying vec4 color;"
                                   "void main() {"
-                                  "	gl_Position = projectionMat4f * vec4(attr_position, 1.0);"
+                                  "	gl_Position = projection_mat4f * vec4(attr_position, 1.0);"
                                   "	color = attr_color;"
                                   "}";
-    shaderCreateInfoSet.fs.type = gapi::ShaderType_t::kFragment;
+    shaderCreateInfoSet.fs.type = gapi::ShaderType_t::Fragment;
     shaderCreateInfoSet.fs.code = "varying vec4 color;"
                                   "void main() {"
                                   "	gl_FragColor = color;"
@@ -37,9 +37,10 @@ public:
 
     auto subqueue = std::make_shared<graphics::RenderSubqueue>();
     material_ = std::make_shared<graphics::Material>(shaderCreateInfoSet);
-    auto staticMesh = std::make_shared<graphics::StaticMesh>(subqueue, material_);
+    auto staticMesh = std::make_shared<graphics::StaticMesh>(
+        subqueue, std::make_shared<graphics::primitives::Quad>(0.5, 0.5), material_);
     auto queue = subsystem_->createQueue();
-    queue->setPriority(core::intrusive::kPriority_High);
+    queue->setPriority(core::intrusive::Priority_High);
     queue->addSubqueue(subqueue);
   }
 
@@ -89,7 +90,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     projectionMatrix.set(3, 0, -(right + left) / (right - left));
     projectionMatrix.set(3, 1, -(top + bottom) / (top - bottom));
     projectionMatrix.set(3, 2, -((farPlane + nearPlane) / (farPlane - nearPlane)));
-    rendersystemContext->getMaterial()->getShaderProgram()->setUniformMat4f("projectionMat4f", projectionMatrix);
+    rendersystemContext->getMaterial()->getShaderProgram()->setUniformMat4f("projection_mat4f", projectionMatrix);
 
     rendersystemContext->drawFrame();
 

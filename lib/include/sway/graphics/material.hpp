@@ -11,6 +11,7 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] infoSet Первоначальная информация о материале.
    */
   Material(const gapi::ShaderCreateInfoSet &infoSet);

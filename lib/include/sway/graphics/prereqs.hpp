@@ -31,7 +31,6 @@ class RenderSubsystem;
 
 typedef std::shared_ptr<class IVertexChannelBase> VertexChannelRef_t;
 typedef std::map<gapi::VertexSemantic_t, VertexChannelRef_t> VertexChannelRefMap_t;
-typedef std::vector<u32_t> IndexVec_t;
 
 typedef std::shared_ptr<class VertexData> VertexDataRef_t;
 typedef std::shared_ptr<class StaticMesh> StaticMeshRef_t;

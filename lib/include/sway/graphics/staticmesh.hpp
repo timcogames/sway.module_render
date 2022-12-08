@@ -12,7 +12,7 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  StaticMesh(RenderSubqueueRef_t subqueue, MaterialRef_t material);
+  StaticMesh(RenderSubqueueRef_t subqueue, VertexDataRef_t vtxdata, MaterialRef_t material);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -20,7 +20,7 @@ public:
   ~StaticMesh() = default;
 
 private:
-  VertexDataRef_t vertexData_;
+  VertexDataRef_t vtxdata_;
 };
 
 NAMESPACE_END(graphics)

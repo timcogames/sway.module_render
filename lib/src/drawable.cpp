@@ -8,8 +8,8 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 Drawable::Drawable(MaterialRef_t material, bool indexed)
-    : vbo_(nullptr)
-    , ibo_(nullptr)
+    : vbuffer_(nullptr)
+    , ibuffer_(nullptr)
     , vlayout_(nullptr)
     , material_(material)
     , indexed_(indexed) {}
@@ -17,12 +17,14 @@ Drawable::Drawable(MaterialRef_t material, bool indexed)
 void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet &infoSet) {
   auto *pluginFuncSet = global::getGapiFunctionSet();
 
+  auto idQueue = pluginFuncSet->createBufferIdQueue();
+
   if (infoSet.vb.data != nullptr) {
-    vbo_ = pluginFuncSet->createBuffer(infoSet.vb);
+    vbuffer_ = pluginFuncSet->createBuffer(idQueue, infoSet.vb);
   }
 
   if (infoSet.ib.data != nullptr && indexed_) {
-    ibo_ = pluginFuncSet->createBuffer(infoSet.ib);
+    ibuffer_ = pluginFuncSet->createBuffer(idQueue, infoSet.ib);
   }
 
   vlayout_ = pluginFuncSet->createVertexLayout(material_->getShaderProgram());

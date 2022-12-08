@@ -27,7 +27,7 @@ public:
   PURE_VIRTUAL(auto getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor);  // clang-format on
 };
 
-template <typename TYPE>
+template <typename TAttributeFormatType>
 class TVertexChannel : public IVertexChannelBase {
 public:
   /**
@@ -47,10 +47,13 @@ public:
   MTHD_OVERRIDE(auto getData(u32_t idx) const -> f32_t);  // clang-format on
 
   // clang-format off
-  MTHD_OVERRIDE(auto getVertCount() const -> s32_t);  // clang-format on
-
+  MTHD_OVERRIDE(auto getVertCount() const -> s32_t) {  // clang-format on
+    return vertexCount_;
+  }
   // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor);  // clang-format on
+  MTHD_OVERRIDE(auto getVertexAttribDescriptor() -> gapi::VertexAttributeDescriptor) {  // clang-format on
+    return descriptor_;
+  }
 
 private:
   void reallocate_(s32_t &capacity) {

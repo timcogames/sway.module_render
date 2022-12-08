@@ -19,6 +19,7 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] priority Приоритет очереди.
    */
   RenderQueue(u32_t priority);
@@ -30,6 +31,7 @@ public:
 
   /**
    * @brief Добавляет подочередь @ref RenderSubqueue в группу.
+   *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
    * @sa removeSubqueue(const RenderSubqueueRef_t &)
    */
@@ -37,6 +39,7 @@ public:
 
   /**
    * @brief Удаляет подочередь @ref RenderSubqueue из группы.
+   *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
    * @sa addSubqueue(const RenderSubqueueRef_t &)
    */
@@ -44,18 +47,21 @@ public:
 
   /**
    * @brief Получает коллекцию подочередей.
+   *
    * @param[in] group Группа подочереди.
    */
   auto getSubqueues(RenderSubqueueGroup_t group) -> RenderSubqueueRefVec_t &;
 
   /**
    * @brief Устанавливает значение приоритета.
+   *
    * @sa getPriority() const
    */
   void setPriority(u32_t priority) { priority_ = priority; }
 
   /**
    * @brief Получает значение приоритета.
+   *
    * @sa setPriority(u32_t)
    */
   auto getPriority() const -> u32_t { return priority_; }

@@ -12,6 +12,7 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] group Группа подочереди.
    */
   RenderSubqueue(RenderSubqueueGroup_t group = RenderSubqueueGroup_t::kOpaque);
@@ -20,6 +21,7 @@ public:
 
   /**
    * @brief Добавляет отрисовываемый объект.
+   *
    * @param[in] drawable Отрисовываемый объект.
    */
   void addDrawable(DrawableRef_t drawable);
@@ -31,6 +33,7 @@ public:
 
   /**
    * @brief Устанавливает группу подочереди.
+   *
    * @param[in] group Группа подочереди.
    */
   void setGroup(RenderSubqueueGroup_t group) { group_ = group; }

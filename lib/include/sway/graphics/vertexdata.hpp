@@ -19,6 +19,7 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] count Количество вершин.
    */
   VertexData(u32_t count);
@@ -40,14 +41,14 @@ public:
 
   void addIndex(u32_t index);
 
-  auto getIndices() -> IndexVec_t & { return indices_; }
+  auto getIndices() -> std::vector<u32_t> & { return indices_; }
 
   auto getIndexCount() const -> u32_t { return indices_.size(); }
 
 private:
   VertexChannelRefMap_t channels_;
   u32_t vertexCount_;
-  IndexVec_t indices_;
+  std::vector<u32_t> indices_;
 };
 
 #include <sway/graphics/vertexdata.inl>

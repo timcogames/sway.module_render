@@ -19,6 +19,7 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] context Контекст подсистемы.
    */
   RenderSubsystem(const std::string &plugname, core::foundation::Context *context);
@@ -30,13 +31,15 @@ public:
 
   /**
    * @brief Создает новую очередь и добавляет её в контейнер.
+   *
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto createQueue(u32_t priority = core::intrusive::kPriority_Normal) -> RenderQueueRef_t;
+  auto createQueue(u32_t priority = core::intrusive::Priority_Normal) -> RenderQueueRef_t;
 
   /**
    * @brief Получает очередь по индексу.
+   *
    * @param[in] index Индекс очереди.
    * @return Умный указатель на объект класса очереди.
    */

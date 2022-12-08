@@ -12,33 +12,27 @@ VertexData::VertexData()
 VertexData::VertexData(u32_t count)
     : vertexCount_(count) {}
 
-void *VertexData::getRaw() {
+auto VertexData::getRaw() -> void * {
   void *dataArray = (void *)malloc(sizeof(math::VertexColor) * getVertexCount());
 
   u32_t offset = 0;
   for (int i = 0; i < getVertexCount(); ++i) {
-    auto posAttribDescriptor = getChannel(gapi::VertexSemantic_t::kPosition)->getVertexAttribDescriptor();
+    auto posAttribDescriptor = getChannel(gapi::VertexSemantic_t::Position)->getVertexAttribDescriptor();
     for (int num = 0; num < posAttribDescriptor.numComponents; ++num) {
       *((f32_t *)dataArray + offset + num) =
-          getChannel(gapi::VertexSemantic_t::kPosition)->getData(posAttribDescriptor.numComponents * i + num);
+          getChannel(gapi::VertexSemantic_t::Position)->getData(posAttribDescriptor.numComponents * i + num);
     }
 
     offset += posAttribDescriptor.numComponents;
 
-    auto colAttribDescriptor = getChannel(gapi::VertexSemantic_t::kColor)->getVertexAttribDescriptor();
+    auto colAttribDescriptor = getChannel(gapi::VertexSemantic_t::Color)->getVertexAttribDescriptor();
     for (int num = 0; num < colAttribDescriptor.numComponents; ++num) {
       *((f32_t *)dataArray + offset + num) =
-          getChannel(gapi::VertexSemantic_t::kColor)->getData(colAttribDescriptor.numComponents * i + num);
+          getChannel(gapi::VertexSemantic_t::Color)->getData(colAttribDescriptor.numComponents * i + num);
     }
 
     offset += colAttribDescriptor.numComponents;
   }
-
-  // auto data = (f32_t *)dataArray;
-  // printf("{%f, %f, %f}\n", data[ 0], data[ 1], data[ 2]);
-  // printf("{%f, %f, %f}\n", data[ 7], data[ 8], data[ 9]);
-  // printf("{%f, %f, %f}\n", data[14], data[15], data[16]);
-  // printf("{%f, %f, %f}\n", data[21], data[22], data[23]);
 
   return dataArray;
 }
