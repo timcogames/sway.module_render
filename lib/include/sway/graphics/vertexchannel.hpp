@@ -8,12 +8,12 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-class IVertexChannelBase {
+class VertexChannel {
 public:
   /**
    * @brief Виртуальный деструктор класса.
    */
-  virtual ~IVertexChannelBase() = default;
+  virtual ~VertexChannel() = default;
 
   PURE_VIRTUAL(void addAnyData(f32_t *data, int &capacity));
 
@@ -28,18 +28,18 @@ public:
 };
 
 template <typename TAttributeFormatType>
-class TVertexChannel : public IVertexChannelBase {
+class GeometryVertexChannel : public VertexChannel {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  TVertexChannel(gapi::VertexSemantic_t semantic, std::size_t reserve = 8);
+  GeometryVertexChannel(gapi::VertexSemantic_t semantic, std::size_t reserve = 8);
 
   /**
    * @brief Деструктор класса.
    */
-  virtual ~TVertexChannel() = default;
+  virtual ~GeometryVertexChannel() = default;
 
   MTHD_OVERRIDE(void addAnyData(f32_t *data, int &capacity));
 

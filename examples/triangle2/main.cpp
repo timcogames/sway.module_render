@@ -4,6 +4,7 @@
 #include <sway/glx11/xscreenconnection.hpp>
 #include <sway/graphics.hpp>
 #include <sway/math.hpp>
+#include <sway/math/extensions/projection.hpp>
 
 #include <memory>  // std::shared_ptr, std::make_shared
 
@@ -20,7 +21,7 @@ public:
     subsystem_ = std::make_shared<graphics::RenderSubsystem>(plugname, this);
 
     gapi::ShaderCreateInfoSet shaderCreateInfoSet;
-    shaderCreateInfoSet.vs.type = gapi::ShaderType_t::Vertex;
+    shaderCreateInfoSet.vs.type = gapi::ShaderType::VERTEX;
     shaderCreateInfoSet.vs.code = "attribute vec3 attr_position;"
                                   "attribute vec4 attr_color;"
                                   "uniform mat4 projection_mat4f;"
@@ -29,19 +30,19 @@ public:
                                   "	gl_Position = projection_mat4f * vec4(attr_position, 1.0);"
                                   "	color = attr_color;"
                                   "}";
-    shaderCreateInfoSet.fs.type = gapi::ShaderType_t::Fragment;
+    shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAGMENT;
     shaderCreateInfoSet.fs.code = "varying vec4 color;"
                                   "void main() {"
                                   "	gl_FragColor = color;"
                                   "}";
 
-    auto subqueue = std::make_shared<graphics::RenderSubqueue>();
+    subqueue_ = std::make_shared<graphics::RenderSubqueue>();
     material_ = std::make_shared<graphics::Material>(shaderCreateInfoSet);
     auto staticMesh = std::make_shared<graphics::StaticMesh>(
-        subqueue, std::make_shared<graphics::primitives::Quad>(0.5, 0.5), material_);
+        subqueue_, std::make_shared<graphics::primitives::Quad>(0.5, 0.5), material_);
     auto queue = subsystem_->createQueue();
     queue->setPriority(core::intrusive::Priority_High);
-    queue->addSubqueue(subqueue);
+    queue->addSubqueue(subqueue_);
   }
 
   virtual ~RenderSubsystemContext() = default;
@@ -52,6 +53,7 @@ public:
 
 private:
   std::shared_ptr<graphics::RenderSubsystem> subsystem_;
+  std::shared_ptr<graphics::RenderSubqueue> subqueue_;
   std::shared_ptr<graphics::Material> material_;
 };
 
@@ -75,22 +77,12 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   while (canvas->eventLoop(true)) {
     canvas->getContext()->makeCurrent();
 
-    math::mat4f_t projectionMatrix;
-    projectionMatrix.makeIdentity();
     float const aspectRatio = 1.0;
-    float const right = -1 * aspectRatio;
-    float const left = 1 * aspectRatio;
-    float const top = -1;
-    float const bottom = 1;
-    float const farPlane = 100.0;
-    float const nearPlane = 0.0;
-    projectionMatrix.set(0, 0, 2.0 / (right - left));
-    projectionMatrix.set(1, 1, 2.0 / (top - bottom));
-    projectionMatrix.set(2, 2, -(2.0) / (farPlane - nearPlane));
-    projectionMatrix.set(3, 0, -(right + left) / (right - left));
-    projectionMatrix.set(3, 1, -(top + bottom) / (top - bottom));
-    projectionMatrix.set(3, 2, -((farPlane + nearPlane) / (farPlane - nearPlane)));
-    rendersystemContext->getMaterial()->getShaderProgram()->setUniformMat4f("projection_mat4f", projectionMatrix);
+
+    math::Projection projection;
+    math::mat4f_t projmat = projection.ortho(1.0 * aspectRatio, -1.0, -1.0 * aspectRatio, 1.0, 0.0, 100.0);
+
+    rendersystemContext->getMaterial()->getShaderProgram()->setUniformMat4f("projection_mat4f", projmat);
 
     rendersystemContext->drawFrame();
 

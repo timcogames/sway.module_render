@@ -17,9 +17,6 @@ public:
    */
   Quad(f32_t width, f32_t height);
 
-  /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
-   */
   virtual ~Quad() = default;
 };
 

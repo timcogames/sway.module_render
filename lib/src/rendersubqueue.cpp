@@ -6,7 +6,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-RenderSubqueue::RenderSubqueue(RenderSubqueueGroup_t group)
+RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
     : group_(group) {
   drawCall_ = global::getGapiFunctionSet()->createDrawCall();
 }
@@ -26,7 +26,7 @@ void RenderSubqueue::render() {
     drawable->getVertexLayout()->enable();
 
     if (drawCall_) {
-      drawCall_->execute(gapi::TopologyType_t::TriangleList, bufset, core::ValueDataType::UInt);
+      drawCall_->execute(drawable->getTopology(), bufset, core::ValueDataType::UInt);
     }
 
     drawable->getVertexLayout()->disable();

@@ -33,17 +33,17 @@ BOOST_AUTO_TEST_CASE(RenderSubsystemFixture_TestCase) {
   auto queue_h = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
   queue_h->setPriority(core::intrusive::kPriority_High);
   queue_h->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
-  auto subqueueGroup_h = queue_h->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
+  auto subqueueGroup_h = queue_h->getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT);
 
   auto queue_l = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
   queue_l->setPriority(core::intrusive::kPriority_Low);
   queue_l->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
-  auto subqueueGroup_l = queue_l->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
+  auto subqueueGroup_l = queue_l->getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT);
 
   auto queue_n = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->createQueue();
   queue_n->setPriority(core::intrusive::kPriority_Normal);
   queue_n->addSubqueue(std::make_shared<graphics::RenderSubqueue>());
-  auto subqueueGroup_n = queue_n->getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
+  auto subqueueGroup_n = queue_n->getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT);
 
   auto unsortedQueues = static_cast<graphics::RenderSubsystem *>(getObject("RenderSubsystem"))->getQueues();
   BOOST_CHECK_EQUAL(unsortedQueues.size(), size_t(3));

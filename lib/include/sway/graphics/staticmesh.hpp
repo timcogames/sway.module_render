@@ -14,9 +14,6 @@ public:
    */
   StaticMesh(RenderSubqueueRef_t subqueue, VertexDataRef_t vtxdata, MaterialRef_t material);
 
-  /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
-   */
   ~StaticMesh() = default;
 
 private:

@@ -25,7 +25,8 @@ public:
   RenderQueue(u32_t priority);
 
   /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
+   * @brief Деструктор класса.
+   *        Освобождает захваченные ресурсы.
    */
   ~RenderQueue();
 
@@ -50,7 +51,7 @@ public:
    *
    * @param[in] group Группа подочереди.
    */
-  auto getSubqueues(RenderSubqueueGroup_t group) -> RenderSubqueueRefVec_t &;
+  auto getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueRefVec_t &;
 
   /**
    * @brief Устанавливает значение приоритета.

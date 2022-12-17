@@ -22,18 +22,18 @@ public:
    *
    * @param[in] count Количество вершин.
    */
-  VertexData(u32_t count);
+  VertexData(s32_t count);
 
   ~VertexData() = default;
 
-  template <typename TYPE>
+  template <typename TAttributeFormatType>
   auto createChannel(gapi::VertexSemantic_t semantic, u32_t count) -> VertexChannelRef_t;
 
   auto getChannels() -> VertexChannelRefMap_t { return channels_; }
 
   auto getChannel(gapi::VertexSemantic_t semantic) -> VertexChannelRef_t { return channels_[semantic]; }
 
-  auto getVertexCount() const -> u32_t { return vertexCount_; }
+  [[nodiscard]] auto getVertexCount() const -> s32_t { return vertexCount_; }
 
   auto getRaw() -> void *;
 
@@ -43,11 +43,11 @@ public:
 
   auto getIndices() -> std::vector<u32_t> & { return indices_; }
 
-  auto getIndexCount() const -> u32_t { return indices_.size(); }
+  [[nodiscard]] auto getIndexCount() const -> u32_t { return indices_.size(); }
 
 private:
   VertexChannelRefMap_t channels_;
-  u32_t vertexCount_;
+  s32_t vertexCount_;
   std::vector<u32_t> indices_;
 };
 

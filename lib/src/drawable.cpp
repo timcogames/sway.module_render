@@ -7,31 +7,34 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-Drawable::Drawable(MaterialRef_t material, bool indexed)
-    : vbuffer_(nullptr)
+Drawable::Drawable(const GeometryCreateInfo &info, MaterialRef_t material, bool indexed)
+    : geometryCreateInfo_(info)
+    , vbuffer_(nullptr)
     , ibuffer_(nullptr)
     , vlayout_(nullptr)
     , material_(material)
     , indexed_(indexed) {}
 
-void Drawable::create(VertexDataRef_t vertexData, const gapi::BufferCreateInfoSet &infoSet) {
+void Drawable::create(VertexDataRef_t vertexData) {
   auto *pluginFuncSet = global::getGapiFunctionSet();
 
-  auto idQueue = pluginFuncSet->createBufferIdQueue();
+  idGenerator_ = pluginFuncSet->createIdGenerator();
 
-  if (infoSet.vb.data != nullptr) {
-    vbuffer_ = pluginFuncSet->createBuffer(idQueue, infoSet.vb);
+  if (geometryCreateInfo_.vb.data != nullptr) {
+    vbuffer_ = pluginFuncSet->createBuffer(idGenerator_, geometryCreateInfo_.vb);
   }
 
-  if (infoSet.ib.data != nullptr && indexed_) {
-    ibuffer_ = pluginFuncSet->createBuffer(idQueue, infoSet.ib);
+  if (geometryCreateInfo_.ib.data != nullptr && indexed_) {
+    ibuffer_ = pluginFuncSet->createBuffer(idGenerator_, geometryCreateInfo_.ib);
   }
 
-  vlayout_ = pluginFuncSet->createVertexLayout(material_->getShaderProgram());
+  vlayout_ = pluginFuncSet->createVertexAttribLayout(material_->getShaderProgram());
   for (const auto &channel : vertexData->getChannels()) {
     vlayout_->addAttribute(channel.second->getVertexAttribDescriptor());
   }
 }
+
+auto Drawable::getTopology() const -> gapi::TopologyType { return geometryCreateInfo_.topology; }
 
 NAMESPACE_END(graphics)
 NAMESPACE_END(sway)

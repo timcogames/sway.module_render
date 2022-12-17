@@ -53,25 +53,25 @@ BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Setters) {
 BOOST_AUTO_TEST_CASE(RenderQueue_TestCase_Subqueues) {
   graphics::RenderSubqueueRefVec_t opaqueGroup, transparentGroup;
 
-  BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque).empty());
+  BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup::OPAQUE).empty());
 
   addSubqueue(std::make_shared<graphics::RenderSubqueue>());
   addSubqueue(std::make_shared<graphics::RenderSubqueue>());
-  opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque);
+  opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup::OPAQUE);
   BOOST_CHECK_EQUAL(opaqueGroup.size(), 2);
 
   removeSubqueue(opaqueGroup[0]);
-  opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kOpaque);
+  opaqueGroup = getSubqueues(graphics::RenderSubqueueGroup::OPAQUE);
   BOOST_CHECK_EQUAL(opaqueGroup.size(), 1);
 
-  BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent).empty());
+  BOOST_CHECK(getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT).empty());
 
-  addSubqueue(std::make_shared<graphics::RenderSubqueue>(graphics::RenderSubqueueGroup_t::kTransparent));
-  transparentGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
+  addSubqueue(std::make_shared<graphics::RenderSubqueue>(graphics::RenderSubqueueGroup::TRANSPARENT));
+  transparentGroup = getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT);
   BOOST_CHECK_EQUAL(transparentGroup.size(), 1);
 
   removeSubqueue(transparentGroup[0]);
-  transparentGroup = getSubqueues(graphics::RenderSubqueueGroup_t::kTransparent);
+  transparentGroup = getSubqueues(graphics::RenderSubqueueGroup::TRANSPARENT);
   BOOST_CHECK_EQUAL(transparentGroup.size(), 0);
 }
 

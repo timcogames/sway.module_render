@@ -1,6 +1,6 @@
 # sway.module_graphics
 
-[![Build Status][travis-svg]][travis-url] [![codecov][codecov-svg]][codecov-url] [![BCH compliance][bettercodehub-svg]][bettercodehub-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
+[![codecov][codecov-svg]][codecov-url] [![BCH compliance][bettercodehub-svg]][bettercodehub-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
 ## Клонирование проекта
 
@@ -41,8 +41,6 @@ cmake --build ./
 
 См. [CONTRIBUTING](./github/CONTRIBUTING.md)
 
-[travis-svg]: https://travis-ci.com/timcogames/sway.module_graphics.svg?branch=master
-[travis-url]: https://travis-ci.com/timcogames/sway.module_graphics
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_graphics/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/timcogames/sway.module_graphics
 [bettercodehub-svg]: https://bettercodehub.com/edge/badge/timcogames/sway.module_graphics?branch=master

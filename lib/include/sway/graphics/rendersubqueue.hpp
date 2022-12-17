@@ -15,7 +15,7 @@ public:
    *
    * @param[in] group Группа подочереди.
    */
-  RenderSubqueue(RenderSubqueueGroup_t group = RenderSubqueueGroup_t::kOpaque);
+  RenderSubqueue(RenderSubqueueGroup group = RenderSubqueueGroup::OPAQUE);
 
   ~RenderSubqueue() = default;
 
@@ -36,17 +36,17 @@ public:
    *
    * @param[in] group Группа подочереди.
    */
-  void setGroup(RenderSubqueueGroup_t group) { group_ = group; }
+  void setGroup(RenderSubqueueGroup group) { group_ = group; }
 
   /**
    * @brief Получает группу подочереди.
    */
-  auto getGroup() const -> RenderSubqueueGroup_t { return group_; }
+  [[nodiscard]] auto getGroup() const -> RenderSubqueueGroup { return group_; }
 
 private:
   gapi::DrawCallRef_t drawCall_;
   DrawableRefVec_t drawables_;
-  RenderSubqueueGroup_t group_;  // Группа подочереди.
+  RenderSubqueueGroup group_;  // Группа подочереди.
 };
 
 NAMESPACE_END(graphics)

@@ -17,9 +17,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
-class IVertexChannelBase;
+class VertexChannel;
 template <typename TYPE>
-class TVertexChannel;
+class GeometryVertexChannel;
 class VertexData;
 class StaticMesh;
 class Material;
@@ -29,7 +29,7 @@ class RenderSubqueue;
 class RenderQueue;
 class RenderSubsystem;
 
-typedef std::shared_ptr<class IVertexChannelBase> VertexChannelRef_t;
+typedef std::shared_ptr<class VertexChannel> VertexChannelRef_t;
 typedef std::map<gapi::VertexSemantic_t, VertexChannelRef_t> VertexChannelRefMap_t;
 
 typedef std::shared_ptr<class VertexData> VertexDataRef_t;

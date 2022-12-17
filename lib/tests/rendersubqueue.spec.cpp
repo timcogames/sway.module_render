@@ -17,8 +17,8 @@ BOOST_AUTO_TEST_SUITE(RenderSubqueue_TestSuite)
  *    которые были заданы.
  */
 BOOST_AUTO_TEST_CASE(RenderSubqueue_TestCase_ComponentConstructor) {
-  graphics::RenderSubqueue subqueue(graphics::RenderSubqueueGroup_t::kTransparent);
-  BOOST_CHECK(subqueue.getGroup() == graphics::RenderSubqueueGroup_t::kTransparent);
+  graphics::RenderSubqueue subqueue(graphics::RenderSubqueueGroup::TRANSPARENT);
+  BOOST_CHECK(subqueue.getGroup() == graphics::RenderSubqueueGroup::TRANSPARENT);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -34,7 +34,7 @@ BOOST_FIXTURE_TEST_SUITE(RenderSubqueue_FixtureTestSuite, graphics::RenderSubque
  *    Убеждаемся, что конструктор приводит свойства к значению по умолчанию.
  */
 BOOST_AUTO_TEST_CASE(RenderSubqueue_TestCase_DefaultConstructor) {
-  BOOST_CHECK(getGroup() == graphics::RenderSubqueueGroup_t::kOpaque);
+  BOOST_CHECK(getGroup() == graphics::RenderSubqueueGroup::OPAQUE);
 }
 
 /*!
@@ -42,8 +42,8 @@ BOOST_AUTO_TEST_CASE(RenderSubqueue_TestCase_DefaultConstructor) {
  *    Убеждаемся, что установка всех свойств подочереди проходит правильно.
  */
 BOOST_AUTO_TEST_CASE(RenderSubqueue_TestCase_Setters) {
-  setGroup(graphics::RenderSubqueueGroup_t::kTransparent);
-  BOOST_CHECK(getGroup() == graphics::RenderSubqueueGroup_t::kTransparent);
+  setGroup(graphics::RenderSubqueueGroup::TRANSPARENT);
+  BOOST_CHECK(getGroup() == graphics::RenderSubqueueGroup::TRANSPARENT);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

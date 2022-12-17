@@ -67,7 +67,7 @@ public:
   MTHD_OVERRIDE(void shutdown()) {}
 
 private:
-  void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group);
+  void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group);
 
   gapi::CapabilityRef_t capability_;
   RenderQueueRefVector_t queues_;  // Контейнер очередей.

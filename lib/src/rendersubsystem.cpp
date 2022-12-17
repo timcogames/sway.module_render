@@ -47,12 +47,12 @@ void RenderSubsystem::sortQueues() {
 
 void RenderSubsystem::render() {
   for (auto &queue : queues_) {
-    renderSubqueues_(queue, RenderSubqueueGroup_t::kOpaque);
-    renderSubqueues_(queue, RenderSubqueueGroup_t::kTransparent);
+    renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE);
+    renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT);
   }
 }
 
-void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup_t group) {
+void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group) {
   const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;

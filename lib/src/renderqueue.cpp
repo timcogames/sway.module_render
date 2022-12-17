@@ -25,7 +25,7 @@ void RenderQueue::removeSubqueue(const RenderSubqueueRef_t &subqueue) {
   getSubqueues(subqueue->getGroup()).erase(std::remove(items.begin(), items.end(), subqueue), items.end());
 }
 
-auto RenderQueue::getSubqueues(RenderSubqueueGroup_t group) -> RenderSubqueueRefVec_t & {
+auto RenderQueue::getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueRefVec_t & {
   return subqueues_[core::detail::toUnderlying(group)];
 }
 
