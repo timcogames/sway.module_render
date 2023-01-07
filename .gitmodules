@@ -7,9 +7,9 @@
 [submodule "submodules/sway.module_gapi"]
 	path = submodules/sway.module_gapi
 	url = https://github.com/timcogames/sway.module_gapi.git
-[submodule "submodules/sway.module_gapi-gl"]
-	path = submodules/sway.module_gapi-gl
-	url = https://github.com/timcogames/sway.module_gapi-gl.git
 [submodule "submodules/sway.module_platform-glx11"]
 	path = submodules/sway.module_platform-glx11
 	url = https://github.com/timcogames/sway.module_platform-glx11.git
+[submodule "submodules/sway.module_render"]
+	path = submodules/sway.module_render
+	url = https://github.com/timcogames/sway.module_render.git

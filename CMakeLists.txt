@@ -105,16 +105,12 @@ if (MODULE_GRAPHICS_ENABLE_EXAMPLES)
     add_subdirectory("submodules/sway.module_gapi-gl")
   endif ()
 
-  add_subdirectory("examples/triangle2")
+  add_subdirectory("examples/prims")
 endif ()
 
 # Добавляем построение тестов
 if (MODULE_GRAPHICS_ENABLE_TESTS)
   message(STATUS "Tests have been enabled")
-
-  if (NOT TARGET libmodule_gapi_dummy)
-    add_subdirectory("submodules/sway.module_gapi-dummy")
-  endif ()
 
   add_subdirectory(tests)
 endif ()
