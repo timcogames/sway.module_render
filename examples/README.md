@@ -13,5 +13,5 @@ cmake --build ./
 #### Запускаем приложение
 
 ```console
-./../bin/libmodule_graphics_examples_geometry
+./../bin/libmodule_graphics_examples_material
 ```

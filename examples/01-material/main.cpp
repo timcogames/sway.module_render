@@ -2,6 +2,7 @@
 #include <sway/gapi.hpp>
 #include <sway/glx11/canvas.hpp>
 #include <sway/glx11/xscreenconnection.hpp>
+#include <sway/graphics.hpp>
 #include <sway/math.hpp>
 #include <sway/math/extensions/projection.hpp>
 #include <sway/render.hpp>
@@ -19,26 +20,11 @@ public:
 
     subsystem_ = std::make_shared<render::RenderSubsystem>(plugname, this);
 
-    gapi::ShaderCreateInfoSet shaderCreateInfoSet;
-    shaderCreateInfoSet.vs.type = gapi::ShaderType::VERT;
-    shaderCreateInfoSet.vs.code = "attribute vec3 attrib_pos;"
-                                  "attribute vec4 attrib_col;"
-                                  "uniform mat4 proj_mat;"
-                                  "varying vec4 color;"
-                                  "void main() {"
-                                  "	gl_Position = proj_mat * vec4(attrib_pos, 1.0);"
-                                  "	color = attrib_col;"
-                                  "}";
-    shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAG;
-    shaderCreateInfoSet.fs.code = "varying vec4 color;"
-                                  "void main() {"
-                                  "	gl_FragColor = color;"
-                                  "}";
-
     subqueue_ = std::make_shared<render::RenderSubqueue>();
     subqueue_->initialize();
 
-    effect_ = std::make_shared<render::Effect>(shaderCreateInfoSet);
+    material_ = std::make_shared<graphics::Material>();
+    material_->loadEffect("");
     auto quad = std::make_shared<render::primitives::Quad>(math::size2f_t(0.5));
     auto quadData = quad->getGeometryData();
 
@@ -57,7 +43,7 @@ public:
     info.ib.desc.capacity = quadData->getIdxCount();
     info.ib.data = quadData->getIndices().data();
 
-    auto geometry = std::make_shared<render::Geometry>(subqueue_->getIdGenerator(), info, effect_, true);
+    auto geometry = std::make_shared<render::Geometry>(subqueue_->getIdGenerator(), info, material_->getEffect(), true);
     geometry->create(quadData);
     subqueue_->addGeometry(geometry);
 
@@ -70,12 +56,12 @@ public:
 
   void drawFrame() { subsystem_->render(); }
 
-  std::shared_ptr<render::Effect> getEffect() { return effect_; }
+  std::shared_ptr<graphics::Material> getMaterial() { return material_; }
 
 private:
   std::shared_ptr<render::RenderSubsystem> subsystem_;
   std::shared_ptr<render::RenderSubqueue> subqueue_;
-  std::shared_ptr<render::Effect> effect_;
+  std::shared_ptr<graphics::Material> material_;
 };
 
 enum { WindowSize_WD = 800, WindowSize_HT = 600 };
@@ -103,7 +89,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     math::Projection projection;
     math::mat4f_t projmat = projection.ortho(1.0 * aspectRatio, -1.0, -1.0 * aspectRatio, 1.0, 0.0, 100.0);
 
-    rendersystemContext->getEffect()->getShaderProgram()->setUniformMat4f("proj_mat", projmat);
+    rendersystemContext->getMaterial()->getEffect()->getShaderProgram()->setUniformMat4f("proj_mat", projmat);
 
     rendersystemContext->drawFrame();
 
