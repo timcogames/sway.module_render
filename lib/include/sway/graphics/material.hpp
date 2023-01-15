@@ -4,19 +4,23 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render.hpp>
+#include <sway/rms.hpp>
+
+#include <memory>
+#include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(graphics)
 
 class Material {
 public:
-  Material();
+  Material(std::shared_ptr<rms::ResourceManagerSystem> resmgr);
 
   ~Material() = default;
 
-  auto loadImage(const std::string &resourceName) -> bool;
+  auto loadImage(const std::string &name) -> bool;
 
-  auto loadEffect(const std::string &resourceName) -> bool;
+  auto loadEffect(const std::string &name) -> bool;
 
   void bind();
 
@@ -25,7 +29,9 @@ public:
   std::shared_ptr<render::Effect> getEffect() { return effect_; }
 
 private:
+  std::shared_ptr<rms::ResourceManagerSystem> resmgr_;
   std::shared_ptr<render::Effect> effect_;
+  std::vector<std::shared_ptr<render::Image>> images_;
 
   math::col4f_t ambient_;
   math::col4f_t diffuse_;

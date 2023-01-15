@@ -16,3 +16,6 @@
 [submodule "submodules/sway.module_rms"]
 	path = submodules/sway.module_rms
 	url = https://github.com/timcogames/sway.module_rms.git
+[submodule "submodules/sway.module_loader"]
+	path = submodules/sway.module_loader
+	url = https://github.com/timcogames/sway.module_loader.git

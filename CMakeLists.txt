@@ -52,6 +52,8 @@ include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_core/lib/incl
 include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_math/lib/include")
 include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_gapi/include")
 include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_render/lib/include")
+include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_loader/include")
+include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_rms/lib/include")
 
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
@@ -91,6 +93,10 @@ if (MODULE_GRAPHICS_ENABLE_EXAMPLES OR ENABLE_TESTS)
   if (NOT TARGET libmodule_render)
     add_subdirectory("submodules/sway.module_render")
   endif ()
+
+  if (NOT TARGET libmodule_rms)
+  add_subdirectory("submodules/sway.module_rms")
+endif ()
 endif ()
 
 # Добавляем построение примеров
