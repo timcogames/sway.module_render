@@ -40,6 +40,6 @@ TypenameMacros:
   - PURE_VIRTUAL
   - MTHD_OVERRIDE
   - DECLARE_EVENT
-  - TEST_F
   - TEST
+  - TEST_F
 AlwaysBreakTemplateDeclarations: true

@@ -17,6 +17,13 @@ auto Material::loadImage(const std::string &name) -> bool {
 
   auto image = std::make_shared<render::Image>(
       resource->getDescriptor().data, resource->getDescriptor().size.getW(), resource->getDescriptor().size.getH());
+
+  image->getTexture()->bind();
+  image->getTextureSampler()->setWrapMode(
+      gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
+  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+  image->getTexture()->unbind();
+
   images_.push_back(image);
 
   return true;
