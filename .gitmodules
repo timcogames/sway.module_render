@@ -10,9 +10,6 @@
 [submodule "submodules/sway.module_platform-glx11"]
 	path = submodules/sway.module_platform-glx11
 	url = https://github.com/timcogames/sway.module_platform-glx11.git
-[submodule "submodules/sway.module_render"]
-	path = submodules/sway.module_render
-	url = https://github.com/timcogames/sway.module_render.git
 [submodule "submodules/sway.module_rms"]
 	path = submodules/sway.module_rms
 	url = https://github.com/timcogames/sway.module_rms.git

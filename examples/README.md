@@ -1,7 +1,7 @@
 #### Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_GRAPHICS_ENABLE_EXAMPLES=ON ../
+cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_RENDER_ENABLE_EXAMPLES=ON ../
 ```
 
 #### Запускаем сборку
@@ -13,5 +13,5 @@ cmake --build ./
 #### Запускаем приложение
 
 ```console
-./../bin/libmodule_graphics_examples_material
+./../bin/libmodule_render_examples_material
 ```

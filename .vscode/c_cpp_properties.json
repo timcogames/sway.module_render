@@ -8,7 +8,6 @@
         "${workspaceFolder}/submodules/sway.module_math/lib/include",
         "${workspaceFolder}/submodules/sway.module_gapi/include",
         "${workspaceFolder}/submodules/sway.module_platform-glx11/lib/include",
-        "${workspaceFolder}/submodules/sway.module_render/lib/include",
         "${workspaceFolder}/submodules/sway.module_loader/include",
         "${workspaceFolder}/submodules/sway.module_rms/lib/include"
       ]

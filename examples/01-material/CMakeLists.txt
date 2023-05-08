@@ -1,16 +1,16 @@
 # Мета-информация о проекте
-set(META_GRAPHICS_EXAMPLE_PRJNAME "module_graphics_examples_material")
-set(META_GRAPGICS_EXAMPLE_LIBNAME "lib${META_GRAPHICS_EXAMPLE_PRJNAME}")
+set(META_RENDER_EXAMPLE_PRJNAME "module_render_examples_material")
+set(META_RENDER_EXAMPLE_LIBNAME "lib${META_RENDER_EXAMPLE_PRJNAME}")
 
-project(${META_GRAPHICS_EXAMPLE_PRJNAME} CXX)
+project(${META_RENDER_EXAMPLE_PRJNAME} CXX)
 
 set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories("${MODULE_GRAPHICS_DIR}/submodules/sway.module_platform-glx11/lib/include")
+include_directories("${MODULE_RENDER_DIR}/submodules/sway.module_platform-glx11/lib/include")
 
 # Получаем пути ко всем исходникам с тестами
-file(GLOB MODULE_GRAPHICS_SOURCE_EXAMPLES "${PROJECT_SOURCE_DIR}/*.cpp")
+file(GLOB MODULE_RENDER_SOURCE_EXAMPLES "${PROJECT_SOURCE_DIR}/*.cpp")
 
-add_executable(${META_GRAPGICS_EXAMPLE_LIBNAME} ${MODULE_GRAPHICS_SOURCE_EXAMPLES})
-target_link_libraries(${META_GRAPGICS_EXAMPLE_LIBNAME} libmodule_graphics libmodule_rms libmodule_render libmodule_platform_glx11 libmodule_core)
+add_executable(${META_RENDER_EXAMPLE_LIBNAME} ${MODULE_RENDER_SOURCE_EXAMPLES})
+target_link_libraries(${META_RENDER_EXAMPLE_LIBNAME} GLU libmodule_render libmodule_rms libmodule_pltf libmodule_core)
