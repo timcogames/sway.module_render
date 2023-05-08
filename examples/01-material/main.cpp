@@ -2,6 +2,7 @@
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
 #include <sway/math/extensions/projection.hpp>
+#include <sway/pltf.hpp>
 #include <sway/pltf/mac/dtpcanvas.hpp>
 #include <sway/pltf/mac/dtpscreenconnection.hpp>
 #include <sway/render/geometry.hpp>
@@ -12,46 +13,16 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-#include <chrono>  // std::chrono
 #include <memory>  // std::shared_ptr, std::make_shared
 #include <tuple>  // std::tuple
 
 using namespace sway;
-using namespace std::chrono;
-
-#define TIME_STEP (1. / 60)
-#define TIME_FRAME_BEG 0
-#define TIME_FRAME_END 1
-
-// using TimeFrame_t = std::tuple<time_point, time_point>;
-
-// class Timer {
-// public:
-//   Timer() {}
-
-//   ~Timer() = default;
-
-//   void start() {
-//     auto limit = duration_cast<system_clock::duration>(duration<f64_t>{TIME_STEP});
-//     timeframe_.set<TIME_FRAME_BEG>(system_clock::now());
-//     timeframe_.set<TIME_FRAME_END>(timeframe_.get<TIME_FRAME_BEG>() + limit);
-
-//     auto prevTime = time_point_cast<seconds>(timeframe_.get<TIME_FRAME_BEG>());
-//   }
-
-//   void stop() {}
-
-//   s64_t getInterval() {}
-
-// private:
-//   TimeFrame_t timeframe_;
-// };
 
 class RenderSubsystemContext : public core::foundation::Context {
 public:
   RenderSubsystemContext() {
     char path[PATH_MAX + 1];
-    strncpy(path, "/Users/apriori85/Documents/Projects/sway.module_graphics/bin", PATH_MAX);
+    strncpy(path, "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
     std::string const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", path);
 
     subsystem_ =
@@ -97,14 +68,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   auto resourceMngr = std::make_shared<rms::ResourceManagerSystem>();
   resourceMngr->registerImageProvider(
-      "/Users/apriori85/Documents/Projects/sway.module_graphics/bin/module_loader_png.dylib.0.1.0");
+      "/Users/apriori85/Documents/Projects/sway.module_render/bin/module_loader_png.dylib.0.1.0");
 
-  resourceMngr->loadImage("myimg", "/Users/apriori85/Documents/Projects/sway.module_graphics/bin/assets/img.png");
+  resourceMngr->loadImage("myimg", "/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/img.png");
 
   auto mtrl = std::make_shared<render::Material>("material", resourceMngr);
   mtrl->addImage("myimg");
-  mtrl->loadEffect({"/Users/apriori85/Documents/Projects/sway.module_graphics/bin/assets/dtp/shader.vs",
-      "/Users/apriori85/Documents/Projects/sway.module_graphics/bin/assets/dtp/shader.fs"});
+  mtrl->loadEffect({"/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/dtp/shader.vs",
+      "/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/dtp/shader.fs"});
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
@@ -115,11 +86,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   auto geom = std::make_shared<render::Geometry>(renderSubsystem->getIdGenerator(), mtrl->getEffect(), true);
   geom->create(quad);
 
-  auto prevTime = high_resolution_clock::now();
+  pltf::Timer timer;
+
   f32_t test = 0.0F;
   while (canvas->eventLoop(true)) {
-    auto currTime = high_resolution_clock::now();
-    f32_t dtime = duration<f32_t, seconds::period>(currTime - prevTime).count();
+    auto dtime = timer.started();
 
     test += 1.0F * dtime;
 
@@ -149,7 +120,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     canvas->getContext()->present();
     canvas->getContext()->doneCurrent();
 
-    prevTime = currTime;
+    timer.ended();
   }
 
   return 0;
