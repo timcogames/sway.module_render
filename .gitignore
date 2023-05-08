@@ -1,6 +1,12 @@
 # project output files
 /build
-/bin
+
+bin/*
+!bin/assets/
+
+bin/assets/*
+!bin/assets/web/
+!bin/assets/dtp/
 
 # osx noise
 .DS_Store
