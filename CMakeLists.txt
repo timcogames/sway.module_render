@@ -65,7 +65,7 @@ file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_DIR}/lib/include/*.*")
 file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_DIR}/lib/src/*.*")
 
 if (MODULE_RENDER_BUILD_SHARED)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
   # Добавляем в проект цель для сборки динамической библиотеки
   add_library(${META_RENDER_LIBNAME} SHARED ${MODULE_RENDER_SOURCES})
