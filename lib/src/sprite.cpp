@@ -16,7 +16,7 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geometry_->create(plane);
 }
 
-void Sprite::onUpdate(math::mat4f_t transform, math::mat4f_t proj, f32_t deltaTime) {
+void Sprite::onUpdate(math::mat4f_t transform, math::mat4f_t proj, [[maybe_unused]] f32_t deltaTime) {
   pipeline::ForwardRenderCommand command;
   command.geometry = geometry_;
   command.effect = material_->getEffect();
@@ -26,6 +26,16 @@ void Sprite::onUpdate(math::mat4f_t transform, math::mat4f_t proj, f32_t deltaTi
 
   subqueue_->post(command);
 }
+
+// clang-format off
+void Sprite::updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect) {
+  geometry_->updateUV({
+    {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+    {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+    {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()}
+  });
+}  // clang-format on
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

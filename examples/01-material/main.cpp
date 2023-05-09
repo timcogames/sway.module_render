@@ -79,8 +79,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
-  auto quad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
-      math::size2f_t(1.0F), math::col4f_t(1.0F, 0.0F, 0.0F));
+  auto quad =
+      std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(math::size2f_t(1.0F), COL4F_WHITE);
   quad->useVertexSemanticSet(quadSemantics);
 
   auto geom = std::make_shared<render::Geometry>(renderSubsystem->getIdGenerator(), mtrl->getEffect(), true);

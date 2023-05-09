@@ -7,32 +7,17 @@
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/prims/plane.hpp>
+#include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
-#include <sway/render/spriteboundingbox.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-class Component : public core::foundation::Object {
+class Sprite : public RenderComponent {
 public:
-  DECLARE_CLASS_METADATA(Component, core::foundation::Object)
-
-  // PURE_VIRTUAL(void onAwake());
-
-  // PURE_VIRTUAL(void onStart());
-
-  // PURE_VIRTUAL(void onUpdate(f32_t dtime));
-
-  PURE_VIRTUAL(void onUpdate(math::mat4f_t transform, math::mat4f_t proj, f32_t deltaTime));
-
-  // PURE_VIRTUAL(void onDestroy());
-};
-
-class Sprite : public Component {
-public:
-  DECLARE_CLASS_METADATA(Sprite, Component)
+  DECLARE_CLASS_METADATA(Sprite, RenderComponent)
 
   Sprite() = default;
 
@@ -43,17 +28,9 @@ public:
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t transform, math::mat4f_t proj, f32_t deltaTime));
 
-  // clang-format off
-  void updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect) {
-    geometry_->updateUV({
-      {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-      {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-      {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-      {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()}
-    });
-  }  // clang-format on
+  void updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect);
 
-  auto getMaterial() const -> std::shared_ptr<Material> { return material_; }
+  [[nodiscard]] auto getMaterial() const -> std::shared_ptr<Material> { return material_; }
 
 private:
   RenderSubqueueRef_t subqueue_;
@@ -61,7 +38,7 @@ private:
   std::shared_ptr<Material> material_;
   std::shared_ptr<Geometry> geometry_;
 
-  // SpriteBoundingBox boundingBox_;
+  // math::BoundingBox<2> boundingBox_;
   // std::vector<SpriteAnimation> animations_;
   // math::size2f_t sheetDims_;
   // math::size2f_t panelDims_;

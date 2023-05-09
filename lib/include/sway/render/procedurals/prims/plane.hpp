@@ -10,7 +10,6 @@
 #include <memory>
 
 #define PLANE_VERTEX_COUNT 4  // Количество вершин.
-#define COLOR_WHITE math::col4f_t(1.0F, 1.0F, 1.0F, 1.0F)
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
