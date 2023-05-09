@@ -30,6 +30,8 @@ if(MODULE_RENDER_ENABLE_COVERAGE)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
+
 # Определяем каталог вывода по умолчанию
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/dbg)
