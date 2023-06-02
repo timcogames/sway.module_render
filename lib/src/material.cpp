@@ -64,7 +64,9 @@ void Material::bind() {
   // effect_->getShaderProgram()->setUniformCol4f("mat_emissive", desc.emissive);
   //  // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
 
-  effect_->getShaderProgram()->setUniform1i("diffuse_sampler", images_[0]->getTexture()->getUid().value());
+  if (images_.size() > 0) {
+    effect_->getShaderProgram()->setUniform1i("diffuse_sampler", images_[0]->getTexture()->getUid().value());
+  }
 
   // effect_->bind();
 

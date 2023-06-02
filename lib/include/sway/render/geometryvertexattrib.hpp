@@ -14,8 +14,9 @@ public:
   GeometryVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve)
       : vertices_(nullptr)
       , reserve_(reserve)
+      , capacity_(0)
       , counter_(0)
-      , attribEnabled_(false) {
+      , enabled_(false) {
     descriptor_ = gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, false, true);
   }
 
@@ -44,16 +45,21 @@ public:
     return descriptor_;
   }
 
-  MTHD_OVERRIDE(void use()) { attribEnabled_ = true; }
+  MTHD_OVERRIDE(void use()) { enabled_ = true; }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getCapacity() -> s32_t) {  // clang-format on
+    return capacity_;
+  }
 
   // clang-format off
   MTHD_OVERRIDE(auto isEnabled() const -> bool) {  // clang-format on
-    return attribEnabled_;
+    return enabled_;
   }
 
-  void addVtxData(TAttribFormat vec, int &capacity) {
-    if (counter_ + 1 > capacity) {
-      reallocate(capacity);
+  void addVtxData(TAttribFormat vec) {
+    if (counter_ + 1 > capacity_) {
+      reallocate_();
     }
 
     auto *dst = &vertices_[counter_ * descriptor_.numComponents];
@@ -67,10 +73,10 @@ public:
   [[nodiscard]] auto getNumOfVertices() const -> s32_t { return counter_; }
 
 private:
-  void reallocate(s32_t &capacity) {
-    capacity = capacity == 0 ? reserve_ : capacity * 2;
+  void reallocate_() {
+    capacity_ = capacity_ == 0 ? reserve_ : capacity_ * 2;
 
-    auto *tmp = new typename TAttribFormat::type_t[capacity * descriptor_.numComponents];
+    auto *tmp = new typename TAttribFormat::type_t[capacity_ * descriptor_.numComponents];
     if (counter_ != 0) {
       memcpy(tmp, vertices_, counter_ * descriptor_.stride);
     }
@@ -83,8 +89,9 @@ private:
   gapi::VertexAttribDescriptor descriptor_;
   typename TAttribFormat::type_t *vertices_;  // Набор данных.
   s32_t reserve_;
+  s32_t capacity_;
   s32_t counter_;
-  bool attribEnabled_;
+  bool enabled_;
 };
 
 NAMESPACE_END(render)

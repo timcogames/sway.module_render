@@ -2,16 +2,18 @@
 #define SWAY_RENDER_PROCEDURALS_GUIDES_AXIS_HPP
 
 #include <sway/math.hpp>
+#include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/geometryindexedvertexdata.hpp>
+#include <sway/render/geometryvertexattribset.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
 
 #include <memory>
 
 #define AXIS_VERTEX_COUNT 9  // Количество вершин.
-#define COLOR_R math::col4f_t(1.0F, 0.0F, 0.0F, 1.0F).toVec4()
-#define COLOR_G math::col4f_t(0.0F, 1.0F, 0.0F, 1.0F).toVec4()
-#define COLOR_B math::col4f_t(0.0F, 0.0F, 1.0F, 1.0F).toVec4()
+#define COLOR_R math::vec3f_t(1.0F, 0.0F, 0.0F)
+#define COLOR_G math::vec3f_t(0.0F, 1.0F, 0.0F)
+#define COLOR_B math::vec3f_t(0.0F, 0.0F, 1.0F)
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
@@ -26,41 +28,42 @@ class Axis : public Shape {
 public:
   Axis(const math::size2f_t &size)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(AXIS_VERTEX_COUNT)) {
-    auto posAttribCapacity = 0;
-    auto posAttrib = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS);
-    // X axis
-    posAttrib->addVtxData({+0.0F, +0.0F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+1.0F, +0.0F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.9F, +0.1F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.9F, -0.1F, +0.0F}, posAttribCapacity);
-    // Y axis
-    posAttrib->addVtxData({+0.0F, +0.0F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.0F, +1.0F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.1F, +0.9F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({-0.1F, +0.9F, +0.0F}, posAttribCapacity);
-    // Z axis
-    posAttrib->addVtxData({+0.0F, +0.0F, +0.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.0F, +0.0F, +1.0F}, posAttribCapacity);
-    posAttrib->addVtxData({+0.1F, +0.0F, +0.9F}, posAttribCapacity);
-    posAttrib->addVtxData({-0.1F, +0.0F, +0.9F}, posAttribCapacity);
+    GeometryVertexAttribSet attribs = {
+        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
+        .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
+        nullptr};
 
-    auto colAttribCapacity = 0;
-    auto colAttrib = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL);
     // X axis
-    colAttrib->addVtxData(COLOR_R, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_R, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_R, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_R, colAttribCapacity);
+    attribs.pos->addVtxData({+0.0F, +0.0F, +0.0F});
+    attribs.pos->addVtxData({+1.0F, +0.0F, +0.0F});
+    attribs.pos->addVtxData({+0.9F, +0.1F, +0.0F});
+    attribs.pos->addVtxData({+0.9F, -0.1F, +0.0F});
     // Y axis
-    colAttrib->addVtxData(COLOR_G, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_G, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_G, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_G, colAttribCapacity);
+    attribs.pos->addVtxData({+0.0F, +0.0F, +0.0F});
+    attribs.pos->addVtxData({+0.0F, +1.0F, +0.0F});
+    attribs.pos->addVtxData({+0.1F, +0.9F, +0.0F});
+    attribs.pos->addVtxData({-0.1F, +0.9F, +0.0F});
     // Z axis
-    colAttrib->addVtxData(COLOR_B, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_B, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_B, colAttribCapacity);
-    colAttrib->addVtxData(COLOR_B, colAttribCapacity);
+    attribs.pos->addVtxData({+0.0F, +0.0F, +0.0F});
+    attribs.pos->addVtxData({+0.0F, +0.0F, +1.0F});
+    attribs.pos->addVtxData({+0.1F, +0.0F, +0.9F});
+    attribs.pos->addVtxData({-0.1F, +0.0F, +0.9F});
+
+    // X axis
+    attribs.col->addVtxData(COLOR_R);
+    attribs.col->addVtxData(COLOR_R);
+    attribs.col->addVtxData(COLOR_R);
+    attribs.col->addVtxData(COLOR_R);
+    // Y axis
+    attribs.col->addVtxData(COLOR_G);
+    attribs.col->addVtxData(COLOR_G);
+    attribs.col->addVtxData(COLOR_G);
+    attribs.col->addVtxData(COLOR_G);
+    // Z axis
+    attribs.col->addVtxData(COLOR_B);
+    attribs.col->addVtxData(COLOR_B);
+    attribs.col->addVtxData(COLOR_B);
+    attribs.col->addVtxData(COLOR_B);
 
     // X axis
     data_->addIdxData(0);
@@ -100,8 +103,13 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() const -> render::GeometryCreateInfo) {  // clang-format on
-    render::GeometryCreateInfo info;
+  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) {  // clang-format on
+    return data_->getAttrib(semantic);
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getGeometryInfo() const -> GeometryCreateInfo) {  // clang-format on
+    GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::LINE_LIST;
 
@@ -116,6 +124,11 @@ public:
     info.ib.data = data_->getIndices().data();
 
     return info;
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
+    return data_->getVtxRawdata();
   }
 
 private:

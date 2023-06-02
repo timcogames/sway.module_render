@@ -34,6 +34,9 @@ private:
   std::vector<u32_t> indices_;
 };
 
+template <typename TVertexDataType>
+using GeometryDataPtr = std::shared_ptr<GeometryIndexedVertexData<TVertexDataType>>;
+
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
 

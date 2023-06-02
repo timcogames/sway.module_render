@@ -3,6 +3,10 @@
 
 #include <sway/render/effect.hpp>
 #include <sway/render/geometry.hpp>
+#include <sway/render/geometryindexedvertexdata.hpp>
+#include <sway/render/geometryvertexattrib.hpp>
+#include <sway/render/geometryvertexattribset.hpp>
+#include <sway/render/geometryvertexdata.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
 #include <sway/render/materialdescriptor.hpp>

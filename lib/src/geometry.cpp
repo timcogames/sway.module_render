@@ -29,7 +29,6 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
     vtxAttribLayout_->addAttribute(attrib.second->getDescriptor());
   }
 
-  // vtxArray_ = pluginFuncSet->createVertexArray();
   info_ = prim->getGeometryInfo();
 
   info_.vb.desc.target = gapi::BufferTarget::ARRAY;
@@ -39,18 +38,35 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
     info_.ib.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
     idxBuffer_ = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
   }
+
+  vtxArray_ = pluginFuncSet->createVertexArray();
 }
 
-void Geometry::updateUV(std::vector<math::vec2f_t> uv) {
+void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) {
   s32_t offset = 0;
-  void *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * 4);
+  void *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
 
-  for (auto i = 0; i < 4; ++i) {
+  auto texIdx = 0;
+  auto currRile = 0;
+
+  for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
     for (auto const [_, attrib] : vtxAttribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
-          attrib->importRawdata2(vtxdata, offset, uv[i].getData().data());
+          if (texIdx >= 4) {
+            texIdx = 0;
+            currRile++;
+          }
+
+          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].getData().data());
+
+          texIdx++;
+
+          // auto width = segments.getW() + 1;
+          // auto col = i % width;
+          // auto row = i / width;
+
         } else {
           attrib->importRawdata(vtxdata, offset, i);
         }
@@ -64,6 +80,8 @@ void Geometry::updateUV(std::vector<math::vec2f_t> uv) {
 }
 
 void Geometry::bind() {
+  vtxArray_->bind();
+
   vtxBuffer_->bind();
   vtxAttribLayout_->enable();
 
@@ -79,6 +97,8 @@ void Geometry::unbind() {
 
   vtxAttribLayout_->disable();
   vtxBuffer_->unbind();
+
+  vtxArray_->unbind();
 }
 
 auto Geometry::getTopology() const -> gapi::TopologyType { return info_.topology; }

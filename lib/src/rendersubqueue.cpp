@@ -29,7 +29,9 @@ void RenderSubqueue::render() {
     bufset.vbo = cmd.geometry->getVertexBuffer();
     bufset.ibo = cmd.geometry->getIndexBuffer();
 
-    cmd.effect->getShaderProgram()->setUniform1i("diffuse_sampler", cmd.images[0]->getTexture()->getUid().value());
+    if (cmd.images.size() > 0) {
+      cmd.effect->getShaderProgram()->setUniform1i("diffuse_sampler", cmd.images[0]->getTexture()->getUid().value());
+    }
 
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_proj", matrixStack->top<math::MatrixType::PROJ>());
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_model", matrixStack->top<math::MatrixType::MODEL>());

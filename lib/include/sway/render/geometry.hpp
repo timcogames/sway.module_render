@@ -9,6 +9,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+struct UVData {
+  std::vector<math::vec2f_t> uv;
+};
+
 class VertexComponent {
 public:
   static auto hasPosition() -> bool { return false; }
@@ -78,7 +82,7 @@ public:
 
   void create(std::shared_ptr<procedurals::Shape> prim);
 
-  void updateUV(std::vector<math::vec2f_t> uv);
+  void updateUV(std::vector<UVData> uvdata, const math::size2i_t &segments);
 
   auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return vtxAttribLayout_; }
 
