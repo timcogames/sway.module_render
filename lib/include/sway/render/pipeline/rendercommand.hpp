@@ -28,7 +28,7 @@ struct ForwardRenderCommand : public RenderCommand {
   math::mat4f_t view;
 };
 
-struct CameraCommand : public RenderCommand {
+struct CameraRenderCommand : public RenderCommand {
   s32_t viewport;
   math::mat4f_t proj;
   math::mat4f_t view;
