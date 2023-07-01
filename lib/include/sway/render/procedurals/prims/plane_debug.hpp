@@ -36,24 +36,24 @@ public:
         .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
         nullptr};
 
-    auto unitScale = 0.8F;
-    auto tileWt = size.getW() * unitScale;
-    auto tileHt = size.getH() * unitScale;
+    // auto unitScale = 0.8F;
+    auto tileWt = size.getW();  // * unitScale;
+    auto tileHt = size.getH();  // * unitScale;
 
     auto gridWt = subdivisions.getW() * tileWt;
     auto gridHt = subdivisions.getH() * tileHt;
     auto gridSizeHalf = math::size2f_t(gridWt / 2, gridHt / 2);
 
     for (auto col = 0; col < subdivisions.getW() + 1; ++col) {
-      auto from = math::vec3f_t(-gridSizeHalf.getW(), tileHt * col - gridSizeHalf.getH(), 0.0F);
-      auto to = math::vec3f_t(gridSizeHalf.getW(), tileHt * col - gridSizeHalf.getH(), 0.0F);
+      auto from = math::vec3f_t(0.0f, tileHt * col, 0.0F);
+      auto to = math::vec3f_t(gridWt, tileHt * col, 0.0F);
 
       addLine(attribs, from, to);
     }
 
     for (auto row = 0; row < subdivisions.getH() + 1; ++row) {
-      auto from = math::vec3f_t(tileWt * row - gridSizeHalf.getW(), -gridSizeHalf.getH(), 0.0F);
-      auto to = math::vec3f_t(tileWt * row - gridSizeHalf.getW(), gridSizeHalf.getH(), 0.0F);
+      auto from = math::vec3f_t(tileWt * row, 0.0F, 0.0F);
+      auto to = math::vec3f_t(tileWt * row, gridHt, 0.0F);
 
       addLine(attribs, from, to);
     }

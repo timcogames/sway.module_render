@@ -98,15 +98,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     f32_t const aspectRatio = 1.0F;
     math::Projection projection;
-    math::mat4f_t projMtx = projection.ortho(-1.0F * aspectRatio, -1.0F, 1.0F * aspectRatio, 1.0F, 0.0F, 100.0F);
+    math::mat4f_t matProj = projection.ortho(-1.0F * aspectRatio, -1.0F, 1.0F * aspectRatio, 1.0F, 0.0F, 100.0F);
 
-    render::pipeline::ForwardRenderCommand command;
-    command.geometry = geom;
-    command.effect = mtrl->getEffect();
-    command.images = mtrl->getImages();
-    command.transform = math::mat4f_t();  // Identity
-    command.proj = projMtx;
-    renderSubqueue->post(command);
+    render::pipeline::ForwardRenderCommand cmd;
+    cmd.geometry = geom;
+    cmd.effect = mtrl->getEffect();
+    cmd.images = mtrl->getImages();
+    cmd.transform = math::mat4f_t();  // Identity
+    cmd.proj = matProj;
+    renderSubqueue->post(cmd);
 
     // --
 

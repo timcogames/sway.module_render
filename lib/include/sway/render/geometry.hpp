@@ -84,6 +84,47 @@ public:
 
   void updateUV(std::vector<UVData> uvdata, const math::size2i_t &segments);
 
+  void updateUV2(int index, UVData uvdata) {
+    s32_t offset = 0;
+    void *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+
+    auto texIdx = 0;
+    auto curTile = 0;
+
+    for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
+      for (auto const [_, attrib] : vtxAttribs_) {
+        if (attrib->isEnabled()) {
+          auto desc = attrib->getDescriptor();
+          if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
+            if (texIdx >= 4) {
+              texIdx = 0;
+              curTile++;
+            }
+
+            if (curTile == index) {
+              attrib->importRawdata2(vtxdata, offset, uvdata.uv[texIdx].getData().data());
+            } else {
+              attrib->importRawdata(vtxdata, offset, i);
+            }
+
+            texIdx++;
+
+            // auto width = segments.getW() + 1;
+            // auto col = i % width;
+            // auto row = i / width;
+
+          } else {
+            attrib->importRawdata(vtxdata, offset, i);
+          }
+
+          offset += desc.numComponents;
+        }
+      }
+    }
+
+    vtxBuffer_->updateSubdata(vtxdata);
+  }
+
   auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return vtxAttribLayout_; }
 
   auto getVtxArray() -> gapi::VertexArrayPtr_t { return vtxArray_; }

@@ -23,9 +23,9 @@ void SpriteAnimation::update_(f32_t deltaTime) {
       currentFrameRect.offset(currentFrame.getX() * frameSize_.getW(), currentFrame.getY() * frameSize_.getH()));
 }
 
-void SpriteAnimation::onUpdate(math::mat4f_t transform, math::mat4f_t proj, f32_t deltaTime) {
+void SpriteAnimation::onUpdate(math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime) {
   update_(deltaTime);
-  Sprite::onUpdate(transform, proj, deltaTime);
+  Sprite::onUpdate(transform, proj, view, deltaTime);
 }
 
 void SpriteAnimation::setAnimationClip(const SpriteAnimationClip &clip) { clip_ = clip; }
