@@ -34,9 +34,7 @@ void RenderSubqueue::render() {
       cmd.effect->getShaderProgram()->setUniform1i("diffuse_sampler", cmd.images[0]->getTexture()->getUid().value());
     }
 
-    // auto matViewProj = matrixStack->top<math::MatrixType::PROJ>() * matrixStack->top<math::MatrixType::VIEW>();
     auto matViewProj = matrixStack->top<math::MatrixType::VIEW>() * matrixStack->top<math::MatrixType::PROJ>();
-    // std::cout << matProjView << std::endl;
 
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_proj", matrixStack->top<math::MatrixType::PROJ>());
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_view", matrixStack->top<math::MatrixType::VIEW>());
