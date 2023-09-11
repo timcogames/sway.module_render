@@ -63,7 +63,8 @@ public:
    */
   void render();
 
-  MTHD_OVERRIDE(bool initialize());
+  // clang-format off
+  MTHD_OVERRIDE(auto initialize() -> bool);  // clang-format on
 
   MTHD_OVERRIDE(void tick(float timestep)) {}
 

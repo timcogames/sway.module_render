@@ -10,6 +10,7 @@
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
 #include <sway/render/materialdescriptor.hpp>
+#include <sway/render/materialmanager.hpp>
 #include <sway/render/postprocessing.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/prims/plane.hpp>

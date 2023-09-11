@@ -28,7 +28,7 @@ RenderSubsystem::~RenderSubsystem() {
   SAFE_DELETE_OBJECT(global::pluginInstance_);
 }
 
-bool RenderSubsystem::initialize() {
+auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiFunctionSet()->createCapability();
   idGenerator_ = global::getGapiFunctionSet()->createIdGenerator();
 
