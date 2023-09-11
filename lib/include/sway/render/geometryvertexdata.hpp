@@ -54,7 +54,7 @@ public:
     void *vtxdata = (void *)malloc(sizeof(TVertexDataType) * vtxcount_);
 
     for (auto i = 0; i < vtxcount_; ++i) {
-      for (auto const [_, attrib] : attribs_) {
+      for (auto [_, attrib] : attribs_) {
         if (attrib->isEnabled()) {
           attrib->importRawdata(vtxdata, offset, i);
           offset += attrib->getDescriptor().numComponents;

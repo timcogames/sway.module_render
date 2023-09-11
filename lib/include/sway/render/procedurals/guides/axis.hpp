@@ -28,10 +28,10 @@ class Axis : public Shape {
 public:
   Axis(const math::size2f_t &size)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(AXIS_VERTEX_COUNT)) {
-    GeometryVertexAttribSet attribs = {
+    auto attribs = (struct GeometryVertexAttribSet){
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
         .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
-        nullptr};
+        .tex = nullptr};
 
     // X axis
     attribs.pos->addVtxData({+0.0F, +0.0F, +0.0F});

@@ -92,7 +92,7 @@ public:
     auto curTile = 0;
 
     for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
-      for (auto const [_, attrib] : vtxAttribs_) {
+      for (auto [_, attrib] : vtxAttribs_) {
         if (attrib->isEnabled()) {
           auto desc = attrib->getDescriptor();
           if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
