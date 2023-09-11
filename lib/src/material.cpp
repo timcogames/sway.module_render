@@ -16,7 +16,7 @@ auto Material::addImage(const std::string &name) -> bool {
 
   imgDesc_ = resource->getDescriptor();
   std::cout << name.c_str() << ": " << imgDesc_.size.getW() << "x" << imgDesc_.size.getH() << std::endl;
-  auto image = std::make_shared<Image>(imgDesc_.data, imgDesc_.size.getW(), imgDesc_.size.getH());
+  auto image = std::make_shared<Image>(imgDesc_.buf.data, imgDesc_.size.getW(), imgDesc_.size.getH());
 
   image->getTexture()->bind();
   image->getTextureSampler()->setWrapMode(
