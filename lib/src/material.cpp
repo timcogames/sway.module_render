@@ -31,11 +31,22 @@ auto Material::addImage(const std::string &name) -> bool {
 
 auto Material::loadEffect(const std::pair<std::string, std::string> &filepath) -> bool {
   gapi::ShaderCreateInfoSet shaderCreateInfoSet;
+
+  auto vert = this->loadShaderFromFile(filepath.first);
+  if (!vert.has_value()) {
+    return false;
+  }
+
   shaderCreateInfoSet.vs.type = gapi::ShaderType::VERT;
-  shaderCreateInfoSet.vs.code = this->loadShaderFromFile(filepath.first).value();
+  shaderCreateInfoSet.vs.code = vert.value();
+
+  auto frag = this->loadShaderFromFile(filepath.second);
+  if (!frag.has_value()) {
+    return false;
+  }
 
   shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAG;
-  shaderCreateInfoSet.fs.code = this->loadShaderFromFile(filepath.second).value();
+  shaderCreateInfoSet.fs.code = frag.value();
 
   effect_ = std::make_shared<Effect>(shaderCreateInfoSet);
   return true;
