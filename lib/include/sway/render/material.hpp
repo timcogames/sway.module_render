@@ -17,7 +17,7 @@ NAMESPACE_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
 public:
-  Material(const std::string &name, std::shared_ptr<rms::ResourceManagerSystem> mngr);
+  Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> mngr);
 
   ~Material() = default;
 
@@ -40,7 +40,7 @@ public:
   }
 
 private:
-  std::shared_ptr<rms::ResourceManagerSystem> resourceMngr_;
+  std::shared_ptr<rms::ImageResourceManager> resourceMngr_;
   std::shared_ptr<Effect> effect_;
   std::vector<std::shared_ptr<Image>> images_;
   MaterialDescriptor desc_;

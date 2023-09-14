@@ -66,7 +66,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   auto renderSubsystem = renderSubsystemContext->getRenderSubsystem();
   auto renderSubqueue = renderSubsystem->getQueueByIdx(0)->getSubqueues(render::RenderSubqueueGroup::OPAQUE)[0];
 
-  auto resourceMngr = std::make_shared<rms::ResourceManagerSystem>();
+  auto resourceMngr = std::make_shared<rms::ImageResourceManager>();
   resourceMngr->registerImageProvider(
       "/Users/apriori85/Documents/Projects/sway.module_render/bin/module_loader_png.dylib.0.1.0");
 

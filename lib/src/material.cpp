@@ -6,7 +6,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Material::Material(const std::string &name, std::shared_ptr<rms::ResourceManagerSystem> mngr)
+Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> mngr)
     : core::foundation::Uniqueable<std::string>(name)
     , resourceMngr_(mngr)
     , effect_(nullptr) {}
@@ -15,7 +15,7 @@ auto Material::addImage(const std::string &name) -> bool {
   auto resource = resourceMngr_->findLoadedResource(name);
 
   imgDesc_ = resource->getDescriptor();
-  std::cout << name.c_str() << ": " << imgDesc_.size.getW() << "x" << imgDesc_.size.getH() << std::endl;
+  // std::cout << name.c_str() << ": " << imgDesc_.size.getW() << "x" << imgDesc_.size.getH() << std::endl;
   auto image = std::make_shared<Image>(imgDesc_.buf.data, imgDesc_.size.getW(), imgDesc_.size.getH());
 
   image->getTexture()->bind();
