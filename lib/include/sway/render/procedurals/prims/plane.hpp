@@ -34,8 +34,8 @@ public:
 
     u32_t tileCount = 0;
 
-    for (int y = 0; y < subdivisions.getH(); y++) {
-      for (int x = 0; x < subdivisions.getW(); x++) {
+    for (auto y = 0; y < subdivisions.getH(); y++) {
+      for (auto x = 0; x < subdivisions.getW(); x++) {
         // posAttrib->addVtxData({-sizeHalf.getW(), -sizeHalf.getH(), 0.0F});
         // posAttrib->addVtxData({+sizeHalf.getW(), -sizeHalf.getH(), 0.0F});
         // posAttrib->addVtxData({-sizeHalf.getW(), +sizeHalf.getH(), 0.0F});

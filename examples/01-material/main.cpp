@@ -23,7 +23,7 @@ public:
   RenderSubsystemContext() {
     char path[PATH_MAX + 1];
     strncpy(path, "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
-    std::string const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", path);
+    auto const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", path);
 
     subsystem_ =
         std::make_shared<render::RenderSubsystem>(new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW), this);
@@ -79,8 +79,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
-  auto quad =
-      std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(math::size2f_t(1.0F), COL4F_WHITE);
+  auto quad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
+      math::size2f_t(1.0F), math::size2i_t(1));
   quad->useVertexSemanticSet(quadSemantics);
 
   auto geom = std::make_shared<render::Geometry>(renderSubsystem->getIdGenerator(), mtrl->getEffect(), true);
@@ -94,11 +94,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     test += 1.0F * dtime;
 
-    // --
+    math::Projection projection = math::Projection(
+        (struct math::ProjectionDescription){.rect = {{-1.0F /* L */, -1.0F /* T */, 1.0F /* R */, 1.0F /* B */}},
+            .fov = 0,
+            .aspect = f32_t(WindowSize_WD / WindowSize_HT),
+            .near = 0.0F,
+            .far = 100.0F});
 
-    f32_t const aspectRatio = 1.0F;
-    math::Projection projection;
-    math::mat4f_t matProj = projection.ortho(-1.0F * aspectRatio, -1.0F, 1.0F * aspectRatio, 1.0F, 0.0F, 100.0F);
+    math::mat4f_t matProj;
+    matProj.setData(projection.makeOrtho());
 
     render::pipeline::ForwardRenderCommand cmd;
     cmd.geometry = geom;
@@ -106,9 +110,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     cmd.images = mtrl->getImages();
     cmd.transform = math::mat4f_t();  // Identity
     cmd.proj = matProj;
+    cmd.view = math::mat4f_t();
     renderSubqueue->post(cmd);
-
-    // --
 
     canvas->getContext()->makeCurrent();
 

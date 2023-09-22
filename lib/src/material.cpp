@@ -53,13 +53,13 @@ auto Material::loadEffect(const std::pair<std::string, std::string> &filepath) -
 }
 
 auto Material::loadShaderFromFile(const std::string &filename) -> std::optional<std::string> {
-  std::ifstream in(filename, std::ios::binary);
-  if (!in.is_open()) {
+  std::ifstream stream(filename, std::ios::binary);
+  if (!stream.is_open()) {
     return std::nullopt;
   }
 
-  std::string source((std::istreambuf_iterator<s8_t>(in)), std::istreambuf_iterator<s8_t>());
-  in.close();
+  std::string source((std::istreambuf_iterator<s8_t>(stream)), std::istreambuf_iterator<s8_t>());
+  stream.close();
 
   if (source.length() == 0) {
     return std::nullopt;
@@ -75,7 +75,7 @@ void Material::bind() {
   // effect_->getShaderProgram()->setUniformCol4f("mat_emissive", desc.emissive);
   //  // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
 
-  if (images_.size() > 0) {
+  if (!images_.empty()) {
     effect_->getShaderProgram()->setUniform1i("diffuse_sampler", images_[0]->getTexture()->getUid().value());
   }
 

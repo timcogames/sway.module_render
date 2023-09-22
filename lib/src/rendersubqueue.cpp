@@ -30,14 +30,16 @@ void RenderSubqueue::render() {
     bufset.vbo = cmd.geometry->getVertexBuffer();
     bufset.ibo = cmd.geometry->getIndexBuffer();
 
-    if (cmd.images.size() > 0) {
+    if (!cmd.images.empty()) {
       cmd.effect->getShaderProgram()->setUniform1i("diffuse_sampler", cmd.images[0]->getTexture()->getUid().value());
     }
 
-    auto matViewProj = matrixStack->top<math::MatrixType::VIEW>() * matrixStack->top<math::MatrixType::PROJ>();
+    auto viewMat = matrixStack->top<math::MatrixType::VIEW>();
+    auto projMat = matrixStack->top<math::MatrixType::PROJ>();
+    auto matViewProj = viewMat * projMat;
 
-    cmd.effect->getShaderProgram()->setUniformMat4f("mat_proj", matrixStack->top<math::MatrixType::PROJ>());
-    cmd.effect->getShaderProgram()->setUniformMat4f("mat_view", matrixStack->top<math::MatrixType::VIEW>());
+    cmd.effect->getShaderProgram()->setUniformMat4f("mat_view", viewMat);
+    cmd.effect->getShaderProgram()->setUniformMat4f("mat_proj", projMat);
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_view_proj", matViewProj);
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_model", matrixStack->top<math::MatrixType::MODEL>());
     cmd.effect->bind();

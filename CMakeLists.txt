@@ -91,8 +91,8 @@ if (MODULE_RENDER_ENABLE_EXAMPLES OR ENABLE_TESTS)
   endif ()
 
   if (NOT TARGET libmodule_rms)
-  add_subdirectory("submodules/sway.module_rms")
-endif ()
+    add_subdirectory("submodules/sway.module_rms")
+  endif ()
 endif ()
 
 # Добавляем построение примеров
