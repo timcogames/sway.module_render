@@ -21,9 +21,10 @@ using namespace sway;
 class RenderSubsystemContext : public core::foundation::Context {
 public:
   RenderSubsystemContext() {
-    char path[PATH_MAX + 1];
-    strncpy(path, "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
-    auto const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", path);
+    std::array<char, PATH_MAX + 1> binPath;
+    strncpy(binPath.data(), "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
+
+    auto const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", binPath.data());
 
     subsystem_ =
         std::make_shared<render::RenderSubsystem>(new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW), this);
@@ -50,6 +51,9 @@ private:
 enum { WindowSize_WD = 800, WindowSize_HT = 600 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
+  std::array<char, PATH_MAX + 1> binPath;
+  strncpy(binPath.data(), "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
+
   pltf::WindowInitialInfo windowInitialInfo;
   windowInitialInfo.title = "material example";
   windowInitialInfo.size.normal = math::size2i_t(WindowSize_WD, WindowSize_HT);
@@ -67,15 +71,17 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   auto renderSubqueue = renderSubsystem->getQueueByIdx(0)->getSubqueues(render::RenderSubqueueGroup::OPAQUE)[0];
 
   auto resourceMngr = std::make_shared<rms::ImageResourceManager>();
-  resourceMngr->registerImageProvider(
-      "/Users/apriori85/Documents/Projects/sway.module_render/bin/module_loader_png.dylib.0.1.0");
+  resourceMngr->registerImageProvider(core::misc::format("%s/module_loader_png.dylib.0.1.0", binPath.data()));
 
-  resourceMngr->loadImage("myimg", "/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/img.png");
+  resourceMngr->loadImage("myimg", core::misc::format("%s/assets/img.png", binPath.data()));
 
   auto mtrl = std::make_shared<render::Material>("material", resourceMngr);
   mtrl->addImage("myimg");
-  mtrl->loadEffect({"/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/dtp/shader.vs",
-      "/Users/apriori85/Documents/Projects/sway.module_render/bin/assets/dtp/shader.fs"});
+  // clang-format off
+  mtrl->loadEffect({
+    core::misc::format("%s/assets/dtp/shader.vs", binPath.data()),
+    core::misc::format("%s/assets/dtp/shader.fs", binPath.data())
+  });  // clang-format on
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
@@ -94,12 +100,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     test += 1.0F * dtime;
 
-    math::Projection projection = math::Projection(
-        (struct math::ProjectionDescription){.rect = {{-1.0F /* L */, -1.0F /* T */, 1.0F /* R */, 1.0F /* B */}},
-            .fov = 0,
-            .aspect = f32_t(WindowSize_WD / WindowSize_HT),
-            .near = 0.0F,
-            .far = 100.0F});
+    // clang-format off
+    math::Projection projection = math::Projection((struct math::ProjectionDescription) {
+      .rect = {{-1.0F /* L */, -1.0F /* T */, 1.0F /* R */, 1.0F /* B */}},
+      .fov = 0,
+      .aspect = f32_t(WindowSize_WD / WindowSize_HT),
+      .near = 0.0F,
+      .far = 100.0F
+    });  // clang-format on
 
     math::mat4f_t matProj;
     matProj.setData(projection.makeOrtho());
