@@ -21,6 +21,7 @@ set(MODULE_RENDER_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 include("${MODULE_RENDER_CMAKE_DIR}/options.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_RENDER_CMAKE_DIR}/add_submodule.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/logger.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
@@ -58,16 +59,26 @@ endif()
 project_metadata("render" 0.17.66)
 project(${MODULE_RENDER_PROJ_NAME} VERSION ${MODULE_RENDER_VERSION} LANGUAGES CXX)
 
-if (NOT TARGET libmodule_core)
-  add_subdirectory("submodules/sway.module_core")
-endif ()
+#---------------------------------------------------------------------------------
+# Submodules
+#---------------------------------------------------------------------------------
 
-# set(CMAKE_CXX_STANDARD 11)
+add_submodule("module_core" submodules/sway.module_core)
+add_submodule("module_rms" submodules/sway.module_rms)
+
+#---------------------------------------------------------------------------------
+# Coverage
+#---------------------------------------------------------------------------------
+
+if(MODULE_RENDER_ENABLE_COVERAGE)
+  enable_coverage()
+endif()
+
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
-if (GLOB_EMSCRIPTEN_PLATFORM)
+if(GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --no-entry")
 
   set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
@@ -80,27 +91,17 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s STRICT=1")
 
-  if (GLOB_EMSCRIPTEN_USE_BINDINGS)
+  if(GLOB_EMSCRIPTEN_USE_BINDINGS)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM_USE_BINDING")
-  endif ()
+  endif()
 
-  if (GLOBAL_EMSCRIPTEN_PLATFORM_USE_ES6)
+  if(GLOBAL_EMSCRIPTEN_PLATFORM_USE_ES6)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORT_ES6=1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ENVIRONMENT=node")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ES6_IMPORT_META=1")
-  endif ()
-endif ()
-
-if(MODULE_RENDER_ENABLE_COVERAGE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+  endif()
 endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
 
 #---------------------------------------------------------------------------------
 # Executable output path
@@ -108,28 +109,27 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
 
 set_output_dir(${MODULE_RENDER_BIN_DIR})
 
-# set(SYSTEM_X11_INCLUDE_DIRS "/opt/X11/include")
-# set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
+set(SYSTEM_X11_INCLUDE_DIRS "/opt/X11/include")
+set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 
 # Добавляем пути для поиска хедеров
-# include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
+include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cpp/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_rms/lib/include")
 
 # find_package(OpenGL REQUIRED)
 # find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
-
-# link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
+link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_LIST_DIR}/lib/include/sway/tmp/*.*")
-file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/src/tmp/*.*")
+file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_LIST_DIR}/lib/include/sway/*.*")
+file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/src/*.*")
 
-if (MODULE_RENDER_BUILD_SHARED)
+if(MODULE_RENDER_BUILD_SHARED)
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
   # Добавляем в проект цель для сборки динамической библиотеки
@@ -137,52 +137,52 @@ if (MODULE_RENDER_BUILD_SHARED)
   set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_RENDER_PROJ_NAME})
   set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES PREFIX "")
   set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.so")
-else ()
+else()
   # Добавляем в проект цель для сборки статической библиотеки
   add_library(${MODULE_RENDER_TARGET} STATIC ${MODULE_RENDER_SOURCES})
   set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_RENDER_PROJ_NAME})
   set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES PREFIX "")
-  if (GLOB_EMSCRIPTEN_PLATFORM)
+  if(GLOB_EMSCRIPTEN_PLATFORM)
     set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.bc")
     # set(CMAKE_STATIC_LIBRARY_SUFFIX ".bc")
-    else ()
+    else()
     set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.a")
-  endif ()
-endif ()
+  endif()
+endif()
 
 # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 ${BOOST_LIBRARIES})
 # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 libmodule_core)
-target_link_libraries(${MODULE_RENDER_TARGET} )
+target_link_libraries(${MODULE_RENDER_TARGET})
 
 enable_cxx17(${MODULE_RENDER_TARGET})
 
-if (MODULE_RENDER_ENABLE_EXAMPLES OR MODULE_RENDER_ENABLE_TESTS)
-  if (NOT TARGET libmodule_rms)
-    add_subdirectory("submodules/sway.module_rms")
-  endif ()
-endif ()
+#---------------------------------------------------------------------------------
+# Построение примеров
+#---------------------------------------------------------------------------------
 
-# Добавляем построение примеров
-if (MODULE_RENDER_ENABLE_EXAMPLES)
+if(MODULE_RENDER_ENABLE_EXAMPLES)
   message(STATUS "Examples have been enabled")
 
   # Добавляем пути для поиска хедеров
-  include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_platform-glx11/lib/include")
+  include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_platform-glx11/lib/cxx/include")
 
-  if (NOT TARGET module_pltf)
+  if(NOT TARGET module_pltf)
     add_subdirectory("submodules/sway.module_platform-glx11")
-  endif ()
+  endif()
 
-  if (GLOB_EMSCRIPTEN_PLATFORM)
+  if(GLOB_EMSCRIPTEN_PLATFORM)
     add_subdirectory("examples/01-material-wasm")
-  else ()
+  else()
     add_subdirectory("examples/01-material")
-  endif ()
-endif ()
+  endif()
+endif()
 
-# Добавляем построение тестов
-if (MODULE_RENDER_ENABLE_TESTS)
+#---------------------------------------------------------------------------------
+# Построение тестов
+#---------------------------------------------------------------------------------
+
+if(MODULE_RENDER_ENABLE_TESTS)
   message(STATUS "Tests have been enabled")
 
   add_subdirectory(tests)
-endif ()
+endif()

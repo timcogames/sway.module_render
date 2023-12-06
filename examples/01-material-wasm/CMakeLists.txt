@@ -1,7 +1,24 @@
-# Проверяем версию CMake
+#---------------------------------------------------------------------------------
+# CMake version
+#---------------------------------------------------------------------------------
+
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake")
+#---------------------------------------------------------------------------------
+# Project directories
+#---------------------------------------------------------------------------------
+
+set(MODULE_MATERIAL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MODULE_MATERIAL_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(MODULE_MATERIAL_CMAKE_DIR "${MODULE_MATERIAL_ROOT_DIR}/../../submodules/sway.module_core/cmake_modules")
+set(MODULE_MATERIAL_LIB_DIR "${MODULE_MATERIAL_ROOT_DIR}/../../lib")
+set(MODULE_MATERIAL_BIN_DIR "${CMAKE_SOURCE_DIR}/../../bin")
+
+#---------------------------------------------------------------------------------
+# Include CMake modules
+#---------------------------------------------------------------------------------
+
+include("${MODULE_MATERIAL_CMAKE_DIR}/enable_cxx17.cmake")
 
 # Мета-информация о проекте
 set(META_MATERIAL_PRJNAME "module_material")
@@ -16,12 +33,12 @@ option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
 option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
   include(${CMAKE_TOOLCHAIN_FILE})
 endif()
 
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
 endif()
 
@@ -89,7 +106,7 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
 endif()
 
 # Определяем каталог вывода по умолчанию
-if (CMAKE_BUILD_TYPE MATCHES Debug)
+if(CMAKE_BUILD_TYPE MATCHES Debug)
   set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
   set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
 else()
@@ -117,14 +134,14 @@ file(GLOB_RECURSE MODULE_MATERIAL_SOURCES "${MODULE_MATERIAL_DIR}/*.cpp")
 
 add_executable(${META_MATERIAL_LIBNAME} ${MODULE_MATERIAL_SOURCES})
 set_target_properties(${META_MATERIAL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_MATERIAL_PRJNAME})
-if (GLOB_EMSCRIPTEN_PLATFORM)
-  if (GLOB_EMSCRIPTEN_USE_BINDINGS)
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  if(GLOB_EMSCRIPTEN_USE_BINDINGS)
     set_target_properties(${META_MATERIAL_LIBNAME} PROPERTIES SUFFIX ".${META_MATERIAL_VERSION}.js")
-  else ()
+  else()
     set_target_properties(${META_MATERIAL_LIBNAME} PROPERTIES SUFFIX ".${META_MATERIAL_VERSION}.wasm")
-  endif ()
-endif ()
+  endif()
+endif()
 
-custom_enable_cxx17(${META_MATERIAL_LIBNAME})
+enable_cxx17(${META_MATERIAL_LIBNAME})
 # target_link_libraries(${META_MATERIAL_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} libmodule_render libmodule_pltf libmodule_rms libmodule_core)
-target_link_libraries(${META_MATERIAL_LIBNAME} libmodule_render libmodule_pltf libmodule_core)
+target_link_libraries(${META_MATERIAL_LIBNAME} module_render module_pltf module_core)
