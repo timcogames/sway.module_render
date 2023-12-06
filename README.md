@@ -1,6 +1,6 @@
 # sway.module_render
 
-[![codecov][codecov-svg]][codecov-url] [![BCH compliance][bettercodehub-svg]][bettercodehub-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
+[![codecov][codecov-svg]][codecov-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
 ## Клонирование проекта
 
@@ -19,14 +19,13 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DMODULE_RENDER_ENABLE_TESTS=OFF \
-      -DMODULE_RENDER_ENABLE_EXAMPLES=ON ../
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D MODULE_RENDER_ENABLE_TESTS=OFF \
+      -D MODULE_RENDER_ENABLE_EXAMPLES=ON ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
 :---|:---|:---|:---:
-`BOOST_ROOT` | `PATH` | Путь до корневой директории Boost библиотеки | `-`
 `CMAKE_BUILD_TYPE` | `STRING` | Тип сборки | `Debug`
 `MODULE_RENDER_BUILD_SHARED` | `BOOL` | Сборка библиотеки общего пользования | `OFF`
 `MODULE_RENDER_ENABLE_COVERAGE` | `BOOL` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
@@ -45,8 +44,6 @@ cmake --build ./
 
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_render/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/timcogames/sway.module_render
-[bettercodehub-svg]: https://bettercodehub.com/edge/badge/timcogames/sway.module_render?branch=master
-[bettercodehub-url]: https://bettercodehub.com/
 [codedocs-svg]: https://codedocs.xyz/timcogames/sway.module_render.svg
 [codedocs-url]: https://codedocs.xyz/timcogames/sway.module_render/
 [license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg

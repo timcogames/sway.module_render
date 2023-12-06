@@ -1,6 +1,8 @@
 # project output files
 /build
 
+/**/node_modules
+
 bin/*
 !bin/assets/
 

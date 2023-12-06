@@ -34,7 +34,7 @@ public:
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
         .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
-        nullptr};
+        .tex = nullptr};
 
     // auto unitScale = 0.8F;
     auto tileWt = size.getW();  // * unitScale;
