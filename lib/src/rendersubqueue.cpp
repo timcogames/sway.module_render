@@ -1,4 +1,3 @@
-#include <sway/math.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/geometry.hpp>
 #include <sway/render/global.hpp>
@@ -9,23 +8,24 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
-    : group_(group) {}
+    : group_(group) {
+  matrixStack_ = std::make_shared<math::MatrixStack>();
+}
 
 void RenderSubqueue::initialize() {
   drawCall_ = global::getGapiFunctionSet()->createDrawCall();
   state_ = global::getGapiFunctionSet()->createState();
 }
 
-void RenderSubqueue::post(pipeline::ForwardRenderCommand command) { commands_.emplace_back(command); }
+void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 
 void RenderSubqueue::render() {
-  auto matrixStack = std::make_shared<math::MatrixStack>();
   gapi::BufferSet bufset = {nullptr, nullptr};
 
   for (const auto &cmd : commands_) {
-    matrixStack->push<math::MatrixType::PROJ>(cmd.proj);
-    matrixStack->push<math::MatrixType::VIEW>(cmd.view);
-    matrixStack->push<math::MatrixType::MODEL>(cmd.transform);
+    matrixStack_->push<math::MatrixType::PROJ>(cmd.proj);
+    matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
+    matrixStack_->push<math::MatrixType::MODEL>(cmd.transform);
 
     bufset.vbo = cmd.geometry->getVertexBuffer();
     bufset.ibo = cmd.geometry->getIndexBuffer();
@@ -34,14 +34,14 @@ void RenderSubqueue::render() {
       cmd.effect->getShaderProgram()->setUniform1i("diffuse_sampler", cmd.images[0]->getTexture()->getUid().value());
     }
 
-    auto viewMat = matrixStack->top<math::MatrixType::VIEW>();
-    auto projMat = matrixStack->top<math::MatrixType::PROJ>();
+    auto viewMat = matrixStack_->top<math::MatrixType::VIEW>();
+    auto projMat = matrixStack_->top<math::MatrixType::PROJ>();
     auto matViewProj = viewMat * projMat;
 
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_view", viewMat);
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_proj", projMat);
     cmd.effect->getShaderProgram()->setUniformMat4f("mat_view_proj", matViewProj);
-    cmd.effect->getShaderProgram()->setUniformMat4f("mat_model", matrixStack->top<math::MatrixType::MODEL>());
+    cmd.effect->getShaderProgram()->setUniformMat4f("mat_model", matrixStack_->top<math::MatrixType::MODEL>());
     cmd.effect->bind();
 
     cmd.geometry->bind();
@@ -65,9 +65,9 @@ void RenderSubqueue::render() {
 
     cmd.effect->unbind();
 
-    matrixStack->pop<math::MatrixType::MODEL>();
-    matrixStack->pop<math::MatrixType::VIEW>();
-    matrixStack->pop<math::MatrixType::PROJ>();
+    matrixStack_->pop<math::MatrixType::MODEL>();
+    matrixStack_->pop<math::MatrixType::VIEW>();
+    matrixStack_->pop<math::MatrixType::PROJ>();
   }
 
   commands_.clear();

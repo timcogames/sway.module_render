@@ -2,6 +2,7 @@
 #define SWAY_RENDER_RENDERSUBQUEUE_HPP
 
 #include <sway/gapi.hpp>
+#include <sway/math.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/pipeline/rendercommandhandler.hpp>
 #include <sway/render/prereqs.hpp>
@@ -31,7 +32,7 @@ public:
    */
   // void addGeometry(GeometryRef_t geometry);
 
-  void post(pipeline::ForwardRenderCommand command);
+  void post(pipeline::ForwardRenderCommand cmd);
 
   /**
    * @brief Метод отрисовки.
@@ -54,6 +55,7 @@ private:
   gapi::DrawCallRef_t drawCall_;
   gapi::StateRef_t state_;
   std::vector<pipeline::ForwardRenderCommand> commands_;
+  std::shared_ptr<math::MatrixStack> matrixStack_;
   RenderSubqueueGroup group_;  // Группа подочереди.
 };
 

@@ -3,6 +3,8 @@
 #include <sway/gapi/texturewraps.hpp>
 #include <sway/render/material.hpp>
 
+#include <thread>
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
@@ -14,10 +16,14 @@ Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceMa
 auto Material::addImage(const std::string &name) -> bool {
   auto resource = resourceMngr_->findLoadedResource(name);
 
-  imgDesc_ = resource->getDescriptor();
-  // std::cout << name.c_str() << ": " << imgDesc_.size.getW() << "x" << imgDesc_.size.getH() << std::endl;
-  auto image = std::make_shared<Image>(imgDesc_.buf.data, imgDesc_.size.getW(), imgDesc_.size.getH());
+  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  }
 
+  imgDesc_ = resource->getDescriptor();
+
+  auto image = std::make_shared<Image>();
+  image->create(imgDesc_.buf.data, imgDesc_.size.getW(), imgDesc_.size.getH());
   image->getTexture()->bind();
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
@@ -30,26 +36,104 @@ auto Material::addImage(const std::string &name) -> bool {
 }
 
 auto Material::loadEffect(const std::pair<std::string, std::string> &filepath) -> bool {
-  gapi::ShaderCreateInfoSet shaderCreateInfoSet;
+  // gapi::ShaderCreateInfoSet shaderCreateInfoSet;
 
-  auto vert = this->loadShaderFromFile(filepath.first);
-  if (!vert.has_value()) {
-    return false;
-  }
+  // auto vert = this->loadShaderFromFile(filepath.first);
+  // if (!vert.has_value()) {
+  //   printf("failed: %s\n", filepath.first.c_str());
+  //   return false;
+  // }
 
-  shaderCreateInfoSet.vs.type = gapi::ShaderType::VERT;
-  shaderCreateInfoSet.vs.code = vert.value();
+  // shaderCreateInfoSet.vs.type = gapi::ShaderType::VERT;
+  // shaderCreateInfoSet.vs.code = vert.value();
 
-  auto frag = this->loadShaderFromFile(filepath.second);
-  if (!frag.has_value()) {
-    return false;
-  }
+  // auto frag = this->loadShaderFromFile(filepath.second);
+  // if (!frag.has_value()) {
+  //   return false;
+  // }
 
-  shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAG;
-  shaderCreateInfoSet.fs.code = frag.value();
+  // shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAG;
+  // shaderCreateInfoSet.fs.code = frag.value();
 
-  effect_ = std::make_shared<Effect>(shaderCreateInfoSet);
+  loadVShaderFromFile(filepath.first);
+  loadFShaderFromFile(filepath.second);
+
+  effect_ = std::make_shared<Effect>(shaderCreateInfoSet_);
   return true;
+}
+
+void onShaderErrorRequest(void *arg) {}
+
+auto dataToChar(void *data, int size) -> char * {
+  char *tmp = new char[size + 1];
+  memcpy(tmp, data, size * sizeof(char));
+  tmp[size] = '\0';
+
+  return tmp;
+}
+
+auto Material::onLoadVSFromFile(void *buffer, int size) -> std::string { return std::string(dataToChar(buffer, size)); }
+
+void Material::loadVShaderFromFile(const std::string &filename) {
+  // emscripten_idb_async_exists
+  // emscripten_async_wget_data(
+  //     filename.c_str(), this,
+  //     [](void *arg, void *buffer, int size) -> void {
+  //       auto *materialPtr = (Material *)arg;
+  //       auto content = materialPtr->onLoadVSFromFile(buffer, size);
+
+  //       materialPtr->shaderCreateInfoSet_.vs.type = gapi::ShaderType::VERT;
+  //       materialPtr->shaderCreateInfoSet_.vs.code = content;
+
+  //       printf("TR: %s\n", materialPtr->shaderCreateInfoSet_.vs.code.c_str());
+  //     },
+  //     onShaderErrorRequest);
+
+  shaderCreateInfoSet_.vs.type = gapi::ShaderType::VERT;
+  shaderCreateInfoSet_.vs.code = "#version 300 es\n"
+                                 "layout (location = 0) in vec3 attrib_pos;\n"
+                                 "layout (location = 1) in vec2 attrib_texcoord_0;\n"
+                                 "uniform mat4 mat_proj;\n"
+                                 "uniform mat4 mat_model;\n"
+                                 "out vec2 texcoord_0;\n"
+                                 "void main() {\n"
+                                 "  mat4 modelview = mat_proj * mat_model;\n"
+                                 "  gl_Position = modelview * vec4(attrib_pos, 1.0);\n"
+                                 "  texcoord_0 = attrib_texcoord_0;\n"
+                                 "}";
+}
+
+void Material::loadFShaderFromFile(const std::string &filename) {
+  // emscripten_async_wget_data(
+  //     filename.c_str(), this,
+  //     [](void *arg, void *buffer, int size) -> void {
+  //       auto *materialPtr = (Material *)arg;
+  //       auto content = materialPtr->onLoadVSFromFile(buffer, size);
+
+  //       materialPtr->shaderCreateInfoSet_.fs.type = gapi::ShaderType::FRAG;
+  //       materialPtr->shaderCreateInfoSet_.fs.code = content;
+  //     },
+  //     onShaderErrorRequest);
+
+  shaderCreateInfoSet_.fs.type = gapi::ShaderType::FRAG;
+  shaderCreateInfoSet_.fs.code =
+      "#version 300 es\n"
+      "#ifdef GL_FRAGMENT_PRECISION_HIGH\n"
+      "  precision highp float;\n"
+      "#else\n"
+      "  precision mediump float;\n"
+      "#endif\n"
+      "in vec2 texcoord_0;\n"
+      "uniform sampler2D diffuse_sampler;\n"
+      "uniform float time;\n"
+      "out vec4 outcolor;\n"
+      "void main() {\n"
+      "  vec4 texcolor = texture(diffuse_sampler, vec2(texcoord_0.x + time, texcoord_0.y));\n"
+      "  if(texcolor.a < 0.1) {\n"
+      "    discard;\n"
+      "  }\n"
+      "  outcolor = texcolor;\n"
+      "}";
 }
 
 auto Material::loadShaderFromFile(const std::string &filename) -> std::optional<std::string> {

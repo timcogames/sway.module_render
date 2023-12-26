@@ -2,7 +2,7 @@
 # CMake version
 #---------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 #---------------------------------------------------------------------------------
 # Project directories
@@ -22,10 +22,11 @@ include("${MODULE_RENDER_CMAKE_DIR}/options.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_RENDER_CMAKE_DIR}/modules/create_object.cmake")
+include("${MODULE_RENDER_CMAKE_DIR}/modules/create_interface.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/logger.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
-include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
 include("${MODULE_RENDER_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
@@ -40,6 +41,9 @@ include("${MODULE_RENDER_CMAKE_DIR}/enable_coverage.cmake")
 #---------------------------------------------------------------------------------
 
 option(MODULE_RENDER_BUILD_SHARED "Build shared library" OFF)
+option(MODULE_RENDER_ENVIRONMENT "Environment variable" OFF)
+option(MODULE_RENDER_COMPILATION "Compilation variable" OFF)
+option(MODULE_RENDER_MT "Enable multithreading" OFF)
 option(MODULE_RENDER_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_RENDER_ENABLE_EXAMPLES "none" OFF)
 option(MODULE_RENDER_ENABLE_TESTS "Enable test builds" OFF)
@@ -74,34 +78,8 @@ if(MODULE_RENDER_ENABLE_COVERAGE)
   enable_coverage()
 endif()
 
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
-
-if(GLOB_EMSCRIPTEN_PLATFORM)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --no-entry")
-
-  set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -std=c++17")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-no-whole-archive") # < ---
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace \
-    -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
-
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s STRICT=1")
-
-  if(GLOB_EMSCRIPTEN_USE_BINDINGS)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM_USE_BINDING")
-  endif()
-
-  if(GLOBAL_EMSCRIPTEN_PLATFORM_USE_ES6)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORT_ES6=1")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ENVIRONMENT=node")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ES6_IMPORT_META=1")
-  endif()
-endif()
 
 #---------------------------------------------------------------------------------
 # Executable output path
@@ -115,11 +93,11 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_rms/lib/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_rms/lib/cxx/include")
 
 # find_package(OpenGL REQUIRED)
 # find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
@@ -129,32 +107,69 @@ link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
 file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_LIST_DIR}/lib/include/sway/*.*")
 file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/src/*.*")
 
-if(MODULE_RENDER_BUILD_SHARED)
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+# # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 ${BOOST_LIBRARIES})
+# # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 libmodule_core)
+# target_link_libraries(${MODULE_RENDER_TARGET})
 
-  # Добавляем в проект цель для сборки динамической библиотеки
-  add_library(${MODULE_RENDER_TARGET} SHARED ${MODULE_RENDER_SOURCES})
-  set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_RENDER_PROJ_NAME})
-  set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES PREFIX "")
-  set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.so")
+#---------------------------------------------------------------------------------
+# Create interfaces
+#---------------------------------------------------------------------------------
+
+set(MODULE_CORE_TARGET_IFACE "module_core_iface")
+
+set(TARGET_OBJECT_LIST)
+list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_core>)
+
+create_interface(${MODULE_CORE_TARGET_IFACE} ${TARGET_OBJECT_LIST})
+
+#---------------------------------------------------------------------------------
+# [EMSCRIPTEN] Bitcode
+#---------------------------------------------------------------------------------
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  create_object(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/src/*.*" TRUE)
 else()
-  # Добавляем в проект цель для сборки статической библиотеки
-  add_library(${MODULE_RENDER_TARGET} STATIC ${MODULE_RENDER_SOURCES})
-  set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_RENDER_PROJ_NAME})
-  set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES PREFIX "")
-  if(GLOB_EMSCRIPTEN_PLATFORM)
-    set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.bc")
-    # set(CMAKE_STATIC_LIBRARY_SUFFIX ".bc")
-    else()
-    set_target_properties(${MODULE_RENDER_TARGET} PROPERTIES SUFFIX ".${MODULE_RENDER_VERSION}.a")
-  endif()
+  create_library(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/src/*.*")
 endif()
 
-# target_link_libraries(${MODULE_RENDER_TARGET} GL X11 ${BOOST_LIBRARIES})
-# target_link_libraries(${MODULE_RENDER_TARGET} GL X11 libmodule_core)
-target_link_libraries(${MODULE_RENDER_TARGET})
-
 enable_cxx17(${MODULE_RENDER_TARGET})
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  create_emscripten_library(${MODULE_RENDER_TARGET} ${MODULE_RENDER_ENVIRONMENT} ${MODULE_RENDER_COMPILATION} OUTPUT_TARGET_NAME_LIST)
+
+  foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
+    target_link_options(${target} PUBLIC 
+      "SHELL:-s STRICT=1"
+      "SHELL:-s MODULARIZE=1"
+      "SHELL:-s FULL_ES3=1"
+      "SHELL:-s SUPPORT_LONGJMP=0"
+      "SHELL:-s EXPORT_NAME=\"create_render_module\""
+      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_RENDER_LIB_DIR}/exports.json"
+      "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_RENDER_LIB_DIR}/runtime-exports.json")
+
+    # if(MODULE_RENDER_SHARED_LIB)
+    #   target_link_options(${target} PUBLIC 
+    #     "SHELL:-shared"
+    #     "SHELL:-dynamiclib"
+    #     "SHELL:-s SIDE_MODULE=1")
+    # endif()
+
+    if(MODULE_RENDER_MT)
+      target_link_options(${target} PUBLIC 
+        "SHELL:-Wl,--shared-memory,--no-check-features"
+        "SHELL:-s USE_PTHREADS=1"
+        "SHELL:-s PTHREAD_POOL_SIZE=8"
+        "SHELL:-s IMPORTED_MEMORY=1")
+
+      # target_link_options(${target} PUBLIC 
+      #   "SHELL:-s PROXY_TO_PTHREAD=1")
+    endif()
+
+    # set_target_properties(${target} PROPERTIES COMPILE_FLAGS "-s MEMORY64=1")
+
+    printf_link_options(${target})
+  endforeach()
+endif()
 
 #---------------------------------------------------------------------------------
 # Построение примеров

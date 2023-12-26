@@ -8,9 +8,11 @@ NAMESPACE_BEGIN(render)
 
 class Image {
 public:
-  Image(void *data, int width, int height);
+  Image();
 
   ~Image() = default;
+
+  void create(void *data, int width, int height);
 
   /**
    * @brief Привязывает.
@@ -27,6 +29,7 @@ public:
   auto getTextureSampler() -> gapi::TextureSamplerRef_t { return textureSampler_; }
 
 private:
+  gapi::ConcreatePluginFunctionSet *pluginFuncSet_;
   gapi::TextureRef_t texture_;  // Указатель на шейдерную программу.
   gapi::TextureSamplerRef_t textureSampler_;
 };

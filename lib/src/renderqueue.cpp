@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 RenderQueue::RenderQueue()
-    : priority_(core::intrusive::Priority_Normal) {}
+    : priority_(core::detail::toUnderlying(core::intrusive::Priority::NORMAL)) {}
 
 RenderQueue::RenderQueue(u32_t priority)
     : priority_(priority) {}

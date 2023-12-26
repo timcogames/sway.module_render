@@ -13,12 +13,12 @@ Effect::Effect(const gapi::ShaderCreateInfoSet &infoSet) {
   program_->attach(pluginFuncSet->createShader(infoSet.fs));
 
   program_->link();
-  if (program_->isLinked()) {
+  if (!program_->isLinked()) {
     // Empty
   }
 
   program_->validate();
-  if (program_->isValidated()) {
+  if (!program_->isValidated()) {
     // Empty
   }
 }

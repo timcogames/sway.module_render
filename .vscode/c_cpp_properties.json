@@ -4,12 +4,13 @@
       "name": "Mac",
       "includePath": [
         "${workspaceFolder}/lib/include",
-        "${workspaceFolder}/submodules/sway.module_core/lib/include",
-        "${workspaceFolder}/submodules/sway.module_math/lib/include",
+        "${workspaceFolder}/submodules/sway.module_core/lib/cxx/include",
+        "${workspaceFolder}/submodules/sway.module_math/lib/cxx/include",
+        "${workspaceFolder}/submodules/sway.module_platform-glx11/lib/cxx/include",
+        "${workspaceFolder}/submodules/sway.module_rms/lib/cxx/include",
         "${workspaceFolder}/submodules/sway.module_gapi/include",
-        "${workspaceFolder}/submodules/sway.module_platform-glx11/lib/include",
-        "${workspaceFolder}/submodules/sway.module_loader/include",
-        "${workspaceFolder}/submodules/sway.module_rms/lib/include"
+        "${workspaceFolder}/submodules/sway.module_loader/api/cxx/include",
+        "/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten/system/include"
       ]
     }
   ],

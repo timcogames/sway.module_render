@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./wwwroot/dist/libmodule.css">
+    <title></title>
+  </head>
+  <body>
+    <h1 class="heading">RENDER</h1>
+
+    <div class="container mx-auto grid">
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <script type="module">
+      import create_gapi_gl_module from"./wwwroot/dist/render_ex_01_material.js";
+
+      let instance = create_gapi_gl_module({
+        locateFile: function(path) {
+          const baseURL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf( "/" ));
+          return baseURL + '/wwwroot/dist/' + path;
+        }
+      });
+
+      instance.then((module) => {
+        console.log(module);
+      });
+    </script>
+  </body>
+</html>

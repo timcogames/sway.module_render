@@ -5,13 +5,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Image::Image(void *data, int width, int height) {
-  auto *pluginFuncSet = global::getGapiFunctionSet();
+Image::Image()
+    : pluginFuncSet_(global::getGapiFunctionSet()) {}
 
-  texture_ = pluginFuncSet->createTexture();
+void Image::create(void *data, int width, int height) {
+  texture_ = pluginFuncSet_->createTexture();
   texture_->create(data, width, height);
 
-  textureSampler_ = pluginFuncSet->createTextureSampler();
+  textureSampler_ = pluginFuncSet_->createTextureSampler();
 }
 
 NAMESPACE_END(render)

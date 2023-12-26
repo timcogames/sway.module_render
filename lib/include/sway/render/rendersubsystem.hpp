@@ -38,7 +38,7 @@ public:
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto createQueue(u32_t priority = core::intrusive::Priority_Normal) -> RenderQueueRef_t;
+  auto createQueue(u32_t priority) -> RenderQueueRef_t;
 
   /**
    * @brief Получает очередь по индексу.

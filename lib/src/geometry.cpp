@@ -24,6 +24,7 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
   auto *pluginFuncSet = global::getGapiFunctionSet();
 
   vtxAttribs_ = prim->getVertexAttribs();
+
   vtxAttribLayout_ = pluginFuncSet->createVertexAttribLayout(effect_->getShaderProgram());
   for (const auto &attrib : vtxAttribs_) {
     vtxAttribLayout_->addAttribute(attrib.second->getDescriptor());

@@ -2,7 +2,7 @@
 # CMake version
 #---------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 #---------------------------------------------------------------------------------
 # Project directories
@@ -27,7 +27,6 @@ include("${MODULE_RENDER_EX_01_CMAKE_DIR}/enable_coverage.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/logger.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
-include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
 include("${MODULE_RENDER_EX_01_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")

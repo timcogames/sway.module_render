@@ -25,6 +25,11 @@ public:
 
   auto loadEffect(const std::pair<std::string, std::string> &filepath) -> bool;
 
+  auto onLoadVSFromFile(void *buffer, int size) -> std::string;
+
+  void loadVShaderFromFile(const std::string &filename);
+  void loadFShaderFromFile(const std::string &filename);
+
   auto loadShaderFromFile(const std::string &filename) -> std::optional<std::string>;
 
   void bind();
@@ -39,12 +44,15 @@ public:
     return math::size2f_t((f32_t)imgDesc_.size.getW(), (f32_t)imgDesc_.size.getH());
   }
 
-private:
+  gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
+
+public:
   std::shared_ptr<rms::ImageResourceManager> resourceMngr_;
   std::shared_ptr<Effect> effect_;
   std::vector<std::shared_ptr<Image>> images_;
   MaterialDescriptor desc_;
   loader::ImageDescriptor imgDesc_;
+  std::shared_ptr<Image> image_;
 };
 
 NAMESPACE_END(render)
