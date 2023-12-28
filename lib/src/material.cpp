@@ -17,9 +17,14 @@ Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceMa
 
 auto Material::addImage(const std::string &name) -> bool {
   auto resource = imageResMngr_->findLoadedResource(name);
+
+#if EMSCRIPTEN_PLATFORM
+
   while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
     // std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
+
+#endif
 
   imgDesc_ = resource->getDescriptor();
 
@@ -36,83 +41,27 @@ auto Material::addImage(const std::string &name) -> bool {
   return true;
 }
 
-auto Material::loadEffect(const std::pair<std::string, std::string> &filepath) -> bool {
-  // gapi::ShaderCreateInfoSet shaderCreateInfoSet;
+void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type) {
+  auto resource = glslResMngr_->findLoadedResource(name);
 
-  // auto vert = this->loadShaderFromFile(filepath.first);
-  // if (!vert.has_value()) {
-  //   printf("failed: %s\n", filepath.first.c_str());
-  //   return false;
-  // }
+#if EMSCRIPTEN_PLATFORM
 
-  // shaderCreateInfoSet.vs.type = gapi::ShaderType::VERT;
-  // shaderCreateInfoSet.vs.code = vert.value();
+  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  }
 
-  // auto frag = this->loadShaderFromFile(filepath.second);
-  // if (!frag.has_value()) {
-  //   return false;
-  // }
+#endif
 
-  // shaderCreateInfoSet.fs.type = gapi::ShaderType::FRAG;
-  // shaderCreateInfoSet.fs.code = frag.value();
+  info.type = type;
+  info.code = resource->content_;
+}
 
-  loadVShaderFromFile(filepath.first);
-  loadFShaderFromFile(filepath.second);
+auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {
+  addShader_(std::get<0>(names), shaderCreateInfoSet_.vs, gapi::ShaderType::VERT);
+  addShader_(std::get<1>(names), shaderCreateInfoSet_.fs, gapi::ShaderType::FRAG);
 
   effect_ = std::make_shared<Effect>(shaderCreateInfoSet_);
   return true;
-}
-
-void onShaderErrorRequest(void *arg) {}
-
-auto dataToChar(void *data, int size) -> char * {
-  char *tmp = new char[size + 1];
-  memcpy(tmp, data, size * sizeof(char));
-  tmp[size] = '\0';
-
-  return tmp;
-}
-
-auto Material::onLoadVSFromFile(void *buffer, int size) -> std::string { return std::string(dataToChar(buffer, size)); }
-
-void Material::loadVShaderFromFile(const std::string &filename) {
-  glslResMngr_->fetchData("vs", filename);
-
-  auto resource = glslResMngr_->findLoadedResource("vs");
-  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
-  }
-
-  shaderCreateInfoSet_.vs.type = gapi::ShaderType::VERT;
-  shaderCreateInfoSet_.vs.code = resource->content_;
-}
-
-void Material::loadFShaderFromFile(const std::string &filename) {
-  glslResMngr_->fetchData("fs", filename);
-
-  auto resource = glslResMngr_->findLoadedResource("fs");
-  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
-  }
-
-  shaderCreateInfoSet_.fs.type = gapi::ShaderType::FRAG;
-  shaderCreateInfoSet_.fs.code = resource->content_;
-}
-
-auto Material::loadShaderFromFile(const std::string &filename) -> std::optional<std::string> {
-  std::ifstream stream(filename, std::ios::binary);
-  if (!stream.is_open()) {
-    return std::nullopt;
-  }
-
-  std::string source((std::istreambuf_iterator<s8_t>(stream)), std::istreambuf_iterator<s8_t>());
-  stream.close();
-
-  if (source.length() == 0) {
-    return std::nullopt;
-  }
-
-  return source;
 }
 
 void Material::bind() {

@@ -42,19 +42,15 @@ void createContext(const std::string &canvasId) {
 void createResource() {
   imageResMngr_ = std::make_shared<rms::ImageResourceManager>();
   imageResMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
-  imageResMngr_->fetchData("myimg", "./wwwroot/dist/assets/img.png");
+  imageResMngr_->fetchData("base_img", "./wwwroot/dist/assets/img.png");
 
   glslResMngr_ = std::make_shared<rms::GLSLResourceManager>();
+  glslResMngr_->fetchData("base_vs", "./wwwroot/dist/assets/web/shader.vs");
+  glslResMngr_->fetchData("base_fs", "./wwwroot/dist/assets/web/shader.fs");
 
   mtrl_ = std::make_shared<render::Material>("material", imageResMngr_, glslResMngr_);
-  mtrl_->addImage("myimg");
-
-  // clang-format off
-  mtrl_->loadEffect({
-    "./wwwroot/dist/assets/web/shader.vs",
-    "./wwwroot/dist/assets/web/shader.fs"
-  });
-  // clang-format on
+  mtrl_->addImage("base_img");
+  mtrl_->addEffect({"base_vs", "base_fs"});
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};

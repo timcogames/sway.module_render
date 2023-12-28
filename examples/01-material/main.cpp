@@ -24,7 +24,7 @@ public:
     std::array<char, PATH_MAX + 1> binPath;
     strncpy(binPath.data(), "/Users/apriori85/Documents/Projects/sway.module_render/bin", PATH_MAX);
 
-    auto const plugname = core::misc::format("%s/module_gapi_gl.dylib.0.16.34", binPath.data());
+    auto const plugname = core::misc::format("%s/libmodule_gapi_gl.dylib", binPath.data());
 
     subsystem_ =
         std::make_shared<render::RenderSubsystem>(new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW), this);
@@ -32,8 +32,7 @@ public:
     subqueue_ = std::make_shared<render::RenderSubqueue>();
     subqueue_->initialize();
 
-    auto queue = subsystem_->createQueue();
-    queue->setPriority(core::intrusive::Priority_High);
+    auto queue = subsystem_->createQueue(core::detail::toUnderlying(core::intrusive::Priority::HIGH));
     queue->addSubqueue(subqueue_);
   }
 
@@ -71,18 +70,19 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   auto renderSubqueue = renderSubsystem->getQueueByIdx(0)->getSubqueues(render::RenderSubqueueGroup::OPAQUE)[0];
 
   auto imageResMngr = std::make_shared<rms::ImageResourceManager>();
-  imageResMngr->registerImageProvider(core::misc::format("%s/module_loader_png.dylib.0.1.0", binPath.data()));
-  imageResMngr->loadImage("myimg", core::misc::format("%s/assets/img.png", binPath.data()));
+  imageResMngr->registerImageProvider(core::misc::format("%s/libmodule_loader_png.dylib", binPath.data()));
+  imageResMngr->fetchData("base_img", core::misc::format("%s/assets/img.png", binPath.data()));
 
   auto glslResMngr = std::make_shared<rms::GLSLResourceManager>();
+  glslResMngr->fetchData("base_vs", core::misc::format("%s/assets/dtp/shader.vs", binPath.data()));
+  glslResMngr->fetchData("base_fs", core::misc::format("%s/assets/dtp/shader.fs", binPath.data()));
 
   auto mtrl = std::make_shared<render::Material>("material", imageResMngr, glslResMngr);
-  mtrl->addImage("myimg");
-  // clang-format off
-  mtrl->loadEffect({
-    core::misc::format("%s/assets/dtp/shader.vs", binPath.data()),
-    core::misc::format("%s/assets/dtp/shader.fs", binPath.data())
-  });  // clang-format on
+  mtrl->addImage("base_img");
+  printf("addImage\n");
+
+  mtrl->addEffect({"base_vs", "base_fs"});
+  printf("addEffect\n");
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
       sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
@@ -125,6 +125,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     canvas->getContext()->makeCurrent();
 
     mtrl->getEffect()->getShaderProgram()->setUniform1f("time", test);
+
     mtrl->bind();
     renderSubsystemContext->drawFrame();
     mtrl->unbind();

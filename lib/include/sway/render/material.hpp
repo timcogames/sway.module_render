@@ -24,14 +24,7 @@ public:
 
   auto addImage(const std::string &name) -> bool;
 
-  auto loadEffect(const std::pair<std::string, std::string> &filepath) -> bool;
-
-  auto onLoadVSFromFile(void *buffer, int size) -> std::string;
-
-  void loadVShaderFromFile(const std::string &filename);
-  void loadFShaderFromFile(const std::string &filename);
-
-  auto loadShaderFromFile(const std::string &filename) -> std::optional<std::string>;
+  auto addEffect(const std::array<std::string, 2> &names) -> bool;
 
   void bind();
 
@@ -48,6 +41,8 @@ public:
   gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
 
 public:
+  void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
+
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   std::shared_ptr<Effect> effect_;

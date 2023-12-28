@@ -80,7 +80,7 @@ if(MODULE_RENDER_ENABLE_COVERAGE)
 endif()
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fPIE")
 
 #---------------------------------------------------------------------------------
 # Executable output path
