@@ -70,12 +70,13 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   auto renderSubsystem = renderSubsystemContext->getRenderSubsystem();
   auto renderSubqueue = renderSubsystem->getQueueByIdx(0)->getSubqueues(render::RenderSubqueueGroup::OPAQUE)[0];
 
-  auto resourceMngr = std::make_shared<rms::ImageResourceManager>();
-  resourceMngr->registerImageProvider(core::misc::format("%s/module_loader_png.dylib.0.1.0", binPath.data()));
+  auto imageResMngr = std::make_shared<rms::ImageResourceManager>();
+  imageResMngr->registerImageProvider(core::misc::format("%s/module_loader_png.dylib.0.1.0", binPath.data()));
+  imageResMngr->loadImage("myimg", core::misc::format("%s/assets/img.png", binPath.data()));
 
-  resourceMngr->loadImage("myimg", core::misc::format("%s/assets/img.png", binPath.data()));
+  auto glslResMngr = std::make_shared<rms::GLSLResourceManager>();
 
-  auto mtrl = std::make_shared<render::Material>("material", resourceMngr);
+  auto mtrl = std::make_shared<render::Material>("material", imageResMngr, glslResMngr);
   mtrl->addImage("myimg");
   // clang-format off
   mtrl->loadEffect({

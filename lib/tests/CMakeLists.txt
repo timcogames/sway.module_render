@@ -7,7 +7,7 @@ project(${META_RENDER_PRJNAME_TESTS} CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 
-set(GTest_ROOT "${CUSTOM_GTEST_ROOT_DIR}")
+set(GTest_ROOT "${GLOB_GTEST_LIB_DIR}")
 set(GTEST_INCLUDE_DIR "${GTest_ROOT}/googletest/include")
 set(GTEST_LIBRARY_DIR "${GTest_ROOT}/build/lib")
 

@@ -41,6 +41,7 @@ include("${MODULE_RENDER_CMAKE_DIR}/enable_coverage.cmake")
 #---------------------------------------------------------------------------------
 
 option(MODULE_RENDER_BUILD_SHARED "Build shared library" OFF)
+option(MODULE_RENDER_BUILD_TYPE "" "module") # module, bitcode
 option(MODULE_RENDER_ENVIRONMENT "Environment variable" OFF)
 option(MODULE_RENDER_COMPILATION "Compilation variable" OFF)
 option(MODULE_RENDER_MT "Enable multithreading" OFF)
@@ -134,7 +135,7 @@ endif()
 
 enable_cxx17(${MODULE_RENDER_TARGET})
 
-if(GLOB_EMSCRIPTEN_PLATFORM)
+if(GLOB_EMSCRIPTEN_PLATFORM AND MODULE_RENDER_BUILD_TYPE STREQUAL "module")
   create_emscripten_library(${MODULE_RENDER_TARGET} ${MODULE_RENDER_ENVIRONMENT} ${MODULE_RENDER_COMPILATION} OUTPUT_TARGET_NAME_LIST)
 
   foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)

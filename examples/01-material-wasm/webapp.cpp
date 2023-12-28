@@ -12,7 +12,8 @@ pthread_t worker_;
 std::shared_ptr<render::RenderSubsystem> renderSubsystem_ = nullptr;
 std::shared_ptr<render::RenderSubqueue> renderSubqueue_ = nullptr;
 
-std::shared_ptr<rms::ImageResourceManager> resourceMngr_ = nullptr;
+std::shared_ptr<rms::ImageResourceManager> imageResMngr_ = nullptr;
+std::shared_ptr<rms::GLSLResourceManager> glslResMngr_ = nullptr;
 
 std::shared_ptr<render::Material> mtrl_ = nullptr;
 std::shared_ptr<render::Geometry> geom_ = nullptr;
@@ -39,12 +40,13 @@ void createContext(const std::string &canvasId) {
 }
 
 void createResource() {
-  resourceMngr_ = std::make_shared<rms::ImageResourceManager>();
-  resourceMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
+  imageResMngr_ = std::make_shared<rms::ImageResourceManager>();
+  imageResMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
+  imageResMngr_->fetchData("myimg", "./wwwroot/dist/assets/img.png");
 
-  resourceMngr_->fetchData("myimg", "./wwwroot/dist/assets/img.png");
+  glslResMngr_ = std::make_shared<rms::GLSLResourceManager>();
 
-  mtrl_ = std::make_shared<render::Material>("material", resourceMngr_);
+  mtrl_ = std::make_shared<render::Material>("material", imageResMngr_, glslResMngr_);
   mtrl_->addImage("myimg");
 
   // clang-format off

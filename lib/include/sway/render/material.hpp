@@ -17,7 +17,8 @@ NAMESPACE_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
 public:
-  Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> mngr);
+  Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
+      std::shared_ptr<rms::GLSLResourceManager> glslResMngr);
 
   ~Material() = default;
 
@@ -47,7 +48,8 @@ public:
   gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
 
 public:
-  std::shared_ptr<rms::ImageResourceManager> resourceMngr_;
+  std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
+  std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   std::shared_ptr<Effect> effect_;
   std::vector<std::shared_ptr<Image>> images_;
   MaterialDescriptor desc_;

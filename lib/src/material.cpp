@@ -8,14 +8,15 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> mngr)
+Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
+    std::shared_ptr<rms::GLSLResourceManager> glslResMngr)
     : core::foundation::Uniqueable<std::string>(name)
-    , resourceMngr_(mngr)
+    , imageResMngr_(imageResMngr)
+    , glslResMngr_(glslResMngr)
     , effect_(nullptr) {}
 
 auto Material::addImage(const std::string &name) -> bool {
-  auto resource = resourceMngr_->findLoadedResource(name);
-
+  auto resource = imageResMngr_->findLoadedResource(name);
   while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
     // std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
@@ -75,65 +76,27 @@ auto dataToChar(void *data, int size) -> char * {
 auto Material::onLoadVSFromFile(void *buffer, int size) -> std::string { return std::string(dataToChar(buffer, size)); }
 
 void Material::loadVShaderFromFile(const std::string &filename) {
-  // emscripten_idb_async_exists
-  // emscripten_async_wget_data(
-  //     filename.c_str(), this,
-  //     [](void *arg, void *buffer, int size) -> void {
-  //       auto *materialPtr = (Material *)arg;
-  //       auto content = materialPtr->onLoadVSFromFile(buffer, size);
+  glslResMngr_->fetchData("vs", filename);
 
-  //       materialPtr->shaderCreateInfoSet_.vs.type = gapi::ShaderType::VERT;
-  //       materialPtr->shaderCreateInfoSet_.vs.code = content;
-
-  //       printf("TR: %s\n", materialPtr->shaderCreateInfoSet_.vs.code.c_str());
-  //     },
-  //     onShaderErrorRequest);
+  auto resource = glslResMngr_->findLoadedResource("vs");
+  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  }
 
   shaderCreateInfoSet_.vs.type = gapi::ShaderType::VERT;
-  shaderCreateInfoSet_.vs.code = "#version 300 es\n"
-                                 "layout (location = 0) in vec3 attrib_pos;\n"
-                                 "layout (location = 1) in vec2 attrib_texcoord_0;\n"
-                                 "uniform mat4 mat_proj;\n"
-                                 "uniform mat4 mat_model;\n"
-                                 "out vec2 texcoord_0;\n"
-                                 "void main() {\n"
-                                 "  mat4 modelview = mat_proj * mat_model;\n"
-                                 "  gl_Position = modelview * vec4(attrib_pos, 1.0);\n"
-                                 "  texcoord_0 = attrib_texcoord_0;\n"
-                                 "}";
+  shaderCreateInfoSet_.vs.code = resource->content_;
 }
 
 void Material::loadFShaderFromFile(const std::string &filename) {
-  // emscripten_async_wget_data(
-  //     filename.c_str(), this,
-  //     [](void *arg, void *buffer, int size) -> void {
-  //       auto *materialPtr = (Material *)arg;
-  //       auto content = materialPtr->onLoadVSFromFile(buffer, size);
+  glslResMngr_->fetchData("fs", filename);
 
-  //       materialPtr->shaderCreateInfoSet_.fs.type = gapi::ShaderType::FRAG;
-  //       materialPtr->shaderCreateInfoSet_.fs.code = content;
-  //     },
-  //     onShaderErrorRequest);
+  auto resource = glslResMngr_->findLoadedResource("fs");
+  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  }
 
   shaderCreateInfoSet_.fs.type = gapi::ShaderType::FRAG;
-  shaderCreateInfoSet_.fs.code =
-      "#version 300 es\n"
-      "#ifdef GL_FRAGMENT_PRECISION_HIGH\n"
-      "  precision highp float;\n"
-      "#else\n"
-      "  precision mediump float;\n"
-      "#endif\n"
-      "in vec2 texcoord_0;\n"
-      "uniform sampler2D diffuse_sampler;\n"
-      "uniform float time;\n"
-      "out vec4 outcolor;\n"
-      "void main() {\n"
-      "  vec4 texcolor = texture(diffuse_sampler, vec2(texcoord_0.x + time, texcoord_0.y));\n"
-      "  if(texcolor.a < 0.1) {\n"
-      "    discard;\n"
-      "  }\n"
-      "  outcolor = texcolor;\n"
-      "}";
+  shaderCreateInfoSet_.fs.code = resource->content_;
 }
 
 auto Material::loadShaderFromFile(const std::string &filename) -> std::optional<std::string> {
