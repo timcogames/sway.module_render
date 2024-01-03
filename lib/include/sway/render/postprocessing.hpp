@@ -1,8 +1,8 @@
 #ifndef SWAY_RENDER_POSTPROCESSING_HPP
 #define SWAY_RENDER_POSTPROCESSING_HPP
 
+#include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/namespacemacros.hpp>
 
 #include <memory>
 

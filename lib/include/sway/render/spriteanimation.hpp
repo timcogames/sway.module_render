@@ -17,7 +17,7 @@ public:
 
   ~SpriteAnimation() = default;
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
 
   void setAnimationClip(const SpriteAnimationClip &clip);
 

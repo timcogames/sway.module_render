@@ -4,8 +4,6 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-#define RENDER_PASS_DEFAULT 0
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
@@ -19,7 +17,6 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context *
 
 RenderSubsystem::~RenderSubsystem() {
   queues_.clear();
-  passes_.clear();
 
   idGenerator_.reset();
   capability_.reset();
@@ -32,11 +29,16 @@ auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiFunctionSet()->createCapability();
   idGenerator_ = global::getGapiFunctionSet()->createIdGenerator();
 
-  auto pass = std::make_shared<RenderPass>();
+  passes_[core::detail::toUnderlying(RenderStage::DEPTH)] = std::make_shared<RenderPass>();
+  passes_[core::detail::toUnderlying(RenderStage::COLOR)] = std::make_shared<RenderPass>();
+  passes_[core::detail::toUnderlying(RenderStage::STENCIL)] = std::make_shared<RenderPass>();
+
   auto target = std::make_shared<RenderTarget>();
   target->setScissorViewport(global::getGapiFunctionSet()->createViewport());
-  pass->setRenderTarget(target);
-  passes_.push_back(pass);
+
+  for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
+    passes_[i]->setRenderTarget(target);
+  }
 
   return true;
 }
@@ -53,23 +55,27 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  passes_[RENDER_PASS_DEFAULT]->getRenderTarget()->activate();
-  for (auto &queue : queues_) {
-    renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE);
-    renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT);
-  }
+  for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
+    auto target = passes_[i]->getRenderTarget();
+    target->activate();
 
-  passes_[RENDER_PASS_DEFAULT]->getRenderTarget()->deactivate();
+    for (auto &queue : queues_) {
+      renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i);
+      renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i);
+    }
+
+    target->deactivate();
+  }
 }
 
-void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group) {
+void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage) {
   const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
   }
 
   for (const RenderSubqueueRef_t &subqueue : subqueues) {
-    subqueue->render();
+    subqueue->render(stage);
   }
 }
 

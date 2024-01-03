@@ -11,8 +11,6 @@ Geometry::Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect,
     : idGenerator_(idgen)
     , vtxAttribLayout_(nullptr)
     , vtxArray_(nullptr)
-    , vtxBuffer_(nullptr)
-    , idxBuffer_(nullptr)
     , effect_(effect)
     , indexed_(indexed) {
   // std::cout << std::boolalpha << "Position: " << CustomVertex::hasPosition() << std::endl;
@@ -33,11 +31,11 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
   info_ = prim->getGeometryInfo();
 
   info_.vb.desc.target = gapi::BufferTarget::ARRAY;
-  vtxBuffer_ = pluginFuncSet->createBuffer(idGenerator_, info_.vb);
+  bufset_.vbo = pluginFuncSet->createBuffer(idGenerator_, info_.vb);
 
   if (indexed_) {
     info_.ib.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-    idxBuffer_ = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
+    bufset_.ibo = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
   }
 
   vtxArray_ = pluginFuncSet->createVertexArray();
@@ -77,27 +75,27 @@ void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) 
     }
   }
 
-  vtxBuffer_->updateSubdata(vtxdata);
+  bufset_.vbo->updateSubdata(vtxdata);
 }
 
 void Geometry::bind() {
   vtxArray_->bind();
 
-  vtxBuffer_->bind();
+  bufset_.vbo->bind();
   vtxAttribLayout_->enable();
 
-  if (idxBuffer_) {
-    idxBuffer_->bind();
+  if (bufset_.ibo) {
+    bufset_.ibo->bind();
   }
 }
 
 void Geometry::unbind() {
-  if (idxBuffer_) {
-    idxBuffer_->unbind();
+  if (bufset_.ibo) {
+    bufset_.ibo->unbind();
   }
 
   vtxAttribLayout_->disable();
-  vtxBuffer_->unbind();
+  bufset_.vbo->unbind();
 
   vtxArray_->unbind();
 }

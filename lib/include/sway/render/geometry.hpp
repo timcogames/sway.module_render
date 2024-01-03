@@ -1,10 +1,13 @@
 #ifndef SWAY_RENDER_GEOMETRY_HPP
 #define SWAY_RENDER_GEOMETRY_HPP
 
+#include <sway/gapi.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/geometryvertexdata.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
+
+#include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
@@ -122,26 +125,14 @@ public:
       }
     }
 
-    vtxBuffer_->updateSubdata(vtxdata);
+    bufset_.vbo->updateSubdata(vtxdata);
   }
 
   auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return vtxAttribLayout_; }
 
   auto getVtxArray() -> gapi::VertexArrayPtr_t { return vtxArray_; }
 
-  /**
-   * @brief Получает указатель на объект вершинного буфера.
-   *
-   * @sa getIndexBuffer()
-   */
-  auto getVertexBuffer() -> gapi::BufferRef_t { return vtxBuffer_; }
-
-  /**
-   * @brief Получает указатель на объект индексного буфера.
-   *
-   * @sa getVertexBuffer()
-   */
-  auto getIndexBuffer() -> gapi::BufferRef_t { return idxBuffer_; }
+  auto getBufferSet() -> gapi::BufferSet { return bufset_; }
 
   [[nodiscard]] auto getTopology() const -> gapi::TopologyType;
 
@@ -155,8 +146,7 @@ private:
   VertexAttribMap_t vtxAttribs_;
   gapi::VertexAttribLayoutPtr_t vtxAttribLayout_;
   gapi::VertexArrayPtr_t vtxArray_;
-  gapi::BufferRef_t vtxBuffer_;  // Объект буфера вершин.
-  gapi::BufferRef_t idxBuffer_;  // Объект буфера индексов.
+  gapi::BufferSet bufset_{nullptr, nullptr};
   EffectRef_t effect_;
   bool indexed_;
 };

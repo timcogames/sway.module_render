@@ -20,9 +20,7 @@ auto Material::addImage(const std::string &name) -> bool {
 
 #if EMSCRIPTEN_PLATFORM
 
-  while (!resource->loadingDone_.load(std::memory_order_relaxed)) {
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
-  }
+  resource->wait(std::chrono::milliseconds(10));
 
 #endif
 
@@ -36,7 +34,7 @@ auto Material::addImage(const std::string &name) -> bool {
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
   image->getTexture()->unbind();
 
-  images_.push_back(image);
+  images_.push_back({name, image});
 
   return true;
 }
@@ -64,31 +62,42 @@ auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {
   return true;
 }
 
-void Material::bind() {
+void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
+  auto viewMtx = mtxs->top<math::MatrixType::VIEW>();
+  auto projMtx = mtxs->top<math::MatrixType::PROJ>();
+  auto tfrmMtx = mtxs->top<math::MatrixType::MODEL>();
+
+  auto viewProjMtx = viewMtx * projMtx;
+
   // effect_->getShaderProgram()->setUniformCol4f("mat_ambient", desc.ambient);
   // effect_->getShaderProgram()->setUniformCol4f("mat_diffuse", desc.diffuse);
   // effect_->getShaderProgram()->setUniformCol4f("mat_specular", desc.specular);
   // effect_->getShaderProgram()->setUniformCol4f("mat_emissive", desc.emissive);
-  //  // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
-
-  if (!images_.empty()) {
-    effect_->getShaderProgram()->setUniform1i("diffuse_sampler", images_[0]->getTexture()->getUid().value());
-  }
-
-  // effect_->bind();
+  // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
 
   for (auto image : images_) {
-    image->getTexture()->setActive(images_[0]->getTexture()->getUid().value());
-    image->bind();
+    effect_->getShaderProgram()->setUniform1i(image.first, image.second->getTexture()->getUid().value());
+  }
+
+  effect_->getShaderProgram()->setUniformMat4f("mat_view", viewMtx);
+  effect_->getShaderProgram()->setUniformMat4f("mat_proj", projMtx);
+  effect_->getShaderProgram()->setUniformMat4f("mat_view_proj", viewProjMtx);
+  effect_->getShaderProgram()->setUniformMat4f("mat_model", tfrmMtx);
+  effect_->bind();
+
+  for (auto image : images_) {
+    // state_->apply();
+    image.second->getTexture()->setActive(image.second->getTexture()->getUid().value());
+    image.second->bind();
   }
 }
 
 void Material::unbind() {
   for (auto image : images_) {
-    image->unbind();
+    image.second->unbind();
   }
 
-  // effect_->unbind();
+  effect_->unbind();
 }
 
 NAMESPACE_END(render)

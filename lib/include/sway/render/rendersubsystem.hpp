@@ -15,6 +15,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+enum class RenderStage : u32_t { DEPTH = 0, COLOR = 1, STENCIL = 2, MAX_STAGE = 3 };
+
 class RenderSubsystem : public core::foundation::Subsystem {
 public:
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
@@ -73,10 +75,10 @@ public:
   auto getIdGenerator() -> std::shared_ptr<gapi::IdGenerator> { return idGenerator_; }
 
 private:
-  void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group);
+  void renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage);
 
   std::shared_ptr<gapi::Capability> capability_;
-  std::vector<std::shared_ptr<RenderPass>> passes_;
+  std::array<std::shared_ptr<RenderPass>, core::detail::toUnderlying(RenderStage::MAX_STAGE)> passes_{};
   RenderQueueRefVector_t queues_;  // Контейнер очередей.
   std::shared_ptr<gapi::IdGenerator> idGenerator_;
 };

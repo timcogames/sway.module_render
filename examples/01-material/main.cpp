@@ -71,14 +71,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   auto imageResMngr = std::make_shared<rms::ImageResourceManager>();
   imageResMngr->registerImageProvider(core::misc::format("%s/libmodule_loader_png.dylib", binPath.data()));
-  imageResMngr->fetchData("base_img", core::misc::format("%s/assets/img.png", binPath.data()));
+  imageResMngr->fetchData("diffuse_sampler", core::misc::format("%s/assets/img.png", binPath.data()));
 
   auto glslResMngr = std::make_shared<rms::GLSLResourceManager>();
   glslResMngr->fetchData("base_vs", core::misc::format("%s/assets/dtp/shader.vs", binPath.data()));
   glslResMngr->fetchData("base_fs", core::misc::format("%s/assets/dtp/shader.fs", binPath.data()));
 
   auto mtrl = std::make_shared<render::Material>("material", imageResMngr, glslResMngr);
-  mtrl->addImage("base_img");
+  mtrl->addImage("diffuse_sampler");
   printf("addImage\n");
 
   mtrl->addEffect({"base_vs", "base_fs"});
@@ -115,8 +115,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     render::pipeline::ForwardRenderCommand cmd;
     cmd.geometry = geom;
-    cmd.effect = mtrl->getEffect();
-    cmd.images = mtrl->getImages();
+    cmd.material = mtrl;
     cmd.transform = math::mat4f_t();  // Identity
     cmd.proj = matProj;
     cmd.view = math::mat4f_t();
@@ -126,9 +125,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     mtrl->getEffect()->getShaderProgram()->setUniform1f("time", test);
 
-    mtrl->bind();
     renderSubsystemContext->drawFrame();
-    mtrl->unbind();
 
     canvas->getContext()->present();
     canvas->getContext()->doneCurrent();

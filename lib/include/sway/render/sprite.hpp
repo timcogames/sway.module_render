@@ -26,7 +26,7 @@ public:
   void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
       std::shared_ptr<Material> material, const math::size2f_t &size);
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime));
 
   void updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect);
 
@@ -34,7 +34,7 @@ public:
 
 private:
   RenderSubqueueRef_t subqueue_;
-  std::shared_ptr<Effect> effect_;
+
   std::shared_ptr<Material> material_;
   std::shared_ptr<Geometry> geometry_;
 

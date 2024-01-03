@@ -17,7 +17,7 @@ public:
 
   // PURE_VIRTUAL(void onUpdate(f32_t dtime));
 
-  PURE_VIRTUAL(void onUpdate(math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
+  PURE_VIRTUAL(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
 
   // PURE_VIRTUAL(void onDestroy());
 };

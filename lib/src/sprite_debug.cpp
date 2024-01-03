@@ -27,13 +27,11 @@ void Sprite_Debug::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::s
   geometry_->create(plane);
 }
 
-void Sprite_Debug::onUpdate(
-    math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t deltaTime) {
+void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
   pipeline::ForwardRenderCommand cmd;
   cmd.geometry = geometry_;
-  cmd.effect = material_->getEffect();
-  cmd.images = material_->getImages();
-  cmd.transform = transform;
+  cmd.material = material_;
+  cmd.tfrm = tfrm;
   cmd.proj = proj;
   cmd.view = view;
 

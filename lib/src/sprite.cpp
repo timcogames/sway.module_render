@@ -1,3 +1,4 @@
+#include <sway/gapi.hpp>
 #include <sway/render/sprite.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -19,13 +20,19 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geometry_->create(plane);
 }
 
-void Sprite::onUpdate(
-    math::mat4f_t transform, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t deltaTime) {
+void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
   pipeline::ForwardRenderCommand cmd;
+  cmd.stage = 0;
+  cmd.depth.enabled = true;
+  cmd.depth.func = gapi::CompareFunction::LESS;
+  cmd.stencil.enabled = true;
+  cmd.stencil.func = gapi::CompareFunction::ALWAYS;
+  cmd.stencil.fail = gapi::StencilOperation::KEEP;
+  cmd.stencil.depthFail = gapi::StencilOperation::KEEP;
+  cmd.stencil.depthPass = gapi::StencilOperation::REPLACE;
   cmd.geometry = geometry_;
-  cmd.effect = material_->getEffect();
-  cmd.images = material_->getImages();
-  cmd.transform = transform;
+  cmd.material = material_;
+  cmd.tfrm = tfrm;
   cmd.proj = proj;
   cmd.view = view;
 

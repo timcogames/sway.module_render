@@ -4,6 +4,7 @@
 #include <sway/render/effect.hpp>
 #include <sway/render/geometry.hpp>
 #include <sway/render/image.hpp>
+#include <sway/render/material.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -15,15 +16,37 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(pipeline)
 
+struct StencilStateData {
+  bool enabled;
+  gapi::CompareFunction func;
+  gapi::StencilOperation fail;
+  gapi::StencilOperation depthFail;
+  gapi::StencilOperation depthPass;
+};
+
+struct DepthStateData {
+  bool enabled;
+  gapi::CompareFunction func;
+};
+
 struct RenderCommand {};
 
-struct ForwardRenderCommand : public RenderCommand {
+struct ForwardRenderPass {
+  StencilStateData stencil;
+  DepthStateData depth;
   std::shared_ptr<Geometry> geometry;
-  std::shared_ptr<Effect> effect;
-  // std::vector<std::pair<std::string, std::shared_ptr<Image>>> images;
-  std::vector<std::shared_ptr<Image>> images;
+  std::shared_ptr<Material> material;
+};
 
-  math::mat4f_t transform;
+struct ForwardRenderCommand : public RenderCommand {
+  u32_t stage;
+  // std::array<ForwardRenderPass, 4> passes{};
+  StencilStateData stencil;
+  DepthStateData depth;
+  std::shared_ptr<Geometry> geometry;
+  std::shared_ptr<Material> material;
+
+  math::mat4f_t tfrm;
   math::mat4f_t proj;
   math::mat4f_t view;
 };

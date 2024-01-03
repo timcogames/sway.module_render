@@ -94,7 +94,7 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")

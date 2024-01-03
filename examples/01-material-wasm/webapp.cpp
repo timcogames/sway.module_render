@@ -42,14 +42,14 @@ void createContext(const std::string &canvasId) {
 void createResource() {
   imageResMngr_ = std::make_shared<rms::ImageResourceManager>();
   imageResMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
-  imageResMngr_->fetchData("base_img", "./wwwroot/dist/assets/img.png");
+  imageResMngr_->fetchData("diffuse_sampler", "./wwwroot/dist/assets/img.png");
 
   glslResMngr_ = std::make_shared<rms::GLSLResourceManager>();
   glslResMngr_->fetchData("base_vs", "./wwwroot/dist/assets/web/shader.vs");
   glslResMngr_->fetchData("base_fs", "./wwwroot/dist/assets/web/shader.fs");
 
   mtrl_ = std::make_shared<render::Material>("material", imageResMngr_, glslResMngr_);
-  mtrl_->addImage("base_img");
+  mtrl_->addImage("diffuse_sampler");
   mtrl_->addEffect({"base_vs", "base_fs"});
 
   std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
@@ -81,17 +81,16 @@ void mainLoopCallback_(void *target) {
 
   render::pipeline::ForwardRenderCommand cmd;
   cmd.geometry = geom_;
-  cmd.effect = mtrl_->getEffect();
-  cmd.images = mtrl_->getImages();
-  cmd.transform = math::mat4f_t();  // Identity
+  cmd.material = mtrl_;
+  cmd.tfrm = math::mat4f_t();  // Identity
   cmd.proj = matProj;
   cmd.view = math::mat4f_t();
   renderSubqueue_->post(cmd);
 
   mtrl_->getEffect()->getShaderProgram()->setUniform1f("time", speed_);
-  mtrl_->bind();
+  // mtrl_->bind();
   renderSubsystem_->render();
-  mtrl_->unbind();
+  // mtrl_->unbind();
 
   timer_.ended();
 }
