@@ -18,14 +18,14 @@ NAMESPACE_BEGIN(prims)
 template <typename TVertexDataType>
 class Plane : public Shape {
 public:
-  Plane(const math::size2f_t &size, const math::size2i_t &subdivisions)
+  Plane(const math::size2f_t &size, const math::size2i_t &subdivisions, const math::col4f_t &col = COL4F_WHITE)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(
             4 * subdivisions.getW() * subdivisions.getH())) {
     auto sizeHalf = size / 2.0F;
 
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
         .tex = data_->template createVertexAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)};
 
     auto unitScale = 1.5F;
@@ -46,10 +46,10 @@ public:
         attribs.pos->addVtxData({(0.0F + (f32_t)x) * tileWt, (1.0F + (f32_t)y) * tileHt, 0.0F});
         attribs.pos->addVtxData({(1.0F + (f32_t)x) * tileWt, (1.0F + (f32_t)y) * tileHt, 0.0F});
 
-        attribs.col->addVtxData(math::vec3f_t(0.0F, 0.0F, 0.0F));
-        attribs.col->addVtxData(math::vec3f_t(0.0F, 0.0F, 0.0F));
-        attribs.col->addVtxData(math::vec3f_t(0.0F, 0.0F, 0.0F));
-        attribs.col->addVtxData(math::vec3f_t(0.0F, 0.0F, 0.0F));
+        attribs.col->addVtxData(col.toVec4());
+        attribs.col->addVtxData(col.toVec4());
+        attribs.col->addVtxData(col.toVec4());
+        attribs.col->addVtxData(col.toVec4());
 
         attribs.tex->addVtxData(math::vec2f_t(0.0F, 0.0F));
         attribs.tex->addVtxData(math::vec2f_t(1.0F, 0.0F));

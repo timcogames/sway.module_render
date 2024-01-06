@@ -16,33 +16,32 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(pipeline)
 
-struct StencilStateData {
-  bool enabled;
-  gapi::CompareFunction func;
-  gapi::StencilOperation fail;
-  gapi::StencilOperation depthFail;
-  gapi::StencilOperation depthPass;
-};
-
-struct DepthStateData {
-  bool enabled;
-  gapi::CompareFunction func;
-};
-
 struct RenderCommand {};
 
-struct ForwardRenderPass {
-  StencilStateData stencil;
-  DepthStateData depth;
-  std::shared_ptr<Geometry> geometry;
-  std::shared_ptr<Material> material;
+// struct ForwardRenderPass {
+//   StencilStateData stencil;
+//   DepthStateData depth;
+//   std::shared_ptr<Geometry> geometry;
+//   std::shared_ptr<Material> material;
+// };
+
+struct BlendDescriptor {
+  bool enabled;
+  gapi::BlendFn src;
+  gapi::BlendFn dst;
+  bool mask;
 };
 
 struct ForwardRenderCommand : public RenderCommand {
   u32_t stage;
+
+  BlendDescriptor blendDesc;
   // std::array<ForwardRenderPass, 4> passes{};
-  StencilStateData stencil;
-  DepthStateData depth;
+
+  gapi::RasterizerDescriptor rasterizerDesc;
+  gapi::DepthDescriptor depthDesc;
+  gapi::StencilDescriptor stencilDesc;
+
   std::shared_ptr<Geometry> geometry;
   std::shared_ptr<Material> material;
 

@@ -11,9 +11,6 @@
 #include <memory>
 
 #define AXIS_VERTEX_COUNT 9  // Количество вершин.
-#define COLOR_R math::vec3f_t(1.0F, 0.0F, 0.0F)
-#define COLOR_G math::vec3f_t(0.0F, 1.0F, 0.0F)
-#define COLOR_B math::vec3f_t(0.0F, 0.0F, 1.0F)
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
@@ -30,7 +27,7 @@ public:
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(AXIS_VERTEX_COUNT)) {
     auto attribs = (struct GeometryVertexAttribSet){
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
         .tex = nullptr};
 
     // X axis
@@ -50,20 +47,20 @@ public:
     attribs.pos->addVtxData({-0.1F, +0.0F, +0.9F});
 
     // X axis
-    attribs.col->addVtxData(COLOR_R);
-    attribs.col->addVtxData(COLOR_R);
-    attribs.col->addVtxData(COLOR_R);
-    attribs.col->addVtxData(COLOR_R);
+    attribs.col->addVtxData(COL4F_RED.toVec4());
+    attribs.col->addVtxData(COL4F_RED.toVec4());
+    attribs.col->addVtxData(COL4F_RED.toVec4());
+    attribs.col->addVtxData(COL4F_RED.toVec4());
     // Y axis
-    attribs.col->addVtxData(COLOR_G);
-    attribs.col->addVtxData(COLOR_G);
-    attribs.col->addVtxData(COLOR_G);
-    attribs.col->addVtxData(COLOR_G);
+    attribs.col->addVtxData(COL4F_GREEN.toVec4());
+    attribs.col->addVtxData(COL4F_GREEN.toVec4());
+    attribs.col->addVtxData(COL4F_GREEN.toVec4());
+    attribs.col->addVtxData(COL4F_GREEN.toVec4());
     // Z axis
-    attribs.col->addVtxData(COLOR_B);
-    attribs.col->addVtxData(COLOR_B);
-    attribs.col->addVtxData(COLOR_B);
-    attribs.col->addVtxData(COLOR_B);
+    attribs.col->addVtxData(COL4F_BLUE.toVec4());
+    attribs.col->addVtxData(COL4F_BLUE.toVec4());
+    attribs.col->addVtxData(COL4F_BLUE.toVec4());
+    attribs.col->addVtxData(COL4F_BLUE.toVec4());
 
     // X axis
     data_->addIdxData(0);

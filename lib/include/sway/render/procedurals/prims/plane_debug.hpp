@@ -20,10 +20,10 @@ class Plane_Debug : public Shape {
 public:
   void addLine(GeometryVertexAttribSet attribs, const math::vec3f_t &from, const math::vec3f_t &to) {
     attribs.pos->addVtxData(from);
-    attribs.col->addVtxData(math::vec3f_t(1.0F, 0.0F, 0.0F));
+    attribs.col->addVtxData(math::vec4f_t(1.0F, 0.0F, 0.0F, 1.0F));
 
     attribs.pos->addVtxData(to);
-    attribs.col->addVtxData(math::vec3f_t(1.0F, 0.0F, 0.0F));
+    attribs.col->addVtxData(math::vec4f_t(1.0F, 0.0F, 0.0F, 1.0F));
   }
 
   Plane_Debug(const math::size2f_t &size, const math::size2i_t &subdivisions)
@@ -33,7 +33,7 @@ public:
 
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
         .tex = nullptr};
 
     // auto unitScale = 0.8F;

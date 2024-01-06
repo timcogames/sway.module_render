@@ -24,7 +24,7 @@ public:
 
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::COL),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
         .tex = data_->template createVertexAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)};
 
     //  0-------1-------2-------3
@@ -47,7 +47,7 @@ public:
     for (auto row = 0; row < rows; row++) {
       for (auto col = 0; col < cols; col++) {
         attribs.pos->addVtxData({(float)col * 0.5F, (float)row * 0.5F, 0.0F});
-        attribs.col->addVtxData(math::vec3f_t(0.0F, 0.0F, 0.0F));
+        attribs.col->addVtxData(math::vec4f_t(0.0F, 0.0F, 0.0F, 1.0F));
         attribs.tex->addVtxData(math::vec2f_t(col * (1.0F / cols), row * (1.0F / rows)));
       }
     }

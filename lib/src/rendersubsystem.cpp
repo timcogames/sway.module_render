@@ -36,8 +36,11 @@ auto RenderSubsystem::initialize() -> bool {
   auto target = std::make_shared<RenderTarget>();
   target->setScissorViewport(global::getGapiFunctionSet()->createViewport());
 
+  auto state = std::make_shared<RenderState>();
+
   for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
     passes_[i]->setRenderTarget(target);
+    passes_[i]->setRenderState(state);
   }
 
   return true;
@@ -57,25 +60,28 @@ void RenderSubsystem::sortQueues() {
 void RenderSubsystem::render() {
   for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
     auto target = passes_[i]->getRenderTarget();
+    auto state = passes_[i]->getRenderState();
+
     target->activate();
 
     for (auto &queue : queues_) {
-      renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i);
-      renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i);
+      renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);
+      renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i, state);
     }
 
     target->deactivate();
   }
 }
 
-void RenderSubsystem::renderSubqueues_(RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage) {
+void RenderSubsystem::renderSubqueues_(
+    RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state) {
   const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
   }
 
   for (const RenderSubqueueRef_t &subqueue : subqueues) {
-    subqueue->render(stage);
+    subqueue->render(stage, state->getContext());
   }
 }
 

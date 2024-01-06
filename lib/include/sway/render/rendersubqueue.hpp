@@ -6,6 +6,7 @@
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/pipeline/rendercommandhandler.hpp>
 #include <sway/render/prereqs.hpp>
+#include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -37,7 +38,7 @@ public:
   /**
    * @brief Метод отрисовки.
    */
-  void render(u32_t stage);
+  void render(u32_t stage, std::shared_ptr<gapi::StateContext> state);
 
   /**
    * @brief Устанавливает группу подочереди.
@@ -55,7 +56,6 @@ public:
 
 private:
   gapi::DrawCallRef_t drawCall_;
-  gapi::StateRef_t state_;
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;
   RenderSubqueueGroup group_;  // Группа подочереди.

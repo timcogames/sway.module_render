@@ -65,7 +65,7 @@ auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {
 void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
   auto viewMtx = mtxs->top<math::MatrixType::VIEW>();
   auto projMtx = mtxs->top<math::MatrixType::PROJ>();
-  auto tfrmMtx = mtxs->top<math::MatrixType::MODEL>();
+  auto tfrmMtx = mtxs->top<math::MatrixType::TFRM>();
 
   auto viewProjMtx = viewMtx * projMtx;
 

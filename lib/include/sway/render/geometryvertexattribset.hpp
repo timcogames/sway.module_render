@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(render)
 
 struct GeometryVertexAttribSet {
   std::shared_ptr<GeometryVertexAttrib<math::vec3f_t>> pos;
-  std::shared_ptr<GeometryVertexAttrib<math::vec3f_t>> col;
+  std::shared_ptr<GeometryVertexAttrib<math::vec4f_t>> col;
   std::shared_ptr<GeometryVertexAttrib<math::vec2f_t>> tex;
 };
 
