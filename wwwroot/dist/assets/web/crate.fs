@@ -6,14 +6,15 @@
   precision mediump float;
 #endif
 
+in vec4 vertex_col;
 in vec2 texcoord_0;
-uniform sampler2D diffuse_sampler;
-uniform float time;
+uniform sampler2D crate_sampler;
 
 out vec4 outcolor;
 
 void main() {
-  vec4 texcolor = texture(diffuse_sampler, vec2(texcoord_0.x + time, texcoord_0.y));
+  // vec4 texcolor = vec4(vertex_col.xyz, texture(crate_sampler, texcoord_0).a);
+  vec4 texcolor = texture(crate_sampler, texcoord_0);
   if(texcolor.a < 0.1) {
     discard;
   }
