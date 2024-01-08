@@ -15,8 +15,11 @@ Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceMa
     , glslResMngr_(glslResMngr)
     , effect_(nullptr) {}
 
-auto Material::addImage(const std::string &name) -> bool {
-  auto resource = imageResMngr_->findLoadedResource(name);
+auto Material::addImage(const std::string &resname, const std::string &alias) -> bool {
+  auto resource = imageResMngr_->findLoadedResource(resname);
+  if (!resource) {
+    printf("The file %s was not found\n", resname.c_str());
+  }
 
 #if EMSCRIPTEN_PLATFORM
 
@@ -34,13 +37,16 @@ auto Material::addImage(const std::string &name) -> bool {
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
   image->getTexture()->unbind();
 
-  images_.push_back({name, image});
+  images_.push_back({alias, image});
 
   return true;
 }
 
 void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type) {
   auto resource = glslResMngr_->findLoadedResource(name);
+  if (!resource) {
+    printf("The file %s was not found\n", name.c_str());
+  }
 
 #if EMSCRIPTEN_PLATFORM
 

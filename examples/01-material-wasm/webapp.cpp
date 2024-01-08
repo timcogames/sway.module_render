@@ -49,8 +49,8 @@ void createResource() {
   imageResMngr_ = std::make_shared<rms::ImageResourceManager>();
   imageResMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
   imageResMngr_->fetchData("diffuse_sampler", "./wwwroot/dist/assets/img.png");
-  imageResMngr_->fetchData("crate_sampler", "./wwwroot/dist/assets/kenney_tanks_crate_wood.png");
-  imageResMngr_->fetchData("tank_sampler", "./wwwroot/dist/assets/kenney_tanks_tank_desert_1.png");
+  imageResMngr_->fetchData("crate_png", "./wwwroot/dist/assets/kenney_tanks_crate_wood.png");
+  imageResMngr_->fetchData("tank_png", "./wwwroot/dist/assets/kenney_tanks_tank_desert_1.png");
 
   glslResMngr_ = std::make_shared<rms::GLSLResourceManager>();
   glslResMngr_->fetchData("base_vs", "./wwwroot/dist/assets/web/shader.vs");
@@ -63,15 +63,15 @@ void createResource() {
   glslResMngr_->fetchData("tank_silhouette_fs", "./wwwroot/dist/assets/web/tank_silhouette.fs");
 
   crateMtrl_ = std::make_shared<render::Material>("crate_material", imageResMngr_, glslResMngr_);
-  crateMtrl_->addImage("crate_sampler");
+  crateMtrl_->addImage("crate_png", "crate_sampler");
   crateMtrl_->addEffect({"crate_vs", "crate_fs"});
 
   tankMtrl_ = std::make_shared<render::Material>("tank_material", imageResMngr_, glslResMngr_);
-  tankMtrl_->addImage("tank_sampler");
+  tankMtrl_->addImage("tank_png", "tank_sampler");
   tankMtrl_->addEffect({"tank_vs", "tank_fs"});
 
   tankSilhouetteMtrl_ = std::make_shared<render::Material>("tank_silhouette_material", imageResMngr_, glslResMngr_);
-  tankSilhouetteMtrl_->addImage("tank_sampler");
+  tankSilhouetteMtrl_->addImage("tank_png", "tank_sampler");
   tankSilhouetteMtrl_->addEffect({"tank_silhouette_vs", "tank_silhouette_fs"});
 
   std::array<sway::gapi::VertexSemantic, 3> quadSemantics = {

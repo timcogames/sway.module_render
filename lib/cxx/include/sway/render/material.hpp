@@ -23,7 +23,7 @@ public:
 
   ~Material() = default;
 
-  auto addImage(const std::string &name) -> bool;
+  auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
   auto addEffect(const std::array<std::string, 2> &names) -> bool;
 

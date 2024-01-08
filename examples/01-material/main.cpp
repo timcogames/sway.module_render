@@ -71,14 +71,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   auto imageResMngr = std::make_shared<rms::ImageResourceManager>();
   imageResMngr->registerImageProvider(core::misc::format("%s/libmodule_loader_png.dylib", binPath.data()));
-  imageResMngr->fetchData("diffuse_sampler", core::misc::format("%s/assets/img.png", binPath.data()));
+  imageResMngr->fetchData("img_png", core::misc::format("%s/assets/img.png", binPath.data()));
 
   auto glslResMngr = std::make_shared<rms::GLSLResourceManager>();
   glslResMngr->fetchData("base_vs", core::misc::format("%s/assets/dtp/shader.vs", binPath.data()));
   glslResMngr->fetchData("base_fs", core::misc::format("%s/assets/dtp/shader.fs", binPath.data()));
 
   auto mtrl = std::make_shared<render::Material>("material", imageResMngr, glslResMngr);
-  mtrl->addImage("diffuse_sampler");
+  mtrl->addImage("img_png", "diffuse_sampler");
   printf("addImage\n");
 
   mtrl->addEffect({"base_vs", "base_fs"});
