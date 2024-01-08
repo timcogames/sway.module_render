@@ -9,10 +9,10 @@ NAMESPACE_BEGIN(render)
 enum class RenderSubqueueGroup : u32_t {
   OPAQUE,  // Отрисовывать только непрозрачные части.
   TRANSPARENT,  // Отрисовывать только прозрачные части.
-  LATEST
+  Latest
 };
 
-#define RENDER_SUBQUEUE_GROUP_COUNT (core::detail::toUnderlying(RenderSubqueueGroup::LATEST))
+#define RENDER_SUBQUEUE_GROUP_COUNT (core::detail::toUnderlying(RenderSubqueueGroup::Latest))
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

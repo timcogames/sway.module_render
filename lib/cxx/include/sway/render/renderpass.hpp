@@ -11,6 +11,18 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+// enum class RenderPassType : u32_t { DEPTH, COLOR, REFRACT, BLENDED, SENTINEL };
+// enum class RenderPassAction { KEEP = 0, CLEAR = 1, DONT_CARE = 2 };
+
+// struct RenderPassInfo {
+//   RenderPassAction color;
+//   RenderPassAction depth;
+//   RenderPassAction stencil;
+//   u32_t clearColor;
+//   u32_t clearDepth;
+//   u32_t clearStencil;
+// };
+
 class RenderPass {
 public:
   RenderPass();

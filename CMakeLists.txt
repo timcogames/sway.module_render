@@ -93,7 +93,7 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
-include_directories("${MODULE_RENDER_LIST_DIR}/lib/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
@@ -105,8 +105,8 @@ include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_rms/lib/cx
 link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_LIST_DIR}/lib/include/sway/*.*")
-file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/src/*.*")
+file(GLOB_RECURSE MODULE_RENDER_HEADERS "${MODULE_RENDER_LIST_DIR}/lib/cxx/include/sway/*.*")
+file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/cxx/src/*.*")
 
 # # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 ${BOOST_LIBRARIES})
 # # target_link_libraries(${MODULE_RENDER_TARGET} GL X11 libmodule_core)
@@ -128,9 +128,9 @@ create_interface(${MODULE_CORE_TARGET_IFACE} ${TARGET_OBJECT_LIST})
 #---------------------------------------------------------------------------------
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_object(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/src/*.*" TRUE)
+  create_object(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
 else()
-  create_library(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/src/*.*")
+  create_library(${MODULE_RENDER_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/cxx/src/*.*")
 endif()
 
 enable_cxx17(${MODULE_RENDER_TARGET})
