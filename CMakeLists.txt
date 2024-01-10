@@ -93,6 +93,7 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
+include_directories("${GLOB_THIRD_PARTY_DIR}/json/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
@@ -173,7 +174,7 @@ if(GLOB_EMSCRIPTEN_PLATFORM AND MODULE_RENDER_BUILD_TYPE STREQUAL "module")
 endif()
 
 #---------------------------------------------------------------------------------
-# Построение примеров
+# Examples
 #---------------------------------------------------------------------------------
 
 if(MODULE_RENDER_ENABLE_EXAMPLES)
@@ -194,11 +195,11 @@ if(MODULE_RENDER_ENABLE_EXAMPLES)
 endif()
 
 #---------------------------------------------------------------------------------
-# Построение тестов
+# Tests
 #---------------------------------------------------------------------------------
 
 if(MODULE_RENDER_ENABLE_TESTS)
   message(STATUS "Tests have been enabled")
 
-  add_subdirectory(tests)
+  add_subdirectory(lib/cxx/tests)
 endif()

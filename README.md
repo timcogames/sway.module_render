@@ -20,6 +20,7 @@ mkdir build && cd ./build
 
 ```console
 cmake -D CMAKE_BUILD_TYPE=Release \
+      -D GLOB_THIRD_PARTY_DIR=/Users/<USER_NAME>/Documents/Third-party \
       -D MODULE_RENDER_ENABLE_TESTS=OFF \
       -D MODULE_RENDER_ENABLE_EXAMPLES=ON ../
 ```

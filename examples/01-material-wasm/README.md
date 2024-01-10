@@ -2,6 +2,7 @@
 
 ```console
 cmake -D CMAKE_BUILD_TYPE=Release \
+      -D GLOB_THIRD_PARTY_DIR=/Users/<USER_NAME>/Documents/Third-party \
       -D GLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \
       -D GLOB_EMSCRIPTEN_PLATFORM=ON \
       -D GLOB_EMSCRIPTEN_USE_BINDINGS=OFF \
