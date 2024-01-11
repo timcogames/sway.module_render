@@ -49,6 +49,10 @@ option(MODULE_RENDER_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_RENDER_ENABLE_EXAMPLES "none" OFF)
 option(MODULE_RENDER_ENABLE_TESTS "Enable test builds" OFF)
 
+if(MODULE_RENDER_ENABLE_TESTS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D RENDER_USE_GMOCK")
+endif()
+
 #---------------------------------------------------------------------------------
 # [EMSCRIPTEN]: Setup
 #---------------------------------------------------------------------------------

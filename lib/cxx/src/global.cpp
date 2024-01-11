@@ -4,7 +4,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(global)
 
-#ifdef _MOCK
+#ifdef RENDER_USE_GMOCK
 
 core::Plugin *pluginInstance_ = nullptr;
 MockPluginFunctionSet *pluginFunctionSet_ = nullptr;

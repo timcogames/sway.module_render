@@ -4,16 +4,15 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-#ifdef _MOCK
+#ifdef RENDER_USE_GMOCK
 #  include <gmock/gmock.h>
-#else
 #endif
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(global)
 
-#ifdef _MOCK
+#ifdef RENDER_USE_GMOCK
 
 class CapabilityMock {
 public:
