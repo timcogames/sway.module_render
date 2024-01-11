@@ -25,26 +25,27 @@ struct MockPluginFunctionSet : public core::PluginFunctionSet {
   MOCK_METHOD(gapi::ShaderProgramRef_t, createShaderProgram, ());
   MOCK_METHOD(gapi::IdGeneratorRef_t, createIdGenerator, ());
   MOCK_METHOD(gapi::BufferRef_t, createBuffer, (gapi::IdGeneratorRef_t, const gapi::BufferCreateInfo &));
+  MOCK_METHOD(gapi::VertexArrayPtr_t, createVertexArray, ());
   MOCK_METHOD(gapi::VertexAttribLayoutPtr_t, createVertexAttribLayout, (gapi::ShaderProgramRef_t));
   MOCK_METHOD(gapi::TextureRef_t, createTexture, ());
   MOCK_METHOD(gapi::TextureSamplerRef_t, createTextureSampler, ());
   MOCK_METHOD(gapi::DrawCallRef_t, createDrawCall, ());
   MOCK_METHOD(gapi::ViewportRef_t, createViewport, ());
+  MOCK_METHOD(gapi::StateContextRef_t, createStateContext, ());
 };
 
-extern core::Plugin *pluginInstance_;
-extern MockPluginFunctionSet *pluginFunctionSet_;
-
-auto getGapiFunctionSet() -> MockPluginFunctionSet *;
+using GapiPluginFunctionSet = MockPluginFunctionSet;
 
 #else
 
-extern core::Plugin *pluginInstance_;
-extern gapi::ConcreatePluginFunctionSet *pluginFunctionSet_;
-
-auto getGapiFunctionSet() -> gapi::ConcreatePluginFunctionSet *;
+using GapiPluginFunctionSet = gapi::ConcreatePluginFunctionSet;
 
 #endif
+
+extern core::Plugin *pluginInstance_;
+extern GapiPluginFunctionSet *pluginFunctionSet_;
+
+auto getGapiPluginFunctionSet() -> GapiPluginFunctionSet *;
 
 NAMESPACE_END(global)
 NAMESPACE_END(render)

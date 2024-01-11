@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(global)
 core::Plugin *pluginInstance_ = nullptr;
 MockPluginFunctionSet *pluginFunctionSet_ = nullptr;
 
-auto getGapiFunctionSet() -> MockPluginFunctionSet * {
+auto getGapiPluginFunctionSet() -> MockPluginFunctionSet * {
   if (pluginFunctionSet_ == nullptr) {
     pluginFunctionSet_ = new MockPluginFunctionSet();
   }
@@ -22,7 +22,7 @@ auto getGapiFunctionSet() -> MockPluginFunctionSet * {
 core::Plugin *pluginInstance_ = nullptr;
 gapi::ConcreatePluginFunctionSet *pluginFunctionSet_ = nullptr;
 
-auto getGapiFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
+auto getGapiPluginFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
   if (pluginFunctionSet_ == nullptr) {
     pluginInstance_->initialize(pluginFunctionSet_ = new gapi::ConcreatePluginFunctionSet());
   }

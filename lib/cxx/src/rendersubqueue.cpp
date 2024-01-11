@@ -12,7 +12,7 @@ RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
   matrixStack_ = std::make_shared<math::MatrixStack>();
 }
 
-void RenderSubqueue::initialize() { drawCall_ = global::getGapiFunctionSet()->createDrawCall(); }
+void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall(); }
 
 void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 

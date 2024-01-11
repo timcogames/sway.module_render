@@ -46,12 +46,9 @@ option(MODULE_RENDER_ENVIRONMENT "Environment variable" OFF)
 option(MODULE_RENDER_COMPILATION "Compilation variable" OFF)
 option(MODULE_RENDER_MT "Enable multithreading" OFF)
 option(MODULE_RENDER_ENABLE_COVERAGE "Enable coverage builds" OFF)
-option(MODULE_RENDER_ENABLE_EXAMPLES "none" OFF)
+option(MODULE_RENDER_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_RENDER_ENABLE_TESTS "Enable test builds" OFF)
-
-if(MODULE_RENDER_ENABLE_TESTS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D RENDER_USE_GMOCK")
-endif()
+option(MODULE_RENDER_USE_GMOCK "Use google mock" OFF)
 
 #---------------------------------------------------------------------------------
 # [EMSCRIPTEN]: Setup
@@ -98,6 +95,8 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${GLOB_THIRD_PARTY_DIR}/json/include")
+include_directories("${GLOB_GTEST_ROOT_DIR}/include")
+include_directories("${GLOB_GMOCK_ROOT_DIR}/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
@@ -139,6 +138,10 @@ else()
 endif()
 
 enable_cxx17(${MODULE_RENDER_TARGET})
+
+if(MODULE_RENDER_ENABLE_TESTS OR MODULE_RENDER_USE_GMOCK)
+  target_compile_definitions(${MODULE_RENDER_TARGET} PUBLIC -DRENDER_USE_GMOCK)
+endif()
 
 if(GLOB_EMSCRIPTEN_PLATFORM AND MODULE_RENDER_BUILD_TYPE STREQUAL "module")
   create_emscripten_library(${MODULE_RENDER_TARGET} ${MODULE_RENDER_ENVIRONMENT} ${MODULE_RENDER_COMPILATION} OUTPUT_TARGET_NAME_LIST)

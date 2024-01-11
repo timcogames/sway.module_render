@@ -4,7 +4,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-RenderState::RenderState() { state_ = global::getGapiFunctionSet()->createStateContext(); }
+RenderState::RenderState() { state_ = global::getGapiPluginFunctionSet()->createStateContext(); }
 
 void RenderState::restore() {}
 

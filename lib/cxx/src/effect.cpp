@@ -6,7 +6,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 Effect::Effect(const gapi::ShaderCreateInfoSet &infoSet) {
-  auto *pluginFuncSet = global::getGapiFunctionSet();
+  auto *pluginFuncSet = global::getGapiPluginFunctionSet();
 
   program_ = pluginFuncSet->createShaderProgram();
   program_->attach(pluginFuncSet->createShader(infoSet.vs));

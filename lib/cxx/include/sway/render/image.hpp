@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_IMAGE_HPP
 #define SWAY_RENDER_IMAGE_HPP
 
+#include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -29,7 +30,7 @@ public:
   auto getTextureSampler() -> gapi::TextureSamplerRef_t { return textureSampler_; }
 
 private:
-  gapi::ConcreatePluginFunctionSet *pluginFuncSet_;
+  global::GapiPluginFunctionSet *pluginFuncSet_;
   gapi::TextureRef_t texture_;  // Указатель на шейдерную программу.
   gapi::TextureSamplerRef_t textureSampler_;
 };

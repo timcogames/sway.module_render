@@ -19,7 +19,7 @@ Geometry::Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect,
 }
 
 void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
-  auto *pluginFuncSet = global::getGapiFunctionSet();
+  auto *pluginFuncSet = global::getGapiPluginFunctionSet();
 
   vtxAttribs_ = prim->getVertexAttribs();
 

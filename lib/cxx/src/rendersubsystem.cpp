@@ -26,15 +26,15 @@ RenderSubsystem::~RenderSubsystem() {
 }
 
 auto RenderSubsystem::initialize() -> bool {
-  capability_ = global::getGapiFunctionSet()->createCapability();
-  idGenerator_ = global::getGapiFunctionSet()->createIdGenerator();
+  capability_ = global::getGapiPluginFunctionSet()->createCapability();
+  idGenerator_ = global::getGapiPluginFunctionSet()->createIdGenerator();
 
   passes_[core::detail::toUnderlying(RenderStage::DEPTH)] = std::make_shared<RenderPass>();
   passes_[core::detail::toUnderlying(RenderStage::COLOR)] = std::make_shared<RenderPass>();
   passes_[core::detail::toUnderlying(RenderStage::STENCIL)] = std::make_shared<RenderPass>();
 
   auto target = std::make_shared<RenderTarget>();
-  target->setScissorViewport(global::getGapiFunctionSet()->createViewport());
+  target->setScissorViewport(global::getGapiPluginFunctionSet()->createViewport());
 
   auto state = std::make_shared<RenderState>();
 
