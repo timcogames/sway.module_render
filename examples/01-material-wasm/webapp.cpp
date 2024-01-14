@@ -5,6 +5,7 @@ enum { WindowSize_WD = 800, WindowSize_HT = 600 };
 NAMESPACE_BEGIN(sway)
 
 std::shared_ptr<pltf::EMSContext> emsContext_ = nullptr;
+std::shared_ptr<pltf::EMSWindow> emsWindow_ = nullptr;
 std::shared_ptr<pltf::EMSLooper> emsLooper_ = nullptr;
 std::string canvasId_;
 pthread_t worker_;
@@ -31,6 +32,9 @@ void createContext(const std::string &canvasId) {
   emsContext_ = std::make_shared<pltf::EMSContext>(canvasId);
   emsContext_->create(nullptr);
   emsContext_->makeCurrent();
+
+  emsWindow_ = std::make_shared<pltf::EMSWindow>(emsContext_);
+  emsWindow_->setSize(WindowSize_WD, WindowSize_HT);
 
   const auto *plugname = "./module_gapi_gl_wasm_async.wasm";
   auto *plug = new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW);

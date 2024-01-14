@@ -51,10 +51,10 @@ public:
         attribs.col->addVtxData(col.toVec4());
         attribs.col->addVtxData(col.toVec4());
 
-        attribs.tex->addVtxData(math::vec2f_t(0.0F, 0.0F));
-        attribs.tex->addVtxData(math::vec2f_t(1.0F, 0.0F));
-        attribs.tex->addVtxData(math::vec2f_t(0.0F, 1.0F));
         attribs.tex->addVtxData(math::vec2f_t(1.0F, 1.0F));
+        attribs.tex->addVtxData(math::vec2f_t(0.0F, 1.0F));
+        attribs.tex->addVtxData(math::vec2f_t(1.0F, 0.0F));
+        attribs.tex->addVtxData(math::vec2f_t(0.0F, 0.0F));
 
         // data_->addTriIndices(0, 2, 1);
         // data_->addTriIndices(1, 2, 3);
