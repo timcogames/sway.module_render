@@ -8,6 +8,11 @@
 git clone --recursive https://github.com/timcogames/sway.module_render.git
 ```
 
+```console
+git submodule foreach --recursive git checkout develop
+git submodule foreach --recursive git pull origin develop
+```
+
 ## Сборка проекта
 
 Создаем директорию build и переходим в неё

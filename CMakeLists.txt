@@ -65,6 +65,10 @@ endif()
 project_metadata("render" 0.17.66)
 project(${MODULE_RENDER_PROJ_NAME} VERSION ${MODULE_RENDER_VERSION} LANGUAGES CXX)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fPIE")
+
+set(MODULE_RENDER_DEPENDENCY_LIST "module_render_dependences")
+
 #---------------------------------------------------------------------------------
 # Submodules
 #---------------------------------------------------------------------------------
@@ -79,9 +83,6 @@ add_submodule("module_rms" submodules/sway.module_rms)
 if(MODULE_RENDER_ENABLE_COVERAGE)
   enable_coverage()
 endif()
-
-# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fPIE")
 
 #---------------------------------------------------------------------------------
 # Executable output path
@@ -117,91 +118,10 @@ file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/cxx/src/*
 # target_link_libraries(${MODULE_RENDER_TARGET})
 
 #---------------------------------------------------------------------------------
-# Build object library
+# Library
 #---------------------------------------------------------------------------------
 
-if(NOT TARGET ${MODULE_RENDER_OBJ_TARGET})
-  set(MODULE_RENDER_LIB_SOURCES "${MODULE_RENDER_ROOT_DIR}/lib/cxx/src/*.*")
-  set(MODULE_RENDER_ENABLE_FILE_EXPORT TRUE)
-
-  create_object_library(${MODULE_RENDER_OBJ_TARGET} ${MODULE_RENDER_LIB_SOURCES} ${MODULE_RENDER_ENABLE_FILE_EXPORT})
-  enable_cxx17(${MODULE_RENDER_OBJ_TARGET})
-endif()
-
-if(MODULE_RENDER_ENABLE_TESTS OR MODULE_RENDER_USE_GMOCK)
-  target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PUBLIC -DRENDER_USE_GMOCK)
-endif()
-
-#---------------------------------------------------------------------------------
-# Create interfaces
-#---------------------------------------------------------------------------------
-
-set(MODULE_RENDER_DEPENDENCY_LIST "module_render_dependences")
-
-set(TARGET_OBJECT_LIST)
-set(MODULE_CORE_OBJ_TARGET "module_core_obj")
-set(MODULE_RMS_OBJ_TARGET "module_rms_obj")
-
-if(TARGET ${MODULE_CORE_OBJ_TARGET})
-  list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:${MODULE_CORE_OBJ_TARGET}>)
-endif()
-
-if(TARGET ${MODULE_RMS_OBJ_TARGET})
-  list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:${MODULE_RMS_OBJ_TARGET}>)
-endif()
-
-# if(TARGET ${MODULE_RENDER_OBJ_TARGET})
-#   list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:${MODULE_RENDER_OBJ_TARGET}>)
-# endif()
-
-create_interface(${MODULE_RENDER_DEPENDENCY_LIST} ${TARGET_OBJECT_LIST})
-
-#---------------------------------------------------------------------------------
-# [EMSCRIPTEN] Bitcode
-#---------------------------------------------------------------------------------
-
-if(NOT MODULE_RENDER_LIB_TYPE STREQUAL "object")
-  if(GLOB_EMSCRIPTEN_PLATFORM)
-    create_emscripten_library(${MODULE_RENDER_LIB_TARGET} ${MODULE_RENDER_ENVIRONMENT} ${MODULE_RENDER_COMPILATION} OUTPUT_TARGET_NAME_LIST)
-
-    foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
-      target_link_options(${target} PUBLIC 
-        "SHELL:-s STRICT=1"
-        "SHELL:-s MODULARIZE=1"
-        "SHELL:-s FULL_ES3=1"
-        "SHELL:-s SUPPORT_LONGJMP=0"
-        "SHELL:-s EXPORT_NAME=\"create_render_module\""
-        "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_RENDER_LIB_DIR}/exports.json"
-        "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_RENDER_LIB_DIR}/runtime-exports.json")
-
-      # if(MODULE_RENDER_SHARED_LIB)
-      #   target_link_options(${target} PUBLIC 
-      #     "SHELL:-shared"
-      #     "SHELL:-dynamiclib"
-      #     "SHELL:-s SIDE_MODULE=1")
-      # endif()
-
-      if(MODULE_RENDER_MT)
-        target_link_options(${target} PUBLIC 
-          "SHELL:-Wl,--shared-memory,--no-check-features"
-          "SHELL:-s USE_PTHREADS=1"
-          "SHELL:-s PTHREAD_POOL_SIZE=8"
-          "SHELL:-s IMPORTED_MEMORY=1")
-
-        # target_link_options(${target} PUBLIC 
-        #   "SHELL:-s PROXY_TO_PTHREAD=1")
-      endif()
-
-      # set_target_properties(${target} PROPERTIES COMPILE_FLAGS "-s MEMORY64=1")
-
-      printf_link_options(${target})
-    endforeach()
-
-    # target_link_libraries(${MODULE_RENDER_LIB_TARGET} ${MODULE_RENDER_DEPENDENCY_LIST})
-  else()
-    create_clang_library(${MODULE_RENDER_LIB_TARGET} "${MODULE_RENDER_ROOT_DIR}/lib/cxx/src/*.*")
-  endif()
-endif()
+add_subdirectory(lib/cxx)
 
 #---------------------------------------------------------------------------------
 # Examples
