@@ -9,8 +9,8 @@ SpriteAnimation::SpriteAnimation()
     , frameTime_(0.1F)
     , timeCounter_(0.0F) {}
 
-void SpriteAnimation::update_(f32_t deltaTime) {
-  timeCounter_ += deltaTime;
+void SpriteAnimation::update_(f32_t dtime) {
+  timeCounter_ += dtime;
   if (timeCounter_ > frameTime_) {
     currentFrameIdx_ = (currentFrameIdx_ + 1) % clip_.frames.size();
     timeCounter_ = 0;
@@ -19,8 +19,9 @@ void SpriteAnimation::update_(f32_t deltaTime) {
   auto currentFrame = clip_.frames[currentFrameIdx_];
   auto currentFrameRect = math::rect4f_t(0.0F, 0.0F, frameSize_.getW(), frameSize_.getH());
 
-  this->updateGeometryUV(getMaterial()->getImageSize(),
-      currentFrameRect.offset(currentFrame.getX() * frameSize_.getW(), currentFrame.getY() * frameSize_.getH()));
+  this->updateGeometryUV(
+      getMaterial()->getImageSize(), currentFrameRect.offset(currentFrame.getX() * currentFrameRect.getW(),
+                                         currentFrame.getY() * currentFrameRect.getH()));
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {

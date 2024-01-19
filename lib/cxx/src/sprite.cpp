@@ -4,7 +4,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-#define NUM_SEGMENTS 2
+#define NUM_SEGMENTS 1
 
 void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
     std::shared_ptr<Material> material, const math::size2f_t &size) {
@@ -54,35 +54,35 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
 
 // clang-format off
 void Sprite::updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect) {
-  // geometry_->updateUV({
-  //   {{
-  //     {(frameRect.getL() / textureSize.getW())*0.1F, (frameRect.getT() / textureSize.getH())*0.1F},
-  //     {(frameRect.getR() / textureSize.getW())*0.1F, (frameRect.getT() / textureSize.getH())*0.1F},
-  //     {(frameRect.getL() / textureSize.getW())*0.1F, (frameRect.getB() / textureSize.getH())*0.1F},
-  //     {(frameRect.getR() / textureSize.getW())*0.1F, (frameRect.getB() / textureSize.getH())*0.1F}
-  //   }},
+  geometry_->updateUV({
+    {{
+      {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+      {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+      {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+      {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    }},
 
-  //   {{
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()}
-  //   }},
+    // {{
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    // }},
 
-  //   {{
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()}
-  //   }},
+    // {{
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    // }},
 
-  //   {{
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //     {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-  //     {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()}
-  //   }}
-  // }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
+    // {{
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    // }}
+  }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
 }  // clang-format on
 
 NAMESPACE_END(render)

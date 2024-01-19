@@ -23,7 +23,7 @@ public:
 
   void setFrameSize(const math::size2f_t &size) { frameSize_ = size; }
 
-  void update_(f32_t deltaTime);
+  void update_(f32_t dtime);
 
   void play();
 
