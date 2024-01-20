@@ -36,7 +36,7 @@ public:
   void stop();
 
 private:
-  SpriteAnimationClip clip_;
+  SpriteAnimationClip<SpriteSheetFrame> clip_;
   math::size2f_t frameSize_;
   s32_t currentFrameIdx_;
   f32_t frameTime_;

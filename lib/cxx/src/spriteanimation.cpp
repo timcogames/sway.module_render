@@ -17,11 +17,11 @@ void SpriteAnimation::update_(f32_t dtime) {
   }
 
   auto currentFrame = clip_.frames[currentFrameIdx_];
-  auto currentFrameRect = math::rect4f_t(0.0F, 0.0F, frameSize_.getW(), frameSize_.getH());
+  // auto currentFrameRect = math::rect4f_t(0.0F, 0.0F, frameSize_.getW(), frameSize_.getH());
+  // this->updateGeometryUV(getMaterial()->getImageSize(), currentFrameRect.offset(currentFrame.getX() *
+  //    currentFrameRect.getW(), currentFrame.getY() * currentFrameRect.getH()));
 
-  this->updateGeometryUV(
-      getMaterial()->getImageSize(), currentFrameRect.offset(currentFrame.getX() * currentFrameRect.getW(),
-                                         currentFrame.getY() * currentFrameRect.getH()));
+  this->updateGeometryUV(getMaterial()->getImageSize(), currentFrame.rect);
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {

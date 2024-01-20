@@ -10,9 +10,19 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+struct SpriteSheetFrame {
+  math::rect4f_t rect;
+};
+
+struct SpriteFrame {
+  std::string texture;
+};
+
+template <typename TYPE>
 struct SpriteAnimationClip {
-  std::vector<math::point2f_t> frames;
+  std::vector<TYPE> frames;
   SpriteAnimationMode mode;
+  std::string name;
 };
 
 NAMESPACE_END(render)
