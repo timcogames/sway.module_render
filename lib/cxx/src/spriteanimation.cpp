@@ -3,25 +3,32 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-SpriteAnimation::SpriteAnimation()
-    : frameSize_(math::size2f_zero)
+SpriteAnimation::SpriteAnimation(const SpriteAnimationClip<SpriteSheetFrame> &clip)
+    : clip_(clip)
+    , frameSize_(math::size2f_zero)
     , currentFrameIdx_(0)
     , frameTime_(0.1F)
-    , timeCounter_(0.0F) {}
+    , timeCounter_(0.0F)
+    , playing_(false) {}
 
 void SpriteAnimation::update_(f32_t dtime) {
+  if (!playing_) {
+    return;
+  }
+
   timeCounter_ += dtime;
   if (timeCounter_ > frameTime_) {
-    currentFrameIdx_ = (currentFrameIdx_ + 1) % clip_.frames.size();
+    currentFrameIdx_ = (currentFrameIdx_ + 1) % clip_.size();
     timeCounter_ = 0;
   }
 
-  auto currentFrame = clip_.frames[currentFrameIdx_];
-  // auto currentFrameRect = math::rect4f_t(0.0F, 0.0F, frameSize_.getW(), frameSize_.getH());
-  // this->updateGeometryUV(getMaterial()->getImageSize(), currentFrameRect.offset(currentFrame.getX() *
-  //    currentFrameRect.getW(), currentFrame.getY() * currentFrameRect.getH()));
+  auto frameOptional = clip_.getFrame(currentFrameIdx_);
+  if (!frameOptional.has_value()) {
+    return;
+  }
 
-  this->updateGeometryUV(getMaterial()->getImageSize(), currentFrame.rect);
+  auto frame = frameOptional.value();
+  this->updateGeometryUV(getMaterial()->getImageSize(), frame.rect);
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {
@@ -29,17 +36,18 @@ void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat
   Sprite::onUpdate(tfrm, proj, view, dtime);
 }
 
-void SpriteAnimation::setAnimationClip(const SpriteAnimationClip &clip) { clip_ = clip; }
-
-void SpriteAnimation::play() {}
+void SpriteAnimation::play() { playing_ = true; }
 
 void SpriteAnimation::playAtFrame(s32_t idx) {}
 
 void SpriteAnimation::replay() {}
 
-void SpriteAnimation::pause() {}
+void SpriteAnimation::pause() { playing_ = false; }
 
-void SpriteAnimation::stop() {}
+void SpriteAnimation::stop() {
+  playing_ = false;
+  currentFrameIdx_ = 0;
+}
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
