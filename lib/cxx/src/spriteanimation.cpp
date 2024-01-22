@@ -3,8 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-SpriteAnimation::SpriteAnimation(const SpriteAnimationClip<SpriteSheetFrame> &clip)
-    : clip_(clip)
+SpriteAnimation::SpriteAnimation()
+    : clip_(nullptr)
     , frameSize_(math::size2f_zero)
     , currentFrameIdx_(0)
     , frameTime_(0.1F)
@@ -18,17 +18,17 @@ void SpriteAnimation::update_(f32_t dtime) {
 
   timeCounter_ += dtime;
   if (timeCounter_ > frameTime_) {
-    currentFrameIdx_ = (currentFrameIdx_ + 1) % clip_.size();
+    currentFrameIdx_ = (currentFrameIdx_ + 1) % clip_->size();
     timeCounter_ = 0;
   }
 
-  auto frameOptional = clip_.getFrame(currentFrameIdx_);
+  auto frameOptional = clip_->getFrame(currentFrameIdx_);
   if (!frameOptional.has_value()) {
     return;
   }
 
   auto frame = frameOptional.value();
-  this->updateGeometryUV(getMaterial()->getImageSize(), frame.rect);
+  this->updateGeometryUV(getMaterial()->getImageSize(), frame->rect);
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {

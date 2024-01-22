@@ -43,14 +43,14 @@ public:
   }
 
   void addFrame(u32_t idx, int x, int y, int w, int h, bool flipped) {
-    SpriteSheetFrame frame;
-    frame.rect = math::rect4f_t(x, y, w, h);
-    frame.flipped = flipped;
+    std::shared_ptr<FRAME_TYPE> frame = std::make_shared<FRAME_TYPE>();
+    frame->rect = math::rect4f_t(x, y, w, h);
+    frame->flipped = flipped;
 
     frames_.insert(std::make_pair(idx, frame));
   }
 
-  auto getFrame(u32_t idx) const -> const std::optional<FRAME_TYPE> & {
+  auto getFrame(u32_t idx) const -> const std::optional<std::shared_ptr<FRAME_TYPE>> & {
     const auto &iter = frames_.find(idx);
     if (iter != frames_.end()) {
       return (*iter).second;
@@ -64,7 +64,7 @@ public:
   void setMode(SpriteAnimationMode mode) { mode_ = mode; }
 
 private:
-  std::unordered_map<u32_t, FRAME_TYPE> frames_;
+  std::unordered_map<u32_t, std::shared_ptr<FRAME_TYPE>> frames_;
   SpriteAnimationMode mode_;
   std::string name_;
 };

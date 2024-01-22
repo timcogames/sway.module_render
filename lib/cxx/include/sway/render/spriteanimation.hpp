@@ -13,16 +13,13 @@ class SpriteAnimation : public Sprite {
 public:
   DECLARE_CLASS_METADATA(SpriteAnimation, Sprite)
 
-  SpriteAnimation()
-      : clip_(SpriteAnimationClip<SpriteSheetFrame>("")) {}
-
-  SpriteAnimation(const SpriteAnimationClip<SpriteSheetFrame> &clip);
+  SpriteAnimation();
 
   ~SpriteAnimation() = default;
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
 
-  void setAnimationClip(const SpriteAnimationClip<SpriteSheetFrame> &clip) { clip_ = clip; }
+  void setAnimationClip(std::shared_ptr<SpriteAnimationClip<SpriteSheetFrame>> clip) { clip_ = clip; }
 
   void setFrameSize(const math::size2f_t &size) { frameSize_ = size; }
 
@@ -39,7 +36,7 @@ public:
   void stop();
 
 public:
-  SpriteAnimationClip<SpriteSheetFrame> clip_;
+  std::shared_ptr<SpriteAnimationClip<SpriteSheetFrame>> clip_;
   math::size2f_t frameSize_;
   s32_t currentFrameIdx_;
   f32_t frameTime_;
