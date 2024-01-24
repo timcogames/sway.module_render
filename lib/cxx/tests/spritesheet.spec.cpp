@@ -50,5 +50,5 @@ TEST(SpriteAnimationClip, test) {
 TEST(SpriteSheet, test2) {
   auto sheet = std::make_shared<render::SpriteSheet>(nlohmann::json::parse(data));
   ASSERT_EQ(sheet->animations_.size(), 1);
-  ASSERT_EQ(sheet->animations_[0].clip_.size(), 2);
+  ASSERT_EQ(sheet->animations_[0].clip_->size(), 2);
 }

@@ -29,12 +29,13 @@ void SpriteSheet::parseFrames(nlohmann::json jobject, std::string clipname, std:
     if (iter != framenames.end()) {
       if (hasAnimation(clipname)) {
         SpriteAnimation anim = getAnimation(clipname).value();
-        anim.clip_.addFrame(0, frame["rect"].get<nlohmann::json::object_t>(), false);
+        anim.clip_->addFrame(0, frame["rect"].get<nlohmann::json::object_t>(), false);
       } else {
-        SpriteAnimationClip<SpriteSheetFrame> animClip(clipname);
-        animClip.addFrame(0, frame["rect"].get<nlohmann::json::object_t>(), false);
+        auto animClip = std::make_shared<SpriteAnimationClip<SpriteSheetFrame>>(clipname);
+        animClip->addFrame(0, frame["rect"].get<nlohmann::json::object_t>(), false);
 
-        SpriteAnimation anim(animClip);
+        SpriteAnimation anim;
+        anim.setAnimationClip(animClip);
         animations_.insert(std::pair<std::string, SpriteAnimation>(clipname, anim));
       }
     }

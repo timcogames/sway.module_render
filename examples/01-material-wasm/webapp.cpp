@@ -112,8 +112,7 @@ void mainLoopCallback_(void *target) {
     .aspect = f32_t(WindowSize_WD / WindowSize_HT),
     .near = 0.0F,
     .far = 100.0F
-  });
-  // clang-format on
+  });  // clang-format on
 
   math::mat4f_t matProj;
   matProj.setData(projection.makeOrtho());
@@ -259,8 +258,7 @@ void createWorker() {
   pthread_create(&worker_, &attr, [](void *ctx) -> void * {
     runWorker();
     return nullptr;
-  }, nullptr);
-  // clang-format on
+  }, nullptr);  // clang-format on
 }
 
 NAMESPACE_END(sway)
