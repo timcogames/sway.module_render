@@ -106,8 +106,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
       .rect = {{-1.0F /* L */, -1.0F /* T */, 1.0F /* R */, 1.0F /* B */}},
       .fov = 0,
       .aspect = f32_t(WindowSize_WD / WindowSize_HT),
-      .near = 0.0F,
-      .far = 100.0F
+      .znear = 0.0F,
+      .zfar = 100.0F
     });  // clang-format on
 
     math::mat4f_t matProj;

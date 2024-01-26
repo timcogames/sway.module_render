@@ -52,7 +52,7 @@ void createContext(const std::string &canvasId) {
 void createResource() {
   imageResMngr_ = std::make_shared<rms::ImageResourceManager>();
   imageResMngr_->registerImageProvider("./module_loader_png_wasm_async.wasm");
-  imageResMngr_->fetchData("diffuse_sampler", "./wwwroot/dist/assets/img.png");
+  imageResMngr_->fetchData("diffuse_sampler_png", "./wwwroot/dist/assets/img.png");
   imageResMngr_->fetchData("crate_png", "./wwwroot/dist/assets/kenney_tanks_crate_wood.png");
   imageResMngr_->fetchData("tank_png", "./wwwroot/dist/assets/kenney_tanks_tank_desert_1.png");
 
@@ -110,8 +110,8 @@ void mainLoopCallback_(void *target) {
     .rect = {{-1.0F /* L */, -1.0F /* T */, 1.0F /* R */, 1.0F /* B */}},
     .fov = 0,
     .aspect = f32_t(WindowSize_WD / WindowSize_HT),
-    .near = 0.0F,
-    .far = 100.0F
+    .znear = 0.0F,
+    .zfar = 100.0F
   });  // clang-format on
 
   math::mat4f_t matProj;
