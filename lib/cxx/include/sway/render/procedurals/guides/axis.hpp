@@ -87,7 +87,10 @@ public:
 
   ~Axis() = default;
 
-  [[nodiscard]] auto getGeometryData() const -> GeometryDataPtr<TVertexDataType> { return data_; }
+  [[nodiscard]]
+  auto getGeometryData() const -> GeometryDataPtr<TVertexDataType> {
+    return data_;
+  }
 
   template <std::size_t TSize>
   void useVertexSemanticSet(std::array<sway::gapi::VertexSemantic, TSize> &arr) {

@@ -28,7 +28,10 @@ public:
 
   auto getIndices() -> std::vector<u32_t> & { return indices_; }
 
-  [[nodiscard]] auto getIdxCount() const -> u32_t { return indices_.size(); }
+  [[nodiscard]]
+  auto getIdxCount() const -> u32_t {
+    return indices_.size();
+  }
 
 private:
   std::vector<u32_t> indices_;

@@ -50,9 +50,15 @@ public:
   /**
    * @brief Получает группу подочереди.
    */
-  [[nodiscard]] auto getGroup() const -> RenderSubqueueGroup { return group_; }
+  [[nodiscard]]
+  auto getGroup() const -> RenderSubqueueGroup {
+    return group_;
+  }
 
-  [[nodiscard]] auto getCommands() -> std::vector<pipeline::ForwardRenderCommand> { return commands_; }
+  [[nodiscard]]
+  auto getCommands() -> std::vector<pipeline::ForwardRenderCommand> {
+    return commands_;
+  }
 
 private:
   gapi::DrawCallRef_t drawCall_;

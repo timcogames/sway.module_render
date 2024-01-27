@@ -59,7 +59,10 @@ public:
     return std::nullopt;
   }
 
-  [[nodiscard]] auto size() const -> u32_t { return static_cast<u32_t>(frames_.size()); }
+  [[nodiscard]]
+  auto size() const -> u32_t {
+    return static_cast<u32_t>(frames_.size());
+  }
 
   void setMode(SpriteAnimationMode mode) { mode_ = mode; }
 

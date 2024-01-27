@@ -54,6 +54,14 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
 
 // clang-format off
 void Sprite::updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect) {
+  
+  // geometry_->setUV(std::array<TexCoord, 4> {{
+  //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+  //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
+  //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
+  //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+  // }}.data());
+
   geometry_->updateUV({
     {{
       {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},

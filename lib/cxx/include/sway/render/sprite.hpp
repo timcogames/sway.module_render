@@ -30,7 +30,10 @@ public:
 
   void updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect);
 
-  [[nodiscard]] auto getMaterial() const -> std::shared_ptr<Material> { return material_; }
+  [[nodiscard]]
+  auto getMaterial() const -> std::shared_ptr<Material> {
+    return material_;
+  }
 
 private:
   RenderSubqueueRef_t subqueue_;

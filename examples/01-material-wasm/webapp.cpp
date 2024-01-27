@@ -78,8 +78,8 @@ void createResource() {
   tankSilhouetteMtrl_->addImage("tank_png", "tank_sampler");
   tankSilhouetteMtrl_->addEffect({"tank_silhouette_vs", "tank_silhouette_fs"});
 
-  std::array<sway::gapi::VertexSemantic, 3> quadSemantics = {
-      sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::COL, sway::gapi::VertexSemantic::TEXCOORD_0};
+  std::array<gapi::VertexSemantic, 3> quadSemantics = {
+      gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0};
 
   auto crateGeomQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoordEx>>(
       math::size2f_t(0.2F), math::size2i_t(1));

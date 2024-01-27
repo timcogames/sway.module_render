@@ -42,8 +42,8 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
 }
 
 void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) {
-  s32_t offset = 0;
-  void *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+  auto offset = 0;
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
 
   auto texIdx = 0;
   auto currRile = 0;
@@ -53,12 +53,53 @@ void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) 
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
-          if (texIdx >= 4) {
+          if (texIdx >= QUAD_TEXCOORD_SIZE) {
             texIdx = 0;
             currRile++;
           }
 
-          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].getData().data());
+          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].data());
+
+          texIdx++;
+
+          // auto width = segments.getW() + 1;
+          // auto col = i % width;
+          // auto row = i / width;
+
+        } else {
+          attrib->importRawdata(vtxdata, offset, i);
+        }
+
+        offset += desc.numComponents;
+      }
+    }
+  }
+
+  bufset_.vbo->updateSubdata(vtxdata);
+}
+
+void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
+  auto offset = 0;
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+
+  auto texIdx = 0;
+  auto curTile = 0;
+
+  for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
+    for (auto [_, attrib] : vtxAttribs_) {
+      if (attrib->isEnabled()) {
+        auto desc = attrib->getDescriptor();
+        if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
+          if (texIdx >= QUAD_TEXCOORD_SIZE) {
+            texIdx = 0;
+            curTile++;
+          }
+
+          if (curTile == index) {
+            attrib->importRawdata2(vtxdata, offset, coords[texIdx].data());
+          } else {
+            attrib->importRawdata(vtxdata, offset, i);
+          }
 
           texIdx++;
 

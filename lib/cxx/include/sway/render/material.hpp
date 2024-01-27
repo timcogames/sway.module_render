@@ -35,7 +35,8 @@ public:
 
   auto getImages() -> std::vector<std::pair<std::string, std::shared_ptr<Image>>> { return images_; }
 
-  [[nodiscard]] auto getImageSize() const -> math::size2f_t {
+  [[nodiscard]]
+  auto getImageSize() const -> math::size2f_t {
     return math::size2f_t((f32_t)imgDesc_.size.getW(), (f32_t)imgDesc_.size.getH());
   }
 

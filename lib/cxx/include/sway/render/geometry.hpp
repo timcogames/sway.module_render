@@ -7,14 +7,11 @@
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
 
+#include <array>
 #include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
-
-struct UVData {
-  std::vector<math::vec2f_t> uv;
-};
 
 class VertexComponent {
 public:
@@ -25,24 +22,19 @@ public:
   static auto hasTexCoord() -> bool { return false; }
 };
 
-struct Position {
-  f32_t x, y, z;
-};
-
 // template <class TVertexComponent>
 // class PositionVertexComponent : public TVertexComponent {
 class PositionVertexComponent : public VertexComponent {
 public:
   static auto hasPosition() -> bool { return true; }
 
-  [[nodiscard]] auto getPosition() const -> Position { return position_; }
+  [[nodiscard]]
+  auto getPosition() const -> math::vec3f_t {
+    return position_;
+  }
 
 private:
-  Position position_;
-};
-
-struct Color {
-  f32_t r, g, b, a;
+  math::vec3f_t position_;
 };
 
 // template <class TVertexComponent>
@@ -51,30 +43,38 @@ class ColorVertexComponent {
 public:
   static auto hasColor() -> bool { return true; }
 
-  [[nodiscard]] auto getColor() const -> Color { return color_; }
+  [[nodiscard]]
+  auto getColor() const -> math::vec4f_t {
+    return color_;
+  }
 
 private:
-  Color color_;
-};
-
-struct TexCoord {
-  f32_t u, v;
+  math::vec4f_t color_;
 };
 
 // template <class TVertexComponent>
-// class TextCoordVertexComponent : public TVertexComponent {
-class TextCoordVertexComponent {
+// class TexCoordVertexComponent : public TVertexComponent {
+class TexCoordVertexComponent {
 public:
   static auto hasTexCoord() -> bool { return true; }
 
-  [[nodiscard]] auto getTexCoord() const -> TexCoord { return coord_; }
+  [[nodiscard]]
+  auto getTexCoord() const -> math::vec2f_t {
+    return uv_;
+  }
 
 private:
-  TexCoord coord_;
+  math::vec2f_t uv_;
 };
 
 class CustomVertex : public PositionVertexComponent {
 public:
+};
+
+#define QUAD_TEXCOORD_SIZE 4
+
+struct UVData {
+  std::vector<math::vec2f_t> uv;
 };
 
 class Geometry {
@@ -87,46 +87,7 @@ public:
 
   void updateUV(std::vector<UVData> uvdata, const math::size2i_t &segments);
 
-  void updateUV2(int index, UVData uvdata) {
-    s32_t offset = 0;
-    void *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
-
-    auto texIdx = 0;
-    auto curTile = 0;
-
-    for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
-      for (auto [_, attrib] : vtxAttribs_) {
-        if (attrib->isEnabled()) {
-          auto desc = attrib->getDescriptor();
-          if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
-            if (texIdx >= 4) {
-              texIdx = 0;
-              curTile++;
-            }
-
-            if (curTile == index) {
-              attrib->importRawdata2(vtxdata, offset, uvdata.uv[texIdx].getData().data());
-            } else {
-              attrib->importRawdata(vtxdata, offset, i);
-            }
-
-            texIdx++;
-
-            // auto width = segments.getW() + 1;
-            // auto col = i % width;
-            // auto row = i / width;
-
-          } else {
-            attrib->importRawdata(vtxdata, offset, i);
-          }
-
-          offset += desc.numComponents;
-        }
-      }
-    }
-
-    bufset_.vbo->updateSubdata(vtxdata);
-  }
+  void setUV(int index, std::array<math::vec2f_t, 4> coords);
 
   auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return vtxAttribLayout_; }
 
@@ -134,7 +95,8 @@ public:
 
   auto getBufferSet() -> gapi::BufferSet { return bufset_; }
 
-  [[nodiscard]] auto getTopology() const -> gapi::TopologyType;
+  [[nodiscard]]
+  auto getTopology() const -> gapi::TopologyType;
 
   void bind();
 

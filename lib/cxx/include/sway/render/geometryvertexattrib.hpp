@@ -20,18 +20,18 @@ public:
     descriptor_ = gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, false, true);
   }
 
-  ~GeometryVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
+  virtual ~GeometryVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
 
   MTHD_OVERRIDE(void importRawdata(void *data, s32_t offset, s32_t vtx)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       auto component = vertices_[descriptor_.numComponents * vtx + i];
-      *((typename TAttribFormat::type_t *)data + offset + i) = component;
+      *((typename TAttribFormat::DataElementType_t *)data + offset + i) = component;
     }
   }
 
-  MTHD_OVERRIDE(void importRawdata2(void *data, s32_t offset, typename TAttribFormat::type_t *vertices)) {
+  MTHD_OVERRIDE(void importRawdata2(void *data, s32_t offset, typename TAttribFormat::DataElementType_t *vertices)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      *((typename TAttribFormat::type_t *)data + offset + i) = vertices[i];
+      *((typename TAttribFormat::DataElementType_t *)data + offset + i) = vertices[i];
     }
   }
 
@@ -64,19 +64,22 @@ public:
 
     auto *dst = &vertices_[counter_ * descriptor_.numComponents];
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      *dst++ = vec.getData()[i];
+      *dst++ = vec[i];
     }
 
     counter_++;
   }
 
-  [[nodiscard]] auto getNumOfVertices() const -> s32_t { return counter_; }
+  [[nodiscard]]
+  auto getNumOfVertices() const -> s32_t {
+    return counter_;
+  }
 
 private:
   void reallocate_() {
     capacity_ = capacity_ == 0 ? reserve_ : capacity_ * 2;
 
-    auto *tmp = new typename TAttribFormat::type_t[capacity_ * descriptor_.numComponents];
+    auto *tmp = new typename TAttribFormat::DataElementType_t[capacity_ * descriptor_.numComponents];
     if (counter_ != 0) {
       memcpy(tmp, vertices_, counter_ * descriptor_.stride);
     }
@@ -87,7 +90,7 @@ private:
   }
 
   gapi::VertexAttribDescriptor descriptor_;
-  typename TAttribFormat::type_t *vertices_;  // Набор данных.
+  typename TAttribFormat::DataElementType_t *vertices_;  // Набор данных.
   s32_t reserve_;
   s32_t capacity_;
   s32_t counter_;

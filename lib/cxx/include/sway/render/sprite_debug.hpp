@@ -28,7 +28,10 @@ public:
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
 
-  [[nodiscard]] auto getMaterial() const -> std::shared_ptr<Material> { return material_; }
+  [[nodiscard]]
+  auto getMaterial() const -> std::shared_ptr<Material> {
+    return material_;
+  }
 
 private:
   RenderSubqueueRef_t subqueue_;

@@ -21,9 +21,11 @@ public:
 
   void parseFrames(nlohmann::json jobject, std::string clipname, std::vector<std::string> framenames);
 
-  [[nodiscard]] auto getAnimation(const std::string &name) const -> const std::optional<SpriteAnimation> &;
+  [[nodiscard]]
+  auto getAnimation(const std::string &name) const -> const std::optional<SpriteAnimation> &;
 
-  [[nodiscard]] auto hasAnimation(const std::string &name) const -> bool;
+  [[nodiscard]]
+  auto hasAnimation(const std::string &name) const -> bool;
 
   std::unordered_map<std::string, SpriteAnimation> animations_;
 };

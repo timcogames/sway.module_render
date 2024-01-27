@@ -47,7 +47,10 @@ public:
     return nullptr;
   }
 
-  [[nodiscard]] auto getAttribs() const -> VertexAttribMap_t { return attribs_; }
+  [[nodiscard]]
+  auto getAttribs() const -> VertexAttribMap_t {
+    return attribs_;
+  }
 
   auto getVtxRawdata() -> void * {
     s32_t offset = 0;
@@ -65,7 +68,10 @@ public:
     return vtxdata;
   }
 
-  [[nodiscard]] auto getVtxCount() const -> u32_t { return vtxcount_; }
+  [[nodiscard]]
+  auto getVtxCount() const -> u32_t {
+    return vtxcount_;
+  }
 
 private:
   VertexAttribMap_t attribs_;
