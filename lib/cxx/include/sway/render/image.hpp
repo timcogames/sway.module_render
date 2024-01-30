@@ -15,6 +15,8 @@ public:
 
   void create(void *data, int width, int height);
 
+  void create(const gapi::TextureCreateInfo &createInfo);
+
   /**
    * @brief Привязывает.
    */

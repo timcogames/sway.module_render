@@ -8,9 +8,23 @@ Image::Image()
     : pluginFuncSet_(global::getGapiPluginFunctionSet()) {}
 
 void Image::create(void *data, int width, int height) {
-  texture_ = pluginFuncSet_->createTexture();
-  texture_->create(data, width, height);
+  gapi::TextureCreateInfo createInfo;
+  createInfo.target = gapi::TextureTarget::TEX_2D;
+  createInfo.size = math::size2i_t(width, height);
+  // createInfo.arraySize
+  createInfo.format = gapi::PixelFormat::RGBA;
+  createInfo.internalFormat = gapi::PixelFormat::RGBA;
+  createInfo.dataType = core::ValueDataType::UBYTE;
+  createInfo.pixels = (s8_t *)data;
+  createInfo.mipLevels = 0;
+  // createInfo.sampleCount
 
+  texture_ = pluginFuncSet_->createTexture(createInfo);
+  textureSampler_ = pluginFuncSet_->createTextureSampler();
+}
+
+void Image::create(const gapi::TextureCreateInfo &createInfo) {
+  texture_ = pluginFuncSet_->createTexture(createInfo);
   textureSampler_ = pluginFuncSet_->createTextureSampler();
 }
 
