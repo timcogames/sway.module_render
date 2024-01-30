@@ -25,6 +25,8 @@ public:
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
+  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> bool;
+
   auto addEffect(const std::array<std::string, 2> &names) -> bool;
 
   void bind(const std::shared_ptr<math::MatrixStack> &mtxs);

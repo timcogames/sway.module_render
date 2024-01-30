@@ -42,6 +42,20 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
   return true;
 }
 
+auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> bool {
+  auto image = std::make_shared<Image>();
+  image->create(createInfo);
+  image->getTexture()->bind();
+  image->getTextureSampler()->setWrapMode(
+      gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
+  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+  image->getTexture()->unbind();
+
+  images_.push_back({alias, image});
+
+  return true;
+}
+
 void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type) {
   auto resource = glslResMngr_->findLoadedResource(name);
   if (!resource) {
