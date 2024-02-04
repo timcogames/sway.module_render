@@ -29,6 +29,8 @@ NAMESPACE_BEGIN(prims)
 //  | /     | /     | /     |
 //  12------13------14------15
 
+#define QUAD_NUM_RESERVE_VERTICES 4
+
 template <typename TVertexDataType>
 class Plane_Strip : public Shape {
 public:
@@ -39,9 +41,10 @@ public:
     auto sizeHalf = size / 2.0F;
 
     GeometryVertexAttribSet attribs = {
-        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
-        .tex = data_->template createVertexAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)};
+        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, QUAD_NUM_RESERVE_VERTICES),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL, QUAD_NUM_RESERVE_VERTICES),
+        .tex = data_->template createVertexAttrib<math::vec2f_t>(
+            gapi::VertexSemantic::TEXCOORD_0, QUAD_NUM_RESERVE_VERTICES)};
 
     const auto cols = subdivisions.getW() + 1;
     const auto rows = subdivisions.getH() + 1;
@@ -99,7 +102,7 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() const -> GeometryCreateInfo) {  // clang-format on
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
     GeometryCreateInfo info;
     info.topology = gapi::TopologyType::TRIANGLE_STRIP;
 

@@ -2,6 +2,8 @@
 #define SWAY_RENDER_SPRITE_HPP
 
 // #include <sway/cmpt/component.hpp>
+#include <sway/core.hpp>
+#include <sway/math.hpp>
 #include <sway/render/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
@@ -11,6 +13,8 @@
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
+
+#include <memory>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)

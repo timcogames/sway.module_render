@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_PRINS_PRIM_HPP
 #define SWAY_RENDER_PRINS_PRIM_HPP
 
+#include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/geometryindexedvertexdata.hpp>
 #include <sway/render/prereqs.hpp>
 
@@ -19,7 +20,7 @@ public:
   PURE_VIRTUAL(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t);  // clang-format on
 
   // clang-format off
-  PURE_VIRTUAL(auto getGeometryInfo() const -> render::GeometryCreateInfo);  // clang-format on
+  PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);  // clang-format on
 
   // clang-format off
   PURE_VIRTUAL(auto getVertices() -> void *);  // clang-format on

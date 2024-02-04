@@ -35,6 +35,7 @@
 #include <sway/render/spriteanimation.hpp>
 #include <sway/render/spriteanimationclip.hpp>
 #include <sway/render/spriteanimationmodes.hpp>
+#include <sway/render/spritebatch.hpp>
 #include <sway/render/spritesheet.hpp>
 
 #endif  // SWAY_RENDER_HPP

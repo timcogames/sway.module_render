@@ -20,8 +20,9 @@ public:
   ~GeometryVertexData() = default;
 
   template <typename TAttribFormat>
-  auto createVertexAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<GeometryVertexAttrib<TAttribFormat>> {
-    auto attrib = std::make_shared<GeometryVertexAttrib<TAttribFormat>>(semantic, vtxcount_);
+  auto createVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve)
+      -> std::shared_ptr<GeometryVertexAttrib<TAttribFormat>> {
+    auto attrib = std::make_shared<GeometryVertexAttrib<TAttribFormat>>(semantic, reserve);
     attribs_[semantic] = attrib;
     return attrib;
   }

@@ -83,15 +83,15 @@ public:
 
   ~Geometry() = default;
 
+  void createArray(std::shared_ptr<procedurals::Shape> prim);
+
   void create(std::shared_ptr<procedurals::Shape> prim);
 
   void updateUV(std::vector<UVData> uvdata, const math::size2i_t &segments);
 
   void setUV(int index, std::array<math::vec2f_t, 4> coords);
 
-  auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return vtxAttribLayout_; }
-
-  auto getVtxArray() -> gapi::VertexArrayPtr_t { return vtxArray_; }
+  auto getVertexAttribLayout() -> gapi::VertexAttribLayoutPtr_t { return attribLayout_; }
 
   auto getBufferSet() -> gapi::BufferSet { return bufset_; }
 
@@ -105,10 +105,9 @@ public:
 private:
   GeometryCreateInfo info_;
   std::shared_ptr<gapi::IdGenerator> idGenerator_;
-  VertexAttribMap_t vtxAttribs_;
-  gapi::VertexAttribLayoutPtr_t vtxAttribLayout_;
-  gapi::VertexArrayPtr_t vtxArray_;
-  gapi::BufferSet bufset_{nullptr, nullptr};
+  VertexAttribMap_t attribs_;
+  gapi::VertexAttribLayoutPtr_t attribLayout_;
+  gapi::BufferSet bufset_{nullptr, nullptr, nullptr};
   EffectRef_t effect_;
   bool indexed_;
 };

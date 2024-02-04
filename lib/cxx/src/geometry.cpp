@@ -9,8 +9,7 @@ NAMESPACE_BEGIN(render)
 
 Geometry::Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect, bool indexed)
     : idGenerator_(idgen)
-    , vtxAttribLayout_(nullptr)
-    , vtxArray_(nullptr)
+    , attribLayout_(nullptr)
     , effect_(effect)
     , indexed_(indexed) {
   // std::cout << std::boolalpha << "Position: " << CustomVertex::hasPosition() << std::endl;
@@ -18,14 +17,19 @@ Geometry::Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect,
   // std::cout << std::boolalpha << "TexCoord: " << CustomVertex::hasTexCoord() << std::endl;
 }
 
+void Geometry::createArray(std::shared_ptr<procedurals::Shape> prim) {
+  auto *pluginFuncSet = global::getGapiPluginFunctionSet();
+  bufset_.vao = pluginFuncSet->createVertexArray();
+  this->create(prim);
+}
+
 void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
   auto *pluginFuncSet = global::getGapiPluginFunctionSet();
 
-  vtxAttribs_ = prim->getVertexAttribs();
-
-  vtxAttribLayout_ = pluginFuncSet->createVertexAttribLayout(effect_->getShaderProgram());
-  for (const auto &attrib : vtxAttribs_) {
-    vtxAttribLayout_->addAttribute(attrib.second->getDescriptor());
+  attribs_ = prim->getVertexAttribs();
+  attribLayout_ = pluginFuncSet->createVertexAttribLayout(effect_->getShaderProgram());
+  for (const auto &attrib : attribs_) {
+    attribLayout_->addAttribute(attrib.second->getDescriptor());
   }
 
   info_ = prim->getGeometryInfo();
@@ -35,10 +39,8 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
 
   if (indexed_) {
     info_.ib.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-    bufset_.ibo = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
+    bufset_.ebo = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
   }
-
-  vtxArray_ = pluginFuncSet->createVertexArray();
 }
 
 void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) {
@@ -49,7 +51,7 @@ void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) 
   auto currRile = 0;
 
   for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
-    for (auto const [_, attrib] : vtxAttribs_) {
+    for (auto const [_, attrib] : attribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
@@ -86,7 +88,7 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto curTile = 0;
 
   for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
-    for (auto [_, attrib] : vtxAttribs_) {
+    for (auto [_, attrib] : attribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
@@ -120,25 +122,35 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
 }
 
 void Geometry::bind() {
-  vtxArray_->bind();
+  if (bufset_.vao) {
+    bufset_.vao->bind();
+  }
 
-  bufset_.vbo->bind();
-  vtxAttribLayout_->enable();
+  if (bufset_.vbo) {
+    bufset_.vbo->bind();
+  }
 
-  if (bufset_.ibo) {
-    bufset_.ibo->bind();
+  attribLayout_->enable();
+
+  if (bufset_.ebo) {
+    bufset_.ebo->bind();
   }
 }
 
 void Geometry::unbind() {
-  if (bufset_.ibo) {
-    bufset_.ibo->unbind();
+  if (bufset_.ebo) {
+    bufset_.ebo->unbind();
   }
 
-  vtxAttribLayout_->disable();
-  bufset_.vbo->unbind();
+  attribLayout_->disable();
 
-  vtxArray_->unbind();
+  if (bufset_.vbo) {
+    bufset_.vbo->unbind();
+  }
+
+  if (bufset_.vao) {
+    bufset_.vao->unbind();
+  }
 }
 
 auto Geometry::getTopology() const -> gapi::TopologyType { return info_.topology; }

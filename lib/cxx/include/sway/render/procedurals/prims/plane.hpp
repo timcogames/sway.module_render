@@ -15,22 +15,25 @@ NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(procedurals)
 NAMESPACE_BEGIN(prims)
 
+#define QUAD_NUM_RESERVE_VERTICES 4
+
 template <typename TVertexDataType>
 class Plane : public Shape {
 public:
   Plane(const math::size2f_t &size, const math::size2i_t &subdivisions, const math::col4f_t &col = COL4F_WHITE)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(
             4 * subdivisions.getW() * subdivisions.getH())) {
-    auto sizeHalf = size / 2.0F;
-
     GeometryVertexAttribSet attribs = {
-        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
-        .tex = data_->template createVertexAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)};
+        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, QUAD_NUM_RESERVE_VERTICES),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL, QUAD_NUM_RESERVE_VERTICES),
+        .tex = data_->template createVertexAttrib<math::vec2f_t>(
+            gapi::VertexSemantic::TEXCOORD_0, QUAD_NUM_RESERVE_VERTICES)};
 
-    auto unitScale = 1.5F;
-    auto tileWt = size.getW() * unitScale;
-    auto tileHt = size.getH() * unitScale;
+    auto halfSize = size / 2.0F;
+    auto unitScale = 1.0F;
+
+    auto tileWt = halfSize.getW() * unitScale;
+    auto tileHt = halfSize.getH() * unitScale;
 
     u32_t tileCount = 0;
 
@@ -56,8 +59,6 @@ public:
         attribs.tex->addVtxData(math::vec2f_t(1.0F, 0.0F));
         attribs.tex->addVtxData(math::vec2f_t(0.0F, 0.0F));
 
-        // data_->addTriIndices(0, 2, 1);
-        // data_->addTriIndices(1, 2, 3);
         data_->addTriIndices(0 + (tileCount * 4), 2 + (tileCount * 4), 1 + (tileCount * 4));
         data_->addTriIndices(1 + (tileCount * 4), 2 + (tileCount * 4), 3 + (tileCount * 4));
 
@@ -95,7 +96,7 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() const -> GeometryCreateInfo) {  // clang-format on
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::TRIANGLE_LIST;

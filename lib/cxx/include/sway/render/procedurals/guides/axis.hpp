@@ -20,14 +20,16 @@ NAMESPACE_BEGIN(guides)
 template <typename TVertexDataType>
 using GeometryDataPtr = std::shared_ptr<GeometryIndexedVertexData<TVertexDataType>>;
 
+#define AXIS_NUM_RESERVE_VERTICES 2
+
 template <typename TVertexDataType>
 class Axis : public Shape {
 public:
   Axis(const math::size2f_t &size)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(AXIS_VERTEX_COUNT)) {
     auto attribs = (struct GeometryVertexAttribSet){
-        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
+        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, AXIS_NUM_RESERVE_VERTICES),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL, AXIS_NUM_RESERVE_VERTICES),
         .tex = nullptr};
 
     // X axis
@@ -108,7 +110,7 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() const -> GeometryCreateInfo) {  // clang-format on
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::LINE_LIST;

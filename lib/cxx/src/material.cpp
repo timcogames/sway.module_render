@@ -44,6 +44,11 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
 
 auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> bool {
   auto image = std::make_shared<Image>();
+
+#ifndef EMSCRIPTEN_PLATFORM
+  // image->getTexture()->setUnpackAlignement(1);
+#endif
+
   image->create(createInfo);
   image->getTexture()->bind();
   image->getTextureSampler()->setWrapMode(

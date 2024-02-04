@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_IMAGE_HPP
 #define SWAY_RENDER_IMAGE_HPP
 
+#include <sway/gapi.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 
