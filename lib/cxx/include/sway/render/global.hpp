@@ -28,7 +28,7 @@ struct MockPluginFunctionSet : public core::PluginFunctionSet {
   MOCK_METHOD(gapi::VertexArrayPtr_t, createVertexArray, ());
   MOCK_METHOD(gapi::VertexAttribLayoutPtr_t, createVertexAttribLayout, (gapi::ShaderProgramRef_t));
   MOCK_METHOD(gapi::TextureRef_t, createTexture, (const gapi::TextureCreateInfo &));
-  MOCK_METHOD(gapi::TextureSamplerRef_t, createTextureSampler, ());
+  MOCK_METHOD(gapi::TextureSamplerRef_t, createTextureSampler, (gapi::TextureRef_t));
   MOCK_METHOD(gapi::DrawCallRef_t, createDrawCall, ());
   MOCK_METHOD(gapi::ViewportRef_t, createViewport, ());
   MOCK_METHOD(gapi::StateContextRef_t, createStateContext, ());

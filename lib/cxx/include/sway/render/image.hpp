@@ -2,6 +2,7 @@
 #define SWAY_RENDER_IMAGE_HPP
 
 #include <sway/gapi.hpp>
+#include <sway/math.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 
@@ -14,7 +15,7 @@ public:
 
   ~Image() = default;
 
-  void create(void *data, int width, int height);
+  void create(void *data, math::size2i_t size);
 
   void create(const gapi::TextureCreateInfo &createInfo);
 

@@ -20,9 +20,9 @@ NAMESPACE_BEGIN(prims)
 template <typename TVertexDataType>
 class Plane_List : public Shape {
 public:
-  Plane_List(const math::size2f_t &size, const math::size2i_t &subdivisions)
+  Plane_List(math::size2f_t size, const math::size2i_t &subdivisions)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(subdivisions.getW() * subdivisions.getH())) {
-    auto sizeHalf = size / 2.0F;
+    // math::size2f_t sizeHalf = size / 2.0F;
 
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, QUAD_NUM_RESERVE_VERTICES),

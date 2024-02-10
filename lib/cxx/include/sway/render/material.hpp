@@ -25,7 +25,7 @@ public:
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
-  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> bool;
+  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> std::shared_ptr<Image>;
 
   auto addEffect(const std::array<std::string, 2> &names) -> bool;
 

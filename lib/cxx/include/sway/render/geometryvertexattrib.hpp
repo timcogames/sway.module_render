@@ -11,13 +11,13 @@ NAMESPACE_BEGIN(render)
 template <typename TAttribFormat>
 class GeometryVertexAttrib : public gapi::VertexAttrib {
 public:
-  GeometryVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve)
+  GeometryVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve, bool normalized = false)
       : vertices_(nullptr)
       , reserve_(reserve)
       , capacity_(0)
       , counter_(0)
       , enabled_(false) {
-    descriptor_ = gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, false, true);
+    descriptor_ = gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, normalized, true);
   }
 
   virtual ~GeometryVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
@@ -29,9 +29,10 @@ public:
     }
   }
 
-  MTHD_OVERRIDE(void importRawdata2(void *data, s32_t offset, typename TAttribFormat::DataElementType_t *vertices)) {
+  MTHD_OVERRIDE(void importRawdata2(void *data, s32_t offset, void *vertices)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      *((typename TAttribFormat::DataElementType_t *)data + offset + i) = vertices[i];
+      *((typename TAttribFormat::DataElementType_t *)data + offset + i) =
+          ((typename TAttribFormat::DataElementType_t *)vertices)[i];
     }
   }
 

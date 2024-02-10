@@ -20,7 +20,7 @@ NAMESPACE_BEGIN(prims)
 template <typename TVertexDataType>
 class Plane : public Shape {
 public:
-  Plane(const math::size2f_t &size, const math::size2i_t &subdivisions, const math::col4f_t &col = COL4F_WHITE)
+  Plane(math::size2f_t size, const math::size2i_t &subdivisions, const math::col4f_t &col = COL4F_WHITE)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(
             4 * subdivisions.getW() * subdivisions.getH())) {
     GeometryVertexAttribSet attribs = {
@@ -29,7 +29,7 @@ public:
         .tex = data_->template createVertexAttrib<math::vec2f_t>(
             gapi::VertexSemantic::TEXCOORD_0, QUAD_NUM_RESERVE_VERTICES)};
 
-    auto halfSize = size / 2.0F;
+    math::size2f_t halfSize = size / 2.0F;
     auto unitScale = 1.0F;
 
     auto tileWt = halfSize.getW() * unitScale;

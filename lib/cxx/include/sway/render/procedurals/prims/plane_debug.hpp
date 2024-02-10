@@ -28,10 +28,10 @@ public:
     attribs.col->addVtxData(math::vec4f_t(1.0F, 0.0F, 0.0F, 1.0F));
   }
 
-  Plane_Debug(const math::size2f_t &size, const math::size2i_t &subdivisions)
+  Plane_Debug(math::size2f_t size, const math::size2i_t &subdivisions)
       : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(
             subdivisions.getW() * subdivisions.getH() + 4)) {
-    auto sizeHalf = size / 2.0F;
+    // math::size2f_t sizeHalf = size / 2.0F;
 
     GeometryVertexAttribSet attribs = {
         .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, QUAD_NUM_RESERVE_VERTICES),
