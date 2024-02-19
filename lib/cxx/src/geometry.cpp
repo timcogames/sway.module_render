@@ -87,10 +87,18 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto texIdx = 0;
   auto curTile = 0;
 
-  for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
+  for (auto i = 0; i < info_.vb.desc.capacity /* количество вершин */; ++i) {
     for (auto [_, attrib] : attribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
+        if (desc.semantic == gapi::VertexSemantic::POS) {
+          attrib->importRawdata(vtxdata, offset, i);
+        }
+
+        if (desc.semantic == gapi::VertexSemantic::COL) {
+          attrib->importRawdata(vtxdata, offset, i);
+        }
+
         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
           if (texIdx >= QUAD_TEXCOORD_SIZE) {
             texIdx = 0;
@@ -98,19 +106,15 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
           }
 
           if (curTile == index) {
-            attrib->importRawdata2(vtxdata, offset, coords[texIdx].data());
+            static_pointer_cast<GeometryVertexAttrib<math::vec2f_t>>(attrib)->importRawdata3(
+                vtxdata, offset, i, coords[texIdx].data());
+
+            attrib->importRawdata(vtxdata, offset, i);
           } else {
             attrib->importRawdata(vtxdata, offset, i);
           }
 
           texIdx++;
-
-          // auto width = segments.getW() + 1;
-          // auto col = i % width;
-          // auto row = i / width;
-
-        } else {
-          attrib->importRawdata(vtxdata, offset, i);
         }
 
         offset += desc.numComponents;
@@ -120,6 +124,43 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
 
   bufset_.vbo->updateSubdata(vtxdata);
 }
+
+// void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
+//   auto offset = 0;
+//   auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+
+//   auto texIdx = 0;
+//   auto curTile = 0;
+
+//   for (auto i = 0; i < info_.vb.desc.capacity /* количество вершин */; ++i) {
+//     for (auto [_, attrib] : attribs_) {
+//       if (attrib->isEnabled()) {
+//         auto desc = attrib->getDescriptor();
+//         if (desc.semantic == gapi::VertexSemantic::POS) {
+//           attrib->importRawdata(vtxdata, offset, i);
+
+//           std::cout << "POS " << i << " = " << *((f32_t *)attrib->getComponent(i)) << std::endl;
+//         }
+
+//         if (desc.semantic == gapi::VertexSemantic::COL) {
+//           attrib->importRawdata(vtxdata, offset, i);
+
+//           std::cout << "COL " << i << " = " << *((f32_t *)attrib->getComponent(i)) << std::endl;
+//         }
+
+//         if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
+//           attrib->importRawdata(vtxdata, offset, i);
+
+//           std::cout << "TEX " << i << " = " << *((f32_t *)attrib->getComponent(i)) << std::endl;
+//         }
+
+//         offset += desc.numComponents;
+//       }
+//     }
+//   }
+
+//   bufset_.vbo->updateSubdata(vtxdata);
+// }
 
 void Geometry::bind() {
   if (bufset_.vao) {

@@ -11,6 +11,8 @@ NAMESPACE_BEGIN(render)
 template <typename TAttribFormat>
 class GeometryVertexAttrib : public gapi::VertexAttrib {
 public:
+  using VertexAttribType_t = typename TAttribFormat::DataElementType_t;
+
   GeometryVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve, bool normalized = false)
       : vertices_(nullptr)
       , reserve_(reserve)
@@ -25,14 +27,19 @@ public:
   MTHD_OVERRIDE(void importRawdata(void *data, s32_t offset, s32_t vtx)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       auto component = vertices_[descriptor_.numComponents * vtx + i];
-      *((typename TAttribFormat::DataElementType_t *)data + offset + i) = component;
+      *((VertexAttribType_t *)data + offset + i) = component;
     }
   }
 
-  MTHD_OVERRIDE(void importRawdata2(void *data, s32_t offset, void *vertices)) {
+  void importRawdata3(void *dst, s32_t offset, s32_t vtx, void *src) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      *((typename TAttribFormat::DataElementType_t *)data + offset + i) =
-          ((typename TAttribFormat::DataElementType_t *)vertices)[i];
+      vertices_[descriptor_.numComponents * vtx + i] = ((VertexAttribType_t *)src)[i];
+    }
+  }
+
+  MTHD_OVERRIDE(void importRawdata2(void *dst, s32_t offset, void *src)) {
+    for (auto i = 0; i < descriptor_.numComponents; ++i) {
+      *((VertexAttribType_t *)dst + offset + i) = ((VertexAttribType_t *)src)[i];
     }
   }
 
@@ -58,6 +65,8 @@ public:
     return enabled_;
   }
 
+  void removeVtxData() { SAFE_DELETE_ARRAY(vertices_); }
+
   void addVtxData(TAttribFormat vec) {
     if (counter_ + 1 > capacity_) {
       reallocate_();
@@ -76,11 +85,11 @@ public:
     return counter_;
   }
 
-private:
+public:
   void reallocate_() {
     capacity_ = capacity_ == 0 ? reserve_ : capacity_ * 2;
 
-    auto *tmp = new typename TAttribFormat::DataElementType_t[capacity_ * descriptor_.numComponents];
+    auto *tmp = new VertexAttribType_t[capacity_ * descriptor_.numComponents];
     if (counter_ != 0) {
       memcpy(tmp, vertices_, counter_ * descriptor_.stride);
     }
@@ -91,7 +100,7 @@ private:
   }
 
   gapi::VertexAttribDescriptor descriptor_;
-  typename TAttribFormat::DataElementType_t *vertices_;  // Набор данных.
+  VertexAttribType_t *vertices_;  // Набор данных.
   s32_t reserve_;
   s32_t capacity_;
   s32_t counter_;
