@@ -50,6 +50,8 @@ public:
    */
   auto getQueueByIdx(u32_t index) -> RenderQueueRef_t { return queues_[index]; }
 
+  auto getQueueByPriority(u32_t priority) -> RenderQueueRef_t;
+
   /**
    * @brief Получает все очереди.
    */

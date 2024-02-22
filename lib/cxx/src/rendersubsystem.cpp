@@ -47,8 +47,22 @@ auto RenderSubsystem::initialize() -> bool {
 }
 
 auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueueRef_t {
+  if (this->getQueueByPriority(priority)) {
+    return nullptr;
+  }
+
   queues_.push_back(std::make_shared<RenderQueue>(priority));
   return queues_.back();
+}
+
+auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueueRef_t {
+  for (auto queue : queues_) {
+    if (queue->getPriority() == priority) {
+      return queue;
+    }
+
+    return nullptr;
+  }
 }
 
 void RenderSubsystem::sortQueues() {

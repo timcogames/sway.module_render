@@ -65,7 +65,10 @@ public:
    *
    * @sa setPriority(u32_t)
    */
-  auto getPriority() const -> u32_t { return priority_; }
+  [[nodiscard]]
+  auto getPriority() const -> u32_t {
+    return priority_;
+  }
 
   struct PriorityInDescendingOrder {
     bool operator()(const RenderQueueRef_t &lhs, const RenderQueueRef_t &rhs) const {
