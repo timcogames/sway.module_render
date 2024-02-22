@@ -60,9 +60,9 @@ auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueueRef_t {
     if (queue->getPriority() == priority) {
       return queue;
     }
-
-    return nullptr;
   }
+
+  return nullptr;
 }
 
 void RenderSubsystem::sortQueues() {
