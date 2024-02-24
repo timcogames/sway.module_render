@@ -5,6 +5,8 @@
 #include <sway/render/geometryvertexattrib.hpp>
 #include <sway/render/prereqs.hpp>
 
+#include <stdlib.h>
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
@@ -55,7 +57,7 @@ public:
 
   auto getVtxRawdata() -> void * {
     s32_t offset = 0;
-    void *vtxdata = (void *)malloc(sizeof(TVertexDataType) * vtxcount_);
+    void *vtxdata = (void *)calloc(vtxcount_, sizeof(TVertexDataType));
 
     for (auto i = 0; i < vtxcount_; ++i) {
       for (auto [_, attrib] : attribs_) {

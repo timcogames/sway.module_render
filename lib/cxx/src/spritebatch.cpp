@@ -12,7 +12,7 @@ void SpriteBatch::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::sh
 
   std::array<gapi::VertexSemantic, 3> semantics = {
       gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0};
-  geomShape_ = std::make_shared<PlaneArray<math::VertexTexCoordEx>>();
+  geomShape_ = std::make_shared<PlaneArray<math::VertexTexCoord>>();
   geomShape_->useVertexSemanticSet(semantics);
 
   geom_ = std::make_shared<Geometry>(subsystem->getIdGenerator(), material_->getEffect(), true);

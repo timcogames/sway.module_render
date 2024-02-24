@@ -11,7 +11,8 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   subqueue_ = subqueue;
   material_ = material;
 
-  std::array<gapi::VertexSemantic, 2> semantics = {gapi::VertexSemantic::POS, gapi::VertexSemantic::TEXCOORD_0};
+  std::array<gapi::VertexSemantic, 3> semantics = {
+      gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0};
   auto plane = std::make_shared<procedurals::prims::Plane<math::VertexTexCoord>>(
       size, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
   plane->useVertexSemanticSet(semantics);

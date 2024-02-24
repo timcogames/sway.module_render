@@ -81,19 +81,19 @@ void createResource() {
   std::array<gapi::VertexSemantic, 3> quadSemantics = {
       gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0};
 
-  auto crateGeomQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoordEx>>(
+  auto crateGeomQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
       math::size2f_t(0.2F), math::size2i_t(1));
   crateGeomQuad->useVertexSemanticSet(quadSemantics);
   crateGeom_ = std::make_shared<render::Geometry>(renderSubsystem_->getIdGenerator(), crateMtrl_->getEffect(), true);
   crateGeom_->create(crateGeomQuad);
 
-  auto tankGeomQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoordEx>>(
+  auto tankGeomQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
       math::size2f_t(0.4F), math::size2i_t(1));
   tankGeomQuad->useVertexSemanticSet(quadSemantics);
   tankGeom_ = std::make_shared<render::Geometry>(renderSubsystem_->getIdGenerator(), tankMtrl_->getEffect(), true);
   tankGeom_->create(tankGeomQuad);
 
-  auto tankSilhouetteQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoordEx>>(
+  auto tankSilhouetteQuad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
       math::size2f_t(0.4F), math::size2i_t(1), COL4F_RED);
   tankSilhouetteQuad->useVertexSemanticSet(quadSemantics);
   tankSilhouetteGeom_ =

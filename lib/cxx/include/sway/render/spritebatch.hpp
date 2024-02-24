@@ -57,11 +57,99 @@ public:
     attribs_.col->addVtxData(COL4F_WHITE.toVec4());
     attribs_.col->addVtxData(COL4F_WHITE.toVec4());
 
-    // attribs_.tex->clear();
-    attribs_.tex->addVtxData(math::vec2f_t(tex.getL(), tex.getB()));
-    attribs_.tex->addVtxData(math::vec2f_t(tex.getL(), tex.getT()));
-    attribs_.tex->addVtxData(math::vec2f_t(tex.getR(), tex.getT()));
     attribs_.tex->addVtxData(math::vec2f_t(tex.getR(), tex.getB()));
+    attribs_.tex->addVtxData(math::vec2f_t(tex.getR(), tex.getT()));
+    attribs_.tex->addVtxData(math::vec2f_t(tex.getL(), tex.getT()));
+    attribs_.tex->addVtxData(math::vec2f_t(tex.getL(), tex.getB()));
+  }
+
+  [[nodiscard]]
+  auto getGeometryData() -> GeometryDataPtr<TVertexDataType> {
+    return data_;
+  }
+
+  template <std::size_t TSize>
+  void useVertexSemanticSet(std::array<sway::gapi::VertexSemantic, TSize> &arr) {
+    data_->useVertexSemanticSet(arr);
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) {  // clang-format on
+    return data_->getAttribs();
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) {  // clang-format on
+    return data_->getAttrib(semantic);
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
+    GeometryCreateInfo info;
+
+    info.topology = gapi::TopologyType::TRIANGLE_LIST;
+    info.vb.desc.usage = gapi::BufferUsage::DYNAMIC;
+    info.vb.desc.byteStride = sizeof(TVertexDataType);
+    info.vb.desc.capacity = MAX_BATCH_VERTICES;
+    info.vb.data = nullptr;
+
+    info.ib.desc.usage = gapi::BufferUsage::STATIC;
+    info.ib.desc.byteStride = sizeof(u32_t);
+    info.ib.desc.capacity = MAX_BATCH_ELEMENTS;
+    info.ib.data = data_->getIndices().data();
+
+    return info;
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
+    return data_->getVtxRawdata();
+  }
+
+public:
+  GeometryVertexAttribSet attribs_;
+  GeometryDataPtr<TVertexDataType> data_;
+};
+
+template <typename TVertexDataType>
+class PlaneArray2 : public procedurals::Shape {
+public:
+  PlaneArray2()
+      : data_(std::make_shared<GeometryIndexedVertexData<TVertexDataType>>(MAX_BATCH_VERTICES)) {
+    attribs_ = {
+        .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, QUAD_NUM_RESERVE_VERTICES),
+        .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL, QUAD_NUM_RESERVE_VERTICES)};
+
+    for (auto i = 0, offset = 0; i < MAX_BATCH_ELEMENTS; i += 6, offset += 4) {
+      data_->addTriIndices(0 + offset, 1 + offset, 2 + offset);
+      data_->addTriIndices(2 + offset, 3 + offset, 0 + offset);
+    }
+  }
+
+  virtual ~PlaneArray2() = default;
+
+  void updateVertices(const math::rect4f_t &rect, const math::col4f_t col) {
+    attribs_.pos->addVtxData({rect.getR(), rect.getT(), 0.0F});
+    attribs_.pos->addVtxData({rect.getR(), rect.getB(), 0.0F});
+    attribs_.pos->addVtxData({rect.getL(), rect.getB(), 0.0F});
+    attribs_.pos->addVtxData({rect.getL(), rect.getT(), 0.0F});
+
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
+  }
+
+  void updateVertices(const math::point2f_t &pos, const math::size2f_t &size, const math::col4f_t col) {
+    attribs_.pos->addVtxData({pos.getX() + size.getW(), pos.getY(), 0.0F});
+    attribs_.pos->addVtxData({pos.getX() + size.getW(), pos.getY() + size.getH(), 0.0F});
+    attribs_.pos->addVtxData({pos.getX(), pos.getY() + size.getH(), 0.0F});
+    attribs_.pos->addVtxData({pos.getX(), pos.getY(), 0.0F});
+
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
+    attribs_.col->addVtxData(col.toVec4());
   }
 
   [[nodiscard]]
@@ -134,7 +222,7 @@ private:
   RenderSubqueueRef_t subqueue_;
 
   std::shared_ptr<Material> material_;
-  std::shared_ptr<PlaneArray<math::VertexTexCoordEx>> geomShape_;
+  std::shared_ptr<PlaneArray<math::VertexTexCoord>> geomShape_;
   std::shared_ptr<Geometry> geom_;
 };
 

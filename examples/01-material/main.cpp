@@ -84,8 +84,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   mtrl->addEffect({"base_vs", "base_fs"});
   printf("addEffect\n");
 
-  std::array<sway::gapi::VertexSemantic, 2> quadSemantics = {
-      sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::TEXCOORD_0};
+  std::array<sway::gapi::VertexSemantic, 3> quadSemantics = {
+      sway::gapi::VertexSemantic::POS, sway::gapi::VertexSemantic::COL, sway::gapi::VertexSemantic::TEXCOORD_0};
   auto quad = std::make_shared<render::procedurals::prims::Plane<math::VertexTexCoord>>(
       math::size2f_t(1.0F), math::size2i_t(1));
   quad->useVertexSemanticSet(quadSemantics);
