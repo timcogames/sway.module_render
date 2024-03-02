@@ -18,8 +18,8 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context *
 RenderSubsystem::~RenderSubsystem() {
   queues_.clear();
 
-  idGenerator_.reset();
-  capability_.reset();
+  SAFE_DELETE_OBJECT(idGenerator_);
+  SAFE_DELETE_OBJECT(capability_);
 
   SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
   SAFE_DELETE_OBJECT(global::pluginInstance_);

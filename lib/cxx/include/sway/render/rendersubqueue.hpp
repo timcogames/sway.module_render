@@ -38,7 +38,7 @@ public:
   /**
    * @brief Метод отрисовки.
    */
-  void render(u32_t stage, std::shared_ptr<gapi::StateContext> state);
+  void render(u32_t stage, gapi::StateContextPtr_t state);
 
   /**
    * @brief Устанавливает группу подочереди.
@@ -61,7 +61,7 @@ public:
   }
 
 private:
-  gapi::DrawCallRef_t drawCall_;
+  gapi::DrawCallPtr_t drawCall_;
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;
   RenderSubqueueGroup group_;  // Группа подочереди.

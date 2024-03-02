@@ -99,15 +99,15 @@ public:
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::TRIANGLE_LIST;
-    info.vb.desc.usage = gapi::BufferUsage::STATIC;
-    info.vb.desc.byteStride = sizeof(TVertexDataType);
-    info.vb.desc.capacity = data_->getVtxCount();
-    info.vb.data = data_->getVtxRawdata();
+    info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
+    info.bo[Constants::IDX_VBO].desc.capacity = data_->getVtxCount();
+    info.bo[Constants::IDX_VBO].data = data_->getVtxRawdata();
 
-    info.ib.desc.usage = gapi::BufferUsage::STATIC;
-    info.ib.desc.byteStride = sizeof(u32_t);
-    info.ib.desc.capacity = data_->getIdxCount();
-    info.ib.data = data_->getIndices().data();
+    info.bo[Constants::IDX_IBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_IBO].desc.byteStride = sizeof(u32_t);
+    info.bo[Constants::IDX_IBO].desc.capacity = data_->getIdxCount();
+    info.bo[Constants::IDX_IBO].data = data_->getIndices().data();
 
     return info;
   }

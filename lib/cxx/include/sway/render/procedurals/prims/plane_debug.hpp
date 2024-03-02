@@ -88,10 +88,10 @@ public:
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::LINE_LIST;
-    info.vb.desc.usage = gapi::BufferUsage::STATIC;
-    info.vb.desc.byteStride = sizeof(TVertexDataType);
-    info.vb.desc.capacity = data_->getVtxCount();
-    info.vb.data = data_->getVtxRawdata();
+    info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
+    info.bo[Constants::IDX_VBO].desc.capacity = data_->getVtxCount();
+    info.bo[Constants::IDX_VBO].data = data_->getVtxRawdata();
 
     return info;
   }

@@ -46,7 +46,6 @@ option(MODULE_RENDER_ENVIRONMENT "Environment variable" OFF)
 option(MODULE_RENDER_COMPILATION "Compilation variable" OFF)
 option(MODULE_RENDER_MT "Enable multithreading" OFF)
 option(MODULE_RENDER_ENABLE_COVERAGE "Enable coverage builds" OFF)
-option(MODULE_RENDER_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_RENDER_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_RENDER_USE_GMOCK "Use google mock" OFF)
 
@@ -122,27 +121,6 @@ file(GLOB_RECURSE MODULE_RENDER_SOURCES "${MODULE_RENDER_LIST_DIR}/lib/cxx/src/*
 #---------------------------------------------------------------------------------
 
 add_subdirectory(lib/cxx)
-
-#---------------------------------------------------------------------------------
-# Examples
-#---------------------------------------------------------------------------------
-
-if(MODULE_RENDER_ENABLE_EXAMPLES)
-  message(STATUS "Examples have been enabled")
-
-  # Добавляем пути для поиска хедеров
-  include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_platform-glx11/lib/cxx/include")
-
-  if(NOT TARGET module_pltf)
-    add_subdirectory("submodules/sway.module_platform-glx11")
-  endif()
-
-  if(GLOB_EMSCRIPTEN_PLATFORM)
-    add_subdirectory("examples/01-material-wasm")
-  else()
-    add_subdirectory("examples/01-material")
-  endif()
-endif()
 
 #---------------------------------------------------------------------------------
 # Tests

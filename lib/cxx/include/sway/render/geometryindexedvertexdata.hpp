@@ -35,6 +35,7 @@ public:
 
 private:
   std::vector<u32_t> indices_;
+  u32_t numIdxs_;
 };
 
 template <typename TVertexDataType>

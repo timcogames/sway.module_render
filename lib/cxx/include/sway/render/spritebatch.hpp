@@ -25,6 +25,12 @@ NAMESPACE_BEGIN(render)
 
 #define QUAD_NUM_RESERVE_VERTICES 4
 
+// static constexpr size_t MaxBatchSize = 2048;
+// static constexpr size_t MinBatchSize = 128;
+// static constexpr size_t InitialQueueSize = 64;
+// static constexpr size_t VerticesPerSprite = 4;
+// static constexpr size_t IndicesPerSprite = 6;
+
 template <typename TVertexDataType>
 class PlaneArray : public procedurals::Shape {
 public:
@@ -88,15 +94,15 @@ public:
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::TRIANGLE_LIST;
-    info.vb.desc.usage = gapi::BufferUsage::DYNAMIC;
-    info.vb.desc.byteStride = sizeof(TVertexDataType);
-    info.vb.desc.capacity = MAX_BATCH_VERTICES;
-    info.vb.data = nullptr;
+    info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::DYNAMIC;
+    info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
+    info.bo[Constants::IDX_VBO].desc.capacity = MAX_BATCH_VERTICES;
+    info.bo[Constants::IDX_VBO].data = nullptr;
 
-    info.ib.desc.usage = gapi::BufferUsage::STATIC;
-    info.ib.desc.byteStride = sizeof(u32_t);
-    info.ib.desc.capacity = MAX_BATCH_ELEMENTS;
-    info.ib.data = data_->getIndices().data();
+    info.bo[Constants::IDX_IBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_IBO].desc.byteStride = sizeof(u32_t);
+    info.bo[Constants::IDX_IBO].desc.capacity = MAX_BATCH_ELEMENTS;
+    info.bo[Constants::IDX_IBO].data = data_->getIndices().data();
 
     return info;
   }
@@ -177,15 +183,15 @@ public:
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::TRIANGLE_LIST;
-    info.vb.desc.usage = gapi::BufferUsage::DYNAMIC;
-    info.vb.desc.byteStride = sizeof(TVertexDataType);
-    info.vb.desc.capacity = MAX_BATCH_VERTICES;
-    info.vb.data = nullptr;
+    info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::DYNAMIC;
+    info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
+    info.bo[Constants::IDX_VBO].desc.capacity = MAX_BATCH_VERTICES;
+    info.bo[Constants::IDX_VBO].data = nullptr;
 
-    info.ib.desc.usage = gapi::BufferUsage::STATIC;
-    info.ib.desc.byteStride = sizeof(u32_t);
-    info.ib.desc.capacity = MAX_BATCH_ELEMENTS;
-    info.ib.data = data_->getIndices().data();
+    info.bo[Constants::IDX_IBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_IBO].desc.byteStride = sizeof(u32_t);
+    info.bo[Constants::IDX_IBO].desc.capacity = MAX_BATCH_ELEMENTS;
+    info.bo[Constants::IDX_IBO].data = data_->getIndices().data();
 
     return info;
   }

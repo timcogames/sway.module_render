@@ -1,7 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
-#include <sway/render/procedurals/prims/plane.hpp>
+// #include <sway/render/procedurals/prims/plane.hpp>
 
 #include <gtest/gtest.h>
 

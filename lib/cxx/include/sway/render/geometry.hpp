@@ -79,7 +79,7 @@ struct UVData {
 
 class Geometry {
 public:
-  Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect, bool indexed);
+  Geometry(gapi::IdGeneratorPtr_t idgen, EffectRef_t effect, bool indexed);
 
   ~Geometry() = default;
 
@@ -104,7 +104,7 @@ public:
 
 private:
   GeometryCreateInfo info_;
-  std::shared_ptr<gapi::IdGenerator> idGenerator_;
+  gapi::IdGeneratorPtr_t idGenerator_;
   VertexAttribMap_t attribs_;
   gapi::VertexAttribLayoutPtr_t attribLayout_;
   gapi::BufferSet bufset_{nullptr, nullptr, nullptr};

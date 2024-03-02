@@ -28,10 +28,10 @@ public:
    */
   void unbind();
 
-  auto getShaderProgram() -> gapi::ShaderProgramRef_t { return program_; }
+  auto getShaderProgram() -> gapi::ShaderProgramPtr_t { return program_; }
 
 private:
-  gapi::ShaderProgramRef_t program_;  // Указатель на шейдерную программу.
+  gapi::ShaderProgramPtr_t program_;  // Указатель на шейдерную программу.
 };
 
 NAMESPACE_END(render)

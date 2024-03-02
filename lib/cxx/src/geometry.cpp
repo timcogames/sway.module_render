@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Geometry::Geometry(std::shared_ptr<gapi::IdGenerator> idgen, EffectRef_t effect, bool indexed)
+Geometry::Geometry(gapi::IdGeneratorPtr_t idgen, EffectRef_t effect, bool indexed)
     : idGenerator_(idgen)
     , attribLayout_(nullptr)
     , effect_(effect)
@@ -34,23 +34,23 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
 
   info_ = prim->getGeometryInfo();
 
-  info_.vb.desc.target = gapi::BufferTarget::ARRAY;
-  bufset_.vbo = pluginFuncSet->createBuffer(idGenerator_, info_.vb);
+  // info_.bo[IDX_VBO].desc.target = gapi::BufferTarget::ARRAY;
+  bufset_.vbo = pluginFuncSet->createBuffer(idGenerator_, info_.bo[Constants::IDX_VBO]);
 
   if (indexed_) {
-    info_.ib.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-    bufset_.ebo = pluginFuncSet->createBuffer(idGenerator_, info_.ib);
+    // info_.bo[IDX_IBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+    bufset_.ebo = pluginFuncSet->createBuffer(idGenerator_, info_.bo[Constants::IDX_IBO]);
   }
 }
 
 void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) {
   auto offset = 0;
-  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.bo[Constants::IDX_VBO].desc.capacity);
 
   auto texIdx = 0;
   auto currRile = 0;
 
-  for (auto i = 0; i < info_.vb.desc.capacity; ++i) {
+  for (auto i = 0; i < info_.bo[Constants::IDX_VBO].desc.capacity; ++i) {
     for (auto const [_, attrib] : attribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
@@ -82,12 +82,12 @@ void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) 
 
 void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto offset = 0;
-  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.bo[Constants::IDX_VBO].desc.capacity);
 
   auto texIdx = 0;
   auto curTile = 0;
 
-  for (auto i = 0; i < info_.vb.desc.capacity /* количество вершин */; ++i) {
+  for (auto i = 0; i < info_.bo[Constants::IDX_VBO].desc.capacity /* количество вершин */; ++i) {
     for (auto [_, attrib] : attribs_) {
       if (attrib->isEnabled()) {
         auto desc = attrib->getDescriptor();
@@ -106,8 +106,7 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
           }
 
           if (curTile == index) {
-            static_pointer_cast<GeometryVertexAttrib<math::vec2f_t>>(attrib)->importRawdata3(
-                vtxdata, offset, i, coords[texIdx].data());
+            static_pointer_cast<GeometryVertexAttrib<math::vec2f_t>>(attrib)->setVertexData(i, coords[texIdx].data());
 
             attrib->importRawdata(vtxdata, offset, i);
           } else {
@@ -127,12 +126,12 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
 
 // void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
 //   auto offset = 0;
-//   auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.vb.desc.capacity);
+//   auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * info_.bo[IDX_VBO].desc.capacity);
 
 //   auto texIdx = 0;
 //   auto curTile = 0;
 
-//   for (auto i = 0; i < info_.vb.desc.capacity /* количество вершин */; ++i) {
+//   for (auto i = 0; i < info_.bo[IDX_VBO].desc.capacity /* количество вершин */; ++i) {
 //     for (auto [_, attrib] : attribs_) {
 //       if (attrib->isEnabled()) {
 //         auto desc = attrib->getDescriptor();

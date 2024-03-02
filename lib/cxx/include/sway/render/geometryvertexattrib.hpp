@@ -26,12 +26,11 @@ public:
 
   MTHD_OVERRIDE(void importRawdata(void *data, s32_t offset, s32_t vtx)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      auto component = vertices_[descriptor_.numComponents * vtx + i];
-      *((VertexAttribType_t *)data + offset + i) = component;
+      *((VertexAttribType_t *)data + offset + i) = vertices_[descriptor_.numComponents * vtx + i];
     }
   }
 
-  void importRawdata3(void *dst, s32_t offset, s32_t vtx, void *src) {
+  void setVertexData(s32_t vtx, void *src) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       vertices_[descriptor_.numComponents * vtx + i] = ((VertexAttribType_t *)src)[i];
     }

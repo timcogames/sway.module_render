@@ -8,10 +8,26 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+struct Constants {
+  static constexpr std::size_t MAX_VERTEX_ATTRIBS{16};
+  static constexpr std::size_t MAX_BUFFER_OBJECTS{8};
+
+  static constexpr std::size_t MAX_IDX_BUFFERS{2};
+  static constexpr int IDX_VBO{0};
+  static constexpr int IDX_IBO{1};
+};
+
 struct GeometryCreateInfo {
+  bool indexed;
   gapi::TopologyType topology;
-  gapi::BufferCreateInfo vb;
-  gapi::BufferCreateInfo ib;
+  std::array<gapi::BufferCreateInfo, Constants::MAX_IDX_BUFFERS> bo{};
+
+  GeometryCreateInfo()
+      : indexed(false)
+      , topology(gapi::TopologyType::UNDEF) {
+    bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::ARRAY;
+    bo[Constants::IDX_IBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+  }
 };
 
 NAMESPACE_END(render)

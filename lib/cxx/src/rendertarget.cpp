@@ -3,7 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-void RenderTarget::setScissorViewport(std::shared_ptr<gapi::Viewport> viewport) {
+void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) {
   viewport_ = viewport;
   // viewport_->set(0, 0, 100, 100);
 }

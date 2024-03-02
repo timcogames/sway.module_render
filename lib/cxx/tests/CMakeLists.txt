@@ -20,7 +20,8 @@ include_directories(${GTEST_INC_DIR} ${GMOCK_INC_DIR})
 file(GLOB MODULE_RENDER_SOURCE_TESTS ${PROJECT_SOURCE_DIR}/*.cpp)
 
 add_executable(${META_RENDER_LIBNAME_TESTS} ${MODULE_RENDER_SOURCE_TESTS} "${GTEST_SRC_DIR}/gtest_main.cc")
-target_link_libraries(${META_RENDER_LIBNAME_TESTS} module_render_obj module_core_obj ${GLOB_GTEST_LIB_DIR}/libgtest.a ${GLOB_GMOCK_LIB_DIR}/libgmock.a)
+target_link_libraries(${META_RENDER_LIBNAME_TESTS} module_render_obj module_core_obj 
+  ${GLOB_GTEST_LIB_DIR}/libgtest.a ${GLOB_GMOCK_LIB_DIR}/libgmock.a)
 enable_cxx17(${META_RENDER_LIBNAME_TESTS})
 
 add_test(NAME ${META_RENDER_LIBNAME_TESTS} COMMAND ${META_RENDER_LIBNAME_TESTS})

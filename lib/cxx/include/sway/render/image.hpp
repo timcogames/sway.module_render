@@ -29,14 +29,14 @@ public:
    */
   void unbind() { texture_->unbind(); }
 
-  auto getTexture() -> gapi::TextureRef_t { return texture_; }
+  auto getTexture() -> gapi::TexturePtr_t { return texture_; }
 
-  auto getTextureSampler() -> gapi::TextureSamplerRef_t { return textureSampler_; }
+  auto getTextureSampler() -> gapi::TextureSamplerPtr_t { return textureSampler_; }
 
 private:
   global::GapiPluginFunctionSet *pluginFuncSet_;
-  gapi::TextureRef_t texture_;  // Указатель на шейдерную программу.
-  gapi::TextureSamplerRef_t textureSampler_;
+  gapi::TexturePtr_t texture_;  // Указатель на шейдерную программу.
+  gapi::TextureSamplerPtr_t textureSampler_;
 };
 
 NAMESPACE_END(render)

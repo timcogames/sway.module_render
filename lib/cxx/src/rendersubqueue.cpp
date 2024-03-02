@@ -16,7 +16,7 @@ void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet
 
 void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 
-void RenderSubqueue::render(u32_t stage, std::shared_ptr<gapi::StateContext> state) {
+void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
   for (const auto &cmd : commands_) {
     if (cmd.stage != stage) {
       break;

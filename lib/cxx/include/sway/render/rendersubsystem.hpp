@@ -74,16 +74,16 @@ public:
 
   MTHD_OVERRIDE(void shutdown()) {}
 
-  auto getIdGenerator() -> std::shared_ptr<gapi::IdGenerator> { return idGenerator_; }
+  auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
 private:
   void renderSubqueues_(
       RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
 
-  std::shared_ptr<gapi::Capability> capability_;
+  gapi::CapabilityPtr_t capability_;
   std::array<std::shared_ptr<RenderPass>, core::detail::toUnderlying(RenderStage::MAX_STAGE)> passes_{};
   RenderQueueRefVector_t queues_;  // Контейнер очередей.
-  std::shared_ptr<gapi::IdGenerator> idGenerator_;
+  gapi::IdGeneratorPtr_t idGenerator_;
 };
 
 NAMESPACE_END(render)

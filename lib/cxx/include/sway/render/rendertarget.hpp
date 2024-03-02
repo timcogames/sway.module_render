@@ -15,14 +15,14 @@ public:
 
   ~RenderTarget() = default;
 
-  void setScissorViewport(std::shared_ptr<gapi::Viewport> viewport);
+  void setScissorViewport(gapi::ViewportPtr_t viewport);
 
   void activate();
 
   void deactivate();
 
 private:
-  std::shared_ptr<gapi::Viewport> viewport_;
+  gapi::ViewportPtr_t viewport_;
 };
 
 NAMESPACE_END(render)

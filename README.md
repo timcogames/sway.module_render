@@ -27,7 +27,7 @@ mkdir build && cd ./build
 cmake -D CMAKE_BUILD_TYPE=Release \
       -D GLOB_THIRD_PARTY_DIR=/Users/<USER_NAME>/Documents/Third-party \
       -D MODULE_RENDER_ENABLE_TESTS=OFF \
-      -D MODULE_RENDER_ENABLE_EXAMPLES=ON ../
+      ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
@@ -36,7 +36,6 @@ cmake -D CMAKE_BUILD_TYPE=Release \
 `MODULE_RENDER_BUILD_SHARED` | `BOOL` | Сборка библиотеки общего пользования | `OFF`
 `MODULE_RENDER_ENABLE_COVERAGE` | `BOOL` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
 `MODULE_RENDER_ENABLE_TESTS` | `BOOL` | Включает построение тестов | `OFF`
-`MODULE_RENDER_ENABLE_EXAMPLES` | `BOOL` | Включает построение примеров | `OFF`
 
 Запускаем сборку
 

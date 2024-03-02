@@ -15,10 +15,10 @@ public:
 
   void restore();
 
-  auto getContext() -> std::shared_ptr<gapi::StateContext> { return state_; }
+  auto getContext() -> gapi::StateContextPtr_t { return state_; }
 
 private:
-  std::shared_ptr<gapi::StateContext> state_;
+  gapi::StateContextPtr_t state_;
 };
 
 NAMESPACE_END(render)

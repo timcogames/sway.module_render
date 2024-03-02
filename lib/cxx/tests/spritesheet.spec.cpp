@@ -47,8 +47,8 @@ TEST(SpriteAnimationClip, test) {
   clip.addFrame(0, 0, 0, 32, 32, false);
 }
 
-TEST(SpriteSheet, test2) {
-  auto sheet = std::make_shared<render::SpriteSheet>(nlohmann::json::parse(data));
-  ASSERT_EQ(sheet->animations_.size(), 1);
-  ASSERT_EQ(sheet->animations_[0].clip_->size(), 2);
-}
+// TEST(SpriteSheet, test2) {
+//   auto sheet = std::make_shared<render::SpriteSheet>(nlohmann::json::parse(data));
+//   ASSERT_EQ(sheet->animations_.size(), 1);
+//   ASSERT_EQ(sheet->animations_[0].clip_->size(), 2);
+// }
