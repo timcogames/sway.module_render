@@ -15,10 +15,11 @@ public:
 
   virtual ~GeomInstance() = default;
 
-  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info)) {
-    vao_ = gapiPlugin_->createVertexArray();
-    Geom::create(info);
-  }
+  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info));
+
+  MTHD_OVERRIDE(void bind());
+
+  MTHD_OVERRIDE(void unbind());
 
 private:
   gapi::VertexArrayPtr_t vao_;

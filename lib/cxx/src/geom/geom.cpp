@@ -8,24 +8,16 @@ Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
     : gapiPlugin_(plug)
     , builder_(builder) {}
 
-Geom::~Geom() {
-  buffers_[0] = std::nullopt;
-  std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
-}
+Geom::~Geom() { std::fill(buffers_.begin(), buffers_.end(), std::nullopt); }
 
 void Geom::create(const GeometryCreateInfo &info) {
-  // attribLayout_ = gapiPlugin_->createVertexAttribLayout(effect_->getShaderProgram());
-  // for (const auto &attrib : data->getAttribs()) {
-  //   attribLayout_->addAttribute(attrib.second->getDescriptor());
-  // }
-
-  auto createBuffers = [&, bufIdx = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
-    if (bufIdx == Constants::IDX_IBO && !info.indexed) {
+  auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
+    if (next == Constants::IDX_EBO && !info.indexed) {
       return;
     }
 
-    buf = std::make_optional<gapi::BufferPtr_t>(gapiPlugin_->createBuffer(builder_->getIdGenerator(), info.bo[bufIdx]));
-    ++bufIdx;
+    buf = std::make_optional<gapi::BufferPtr_t>(gapiPlugin_->createBuffer(builder_->getIdGenerator(), info.bo[next]));
+    ++next;
   };
 
   std::for_each(buffers_.begin(), buffers_.end(), createBuffers);

@@ -38,8 +38,8 @@ void Geometry::create(std::shared_ptr<procedurals::Shape> prim) {
   bufset_.vbo = pluginFuncSet->createBuffer(idGenerator_, info_.bo[Constants::IDX_VBO]);
 
   if (indexed_) {
-    // info_.bo[IDX_IBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-    bufset_.ebo = pluginFuncSet->createBuffer(idGenerator_, info_.bo[Constants::IDX_IBO]);
+    // info_.bo[IDX_EBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+    bufset_.ebo = pluginFuncSet->createBuffer(idGenerator_, info_.bo[Constants::IDX_EBO]);
   }
 }
 

@@ -13,7 +13,7 @@ NAMESPACE_BEGIN(render)
 class GeomVertexDataBase {
 public:
   // clang-format off
-  PURE_VIRTUAL(auto getVertexCount() const -> u32_t);  // clang-format on
+  PURE_VIRTUAL(auto getVtxSize() const -> u32_t);  // clang-format on
 
   PURE_VIRTUAL(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics));
 };
@@ -55,11 +55,11 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getVertexCount() const -> u32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getVtxSize() const -> u32_t) {  // clang-format on
     return numVerts_;
   }
 
-  auto data() -> void * {
+  auto getVertices() -> void * {
     auto offset = 0;
     auto *vertices = calloc(numVerts_, sizeof(TVertexDataType));
 

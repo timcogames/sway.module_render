@@ -99,10 +99,10 @@ public:
     info.bo[Constants::IDX_VBO].desc.capacity = MAX_BATCH_VERTICES;
     info.bo[Constants::IDX_VBO].data = nullptr;
 
-    info.bo[Constants::IDX_IBO].desc.usage = gapi::BufferUsage::STATIC;
-    info.bo[Constants::IDX_IBO].desc.byteStride = sizeof(u32_t);
-    info.bo[Constants::IDX_IBO].desc.capacity = MAX_BATCH_ELEMENTS;
-    info.bo[Constants::IDX_IBO].data = data_->getIndices().data();
+    info.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
+    info.bo[Constants::IDX_EBO].desc.capacity = MAX_BATCH_ELEMENTS;
+    info.bo[Constants::IDX_EBO].data = data_->getIndices().data();
 
     return info;
   }
@@ -188,10 +188,10 @@ public:
     info.bo[Constants::IDX_VBO].desc.capacity = MAX_BATCH_VERTICES;
     info.bo[Constants::IDX_VBO].data = nullptr;
 
-    info.bo[Constants::IDX_IBO].desc.usage = gapi::BufferUsage::STATIC;
-    info.bo[Constants::IDX_IBO].desc.byteStride = sizeof(u32_t);
-    info.bo[Constants::IDX_IBO].desc.capacity = MAX_BATCH_ELEMENTS;
-    info.bo[Constants::IDX_IBO].data = data_->getIndices().data();
+    info.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+    info.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
+    info.bo[Constants::IDX_EBO].desc.capacity = MAX_BATCH_ELEMENTS;
+    info.bo[Constants::IDX_EBO].data = data_->getIndices().data();
 
     return info;
   }

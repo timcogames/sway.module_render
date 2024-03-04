@@ -32,19 +32,11 @@ public:
 
   GeomVertexAttrib(GeomVertexDataBase *owner, gapi::VertexSemantic semantic, bool normalized);
 
-  virtual ~GeomVertexAttrib() { SAFE_DELETE_ARRAY(data_); }
+  virtual ~GeomVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
 
-  MTHD_OVERRIDE(void setData(u32_t idx, void *val)) {
-    for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      data_[descriptor_.numComponents * idx + i] = ((VertexAttribType_t *)val)[i];
-    }
-  }
+  MTHD_OVERRIDE(void setData(u32_t idx, void *val));
 
-  MTHD_OVERRIDE(void getData(void *dst, s32_t offset, s32_t idx)) {
-    for (auto i = 0; i < descriptor_.numComponents; ++i) {
-      *((VertexAttribType_t *)dst + offset + i) = data_[descriptor_.numComponents * idx + i];
-    }
-  }
+  MTHD_OVERRIDE(void getData(void *dst, s32_t offset, s32_t idx));
 
   // clang-format off
   MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) {  // clang-format on
@@ -61,7 +53,7 @@ public:
 private:
   GeomVertexDataBase *owner_;
   gapi::VertexAttribDescriptor descriptor_;
-  VertexAttribType_t *data_;
+  VertexAttribType_t *vertices_;
   bool enabled_;
 };
 

@@ -11,8 +11,23 @@ GeomVertexAttrib<TAttribFormat>::GeomVertexAttrib(
     GeomVertexDataBase *owner, gapi::VertexSemantic semantic, bool normalized)
     : owner_(owner)
     , descriptor_(gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, normalized, true))
-    , data_(new VertexAttribType_t[owner_->getVertexCount() * sizeof(VertexAttribType_t)])
-    , enabled_(false) {}
+    , enabled_(false) {
+  vertices_ = new VertexAttribType_t[owner_->getVtxSize() * sizeof(VertexAttribType_t)];
+}
+
+template <typename TAttribFormat>
+void GeomVertexAttrib<TAttribFormat>::setData(u32_t idx, void *val) {
+  for (auto i = 0; i < descriptor_.numComponents; ++i) {
+    vertices_[descriptor_.numComponents * idx + i] = ((VertexAttribType_t *)val)[i];
+  }
+}
+
+template <typename TAttribFormat>
+void GeomVertexAttrib<TAttribFormat>::getData(void *dst, s32_t offset, s32_t idx) {
+  for (auto i = 0; i < descriptor_.numComponents; ++i) {
+    *((VertexAttribType_t *)dst + offset + i) = vertices_[descriptor_.numComponents * idx + i];
+  }
+}
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

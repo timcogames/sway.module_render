@@ -14,7 +14,10 @@ struct Constants {
 
   static constexpr std::size_t MAX_IDX_BUFFERS{2};
   static constexpr int IDX_VBO{0};
-  static constexpr int IDX_IBO{1};
+  static constexpr int IDX_EBO{1};
+
+  static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
+  static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
 };
 
 struct GeometryCreateInfo {
@@ -26,7 +29,7 @@ struct GeometryCreateInfo {
       : indexed(false)
       , topology(gapi::TopologyType::UNDEF) {
     bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::ARRAY;
-    bo[Constants::IDX_IBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+    bo[Constants::IDX_EBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
   }
 };
 

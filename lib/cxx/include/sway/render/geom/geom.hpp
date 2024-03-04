@@ -21,7 +21,20 @@ public:
 
   virtual ~Geom();
 
+  template <class TObject>
+  void call(std::function<void(TObject)> callback) {
+    for (auto buf : buffers_) {
+      if (buf.has_value()) {
+        callback(buf.value());
+      }
+    }
+  }
+
   MTHD_VIRTUAL(void create(const GeometryCreateInfo &info));
+
+  MTHD_VIRTUAL(void bind()) { this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor()); }
+
+  MTHD_VIRTUAL(void unbind()) { this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor()); }
 
   auto getBuffer(int idx) -> std::optional<gapi::BufferPtr_t> { return buffers_[idx]; }
 

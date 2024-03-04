@@ -12,7 +12,7 @@
 
 using namespace sway;
 
-TEST(Geom, create) {
+TEST(Geom, createVertexData) {
   auto numVerts = 4;
   auto geomVertexData = std::make_shared<render::GeomVertexData<math::VertexColor>>(numVerts);
 
@@ -36,7 +36,7 @@ TEST(Geom, create) {
   ASSERT_TRUE(pos->enabled());
   ASSERT_TRUE(col->enabled());
 
-  auto data = (math::VertexColor *)geomVertexData->data();
+  auto data = (math::VertexColor *)geomVertexData->getVertices();
   for (auto i = 0; i < numVerts; i++) {
     std::cout << data[i] << std::endl;
   }
@@ -77,12 +77,12 @@ TEST_F(GeomTestFixture, createBuffer) {
   geomBuilder->getGeometry(0)->create(geomCreateInfo);
 
   EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_VBO).has_value());
-  EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_IBO).has_value());
+  EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_EBO).has_value());
 
   geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo());
 
   EXPECT_TRUE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_VBO).has_value());
-  EXPECT_FALSE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_IBO).has_value());
+  EXPECT_FALSE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_EBO).has_value());
 
   SAFE_DELETE_OBJECT(geomBuilder);
   SAFE_DELETE_OBJECT(bufferStub);
