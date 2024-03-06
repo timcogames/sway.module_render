@@ -15,7 +15,8 @@ public:
 
   virtual ~GeomInstance() = default;
 
-  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info));
+  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info, EffectRef_t effect,
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
 
   MTHD_OVERRIDE(void bind());
 

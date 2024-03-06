@@ -18,6 +18,8 @@ NAMESPACE_BEGIN(render)
 
 class GeomBuilder {
 public:
+  static auto create(gapi::IdGeneratorPtr_t gen) -> std::shared_ptr<GeomBuilder>;
+
   GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen);
 
   ~GeomBuilder();

@@ -2,7 +2,7 @@
 #define SWAY_RENDER_GEOMINDEXEDVERTEXDATA_HPP
 
 #include <sway/core.hpp>
-#include <sway/render/geomvertexdata.hpp>
+#include <sway/render/geom/geomvertexdata.hpp>
 #include <sway/render/prereqs.hpp>
 
 #include <vector>
@@ -40,9 +40,6 @@ private:
   TElementDataType *elements_;
   u32_t numElems_;
 };
-
-template <typename TVertexDataType>
-using GeomDataPtr = std::shared_ptr<GeomIndexedVertexData<TVertexDataType>>;
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

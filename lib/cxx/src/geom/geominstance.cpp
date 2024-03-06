@@ -7,9 +7,10 @@ NAMESPACE_BEGIN(render)
 GeomInstance::GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
     : Geom(plug, builder) {}
 
-void GeomInstance::create(const GeometryCreateInfo &info) {
+void GeomInstance::create(const GeometryCreateInfo &info, EffectRef_t effect,
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
   vao_ = gapiPlugin_->createVertexArray();
-  Geom::create(info);
+  Geom::create(info, effect, attribs);
 }
 
 void GeomInstance::bind() {

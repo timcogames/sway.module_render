@@ -3,20 +3,13 @@
 
 #include <sway/core.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
+#include <sway/render/geom/geomvertexdatabase.hpp>
 #include <sway/render/prereqs.hpp>
 
 #include <stdlib.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
-
-class GeomVertexDataBase {
-public:
-  // clang-format off
-  PURE_VIRTUAL(auto getVtxSize() const -> u32_t);  // clang-format on
-
-  PURE_VIRTUAL(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics));
-};
 
 template <typename TVertexDataType>
 class GeomVertexData : public GeomVertexDataBase {
@@ -27,9 +20,9 @@ public:
   virtual ~GeomVertexData() = default;
 
   template <typename TAttribFormat>
-  auto createAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<VertexAttrib>;
+  auto createAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<GeomVertexAttribBase>;
 
-  auto getAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<VertexAttrib> {
+  auto getAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<GeomVertexAttribBase> {
     auto iter = attribs_.find(semantic);
     if (iter != attribs_.end()) {
       return iter->second;
@@ -39,7 +32,7 @@ public:
   }
 
   [[nodiscard]]
-  auto getAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<VertexAttrib>> {
+  auto getAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> {
     return attribs_;
   }
 
@@ -80,7 +73,7 @@ public:
   }
 
 private:
-  std::map<gapi::VertexSemantic, std::shared_ptr<VertexAttrib>> attribs_;
+  std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
   u32_t numVerts_;
 };
 

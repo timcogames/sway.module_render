@@ -3,30 +3,15 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/gapi/vertexattrib.hpp>
+#include <sway/render/geom/geomvertexattribbase.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-class VertexAttrib {
-public:
-  PURE_VIRTUAL(void setData(u32_t idx, void *val));
-
-  PURE_VIRTUAL(void getData(void *dst, s32_t offset, s32_t idx));
-
-  // clang-format off
-  PURE_VIRTUAL(auto getDescriptor() -> gapi::VertexAttribDescriptor);  // clang-format on
-
-  PURE_VIRTUAL(void use());
-
-  // clang-format off
-  PURE_VIRTUAL(auto enabled() const -> bool);  // clang-format on
-};
-
 class GeomVertexDataBase;
 
 template <typename TAttribFormat>
-class GeomVertexAttrib : public VertexAttrib {
+class GeomVertexAttrib : public GeomVertexAttribBase {
 public:
   using VertexAttribType_t = typename TAttribFormat::DataElementType_t;
 

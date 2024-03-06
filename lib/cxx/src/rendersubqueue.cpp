@@ -37,11 +37,24 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
     matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
 
     cmd.material->bind(matrixStack_);
-    cmd.geometry->bind();
 
-    drawCall_->execute(cmd.geometry->getTopology(), cmd.geometry->getBufferSet(), core::ValueDataType::UINT);
+    if (cmd.geom != nullptr) {
+      cmd.geom->bind();
 
-    cmd.geometry->unbind();
+      gapi::BufferSet set;
+      set.vbo = cmd.geom->getBuffer(0).value();
+      set.ebo = cmd.geom->getBuffer(1).value();
+      drawCall_->execute(gapi::TopologyType::TRIANGLE_LIST, set, core::ValueDataType::UINT);
+
+      cmd.geom->unbind();
+    } else {
+      cmd.geometry->bind();
+
+      drawCall_->execute(cmd.geometry->getTopology(), cmd.geometry->getBufferSet(), core::ValueDataType::UINT);
+
+      cmd.geometry->unbind();
+    }
+
     cmd.material->unbind();
 
     matrixStack_->pop<math::MatrixType::TFRM>();

@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
+#include <sway/render/geom/geomvertexattribbase.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
 
@@ -30,11 +31,18 @@ public:
     }
   }
 
-  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info));
+  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, EffectRef_t effect,
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
 
-  MTHD_VIRTUAL(void bind()) { this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor()); }
+  MTHD_VIRTUAL(void bind()) {
+    attribLayout_->enable();
+    this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
+  }
 
-  MTHD_VIRTUAL(void unbind()) { this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor()); }
+  MTHD_VIRTUAL(void unbind()) {
+    this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
+    attribLayout_->disable();
+  }
 
   auto getBuffer(int idx) -> std::optional<gapi::BufferPtr_t> { return buffers_[idx]; }
 

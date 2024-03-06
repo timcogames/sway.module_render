@@ -3,6 +3,7 @@
 
 #include <sway/math.hpp>
 #include <sway/render/geom/geomindexedvertexdata.hpp>
+#include <sway/render/geom/geomvertexdata.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/geometryvertexattribset.hpp>
 #include <sway/render/prereqs.hpp>
@@ -16,7 +17,7 @@ NAMESPACE_BEGIN(procedurals)
 NAMESPACE_BEGIN(prims)
 
 template <typename TVertexDataType>
-class Quadrilateral : public Shape {
+class Quadrilateral : public ShapeBase {
 public:
   Quadrilateral(u32_t numInsts)
       : numInstances_(numInsts)
@@ -29,43 +30,59 @@ public:
 
   void initialVtxData(std::size_t reserve) {
     // clang-format off
-    data_ = std::make_shared<GeomIndexedVertexData<TVertexDataType>>(reserve * numInstances_);
-    dataAttribs_ = {
-      .pos = data_->template createVertexAttrib<math::vec3f_t>(gapi::VertexSemantic::POS, reserve),
-      .col = data_->template createVertexAttrib<math::vec4f_t>(gapi::VertexSemantic::COL, reserve),
-      .tex = data_->template createVertexAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0, reserve)
+    data_ = std::make_shared<GeomIndexedVertexData<TVertexDataType, u32_t>>(reserve * numInstances_,
+      Constants::MAX_QUAD_RESERVE_ELEMENTS * numInstances_);
+    dataAttribs_ = (struct GeomVertexAttribSet) {
+      .pos = data_->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
+      .col = data_->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
+      .tex = data_->template createAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)
     };  // clang-format on
   }
 
   void initialElmData(std::size_t reserve) {
+    auto next = 0;
     for (auto i = 0, offset = 0; i < reserve * numInstances_; i += reserve, offset += 4) {
-      data_->setTriElements(0 + offset, 1 + offset, 2 + offset);
-      data_->setTriElements(2 + offset, 3 + offset, 0 + offset);
+      data_->setTriElements(next, 0 + offset, 1 + offset, 2 + offset);
+      next += 3;
+      data_->setTriElements(next, 2 + offset, 3 + offset, 0 + offset);
+      next += 3;
     }
   }
 
   void setColor(const math::col4f_t &col) { color_ = col; }
 
+  void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t col) {
+    attribs_.pos->setData(0 * idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
+    attribs_.pos->setData(1 * idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
+    attribs_.pos->setData(2 * idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
+    attribs_.pos->setData(3 * idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
+
+    attribs_.col->setData(0 * idx, col.toVec4().data());
+    attribs_.col->setData(1 * idx, col.toVec4().data());
+    attribs_.col->setData(2 * idx, col.toVec4().data());
+    attribs_.col->setData(3 * idx, col.toVec4().data());
+  }
+
   void build() {
-    math::size2f_t halfSize = 1.0F / 2.0F;
+    // math::size2f_t halfSize = 1.0F / 2.0F;
 
-    dataAttribs_.pos->setData(0, math::vec3f_t(-halfSize.getW(), -halfSize.getH(), 0.0F).data());
-    dataAttribs_.pos->setData(1, math::vec3f_t(+halfSize.getW(), -halfSize.getH(), 0.0F).data());
-    dataAttribs_.pos->setData(2, math::vec3f_t(-halfSize.getW(), +halfSize.getH(), 0.0F).data());
-    dataAttribs_.pos->setData(3, math::vec3f_t(+halfSize.getW(), +halfSize.getH(), 0.0F).data());
+    // dataAttribs_.pos->setData(0, math::vec3f_t(-halfSize.getW(), -halfSize.getH(), 0.0F).data());
+    // dataAttribs_.pos->setData(1, math::vec3f_t(+halfSize.getW(), -halfSize.getH(), 0.0F).data());
+    // dataAttribs_.pos->setData(2, math::vec3f_t(-halfSize.getW(), +halfSize.getH(), 0.0F).data());
+    // dataAttribs_.pos->setData(3, math::vec3f_t(+halfSize.getW(), +halfSize.getH(), 0.0F).data());
 
-    dataAttribs_.col->setData(0, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    dataAttribs_.col->setData(1, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    dataAttribs_.col->setData(2, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    dataAttribs_.col->setData(3, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
+    // dataAttribs_.col->setData(0, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
+    // dataAttribs_.col->setData(1, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
+    // dataAttribs_.col->setData(2, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
+    // dataAttribs_.col->setData(3, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
 
-    dataAttribs_.tex->setData(0, math::vec2f_t(0.0F, 1.0F).data());
-    dataAttribs_.tex->setData(1, math::vec2f_t(1.0F, 1.0F).data());
-    dataAttribs_.tex->setData(2, math::vec2f_t(0.0F, 0.0F).data());
-    dataAttribs_.tex->setData(3, math::vec2f_t(1.0F, 0.0F).data());
+    // dataAttribs_.tex->setData(0, math::vec2f_t(0.0F, 1.0F).data());
+    // dataAttribs_.tex->setData(1, math::vec2f_t(1.0F, 1.0F).data());
+    // dataAttribs_.tex->setData(2, math::vec2f_t(0.0F, 0.0F).data());
+    // dataAttribs_.tex->setData(3, math::vec2f_t(1.0F, 0.0F).data());
 
-    data_->setTriElements(0, 2, 1);
-    data_->setTriElements(1, 2, 3);
+    // data_->setTriElements(0 /* offset */, 0, 2, 1);
+    // data_->setTriElements(0 /* offset */, 1, 2, 3);
   }
 
   [[nodiscard]]
@@ -73,18 +90,17 @@ public:
     return data_;
   }
 
-  template <std::size_t TSize>
-  void useVertexSemanticSet(std::array<sway::gapi::VertexSemantic, TSize> &arr) {
-    data_->useVertexSemanticSet(arr);
+  void useVertexSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics) {
+    data_->useSemanticSet(semantics);
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>) {  // clang-format on
     return data_->getAttribs();
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> std::shared_ptr<GeomVertexAttribBase>) {  // clang-format on
     return data_->getAttrib(semantic);
   }
 
@@ -107,12 +123,12 @@ public:
 
   // clang-format off
   MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
-    return data_->getVtxRawdata();
+    return data_->getVertices();
   }
 
-private:
-  GeometryVertexAttribSet dataAttribs_;
-  GeometryDataPtr<TVertexDataType> data_;
+public:
+  GeomVertexAttribSet dataAttribs_;
+  std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> data_;
   u32_t numInstances_;
   math::col4f_t color_;
 };

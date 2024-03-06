@@ -1,7 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/geom/geomvertexdata.hpp>
+#include <sway/render/geom/geomvertexdatabase.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)

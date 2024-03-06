@@ -2,6 +2,7 @@
 #define SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP
 
 #include <sway/render/effect.hpp>
+#include <sway/render/geom/geom.hpp>
 #include <sway/render/geometry.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
@@ -43,11 +44,15 @@ struct ForwardRenderCommand : public RenderCommand {
   gapi::StencilDescriptor stencilDesc;
 
   std::shared_ptr<Geometry> geometry;
+  Geom *geom;
   std::shared_ptr<Material> material;
 
   math::mat4f_t tfrm;
   math::mat4f_t proj;
   math::mat4f_t view;
+
+  ForwardRenderCommand()
+      : geom(nullptr) {}
 };
 
 struct CameraRenderCommand : public RenderCommand {
