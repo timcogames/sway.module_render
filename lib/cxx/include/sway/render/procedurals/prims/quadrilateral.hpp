@@ -52,15 +52,15 @@ public:
   void setColor(const math::col4f_t &col) { color_ = col; }
 
   void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t col) {
-    attribs_.pos->setData(0 * idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
-    attribs_.pos->setData(1 * idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
-    attribs_.pos->setData(2 * idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
-    attribs_.pos->setData(3 * idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(0 * idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(1 * idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(2 * idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(3 * idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
 
-    attribs_.col->setData(0 * idx, col.toVec4().data());
-    attribs_.col->setData(1 * idx, col.toVec4().data());
-    attribs_.col->setData(2 * idx, col.toVec4().data());
-    attribs_.col->setData(3 * idx, col.toVec4().data());
+    dataAttribs_.col->setData(0 * idx, col.toVec4().data());
+    dataAttribs_.col->setData(1 * idx, col.toVec4().data());
+    dataAttribs_.col->setData(2 * idx, col.toVec4().data());
+    dataAttribs_.col->setData(3 * idx, col.toVec4().data());
   }
 
   void build() {
