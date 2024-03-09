@@ -52,18 +52,19 @@ public:
   void setColor(const math::col4f_t &col) { color_ = col; }
 
   void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t col) {
-    dataAttribs_.pos->setData(0 * idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(1 * idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(2 * idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(3 * idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(0 + idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(1 + idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(2 + idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(3 + idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
 
-    dataAttribs_.col->setData(0 * idx, col.toVec4().data());
-    dataAttribs_.col->setData(1 * idx, col.toVec4().data());
-    dataAttribs_.col->setData(2 * idx, col.toVec4().data());
-    dataAttribs_.col->setData(3 * idx, col.toVec4().data());
+    dataAttribs_.col->setData(0 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(1 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(2 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(3 + idx, col.toVec4().data());
   }
 
   void build() {
+    std::cout << "BUILD" << std::endl;
     // math::size2f_t halfSize = 1.0F / 2.0F;
 
     // dataAttribs_.pos->setData(0, math::vec3f_t(-halfSize.getW(), -halfSize.getH(), 0.0F).data());
@@ -111,7 +112,7 @@ public:
     info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
     info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
     info.bo[Constants::IDX_VBO].desc.capacity = data_->getVtxSize();
-    info.bo[Constants::IDX_VBO].data = data_->getVertices();
+    info.bo[Constants::IDX_VBO].data = data_->getVertices(0, data_->getVtxSize());
 
     info.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
     info.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
@@ -122,8 +123,8 @@ public:
   }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
-    return data_->getVertices();
+  MTHD_OVERRIDE(auto getVertices(u32_t start, u32_t end) -> void *) {  // clang-format on
+    return data_->getVertices(start, end);
   }
 
 public:

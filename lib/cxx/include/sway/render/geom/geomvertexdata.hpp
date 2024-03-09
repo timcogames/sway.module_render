@@ -52,20 +52,22 @@ public:
     return numVerts_;
   }
 
-  auto getVertices() -> void * {
-    auto offset = 0;
-    auto *vertices = calloc(numVerts_, sizeof(TVertexDataType));
+  auto getVertices(u32_t offset, u32_t numVerts) -> void * {
+    auto *vertices = calloc(numVerts, sizeof(TVertexDataType));
 
-    for (auto i = 0; i < numVerts_; ++i) {
+    auto len = offset + numVerts;
+    auto nextAttrib = 0;
+
+    for (auto i = offset; i < len; ++i) {
       for (auto [_, attrib] : attribs_) {
         if (!attrib->enabled()) {
           break;
         }
 
-        attrib->getData(vertices, offset, i);
+        attrib->getData(vertices, nextAttrib, i);
 
         auto attribDesc = attrib->getDescriptor();
-        offset += attribDesc.numComponents;
+        nextAttrib += attribDesc.numComponents;
       }
     }
 

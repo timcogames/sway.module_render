@@ -24,6 +24,11 @@ void GeomBuilder::create(int idx) {
   geometries_[idx] = new Geom(gapiPlugin_, this);
 }
 
+void GeomBuilder::createInstance(int idx) {
+  SAFE_DELETE_OBJECT(geometries_[idx]);
+  geometries_[idx] = new GeomInstance(gapiPlugin_, this);
+}
+
 auto GeomBuilder::canResize(std::size_t size) const -> bool { return size > geometries_.size(); }
 
 void GeomBuilder::reserve(std::size_t size) {

@@ -5,6 +5,7 @@
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/geom/geom.hpp>
+#include <sway/render/geom/geominstance.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
 
@@ -25,6 +26,8 @@ public:
   ~GeomBuilder();
 
   void create(int idx);
+
+  void createInstance(int idx);
 
   auto canResize(std::size_t size) const -> bool;
 

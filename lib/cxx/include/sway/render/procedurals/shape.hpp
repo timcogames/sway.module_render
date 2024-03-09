@@ -24,7 +24,7 @@ public:
   PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);  // clang-format on
 
   // clang-format off
-  PURE_VIRTUAL(auto getVertices() -> void *);  // clang-format on
+  PURE_VIRTUAL(auto getVertices(u32_t start, u32_t end) -> void *);  // clang-format on
 };
 
 class Shape {
