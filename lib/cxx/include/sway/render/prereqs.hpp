@@ -28,7 +28,7 @@ class RenderSubsystem;
 using VertexChannelRef_t = std::shared_ptr<class VertexChannel>;
 using VertexChannelRefMap_t = std::map<gapi::VertexSemantic, VertexChannelRef_t>;
 
-using EffectRef_t = std::shared_ptr<class Effect>;
+using EffectPtr_t = class Effect *;
 
 using GeometryRef_t = std::shared_ptr<class Geometry>;
 using GeometryRefVec_t = std::vector<GeometryRef_t>;

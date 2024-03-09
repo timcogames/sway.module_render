@@ -78,7 +78,7 @@ auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {
   addShader_(std::get<0>(names), shaderCreateInfoSet_.vs, gapi::ShaderType::VERT);
   addShader_(std::get<1>(names), shaderCreateInfoSet_.fs, gapi::ShaderType::FRAG);
 
-  effect_ = std::make_shared<Effect>(shaderCreateInfoSet_);
+  effect_ = Effect::create(shaderCreateInfoSet_);
   return true;
 }
 

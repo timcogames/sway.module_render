@@ -10,8 +10,7 @@ template <typename TAttribFormat>
 GeomVertexAttrib<TAttribFormat>::GeomVertexAttrib(
     GeomVertexDataBase *owner, gapi::VertexSemantic semantic, bool normalized)
     : owner_(owner)
-    , descriptor_(gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, normalized, true))
-    , enabled_(false) {
+    , descriptor_(gapi::VertexAttribDescriptor::merge<TAttribFormat>(semantic, normalized, false)) {
   vertices_ = new VertexAttribType_t[owner_->getVtxSize() * sizeof(VertexAttribType_t)];
 }
 

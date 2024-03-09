@@ -6,15 +6,23 @@ NAMESPACE_BEGIN(render)
 
 Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
     : gapiPlugin_(plug)
-    , builder_(builder) {}
+    , builder_(builder)
+    , attribLayout_(nullptr) {}
 
-Geom::~Geom() { std::fill(buffers_.begin(), buffers_.end(), std::nullopt); }
+Geom::~Geom() {
+  std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
+  // SAFE_DELETE_OBJECT(attribLayout_);
+}
 
-void Geom::create(const GeometryCreateInfo &info, EffectRef_t effect,
+void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
     std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
   attribLayout_ = gapiPlugin_->createVertexAttribLayout(effect->getShaderProgram());
   for (const auto &attrib : attribs) {
-    attribLayout_->addAttribute(attrib.second->getDescriptor());
+    auto attribDesc = attrib.second->getDescriptor();
+    // std::cout << "ATTRIB " << attribDesc.semantic << "(" << std::boolalpha << attribDesc.enabled << ")" << std::endl;
+    if (attribDesc.enabled) {
+      attribLayout_->addAttribute(attribDesc);
+    }
   }
 
   auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
@@ -27,6 +35,16 @@ void Geom::create(const GeometryCreateInfo &info, EffectRef_t effect,
   };
 
   std::for_each(buffers_.begin(), buffers_.end(), createBuffers);
+}
+
+void Geom::bind() {
+  attribLayout_->enable();
+  this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
+}
+
+void Geom::unbind() {
+  this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
+  attribLayout_->disable();
 }
 
 NAMESPACE_END(render)

@@ -1,10 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
-#include <sway/render/geom/geom.hpp>
-#include <sway/render/geom/geombuilder.hpp>
-#include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/geom/geomvertexdata.hpp>
+#include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
 #include <gmock/gmock.h>
@@ -36,12 +33,12 @@ TEST(Geom, createVertexData) {
   ASSERT_TRUE(pos->enabled());
   ASSERT_TRUE(col->enabled());
 
-  auto data = (math::VertexColor *)geomVertexData->getVertices();
-  for (auto i = 0; i < numVerts; i++) {
-    std::cout << data[i] << std::endl;
-  }
+  // auto data = (math::VertexColor *)geomVertexData->getVertices();
+  // for (auto i = 0; i < numVerts; i++) {
+  //   std::cout << data[i] << std::endl;
+  // }
 
-  free(data);
+  // free(data);
 }
 
 render::global::GapiPluginFunctionSet *globalGapiPlug;
@@ -55,14 +52,41 @@ protected:
   void TearDown() { globalGapiPlug = nullptr; }
 };
 
+void addAttributeFake(gapi::VertexAttribDescriptor desc) {}
+
 TEST_F(GeomTestFixture, createBuffer) {
+  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::UNDEF);
+  EXPECT_CALL(*globalGapiPlug, createShader(testing::_)).WillRepeatedly(testing::Return(shaderStub));
+
+  auto *shaderProgramStub = new render::global::ShaderProgramStub();
+  EXPECT_CALL(*globalGapiPlug, createShaderProgram()).WillRepeatedly(testing::Return(shaderProgramStub));
+  EXPECT_CALL(*shaderProgramStub, attach(shaderStub)).Times(2);
+  EXPECT_CALL(*shaderProgramStub, link());
+  EXPECT_CALL(*shaderProgramStub, isLinked()).WillOnce(testing::Return(true));
+  EXPECT_CALL(*shaderProgramStub, validate());
+  EXPECT_CALL(*shaderProgramStub, isValidated()).WillOnce(testing::Return(true));
+  // EXPECT_CALL(*shaderProgramStub, use());
+  // EXPECT_CALL(*shaderProgramStub, unuse());
+
+  gapi::ShaderCreateInfoSet infoSet;
+  infoSet.vs.type = gapi::ShaderType::VERT;
+  infoSet.vs.code = "";
+  infoSet.fs.type = gapi::ShaderType::FRAG;
+  infoSet.fs.code = "";
+  auto *effect = new render::Effect(globalGapiPlug, infoSet);
+
   auto *idGeneratorStub = new render::global::IdGeneratorStub();
   ON_CALL(*idGeneratorStub, newGuid()).WillByDefault(testing::Return(1));
 
   auto *bufferStub = new render::global::BufferStub();
 
+  auto *vertexAttribLayoutStub = new render::global::VertexAttribLayoutStub();
+  EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(4 /* кол.-во вызовов */));
+
   EXPECT_CALL(*globalGapiPlug, createIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
   EXPECT_CALL(*globalGapiPlug, createBuffer(testing::_, testing::_)).WillRepeatedly(testing::Return(bufferStub));
+  EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgramStub))
+      .WillRepeatedly(testing::Return(vertexAttribLayoutStub));
 
   auto *geomBuilder = new render::GeomBuilder(globalGapiPlug, idGeneratorStub);
 
@@ -72,19 +96,28 @@ TEST_F(GeomTestFixture, createBuffer) {
   auto geometries = geomBuilder->getGeometries();
   ASSERT_EQ(geometries.size(), render::Constants::MAX_BUFFER_OBJECTS);
 
+  auto numInstances = 1;
+  auto geomShape = std::make_shared<render::procedurals::prims::Quadrilateral<math::VertexColor>>(numInstances);
+  std::static_pointer_cast<render::procedurals::prims::Quadrilateral<math::VertexColor>>(geomShape)
+      ->useVertexSemanticSet({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+
   render::GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
-  geomBuilder->getGeometry(0)->create(geomCreateInfo);
+  geomBuilder->getGeometry(0)->create(geomCreateInfo, effect, geomShape->getVertexAttribs());
 
   EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo());
+  geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo(), effect, geomShape->getVertexAttribs());
 
   EXPECT_TRUE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_FALSE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  SAFE_DELETE_OBJECT(geomBuilder);
+  SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
   SAFE_DELETE_OBJECT(bufferStub);
   SAFE_DELETE_OBJECT(idGeneratorStub);
+  SAFE_DELETE_OBJECT(geomBuilder);
+  SAFE_DELETE_OBJECT(shaderStub);
+  // SAFE_DELETE_OBJECT(shaderProgramStub);
+  SAFE_DELETE_OBJECT(effect);
 }

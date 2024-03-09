@@ -28,18 +28,17 @@ public:
     return descriptor_;
   }
 
-  MTHD_OVERRIDE(void use()) { enabled_ = true; }
+  MTHD_OVERRIDE(void use()) { descriptor_.enabled = true; }
 
   // clang-format off
   MTHD_OVERRIDE(auto enabled() const -> bool) {  // clang-format on
-    return enabled_;
+    return descriptor_.enabled;
   }
 
 private:
   GeomVertexDataBase *owner_;
   gapi::VertexAttribDescriptor descriptor_;
   VertexAttribType_t *vertices_;
-  bool enabled_;
 };
 
 NAMESPACE_END(render)

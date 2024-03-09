@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Geometry::Geometry(gapi::IdGeneratorPtr_t idgen, EffectRef_t effect, bool indexed)
+Geometry::Geometry(gapi::IdGeneratorPtr_t idgen, EffectPtr_t effect, bool indexed)
     : idGenerator_(idgen)
     , attribLayout_(nullptr)
     , effect_(effect)

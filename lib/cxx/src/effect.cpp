@@ -1,16 +1,19 @@
 #include <sway/render/effect.hpp>
-#include <sway/render/global.hpp>
-#include <sway/render/rendersubsystem.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Effect::Effect(const gapi::ShaderCreateInfoSet &infoSet) {
-  auto *pluginFuncSet = global::getGapiPluginFunctionSet();
+auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectPtr_t {
+  auto *instance = new Effect(global::getGapiPluginFunctionSet(), infoSet);
+  return instance;
+}
 
-  program_ = pluginFuncSet->createShaderProgram();
-  program_->attach(pluginFuncSet->createShader(infoSet.vs));
-  program_->attach(pluginFuncSet->createShader(infoSet.fs));
+Effect::Effect(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet)
+    : gapiPlugin_(plug)
+    , program_(nullptr) {
+  program_ = gapiPlugin_->createShaderProgram();
+  program_->attach(gapiPlugin_->createShader(infoSet.vs));
+  program_->attach(gapiPlugin_->createShader(infoSet.fs));
 
   program_->link();
   if (!program_->isLinked()) {
@@ -22,6 +25,8 @@ Effect::Effect(const gapi::ShaderCreateInfoSet &infoSet) {
     // Empty
   }
 }
+
+Effect::~Effect() { SAFE_DELETE_OBJECT(program_); }
 
 void Effect::bind() { program_->use(); }
 

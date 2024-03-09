@@ -20,6 +20,40 @@ public:
   MOCK_METHOD(core::Version, getVersion, (), (const));
 };
 
+class ShaderProgramStub : public gapi::ShaderProgram {
+public:
+  virtual ~ShaderProgramStub() = default;
+
+  MOCK_METHOD(void, attach, (gapi::ShaderPtr_t), (override));
+  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType, gapi::ShaderPtr_t>), bool), (override));
+  MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType), (override));
+  MOCK_METHOD(void, link, (), (override));
+  MOCK_METHOD(bool, isLinked, (), (const, override));
+  MOCK_METHOD(void, validate, ());
+  MOCK_METHOD(bool, isValidated, (), (const, override));
+  MOCK_METHOD(void, use, (), (override));
+  MOCK_METHOD(void, unuse, (), (override));
+  MOCK_METHOD(bool, isUsed, (), (const, override));
+  MOCK_METHOD(void, setUniformVec4f, (const std::string &, const math::vec4f_t &), (override));
+  MOCK_METHOD(void, setUniformCol4f, (const std::string &, const math::col4f_t &), (override));
+  MOCK_METHOD(void, setUniformMat4f, (const std::string &, const math::mat4f_t &), (override));
+  MOCK_METHOD(void, setUniform1i, (const std::string &, s32_t), (override));
+  MOCK_METHOD(void, setUniform1f, (const std::string &, f32_t), (override));
+};
+
+class ShaderStub : public gapi::Shader {
+public:
+  ShaderStub(gapi::ShaderType type)
+      : gapi::Shader(type) {}
+
+  virtual ~ShaderStub() = default;
+
+  MOCK_METHOD(void, compile, (lpcstr_t), (override));
+  MOCK_METHOD(bool, isCompiled, (), (const, override));
+  MOCK_METHOD(s32_t, getAttribLocation, (std::optional<u32_t>, lpcstr_t), (override));
+  MOCK_METHOD(gapi::ShaderType, getType, (), (const, override));
+};
+
 class IdGeneratorStub : public gapi::IdGenerator {
 public:
   virtual ~IdGeneratorStub() = default;
@@ -46,6 +80,15 @@ public:
   MOCK_METHOD(gapi::BufferUsage, getUsage, (), (const, override));
   MOCK_METHOD(s32_t, getCapacity, (), (const, override));
   MOCK_METHOD(s32_t, getByteStride, (), (const, override));
+};
+
+class VertexAttribLayoutStub : public gapi::VertexAttribLayout {
+public:
+  virtual ~VertexAttribLayoutStub() = default;
+
+  MOCK_METHOD(void, addAttribute, (gapi::VertexAttribDescriptor), (override));
+  MOCK_METHOD(void, enable, (), (override));
+  MOCK_METHOD(void, disable, (), (override));
 };
 
 struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {

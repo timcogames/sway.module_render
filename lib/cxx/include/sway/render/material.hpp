@@ -33,7 +33,7 @@ public:
 
   void unbind();
 
-  auto getEffect() -> std::shared_ptr<Effect> { return effect_; }
+  auto getEffect() -> EffectPtr_t { return effect_; }
 
   auto getImages() -> std::vector<std::pair<std::string, std::shared_ptr<Image>>> { return images_; }
 
@@ -49,7 +49,7 @@ public:
 
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
-  std::shared_ptr<Effect> effect_;
+  EffectPtr_t effect_;
   std::vector<std::pair<std::string, std::shared_ptr<Image>>> images_;
   MaterialDescriptor desc_;
   loader::ImageDescriptor imgDesc_;

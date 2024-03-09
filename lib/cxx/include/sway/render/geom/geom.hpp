@@ -31,18 +31,12 @@ public:
     }
   }
 
-  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, EffectRef_t effect,
+  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, EffectPtr_t effect,
       std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
 
-  MTHD_VIRTUAL(void bind()) {
-    attribLayout_->enable();
-    this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
-  }
+  MTHD_VIRTUAL(void bind());
 
-  MTHD_VIRTUAL(void unbind()) {
-    this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
-    attribLayout_->disable();
-  }
+  MTHD_VIRTUAL(void unbind());
 
   auto getBuffer(int idx) -> std::optional<gapi::BufferPtr_t> { return buffers_[idx]; }
 

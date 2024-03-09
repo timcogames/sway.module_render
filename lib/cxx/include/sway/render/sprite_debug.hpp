@@ -35,7 +35,7 @@ public:
 
 private:
   RenderSubqueueRef_t subqueue_;
-  std::shared_ptr<Effect> effect_;
+  EffectPtr_t effect_;
   std::shared_ptr<Material> material_;
   std::shared_ptr<Geometry> geometry_;
 };

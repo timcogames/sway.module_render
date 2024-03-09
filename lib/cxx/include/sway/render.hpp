@@ -2,6 +2,10 @@
 #define SWAY_RENDER_HPP
 
 #include <sway/render/effect.hpp>
+#include <sway/render/geom/geom.hpp>
+#include <sway/render/geom/geombuilder.hpp>
+#include <sway/render/geom/geomvertexattrib.hpp>
+#include <sway/render/geom/geomvertexdata.hpp>
 #include <sway/render/geometry.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/geometryindexedvertexdata.hpp>
@@ -20,6 +24,7 @@
 #include <sway/render/procedurals/prims/plane_debug.hpp>
 #include <sway/render/procedurals/prims/plane_list.hpp>
 #include <sway/render/procedurals/prims/plane_strip.hpp>
+#include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/procedurals/shape.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderpass.hpp>
