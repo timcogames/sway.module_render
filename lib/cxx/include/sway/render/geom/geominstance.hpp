@@ -22,6 +22,8 @@ public:
 
   MTHD_OVERRIDE(void unbind());
 
+  auto getVertexArray() -> gapi::VertexArrayPtr_t { return vao_; }
+
 private:
   gapi::VertexArrayPtr_t vao_;
 };
