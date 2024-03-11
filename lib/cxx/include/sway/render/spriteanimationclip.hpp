@@ -44,7 +44,7 @@ public:
 
   void addFrame(u32_t idx, int x, int y, int w, int h, bool flipped) {
     std::shared_ptr<FRAME_TYPE> frame = std::make_shared<FRAME_TYPE>();
-    frame->rect = math::rect4f_t(x, y, w, h);
+    frame->rect = math::rect4f_t(x, y, x + w, y + h);
     frame->flipped = flipped;
 
     frames_.insert(std::make_pair(idx, frame));
