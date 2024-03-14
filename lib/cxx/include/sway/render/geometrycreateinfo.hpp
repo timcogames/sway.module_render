@@ -18,6 +18,8 @@ struct Constants {
 
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
+
+  static constexpr std::size_t MAX_NUM_INSTANCES{12};
 };
 
 struct GeometryCreateInfo {

@@ -20,8 +20,7 @@ template <typename TVertexDataType>
 class Quadrilateral : public ShapeBase {
 public:
   Quadrilateral(u32_t numInsts)
-      : numInstances_(numInsts)
-      , color_(COL4F_WHITE) {
+      : numInstances_(numInsts) {
     initialVtxData(Constants::MAX_QUAD_RESERVE_VERTICES);
     initialElmData(Constants::MAX_QUAD_RESERVE_ELEMENTS);
   }
@@ -49,7 +48,10 @@ public:
     }
   }
 
-  void setColor(const math::col4f_t &col) { color_ = col; }
+  void initialElmData() {
+    data_->setTriElements(0 /* offset */, 0, 1, 2);
+    data_->setTriElements(3 /* offset */, 2, 3, 0);
+  }
 
   void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t col) {
     dataAttribs_.pos->setData(0 + idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
@@ -81,7 +83,7 @@ public:
   }
 
   [[nodiscard]]
-  auto getGeometryData() const -> GeometryDataPtr<TVertexDataType> {
+  auto data() const -> std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> {
     return data_;
   }
 
@@ -94,38 +96,12 @@ public:
     return data_->getAttribs();
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> std::shared_ptr<GeomVertexAttribBase>) {  // clang-format on
-    return data_->getAttrib(semantic);
-  }
+  MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
-    GeometryCreateInfo info;
-    info.topology = gapi::TopologyType::TRIANGLE_LIST;
-    info.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
-    info.bo[Constants::IDX_VBO].desc.byteStride = sizeof(TVertexDataType);
-    info.bo[Constants::IDX_VBO].desc.capacity = data_->getVtxSize();
-    info.bo[Constants::IDX_VBO].data = data_->getVertices(0, data_->getVtxSize());
-
-    info.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
-    info.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-    info.bo[Constants::IDX_EBO].desc.capacity = data_->getElmSize();
-    info.bo[Constants::IDX_EBO].data = data_->getElements();
-
-    return info;
-  }
-
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertices(u32_t start, u32_t end) -> void *) {  // clang-format on
-    return data_->getVertices(start, end);
-  }
-
-public:
+private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> data_;
   u32_t numInstances_;
-  math::col4f_t color_;
 };
 
 NAMESPACE_END(prims)

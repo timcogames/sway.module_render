@@ -27,7 +27,13 @@ public:
 
   void create(int idx);
 
-  void createInstance(int idx);
+  template <typename TVertexDataType>
+  void createInstance(int idx, GeomInstanceDataDivisor<TVertexDataType> *divisor, const GeometryCreateInfo &info,
+      EffectPtr_t effect, std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
+    SAFE_DELETE_OBJECT(geometries_[idx]);
+    geometries_[idx] = new GeomInstance(gapiPlugin_, this);
+    static_cast<GeomInstance *>(geometries_[idx])->create<TVertexDataType>(divisor, info, effect, attribs);
+  }
 
   auto canResize(std::size_t size) const -> bool;
 

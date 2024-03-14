@@ -52,9 +52,7 @@ public:
     return numVerts_;
   }
 
-  auto getVertices(u32_t offset, u32_t numVerts) -> void * {
-    auto *vertices = calloc(numVerts, sizeof(TVertexDataType));
-
+  void getVertices(void *dst, u32_t offset, u32_t numVerts) {
     auto len = offset + numVerts;
     auto nextAttrib = 0;
 
@@ -64,14 +62,12 @@ public:
           break;
         }
 
-        attrib->getData(vertices, nextAttrib, i);
+        attrib->getData(dst, nextAttrib, i);
 
         auto attribDesc = attrib->getDescriptor();
         nextAttrib += attribDesc.numComponents;
       }
     }
-
-    return vertices;
   }
 
 private:

@@ -4,6 +4,7 @@
 #include <sway/render/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
+#include <sway/render/geom/geominstancedatadivisor.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
 #include <sway/render/geometry.hpp>

@@ -17,14 +17,7 @@ public:
   // clang-format off
   PURE_VIRTUAL(auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>);  // clang-format on
 
-  // clang-format off
-  PURE_VIRTUAL(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> std::shared_ptr<GeomVertexAttribBase>);  // clang-format on
-
-  // clang-format off
-  PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);  // clang-format on
-
-  // clang-format off
-  PURE_VIRTUAL(auto getVertices(u32_t start, u32_t end) -> void *);  // clang-format on
+  PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
 };
 
 class Shape {

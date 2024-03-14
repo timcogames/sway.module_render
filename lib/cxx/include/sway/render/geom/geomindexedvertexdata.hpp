@@ -21,7 +21,18 @@ public:
 
   virtual ~GeomIndexedVertexData() { SAFE_DELETE_ARRAY(elements_); }
 
-  void setData(u32_t idx, u32_t elm) { elements_[idx] = elm; }
+  void setData(u32_t idx, u32_t elm) {
+    if (idx > this->getElmSize()) {
+      return;
+    }
+
+    elements_[idx] = elm;
+  }
+
+  [[nodiscard]]
+  auto at(u32_t idx) const -> u32_t {
+    return elements_[idx];
+  }
 
   void setTriElements(u32_t offset, u32_t a, u32_t b, u32_t c) {
     setData(0 + offset, a);
