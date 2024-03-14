@@ -63,27 +63,21 @@ public:
     dataAttribs_.col->setData(3 + idx, col.toVec4().data());
   }
 
-  void build() {
-    std::cout << "BUILD" << std::endl;
-    // math::size2f_t halfSize = 1.0F / 2.0F;
+  void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t &col, const math::rect4f_t &tex) {
+    dataAttribs_.pos->setData(0 + idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(1 + idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(2 + idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(3 + idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
 
-    // dataAttribs_.pos->setData(0, math::vec3f_t(-halfSize.getW(), -halfSize.getH(), 0.0F).data());
-    // dataAttribs_.pos->setData(1, math::vec3f_t(+halfSize.getW(), -halfSize.getH(), 0.0F).data());
-    // dataAttribs_.pos->setData(2, math::vec3f_t(-halfSize.getW(), +halfSize.getH(), 0.0F).data());
-    // dataAttribs_.pos->setData(3, math::vec3f_t(+halfSize.getW(), +halfSize.getH(), 0.0F).data());
+    dataAttribs_.col->setData(0 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(1 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(2 + idx, col.toVec4().data());
+    dataAttribs_.col->setData(3 + idx, col.toVec4().data());
 
-    // dataAttribs_.col->setData(0, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    // dataAttribs_.col->setData(1, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    // dataAttribs_.col->setData(2, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-    // dataAttribs_.col->setData(3, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).data());
-
-    // dataAttribs_.tex->setData(0, math::vec2f_t(0.0F, 1.0F).data());
-    // dataAttribs_.tex->setData(1, math::vec2f_t(1.0F, 1.0F).data());
-    // dataAttribs_.tex->setData(2, math::vec2f_t(0.0F, 0.0F).data());
-    // dataAttribs_.tex->setData(3, math::vec2f_t(1.0F, 0.0F).data());
-
-    // data_->setTriElements(0 /* offset */, 0, 2, 1);
-    // data_->setTriElements(0 /* offset */, 1, 2, 3);
+    dataAttribs_.tex->setData(0 + idx, math::vec2f_t(tex.getR(), tex.getB()).data());
+    dataAttribs_.tex->setData(1 + idx, math::vec2f_t(tex.getR(), tex.getT()).data());
+    dataAttribs_.tex->setData(2 + idx, math::vec2f_t(tex.getL(), tex.getT()).data());
+    dataAttribs_.tex->setData(3 + idx, math::vec2f_t(tex.getL(), tex.getB()).data());
   }
 
   [[nodiscard]]
