@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geomindexedvertexdata.hpp>
+#include <sway/render/procedurals/prims/quadrilateral.hpp>
 
 #include <algorithm>  // std::max_element
 #include <memory>
@@ -12,39 +13,61 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-template <typename TVertexDataType>
+template <typename TShape>
 class GeomInstanceDataDivisor {
 public:
-  GeomInstanceDataDivisor(std::size_t numInsts) {
+  GeomInstanceDataDivisor(std::size_t numInsts)
+      : offsetIndex_(0) {
     instances_.reserve(std::min(numInsts, Constants::MAX_NUM_INSTANCES));
   }
 
   ~GeomInstanceDataDivisor() { instances_.clear(); }
 
-  void addInstanceData(std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> data) {
+  void addInstanceData() {
     if (instances_.size() > Constants::MAX_NUM_INSTANCES) {
       return;
     }
 
-    for (auto i = 0; i < data->getElmSize(); ++i) {
-      auto oldIndex = data->at(i);
+    auto *shape = new TShape({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+    for (auto i = 0; i < shape->data()->getElmSize(); ++i) {
+      auto oldIndex = shape->data()->at(i);
       auto newIndex = oldIndex + offsetIndex_;
 
-      data->setData(i, newIndex);
+      shape->data()->setData(i, newIndex);
     }
 
-    instances_.push_back(data);
+    instances_.push_back(shape);
 
     // clang-format off
     offsetIndex_ = static_cast<u32_t>(*std::max_element(
-      instances_.back()->getElements(), instances_.back()->getElements() + data->getElmSize())) + 1;
+      instances_.back()->data()->getElements(), instances_.back()->data()->getElements() + shape->data()->getElmSize())) + 1;
     // clang-format on
   }
 
   auto getInstSize() const -> std::size_t { return instances_.size(); }
 
+  auto at(u32_t idx) -> TShape * { return idx > instances_.size() ? nullptr : instances_[idx]; }
+
+  auto getIndices() -> std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * 3> {
+    std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * 3> indices;
+    u32_t idx = 0;
+    for (auto i = 0; i < instances_.size(); ++i) {
+      for (auto elm = 0; elm < instances_[i]->data()->getElmSize(); ++elm) {
+        indices[idx] = instances_[i]->data()->getElements()[elm];
+        idx += 1;
+      }
+    }
+
+    return indices;
+  }
+
+  auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> {
+    return instances_[0]->data()->getAttribs();
+  }
+
 private:
-  std::vector<std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>>> instances_;
+  std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
+  std::vector<TShape *> instances_;
   u32_t offsetIndex_;
 };
 

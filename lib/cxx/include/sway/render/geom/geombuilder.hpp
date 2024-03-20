@@ -27,12 +27,12 @@ public:
 
   void create(int idx);
 
-  template <typename TVertexDataType>
-  void createInstance(int idx, GeomInstanceDataDivisor<TVertexDataType> *divisor, const GeometryCreateInfo &info,
-      EffectPtr_t effect, std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
+  template <typename TShape>
+  void createInstance(
+      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) {
     SAFE_DELETE_OBJECT(geometries_[idx]);
-    geometries_[idx] = new GeomInstance(gapiPlugin_, this);
-    static_cast<GeomInstance *>(geometries_[idx])->create<TVertexDataType>(divisor, info, effect, attribs);
+    geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
+    static_cast<GeomInstance<TShape> *>(geometries_[idx])->create(info, effect, divisor->getVertexAttribs());
   }
 
   auto canResize(std::size_t size) const -> bool;

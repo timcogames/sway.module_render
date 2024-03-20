@@ -61,6 +61,14 @@ public:
   MOCK_METHOD(u32_t, newGuid, (), (override));
 };
 
+class VertexArrayStub : public gapi::VertexArray {
+public:
+  virtual ~VertexArrayStub() = default;
+
+  MOCK_METHOD(void, bind, (), (override));
+  MOCK_METHOD(void, unbind, (), (override));
+};
+
 class BufferStub : public gapi::Buffer {
 public:
   BufferStub()
@@ -71,9 +79,11 @@ public:
   MOCK_METHOD(bool, allocate, (const void *), (override));
   MOCK_METHOD(void, updateSubdata, (gapi::BufferSubdataDescriptor), (override));
   MOCK_METHOD(void, updateSubdata, (const void *), (override));
-  MOCK_METHOD(void *, map, ());
-  MOCK_METHOD(void *, mapRange, (s32_t, s32_t, gapi::BufferAccess), (override));
+  MOCK_METHOD(void, flush, (s32_t, s32_t), (override));
+  MOCK_METHOD(void *, map, (gapi::BufferMapAccess), (override));
+  MOCK_METHOD(void *, mapRange, (s32_t, s32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess>), (override));
   MOCK_METHOD(void, unmap, (), (override));
+  MOCK_METHOD(void, bindRange, (u32_t, ptrdiff_t, ptrdiff_t), (override));
   MOCK_METHOD(void, bind, (), (override));
   MOCK_METHOD(void, unbind, (), (override));
   MOCK_METHOD(gapi::BufferTarget, getTarget, (), (const, override));

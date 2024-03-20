@@ -19,33 +19,34 @@ NAMESPACE_BEGIN(prims)
 template <typename TVertexDataType>
 class Quadrilateral : public ShapeBase {
 public:
-  Quadrilateral(u32_t numInsts)
-      : numInstances_(numInsts) {
-    initialVtxData(Constants::MAX_QUAD_RESERVE_VERTICES);
-    initialElmData(Constants::MAX_QUAD_RESERVE_ELEMENTS);
+  using VtxDataType_t = TVertexDataType;
+  using IdxDataType_t = u32_t;
+
+  static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
+  static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
+
+  Quadrilateral(const std::initializer_list<gapi::VertexSemantic> &semantics) {
+    initialVtxData();
+    initialElmData();
+
+    data_->useSemanticSet(semantics);
   }
 
   virtual ~Quadrilateral() = default;
 
-  void initialVtxData(std::size_t reserve) {
+  void initialVtxData() {
     // clang-format off
-    data_ = std::make_shared<GeomIndexedVertexData<TVertexDataType, u32_t>>(reserve * numInstances_,
-      Constants::MAX_QUAD_RESERVE_ELEMENTS * numInstances_);
+    data_ = std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(
+      MAX_QUAD_RESERVE_VERTICES,
+      MAX_QUAD_RESERVE_ELEMENTS
+    );
+
     dataAttribs_ = (struct GeomVertexAttribSet) {
       .pos = data_->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
       .col = data_->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
       .tex = data_->template createAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)
-    };  // clang-format on
-  }
-
-  void initialElmData(std::size_t reserve) {
-    auto next = 0;
-    for (auto i = 0, offset = 0; i < reserve * numInstances_; i += reserve, offset += 4) {
-      data_->setTriElements(next, 0 + offset, 1 + offset, 2 + offset);
-      next += 3;
-      data_->setTriElements(next, 2 + offset, 3 + offset, 0 + offset);
-      next += 3;
-    }
+    };
+    // clang-format on
   }
 
   void initialElmData() {
@@ -53,42 +54,41 @@ public:
     data_->setTriElements(3 /* offset */, 2, 3, 0);
   }
 
-  void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t col) {
-    dataAttribs_.pos->setData(0 + idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(1 + idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(2 + idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(3 + idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
-
-    dataAttribs_.col->setData(0 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(1 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(2 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(3 + idx, col.toVec4().data());
+  void setPosDataAttrib(const math::rect4f_t &pos) {
+    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).data());
+    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(3, math::vec3f_t(pos.getL(), pos.getT(), 0.0F).data());
   }
 
-  void update(u32_t idx, const math::rect4f_t &rect, const math::col4f_t &col, const math::rect4f_t &tex) {
-    dataAttribs_.pos->setData(0 + idx, math::vec3f_t(rect.getR(), rect.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(1 + idx, math::vec3f_t(rect.getR(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(2 + idx, math::vec3f_t(rect.getL(), rect.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(3 + idx, math::vec3f_t(rect.getL(), rect.getT(), 0.0F).data());
+  void setColDataAttrib(const math::col4f_t &col) {
+    dataAttribs_.col->setData(0, col.toVec4().data());
+    dataAttribs_.col->setData(1, col.toVec4().data());
+    dataAttribs_.col->setData(2, col.toVec4().data());
+    dataAttribs_.col->setData(3, col.toVec4().data());
+  }
 
-    dataAttribs_.col->setData(0 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(1 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(2 + idx, col.toVec4().data());
-    dataAttribs_.col->setData(3 + idx, col.toVec4().data());
+  void setTexDataAttrib(const math::rect4f_t &tex) {
+    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getR(), tex.getB()).data());
+    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getT()).data());
+    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getT()).data());
+    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), tex.getB()).data());
+  }
 
-    dataAttribs_.tex->setData(0 + idx, math::vec2f_t(tex.getR(), tex.getB()).data());
-    dataAttribs_.tex->setData(1 + idx, math::vec2f_t(tex.getR(), tex.getT()).data());
-    dataAttribs_.tex->setData(2 + idx, math::vec2f_t(tex.getL(), tex.getT()).data());
-    dataAttribs_.tex->setData(3 + idx, math::vec2f_t(tex.getL(), tex.getB()).data());
+  void update(const math::rect4f_t &pos, const math::col4f_t &col, const math::rect4f_t &tex) {
+    setPosDataAttrib(pos);
+    setColDataAttrib(col);
+    setTexDataAttrib(tex);
+  }
+
+  void update(const math::rect4f_t &pos, const math::col4f_t col) {
+    setPosDataAttrib(pos);
+    setColDataAttrib(col);
   }
 
   [[nodiscard]]
-  auto data() const -> std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> {
+  auto data() const -> std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> {
     return data_;
-  }
-
-  void useVertexSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics) {
-    data_->useSemanticSet(semantics);
   }
 
   // clang-format off
@@ -100,8 +100,7 @@ public:
 
 private:
   GeomVertexAttribSet dataAttribs_;
-  std::shared_ptr<GeomIndexedVertexData<TVertexDataType, u32_t>> data_;
-  u32_t numInstances_;
+  std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> data_;
 };
 
 NAMESPACE_END(prims)

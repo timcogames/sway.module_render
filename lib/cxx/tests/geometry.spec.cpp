@@ -78,15 +78,34 @@ TEST_F(GeomTestFixture, createBuffer) {
   auto *idGeneratorStub = new render::global::IdGeneratorStub();
   ON_CALL(*idGeneratorStub, newGuid()).WillByDefault(testing::Return(1));
 
+  auto *vertexArrayStub = new render::global::VertexArrayStub();
+  ON_CALL(*vertexArrayStub, bind()).WillByDefault([&] {});
+  ON_CALL(*vertexArrayStub, unbind()).WillByDefault([&] {});
+
   auto *bufferStub = new render::global::BufferStub();
+  EXPECT_CALL(*bufferStub, mapRange(testing::_, testing::_, testing::_))
+      .WillOnce(testing::WithArg<1>(testing::Invoke([](u32_t size) {
+        auto *data = malloc(size);
+        return data;
+      })));
+
+  EXPECT_CALL(*bufferStub, unmap()).WillRepeatedly([] {
+    // free(data);
+  });
 
   auto *vertexAttribLayoutStub = new render::global::VertexAttribLayoutStub();
   EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(4 /* кол.-во вызовов */));
 
   EXPECT_CALL(*globalGapiPlug, createIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
+  EXPECT_CALL(*globalGapiPlug, createVertexArray()).WillRepeatedly(testing::Return(vertexArrayStub));
   EXPECT_CALL(*globalGapiPlug, createBuffer(testing::_, testing::_)).WillRepeatedly(testing::Return(bufferStub));
   EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgramStub))
       .WillRepeatedly(testing::Return(vertexAttribLayoutStub));
+
+  auto numInstances = 1;
+  auto *geomDataDivisor =
+      new render::GeomInstanceDataDivisor<render::procedurals::prims::Quadrilateral<math::VertexColor>>(numInstances);
+  geomDataDivisor->addInstanceData();
 
   auto *geomBuilder = new render::GeomBuilder(globalGapiPlug, idGeneratorStub);
 
@@ -96,23 +115,39 @@ TEST_F(GeomTestFixture, createBuffer) {
   auto geometries = geomBuilder->getGeometries();
   ASSERT_EQ(geometries.size(), render::Constants::MAX_BUFFER_OBJECTS);
 
-  auto numInstances = 1;
-  auto geomShape = std::make_shared<render::procedurals::prims::Quadrilateral<math::VertexColor>>(numInstances);
-  std::static_pointer_cast<render::procedurals::prims::Quadrilateral<math::VertexColor>>(geomShape)
-      ->useVertexSemanticSet({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
-
   render::GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
-  geomBuilder->getGeometry(0)->create(geomCreateInfo, effect, geomShape->getVertexAttribs());
+  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
+  geomCreateInfo.bo[render::Constants::IDX_VBO].desc.usage = gapi::BufferUsage::DYNAMIC;
+  geomCreateInfo.bo[render::Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
+  geomCreateInfo.bo[render::Constants::IDX_VBO].desc.capacity =
+      4 * geomDataDivisor->getInstSize();  // rectGeomShape_->data()->getVtxSize();
+  geomCreateInfo.bo[render::Constants::IDX_VBO].data = nullptr;
 
-  EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_VBO).has_value());
-  EXPECT_TRUE(geomBuilder->getGeometry(0)->getBuffer(render::Constants::IDX_EBO).has_value());
+  geomCreateInfo.bo[render::Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.bo[render::Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
+  auto idxs = geomDataDivisor->getIndices();
+  geomCreateInfo.bo[render::Constants::IDX_EBO].desc.capacity = idxs.size();
+  geomCreateInfo.bo[render::Constants::IDX_EBO].data = idxs.data();
 
-  geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo(), effect, geomShape->getVertexAttribs());
+  geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+      0, geomDataDivisor, geomCreateInfo, effect);
+
+  auto *geomInstance =
+      static_cast<render::GeomInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>> *>(
+          geomBuilder->getGeometry(0));
+  EXPECT_TRUE(geomInstance->getBuffer(render::Constants::IDX_VBO).has_value());
+  EXPECT_TRUE(geomInstance->getBuffer(render::Constants::IDX_EBO).has_value());
+
+  geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
 
   EXPECT_TRUE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_FALSE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_EBO).has_value());
 
+  geomInstance->remap();
+
+  // SAFE_DELETE_OBJECT(geomDataDivisor);
+  SAFE_DELETE_OBJECT(vertexArrayStub);
   SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
   SAFE_DELETE_OBJECT(bufferStub);
   SAFE_DELETE_OBJECT(idGeneratorStub);

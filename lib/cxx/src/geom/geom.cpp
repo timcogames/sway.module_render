@@ -25,6 +25,9 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
     }
   }
 
+  std::cout << "VBO " << info.bo[0].desc.capacity << " " << info.bo[0].desc.byteStride << std::endl;
+  std::cout << "IBO " << info.bo[1].desc.capacity << " " << info.bo[1].desc.byteStride << std::endl;
+
   auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
     if (next == Constants::IDX_EBO && !info.indexed) {
       return;
@@ -38,13 +41,13 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
 }
 
 void Geom::bind() {
-  attribLayout_->enable();
   this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
+  attribLayout_->enable();
 }
 
 void Geom::unbind() {
-  this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
   attribLayout_->disable();
+  this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
 }
 
 NAMESPACE_END(render)
