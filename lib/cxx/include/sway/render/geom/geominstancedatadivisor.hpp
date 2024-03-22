@@ -23,12 +23,12 @@ public:
 
   ~GeomInstanceDataDivisor() { instances_.clear(); }
 
-  void addInstanceData() {
+  void addInstanceData(const std::initializer_list<gapi::VertexSemantic> &semantics) {
     if (instances_.size() > Constants::MAX_NUM_INSTANCES) {
       return;
     }
 
-    auto *shape = new TShape({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+    auto *shape = new TShape(semantics);
     for (auto i = 0; i < shape->data()->getElmSize(); ++i) {
       auto oldIndex = shape->data()->at(i);
       auto newIndex = oldIndex + offsetIndex_;

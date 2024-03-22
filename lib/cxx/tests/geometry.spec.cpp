@@ -105,7 +105,7 @@ TEST_F(GeomTestFixture, createBuffer) {
   auto numInstances = 1;
   auto *geomDataDivisor =
       new render::GeomInstanceDataDivisor<render::procedurals::prims::Quadrilateral<math::VertexColor>>(numInstances);
-  geomDataDivisor->addInstanceData();
+  geomDataDivisor->addInstanceData({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
 
   auto *geomBuilder = new render::GeomBuilder(globalGapiPlug, idGeneratorStub);
 

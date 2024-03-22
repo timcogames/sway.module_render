@@ -35,6 +35,12 @@ public:
     static_cast<GeomInstance<TShape> *>(geometries_[idx])->create(info, effect, divisor->getVertexAttribs());
   }
 
+  void remove(u32_t idx) {
+    auto iter = geometries_.begin() + idx;
+    SAFE_DELETE_OBJECT(*iter);
+    geometries_.erase(iter);
+  }
+
   auto canResize(std::size_t size) const -> bool;
 
   void reserve(std::size_t size);

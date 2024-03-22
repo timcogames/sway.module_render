@@ -5,7 +5,8 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
-    : gapiPlugin_(plug)
+    : core::foundation::Uniqueable<std::string>(core::misc::newGuid<UUID_NBR_OF_GROUPS>(UUID_MAGIC))
+    , gapiPlugin_(plug)
     , builder_(builder)
     , attribLayout_(nullptr) {}
 

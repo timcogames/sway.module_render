@@ -16,7 +16,8 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class GeomBuilder;
-class Geom {
+
+class Geom : public core::foundation::Uniqueable<std::string> {
 public:
   Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder);
 

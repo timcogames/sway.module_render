@@ -34,9 +34,6 @@ void GeomBuilder::reserve(std::size_t size) {
   }
 
   geometries_.resize(nextSize, nullptr);
-  for (auto i = prevSize; i < geometries_.size(); i++) {
-    this->create(i);
-  }
 }
 
 NAMESPACE_END(render)
