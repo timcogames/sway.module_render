@@ -84,7 +84,7 @@ TEST_F(GeomTestFixture, createBuffer) {
 
   auto *bufferStub = new render::global::BufferStub();
   EXPECT_CALL(*bufferStub, mapRange(testing::_, testing::_, testing::_))
-      .WillOnce(testing::WithArg<1>(testing::Invoke([](u32_t size) {
+      .WillRepeatedly(testing::WithArg<1>(testing::Invoke([](u32_t size) {
         auto *data = malloc(size);
         return data;
       })));
@@ -94,7 +94,7 @@ TEST_F(GeomTestFixture, createBuffer) {
   });
 
   auto *vertexAttribLayoutStub = new render::global::VertexAttribLayoutStub();
-  EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(4 /* кол.-во вызовов */));
+  EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(6 /* кол.-во вызовов */));
 
   EXPECT_CALL(*globalGapiPlug, createIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
   EXPECT_CALL(*globalGapiPlug, createVertexArray()).WillRepeatedly(testing::Return(vertexArrayStub));
@@ -133,25 +133,36 @@ TEST_F(GeomTestFixture, createBuffer) {
   geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
       0, geomDataDivisor, geomCreateInfo, effect);
 
-  auto *geomInstance =
+  auto *geomInstance_0 =
       static_cast<render::GeomInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>> *>(
           geomBuilder->getGeometry(0));
-  EXPECT_TRUE(geomInstance->getBuffer(render::Constants::IDX_VBO).has_value());
-  EXPECT_TRUE(geomInstance->getBuffer(render::Constants::IDX_EBO).has_value());
+  EXPECT_TRUE(geomInstance_0->getBuffer(render::Constants::IDX_VBO).has_value());
+  EXPECT_TRUE(geomInstance_0->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  geomBuilder->getGeometry(1)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
+  geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+      1, geomDataDivisor, geomCreateInfo, effect);
 
-  EXPECT_TRUE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_VBO).has_value());
-  EXPECT_FALSE(geomBuilder->getGeometry(1)->getBuffer(render::Constants::IDX_EBO).has_value());
+  auto *geomInstance_1 =
+      static_cast<render::GeomInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>> *>(
+          geomBuilder->getGeometry(1));
+  EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_VBO).has_value());
+  EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  geomInstance->remap();
+  geomBuilder->create(2);
+
+  geomBuilder->getGeometry(2)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
+  EXPECT_TRUE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_VBO).has_value());
+  EXPECT_FALSE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_EBO).has_value());
+
+  geomInstance_0->remap();
+  geomInstance_1->remap();
 
   // SAFE_DELETE_OBJECT(geomDataDivisor);
   SAFE_DELETE_OBJECT(vertexArrayStub);
   SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
   SAFE_DELETE_OBJECT(bufferStub);
   SAFE_DELETE_OBJECT(idGeneratorStub);
-  SAFE_DELETE_OBJECT(geomBuilder);
+  // SAFE_DELETE_OBJECT(geomBuilder);
   SAFE_DELETE_OBJECT(shaderStub);
   // SAFE_DELETE_OBJECT(shaderProgramStub);
   SAFE_DELETE_OBJECT(effect);
