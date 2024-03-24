@@ -1,0 +1,14 @@
+#ifndef SWAY_RENDER_RENDERSTAGES_HPP
+#define SWAY_RENDER_RENDERSTAGES_HPP
+
+#include <sway/core.hpp>
+
+NAMESPACE_BEGIN(sway)
+NAMESPACE_BEGIN(render)
+
+enum class RenderStage : u32_t { DEPTH = 0, COLOR = 1, STENCIL = 2, MAX_STAGE = 3 };
+
+NAMESPACE_END(render)
+NAMESPACE_END(sway)
+
+#endif  // SWAY_RENDER_RENDERSTAGES_HPP

@@ -48,8 +48,9 @@ public:
 
   auto at(u32_t idx) -> TShape * { return idx > instances_.size() ? nullptr : instances_[idx]; }
 
-  auto getIndices() -> std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * 3> {
-    std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * 3> indices;
+  template <std::size_t TInstSize>
+  auto getIndices() -> std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * TInstSize> {
+    std::array<u32_t, TShape::MAX_QUAD_RESERVE_ELEMENTS * TInstSize> indices;
     u32_t idx = 0;
     for (auto i = 0; i < instances_.size(); ++i) {
       for (auto elm = 0; elm < instances_[i]->data()->getElmSize(); ++elm) {

@@ -10,9 +10,6 @@ NAMESPACE_BEGIN(render)
 RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context *context)
     : core::foundation::Subsystem(context) {
   global::pluginInstance_ = plug;
-
-  // testing::StrictMock<global::MockPluginFunctionSet> mock;
-  // EXPECT_CALL(mock, createCapability()).WillOnce(testing::Return(nullptr));
 }
 
 RenderSubsystem::~RenderSubsystem() {
@@ -29,19 +26,19 @@ auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
   idGenerator_ = global::getGapiPluginFunctionSet()->createIdGenerator();
 
-  passes_[core::detail::toUnderlying(RenderStage::DEPTH)] = std::make_shared<RenderPass>();
-  passes_[core::detail::toUnderlying(RenderStage::COLOR)] = std::make_shared<RenderPass>();
-  passes_[core::detail::toUnderlying(RenderStage::STENCIL)] = std::make_shared<RenderPass>();
-
   auto target = std::make_shared<RenderTarget>();
   target->setScissorViewport(global::getGapiPluginFunctionSet()->createViewport());
 
   auto state = std::make_shared<RenderState>();
 
   for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
+    passes_[i] = std::make_shared<RenderPass>();
     passes_[i]->setRenderTarget(target);
     passes_[i]->setRenderState(state);
   }
+
+  geomBuilder_ = GeomBuilder::create(idGenerator_);
+  geomBuilder_->reserve(10);
 
   return true;
 }

@@ -126,7 +126,7 @@ TEST_F(GeomTestFixture, createBuffer) {
 
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-  auto idxs = geomDataDivisor->getIndices();
+  auto idxs = geomDataDivisor->getIndices<1>();
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.capacity = idxs.size();
   geomCreateInfo.bo[render::Constants::IDX_EBO].data = idxs.data();
 

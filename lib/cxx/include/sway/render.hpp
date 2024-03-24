@@ -30,6 +30,7 @@
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderpass.hpp>
 #include <sway/render/renderqueue.hpp>
+#include <sway/render/renderstages.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>

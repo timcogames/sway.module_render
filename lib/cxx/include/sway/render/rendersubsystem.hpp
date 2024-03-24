@@ -3,8 +3,10 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
+#include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
 #include <array>  // std::array
@@ -14,8 +16,6 @@
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
-
-enum class RenderStage : u32_t { DEPTH = 0, COLOR = 1, STENCIL = 2, MAX_STAGE = 3 };
 
 class RenderSubsystem : public core::foundation::Subsystem {
 public:
@@ -76,14 +76,17 @@ public:
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
+  auto getGeomBuilder() -> std::shared_ptr<GeomBuilder> { return geomBuilder_; }
+
 private:
   void renderSubqueues_(
       RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
 
   gapi::CapabilityPtr_t capability_;
   std::array<std::shared_ptr<RenderPass>, core::detail::toUnderlying(RenderStage::MAX_STAGE)> passes_{};
-  RenderQueueRefVector_t queues_;  // Контейнер очередей.
+  RenderQueueRefVector_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
+  std::shared_ptr<GeomBuilder> geomBuilder_;
 };
 
 NAMESPACE_END(render)

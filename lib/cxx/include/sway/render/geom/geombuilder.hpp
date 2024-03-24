@@ -28,17 +28,29 @@ public:
   void create(int idx);
 
   template <typename TShape>
-  void createInstance(
-      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) {
+  auto createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info,
+      EffectPtr_t effect) -> std::optional<std::string> {
     SAFE_DELETE_OBJECT(geometries_[idx]);
     geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
-    static_cast<GeomInstance<TShape> *>(geometries_[idx])->create(info, effect, divisor->getVertexAttribs());
+    geometries_[idx]->create(info, effect, divisor->getVertexAttribs());
+
+    return geometries_[idx]->getUid();
   }
 
   void remove(u32_t idx) {
     auto iter = geometries_.begin() + idx;
     SAFE_DELETE_OBJECT(*iter);
     geometries_.erase(iter);
+  }
+
+  auto find(const std::string &uid) -> Geom * {
+    for (auto item : geometries_) {
+      if (item->getUid().value() == uid) {
+        return item;
+      }
+    }
+
+    return nullptr;
   }
 
   auto canResize(std::size_t size) const -> bool;

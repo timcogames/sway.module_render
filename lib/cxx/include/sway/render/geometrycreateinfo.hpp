@@ -16,7 +16,7 @@ struct Constants {
   static constexpr int IDX_VBO{0};
   static constexpr int IDX_EBO{1};
 
-  static constexpr std::size_t MAX_NUM_INSTANCES{12};
+  static constexpr std::size_t MAX_NUM_INSTANCES{120};
 };
 
 struct GeometryCreateInfo {
