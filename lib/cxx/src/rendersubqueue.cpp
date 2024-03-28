@@ -42,9 +42,17 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
       cmd.geom->bind();
 
       gapi::BufferSet set;
-      set.vbo = cmd.geom->getBuffer(0).value();
-      set.ebo = cmd.geom->getBuffer(1).value();
-      drawCall_->execute(gapi::TopologyType::TRIANGLE_LIST, set, core::ValueDataType::UINT);
+      if (cmd.geom->getBuffer(0).has_value()) {
+        set.vbo = cmd.geom->getBuffer(0).value();
+      }
+
+      if (cmd.geom->getBuffer(1).has_value()) {
+        set.ebo = cmd.geom->getBuffer(1).value();
+      } else {
+        set.ebo = nullptr;
+      }
+
+      drawCall_->execute(cmd.topology, set, core::ValueDataType::UINT);
 
       cmd.geom->unbind();
     } else {

@@ -18,6 +18,8 @@ public:
   PURE_VIRTUAL(auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>);  // clang-format on
 
   PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
+
+  PURE_VIRTUAL(auto isIndexed()->bool);
 };
 
 class Shape {

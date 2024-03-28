@@ -98,6 +98,8 @@ public:
 
   MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
+  MTHD_OVERRIDE(auto isIndexed()->bool) { return true; }
+
 private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> data_;

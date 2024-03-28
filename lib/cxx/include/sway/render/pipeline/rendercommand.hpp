@@ -45,6 +45,7 @@ struct ForwardRenderCommand : public RenderCommand {
 
   std::shared_ptr<Geometry> geometry;
   Geom *geom;
+  gapi::TopologyType topology;
   std::shared_ptr<Material> material;
 
   math::mat4f_t tfrm;

@@ -29,19 +29,34 @@ public:
     }
 
     auto *shape = new TShape(semantics);
-    for (auto i = 0; i < shape->data()->getElmSize(); ++i) {
-      auto oldIndex = shape->data()->at(i);
-      auto newIndex = oldIndex + offsetIndex_;
+    if (shape->isIndexed()) {
+      for (auto i = 0;
+           i < std::static_pointer_cast<
+                   GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())
+                   ->getElmSize();
+           ++i) {
+        auto oldIndex = std::static_pointer_cast<
+            GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())
+                            ->at(i);
+        auto newIndex = oldIndex + offsetIndex_;
 
-      shape->data()->setData(i, newIndex);
+        std::static_pointer_cast<GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(
+            shape->data())
+            ->setData(i, newIndex);
+      }
     }
 
     instances_.push_back(shape);
 
-    // clang-format off
-    offsetIndex_ = static_cast<u32_t>(*std::max_element(
-      instances_.back()->data()->getElements(), instances_.back()->data()->getElements() + shape->data()->getElmSize())) + 1;
-    // clang-format on
+    if (shape->isIndexed()) {
+      // clang-format off
+      offsetIndex_ = static_cast<u32_t>(*std::max_element(
+        std::static_pointer_cast<
+          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(instances_.back()->data())->getElements(), std::static_pointer_cast<
+          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(instances_.back()->data())->getElements() + std::static_pointer_cast<
+          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())->getElmSize())) + 1;
+      // clang-format on
+    }
   }
 
   auto getInstSize() const -> std::size_t { return instances_.size(); }

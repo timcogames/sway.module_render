@@ -19,9 +19,14 @@ GeomBuilder::~GeomBuilder() {
   }
 }
 
-void GeomBuilder::create(int idx) {
+auto GeomBuilder::create(int idx, const GeometryCreateInfo &info,
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs,
+    EffectPtr_t effect) -> std::optional<std::string> {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
+  geometries_[idx]->create(info, effect, attribs);
+
+  return geometries_[idx]->getUid();
 }
 
 auto GeomBuilder::canResize(std::size_t size) const -> bool { return size > geometries_.size(); }

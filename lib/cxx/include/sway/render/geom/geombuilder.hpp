@@ -25,7 +25,9 @@ public:
 
   ~GeomBuilder();
 
-  void create(int idx);
+  auto create(int idx, const GeometryCreateInfo &info,
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs,
+      EffectPtr_t effect) -> std::optional<std::string>;
 
   template <typename TShape>
   auto createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info,
