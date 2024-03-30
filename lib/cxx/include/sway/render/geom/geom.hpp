@@ -24,13 +24,7 @@ public:
   virtual ~Geom();
 
   template <class TObject>
-  void call(std::function<void(TObject)> callback) {
-    for (auto buf : buffers_) {
-      if (buf.has_value()) {
-        callback(buf.value());
-      }
-    }
-  }
+  void call(std::function<void(TObject)> callback);
 
   MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, EffectPtr_t effect,
       std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
@@ -52,5 +46,7 @@ private:
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
+
+#include <sway/render/geom/geom.inl>
 
 #endif  // SWAY_RENDER_GEOM_HPP
