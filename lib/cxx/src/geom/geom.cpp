@@ -26,9 +26,6 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
     }
   }
 
-  std::cout << "VBO " << info.bo[0].desc.capacity << " " << info.bo[0].desc.byteStride << std::endl;
-  std::cout << "IBO " << info.bo[1].desc.capacity << " " << info.bo[1].desc.byteStride << std::endl;
-
   auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
     if (next == Constants::IDX_EBO && !info.indexed) {
       return;

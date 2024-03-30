@@ -36,15 +36,20 @@ public:
     return attribs_;
   }
 
-  MTHD_OVERRIDE(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics)) {
-    for (auto semantic : semantics) {
-      auto attrib = this->getAttrib(semantic);
+  template <class TVertexSemanticIter>
+  void useSemanticSet(TVertexSemanticIter first, TVertexSemanticIter last) {
+    for (auto semantic = first; semantic != last; ++semantic) {
+      auto attrib = this->getAttrib(*semantic);
       if (!attrib) {
         return;
       }
 
       attrib->use();
     }
+  }
+
+  MTHD_OVERRIDE(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics)) {
+    this->useSemanticSet(semantics.begin(), semantics.end());
   }
 
   // clang-format off

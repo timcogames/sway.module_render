@@ -16,8 +16,9 @@ NAMESPACE_BEGIN(render)
 template <typename TShape>
 class GeomInstanceDataDivisor {
 public:
-  GeomInstanceDataDivisor(std::size_t numInsts)
-      : offsetIndex_(0) {
+  GeomInstanceDataDivisor(const std::initializer_list<gapi::VertexSemantic> &semantics, std::size_t numInsts)
+      : semantics_(semantics)
+      , offsetIndex_(0) {
     instances_.reserve(std::min(numInsts, Constants::MAX_NUM_INSTANCES));
   }
 
@@ -28,12 +29,13 @@ public:
     return std::static_pointer_cast<TResult>(shape->data());
   }
 
-  void addInstanceData(const std::initializer_list<gapi::VertexSemantic> &semantics) {
+  void addInstanceData() {
     if (instances_.size() > Constants::MAX_NUM_INSTANCES) {
       return;
     }
 
-    auto *shape = new TShape(semantics);
+    auto *shape = new TShape({});
+    shape->data()->useSemanticSet(semantics_.begin(), semantics_.end());
     if (shape->isIndexed()) {
       for (auto i = 0; i < toIndexedVertexData(shape)->getElmSize(); ++i) {
         auto oldIndex = toIndexedVertexData(shape)->at(i);
@@ -78,6 +80,7 @@ public:
 
 private:
   std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
+  std::vector<gapi::VertexSemantic> semantics_;
   std::vector<TShape *> instances_;
   u32_t offsetIndex_;
 };

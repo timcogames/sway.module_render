@@ -75,17 +75,6 @@ public:
     dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), tex.getB()).data());
   }
 
-  void update(const math::rect4f_t &pos, const math::col4f_t &col, const math::rect4f_t &tex) {
-    setPosDataAttrib(pos);
-    setColDataAttrib(col);
-    setTexDataAttrib(tex);
-  }
-
-  void update(const math::rect4f_t &pos, const math::col4f_t col) {
-    setPosDataAttrib(pos);
-    setColDataAttrib(col);
-  }
-
   [[nodiscard]]
   auto data() const -> std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> {
     return data_;
