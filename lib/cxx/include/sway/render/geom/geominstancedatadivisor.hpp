@@ -23,6 +23,11 @@ public:
 
   ~GeomInstanceDataDivisor() { instances_.clear(); }
 
+  template <typename TResult = GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>
+  auto toIndexedVertexData(TShape *shape) -> std::shared_ptr<TResult> {
+    return std::static_pointer_cast<TResult>(shape->data());
+  }
+
   void addInstanceData(const std::initializer_list<gapi::VertexSemantic> &semantics) {
     if (instances_.size() > Constants::MAX_NUM_INSTANCES) {
       return;
@@ -30,19 +35,11 @@ public:
 
     auto *shape = new TShape(semantics);
     if (shape->isIndexed()) {
-      for (auto i = 0;
-           i < std::static_pointer_cast<
-                   GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())
-                   ->getElmSize();
-           ++i) {
-        auto oldIndex = std::static_pointer_cast<
-            GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())
-                            ->at(i);
+      for (auto i = 0; i < toIndexedVertexData(shape)->getElmSize(); ++i) {
+        auto oldIndex = toIndexedVertexData(shape)->at(i);
         auto newIndex = oldIndex + offsetIndex_;
 
-        std::static_pointer_cast<GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(
-            shape->data())
-            ->setData(i, newIndex);
+        toIndexedVertexData(shape)->setData(i, newIndex);
       }
     }
 
@@ -51,10 +48,8 @@ public:
     if (shape->isIndexed()) {
       // clang-format off
       offsetIndex_ = static_cast<u32_t>(*std::max_element(
-        std::static_pointer_cast<
-          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(instances_.back()->data())->getElements(), std::static_pointer_cast<
-          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(instances_.back()->data())->getElements() + std::static_pointer_cast<
-          GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>(shape->data())->getElmSize())) + 1;
+        toIndexedVertexData(instances_.back())->getElements(), 
+        toIndexedVertexData(instances_.back())->getElements() + toIndexedVertexData(shape)->getElmSize())) + 1;
       // clang-format on
     }
   }

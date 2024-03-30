@@ -47,9 +47,9 @@ public:
     // clang-format on
   }
 
-  void setPosDataAttrib(const math::rect4f_t &pos) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).data());
+  void setPosDataAttrib(math::vec3f_t start, math::vec3f_t end) {
+    dataAttribs_.pos->setData(0, start.data());
+    dataAttribs_.pos->setData(1, end.data());
   }
 
   void setColDataAttrib(const math::col4f_t &col) {
