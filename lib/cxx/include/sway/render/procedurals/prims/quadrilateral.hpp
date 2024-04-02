@@ -55,6 +55,7 @@ public:
   }
 
   void setPosDataAttrib(const math::rect4f_t &pos) {
+    used_ = true;
     dataAttribs_.pos->setData(0, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).data());
     dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).data());
     dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getB(), 0.0F).data());
@@ -89,9 +90,12 @@ public:
 
   MTHD_OVERRIDE(auto isIndexed()->bool) { return true; }
 
+  MTHD_OVERRIDE(auto isUsed()->bool) { return used_; }
+
 private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> data_;
+  bool used_ = false;
 };
 
 NAMESPACE_END(prims)

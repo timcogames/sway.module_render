@@ -20,6 +20,8 @@ public:
   PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
 
   PURE_VIRTUAL(auto isIndexed()->bool);
+
+  PURE_VIRTUAL(auto isUsed()->bool);
 };
 
 class Shape {

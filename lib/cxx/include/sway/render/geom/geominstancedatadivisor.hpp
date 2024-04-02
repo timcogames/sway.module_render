@@ -19,7 +19,12 @@ public:
   GeomInstanceDataDivisor(const std::initializer_list<gapi::VertexSemantic> &semantics, std::size_t numInsts)
       : semantics_(semantics)
       , offsetIndex_(0) {
-    instances_.reserve(std::min(numInsts, Constants::MAX_NUM_INSTANCES));
+    auto reserved = std::min(numInsts, Constants::MAX_NUM_INSTANCES);
+    instances_.reserve(reserved);
+
+    for (auto i = 0; i < reserved; ++i) {
+      this->addInstanceData();
+    }
   }
 
   ~GeomInstanceDataDivisor() { instances_.clear(); }

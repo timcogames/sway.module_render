@@ -60,9 +60,13 @@ public:
 
     auto offset = 0;
     for (auto i = 0; i < dataDivisor_->getInstSize(); ++i) {
+      auto inst = dataDivisor_->at(i);
+      if (!inst->isUsed()) {
+        break;
+      }
+
       auto *vertices = malloc(TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
-      auto inst = dataDivisor_->at(i)->data();
-      inst->getVertices(vertices, 0, TShape::MAX_QUAD_RESERVE_VERTICES);
+      inst->data()->getVertices(vertices, 0, TShape::MAX_QUAD_RESERVE_VERTICES);
 
       data_ = (ShapeVtxDataType_t *)vbo.value()->mapRange(
           offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t), bitset);
