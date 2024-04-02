@@ -13,6 +13,7 @@ Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
 Geom::~Geom() {
   std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
   // SAFE_DELETE_OBJECT(attribLayout_);
+  builder_->stats_.totalNumGeometries -= 1;
 }
 
 void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
@@ -20,7 +21,6 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
   attribLayout_ = gapiPlugin_->createVertexAttribLayout(effect->getShaderProgram());
   for (const auto &attrib : attribs) {
     auto attribDesc = attrib.second->getDescriptor();
-    // std::cout << "ATTRIB " << attribDesc.semantic << "(" << std::boolalpha << attribDesc.enabled << ")" << std::endl;
     if (attribDesc.enabled) {
       attribLayout_->addAttribute(attribDesc);
     }
@@ -36,6 +36,7 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
   };
 
   std::for_each(buffers_.begin(), buffers_.end(), createBuffers);
+  builder_->stats_.totalNumGeometries += 1;
 }
 
 void Geom::bind() {

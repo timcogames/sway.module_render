@@ -10,13 +10,22 @@
 #include <sway/render/global.hpp>
 
 #include <algorithm>
-#include <array>
+#include <map>
+#include <memory>
 #include <optional>
 #include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
+struct GeomPoolStats {
+  u32_t totalNumGeometries;
+
+  GeomPoolStats()
+      : totalNumGeometries(0) {}
+};
+
+// BufferPool
 class GeomBuilder {
 public:
   static auto create(gapi::IdGeneratorPtr_t gen) -> std::shared_ptr<GeomBuilder>;
@@ -25,35 +34,18 @@ public:
 
   ~GeomBuilder();
 
+  template <typename TShape>
   auto create(int idx, const GeometryCreateInfo &info,
       std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs,
       EffectPtr_t effect) -> std::optional<std::string>;
 
   template <typename TShape>
   auto createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info,
-      EffectPtr_t effect) -> std::optional<std::string> {
-    SAFE_DELETE_OBJECT(geometries_[idx]);
-    geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
-    geometries_[idx]->create(info, effect, divisor->getVertexAttribs());
+      EffectPtr_t effect) -> std::optional<std::string>;
 
-    return geometries_[idx]->getUid();
-  }
+  void remove(u32_t idx);
 
-  void remove(u32_t idx) {
-    auto iter = geometries_.begin() + idx;
-    SAFE_DELETE_OBJECT(*iter);
-    geometries_.erase(iter);
-  }
-
-  auto find(const std::string &uid) -> Geom * {
-    for (auto item : geometries_) {
-      if (item->getUid().value() == uid) {
-        return item;
-      }
-    }
-
-    return nullptr;
-  }
+  auto find(const std::string &uid) -> Geom *;
 
   auto canResize(std::size_t size) const -> bool;
 
@@ -65,6 +57,8 @@ public:
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
+  GeomPoolStats stats_;
+
 private:
   global::GapiPluginFunctionSet *gapiPlugin_;
   gapi::IdGeneratorPtr_t idGenerator_;
@@ -73,5 +67,7 @@ private:
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
+
+#include <sway/render/geom/geombuilder.inl>
 
 #endif  // SWAY_RENDER_GEOMBUILDER_HPP
