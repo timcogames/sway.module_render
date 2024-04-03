@@ -19,9 +19,13 @@ public:
 
   PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
 
-  PURE_VIRTUAL(auto isIndexed()->bool);
+  // clang-format off
+  PURE_VIRTUAL(auto isIndexed() -> bool);  // clang-format on
 
-  PURE_VIRTUAL(auto isUsed()->bool);
+  // clang-format off
+  PURE_VIRTUAL(auto mustBeRemapped() -> bool);  // clang-format on
+
+  PURE_VIRTUAL(void setRemap(bool val));
 };
 
 class Shape {

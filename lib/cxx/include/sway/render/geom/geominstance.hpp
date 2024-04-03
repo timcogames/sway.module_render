@@ -43,6 +43,15 @@ public:
     vao_->unbind();
   }
 
+  void copyData(int offset, void *vertices, gapi::BufferPtr_t vbo,
+      core::detail::EnumClassBitset<gapi::BufferMapRangeAccess> bitset) {
+    data_ = (ShapeVtxDataType_t *)vbo->mapRange(
+        offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t), bitset);
+    memcpy(data_, vertices, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
+    // vbo->flush(offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
+    vbo->unmap();
+  }
+
   void remap() {
     auto vbo = this->getBuffer(render::Constants::IDX_VBO);
     if (!vbo.has_value()) {
@@ -61,20 +70,14 @@ public:
     auto offset = 0;
     for (auto i = 0; i < dataDivisor_->getInstSize(); ++i) {
       auto inst = dataDivisor_->at(i);
-      if (!inst->isUsed()) {
-        break;
+      if (!inst->mustBeRemapped()) {
+        copyData(offset, nullptr, vbo.value(), bitset);
+      } else {
+        auto *vertices = malloc(TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
+        inst->data()->getVertices(vertices, 0, TShape::MAX_QUAD_RESERVE_VERTICES);
+        copyData(offset, vertices, vbo.value(), bitset);
+        free(vertices);
       }
-
-      auto *vertices = malloc(TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
-      inst->data()->getVertices(vertices, 0, TShape::MAX_QUAD_RESERVE_VERTICES);
-
-      data_ = (ShapeVtxDataType_t *)vbo.value()->mapRange(
-          offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t), bitset);
-      memcpy(data_, vertices, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
-      // vbo.value()->flush(offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
-      vbo.value()->unmap();
-
-      free(vertices);
 
       offset += TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t);
     }
