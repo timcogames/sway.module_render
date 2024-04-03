@@ -53,7 +53,13 @@ public:
 
   auto getGeometries() -> std::vector<Geom *> { return geometries_; }
 
-  auto getGeometry(int idx) -> Geom * { return geometries_[idx]; }
+  auto getGeometry(int idx) -> Geom * {
+    if (idx >= geometries_.size() - 1) {
+      return nullptr;
+    }
+
+    return geometries_[idx];
+  }
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 

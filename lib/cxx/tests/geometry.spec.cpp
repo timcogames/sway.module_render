@@ -104,8 +104,9 @@ TEST_F(GeomTestFixture, createBuffer) {
 
   auto numInstances = 1;
   auto *geomDataDivisor =
-      new render::GeomInstanceDataDivisor<render::procedurals::prims::Quadrilateral<math::VertexColor>>(numInstances);
-  geomDataDivisor->addInstanceData({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+      new render::GeomInstanceDataDivisor<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+          {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL}, numInstances);
+  // geomDataDivisor->addInstanceData({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
 
   auto *geomBuilder = new render::GeomBuilder(globalGapiPlug, idGeneratorStub);
 
@@ -148,9 +149,12 @@ TEST_F(GeomTestFixture, createBuffer) {
   EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  geomBuilder->create(2);
+  auto uid = geomBuilder
+                 ->create<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+                     2, render::GeometryCreateInfo(), geomDataDivisor->getVertexAttribs(), effect)
+                 .value();
 
-  geomBuilder->getGeometry(2)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
+  // geomBuilder->getGeometry(2)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
   EXPECT_TRUE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_FALSE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_EBO).has_value());
 
