@@ -25,7 +25,8 @@ public:
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
 
-  Quadrilateral(const std::initializer_list<gapi::VertexSemantic> &semantics) {
+  Quadrilateral(const std::initializer_list<gapi::VertexSemantic> &semantics)
+      : remapping_(false) {
     initialVtxData();
     initialElmData();
 
@@ -102,7 +103,7 @@ public:
 private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> data_;
-  bool remapping_ = false;
+  bool remapping_;
 };
 
 NAMESPACE_END(prims)

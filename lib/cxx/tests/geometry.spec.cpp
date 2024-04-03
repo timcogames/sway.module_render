@@ -102,14 +102,13 @@ TEST_F(GeomTestFixture, createBuffer) {
   EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgramStub))
       .WillRepeatedly(testing::Return(vertexAttribLayoutStub));
 
-  auto numInstances = 1;
+  constexpr auto numInstances = 1;
+
   auto *geomDataDivisor =
       new render::GeomInstanceDataDivisor<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
           {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL}, numInstances);
-  // geomDataDivisor->addInstanceData({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
 
   auto *geomBuilder = new render::GeomBuilder(globalGapiPlug, idGeneratorStub);
-
   geomBuilder->reserve(1);
   geomBuilder->reserve(render::Constants::MAX_BUFFER_OBJECTS + 10 /* Выходим за рамки допустимого */);
 
@@ -127,11 +126,11 @@ TEST_F(GeomTestFixture, createBuffer) {
 
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-  auto idxs = geomDataDivisor->getIndices<1>();
+  auto idxs = geomDataDivisor->getIndices<numInstances>();
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.capacity = idxs.size();
   geomCreateInfo.bo[render::Constants::IDX_EBO].data = idxs.data();
 
-  geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+  auto uid_0 = geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
       0, geomDataDivisor, geomCreateInfo, effect);
 
   auto *geomInstance_0 =
@@ -140,7 +139,7 @@ TEST_F(GeomTestFixture, createBuffer) {
   EXPECT_TRUE(geomInstance_0->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_TRUE(geomInstance_0->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+  auto uid_1 = geomBuilder->createInstance<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
       1, geomDataDivisor, geomCreateInfo, effect);
 
   auto *geomInstance_1 =
@@ -149,10 +148,8 @@ TEST_F(GeomTestFixture, createBuffer) {
   EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_EBO).has_value());
 
-  auto uid = geomBuilder
-                 ->create<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
-                     2, render::GeometryCreateInfo(), geomDataDivisor->getVertexAttribs(), effect)
-                 .value();
+  auto uid_2 = geomBuilder->create<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
+      2, render::GeometryCreateInfo(), geomDataDivisor->getVertexAttribs(), effect);
 
   // geomBuilder->getGeometry(2)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
   EXPECT_TRUE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_VBO).has_value());
