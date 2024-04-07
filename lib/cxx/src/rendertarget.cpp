@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(render)
 
 void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) {
   viewport_ = viewport;
-  // viewport_->set(0, 0, 100, 100);
+  viewport_->set(0, 0, 800, 600);
 }
 
 void RenderTarget::activate() {
