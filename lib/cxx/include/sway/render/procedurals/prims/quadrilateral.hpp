@@ -73,10 +73,10 @@ public:
   }
 
   void setTexDataAttrib(const math::rect4f_t &tex) {
-    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getR(), tex.getB()).data());
-    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getT()).data());
-    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getT()).data());
-    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), tex.getB()).data());
+    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getR(), tex.getT()).data());
+    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getB()).data());
+    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getB()).data());
+    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), tex.getT()).data());
   }
 
   [[nodiscard]]
