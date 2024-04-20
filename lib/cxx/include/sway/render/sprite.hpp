@@ -32,18 +32,33 @@ public:
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime));
 
-  void updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect);
+  void updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRect);
 
   [[nodiscard]]
   auto getMaterial() const -> std::shared_ptr<Material> {
     return material_;
   }
 
+  void setTexture(Image::Ptr texture, bool recomputeUVRequired);
+
+  [[nodiscard]]
+  auto getTexture() const -> Image::Ptr;
+
+  void setTextureRect(const math::rect4i_t &rect);
+
+  [[nodiscard]]
+  auto getTextureRect() const -> math::rect4i_t;
+
+  void recomputeUV();
+
 private:
   RenderSubqueueRef_t subqueue_;
 
   std::shared_ptr<Material> material_;
   std::shared_ptr<Geometry> geometry_;
+
+  Image::Ptr texture_;
+  math::rect4i_t textureRect_;
 
   // math::BoundingBox<2> boundingBox_;
   // std::vector<SpriteAnimation> animations_;

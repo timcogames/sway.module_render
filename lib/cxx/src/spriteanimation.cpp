@@ -28,7 +28,7 @@ void SpriteAnimation::update_(f32_t dtime) {
   }
 
   auto frame = frameOptional.value();
-  this->updateGeometryUV(getMaterial()->getImageSize(), frame->rect);
+  this->updateGeometryUV(getMaterial()->getImages()[0].second->getSize(), frame->rect);
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {

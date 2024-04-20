@@ -25,7 +25,7 @@ public:
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
-  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> std::shared_ptr<Image>;
+  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::Ptr;
 
   auto addEffect(const std::array<std::string, 2> &names) -> bool;
 
@@ -35,12 +35,7 @@ public:
 
   auto getEffect() -> EffectPtr_t { return effect_; }
 
-  auto getImages() -> std::vector<std::pair<std::string, std::shared_ptr<Image>>> { return images_; }
-
-  [[nodiscard]]
-  auto getImageSize() const -> math::size2f_t {
-    return math::size2f_t((f32_t)imgDesc_.size.getW(), (f32_t)imgDesc_.size.getH());
-  }
+  auto getImages() -> std::vector<std::pair<std::string, Image::Ptr>> { return images_; }
 
   gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
 
@@ -50,10 +45,9 @@ public:
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   EffectPtr_t effect_;
-  std::vector<std::pair<std::string, std::shared_ptr<Image>>> images_;
+  std::vector<std::pair<std::string, Image::Ptr>> images_;
   MaterialDescriptor desc_;
-  loader::ImageDescriptor imgDesc_;
-  std::shared_ptr<Image> image_;
+  Image::Ptr image_;
 };
 
 NAMESPACE_END(render)

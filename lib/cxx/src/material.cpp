@@ -27,10 +27,8 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
 
 #endif
 
-  imgDesc_ = resource->getDescriptor();
-
   auto image = std::make_shared<Image>();
-  image->create(imgDesc_.buf.data, imgDesc_.size);
+  image->create(resource->getDescriptor());
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
@@ -40,7 +38,7 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
   return true;
 }
 
-auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> std::shared_ptr<Image> {
+auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::Ptr {
   auto image = std::make_shared<Image>();
 
 #ifndef EMSCRIPTEN_PLATFORM

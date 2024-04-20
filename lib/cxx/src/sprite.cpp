@@ -53,43 +53,76 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   subqueue_->post(cmd);
 }
 
+void Sprite::setTexture(Image::Ptr texture, bool recomputeUVRequired) {
+  if (recomputeUVRequired) {
+    setTextureRect(math::rect4i_t(0, 0, texture->getSize()));
+  }
+
+  texture_ = texture;
+}
+
+auto Sprite::getTexture() const -> Image::Ptr { return texture_; }
+
+void Sprite::setTextureRect(const math::rect4i_t &rect) {
+  if (textureRect_.equals(rect)) {
+    return;
+  }
+
+  textureRect_ = rect;
+  recomputeUV();
+}
+
+auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
+
+void Sprite::recomputeUV() {
+  // clang-format off
+  geometry_->updateUV({
+    {{
+      {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
+      {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
+      {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())},
+      {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())}
+    }}
+  }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
+  // clang-format on
+}
+
 // clang-format off
-void Sprite::updateGeometryUV(math::size2f_t textureSize, math::rect4f_t frameRect) {
-  
+void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRect) {
   // geometry_->setUV(std::array<TexCoord, 4> {{
-  //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-  //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-  //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-  //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+  //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+  //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+  //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
+  //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
   // }}.data());
 
   geometry_->updateUV({
     {{
-      {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-      {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-      {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-      {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+      {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+      {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+      {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
+      {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
     }},
 
     // {{
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
     // }},
 
     // {{
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
     // }},
 
     // {{
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getB() / textureSize.getH()},
-    //   {frameRect.getR() / textureSize.getW(), frameRect.getT() / textureSize.getH()},
-    //   {frameRect.getL() / textureSize.getW(), frameRect.getT() / textureSize.getH()}
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
+    //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
     // }}
   }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
 }  // clang-format on
