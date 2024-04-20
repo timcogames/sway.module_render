@@ -72,11 +72,11 @@ public:
     dataAttribs_.col->setData(3, col.toVec4().data());
   }
 
-  void setTexDataAttrib(const math::rect4f_t &tex) {
-    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getR(), tex.getT()).data());
-    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getB()).data());
-    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getB()).data());
-    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), tex.getT()).data());
+  void setTexDataAttrib(const math::rect4f_t &tex, bool flipped) {
+    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getR(), flipped ? tex.getT() : tex.getB()).data());
+    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), flipped ? tex.getB() : tex.getT()).data());
+    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), flipped ? tex.getB() : tex.getT()).data());
+    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getL(), flipped ? tex.getT() : tex.getB()).data());
   }
 
   [[nodiscard]]
