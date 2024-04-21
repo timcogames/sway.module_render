@@ -13,6 +13,8 @@ public:
 
   PURE_VIRTUAL(void getData(void *dst, s32_t offset, s32_t idx));
 
+  PURE_VIRTUAL(void importRawdata2(void *dst, s32_t offset, void *src));
+
   // clang-format off
   PURE_VIRTUAL(auto getDescriptor() -> gapi::VertexAttribDescriptor);  // clang-format on
 

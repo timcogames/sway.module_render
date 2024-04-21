@@ -23,6 +23,12 @@ public:
 
   MTHD_OVERRIDE(void getData(void *dst, s32_t offset, s32_t idx));
 
+  MTHD_OVERRIDE(void importRawdata2(void *dst, s32_t offset, void *src)) {
+    for (auto i = 0; i < descriptor_.numComponents; ++i) {
+      *((VertexAttribType_t *)dst + offset + i) = ((VertexAttribType_t *)src)[i];
+    }
+  }
+
   // clang-format off
   MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) {  // clang-format on
     return descriptor_;

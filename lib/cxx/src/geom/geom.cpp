@@ -18,12 +18,17 @@ Geom::~Geom() {
 
 void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
     std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
+
+  attribs_ = attribs;
+
   attribLayout_ = gapiPlugin_->createVertexAttribLayout(effect->getShaderProgram());
   for (const auto &attrib : attribs) {
     auto attribDesc = attrib.second->getDescriptor();
-    if (attribDesc.enabled) {
-      attribLayout_->addAttribute(attribDesc);
+    if (!attribDesc.enabled) {
+      continue;
     }
+
+    attribLayout_->addAttribute(attribDesc);
   }
 
   auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
@@ -47,6 +52,81 @@ void Geom::bind() {
 void Geom::unbind() {
   attribLayout_->disable();
   this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
+}
+
+void Geom::updateUV(std::vector<UVData2> uv) {
+  auto offset = 0;
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * buffers_[Constants::IDX_VBO].value()->getCapacity());
+
+  auto texIdx = 0;
+  auto currRile = 0;
+
+  for (auto i = 0; i < buffers_[Constants::IDX_VBO].value()->getCapacity(); ++i) {
+    for (auto const [_, attrib] : attribs_) {
+      if (attrib->enabled()) {
+        auto desc = attrib->getDescriptor();
+        if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
+          if (texIdx >= QUAD_TEXCOORD_SIZE2) {
+            texIdx = 0;
+            currRile++;
+          }
+
+          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].data());
+          texIdx++;
+        } else {
+          attrib->getData(vtxdata, offset, i);
+        }
+
+        offset += desc.numComponents;
+      }
+    }
+  }
+
+  buffers_[Constants::IDX_VBO].value()->updateSubdata(vtxdata);
+}
+
+void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
+  auto offset = 0;
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * buffers_[Constants::IDX_VBO].value()->getCapacity());
+
+  auto texIdx = 0;
+  auto curTile = 0;
+
+  for (auto i = 0; i < buffers_[Constants::IDX_VBO].value()->getCapacity() /* количество вершин */; ++i) {
+    for (auto [_, attrib] : attribs_) {
+      if (attrib->enabled()) {
+        auto desc = attrib->getDescriptor();
+        if (desc.semantic == gapi::VertexSemantic::POS) {
+          attrib->getData(vtxdata, offset, i);
+        }
+
+        if (desc.semantic == gapi::VertexSemantic::COL) {
+          attrib->getData(vtxdata, offset, i);
+        }
+
+        if (desc.semantic == gapi::VertexSemantic::TEXCOORD_0) {
+          if (texIdx >= QUAD_TEXCOORD_SIZE2) {
+            texIdx = 0;
+            curTile++;
+          }
+
+          if (curTile == index) {
+            static_pointer_cast<GeomVertexAttrib<math::vec2f_t>>(attrib)->setData(i, coords[texIdx].data());
+
+            attrib->getData(vtxdata, offset, i);
+          } else {
+            attrib->getData(vtxdata, offset, i);
+          }
+
+          texIdx++;
+        }
+
+        offset += desc.numComponents;
+      }
+    }
+  }
+
+  buffers_[Constants::IDX_VBO].value()->updateSubdata(vtxdata);
 }
 
 NAMESPACE_END(render)

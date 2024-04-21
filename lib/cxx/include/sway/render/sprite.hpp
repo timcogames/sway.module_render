@@ -55,6 +55,7 @@ private:
   RenderSubqueueRef_t subqueue_;
 
   std::shared_ptr<Material> material_;
+  std::shared_ptr<GeomBuilder> geomBuilder_;
   std::shared_ptr<Geometry> geometry_;
 
   Image::Ptr texture_;

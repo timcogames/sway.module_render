@@ -11,14 +11,31 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   subqueue_ = subqueue;
   material_ = material;
 
-  std::array<gapi::VertexSemantic, 3> semantics = {
-      gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0};
-  auto plane = std::make_shared<procedurals::prims::Plane<math::VertexTexCoord>>(
-      size, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
-  plane->useVertexSemanticSet(semantics);
+  auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
+      {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-  geometry_ = std::make_shared<Geometry>(subsystem->getIdGenerator(), material_->getEffect(), true);
-  geometry_->create(plane);
+  shape->setPosDataAttrib(math::rect4f_t(-0.5F, -0.5F, 0.5F, 0.5F));
+  shape->setColDataAttrib(COL4F_WHITE);
+  shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
+
+  GeometryCreateInfo geomCreateInfo;
+  geomCreateInfo.indexed = true;
+  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
+  auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
+  shape->data()->getVertices(data, 0, 4);
+  geomCreateInfo.bo[Constants::IDX_VBO].data = data;
+
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = 6;
+  geomCreateInfo.bo[Constants::IDX_EBO].data = shape->data()->getElements();
+
+  geomBuilder_ = subsystem->getGeomBuilder();
+  geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
+      3, geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
 }
 
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
@@ -44,12 +61,12 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.stencilDesc.front.wmask = cmd.stencilDesc.front.rmask;
   cmd.stencilDesc.front.reference = 1;
   cmd.stencilDesc.back = cmd.stencilDesc.front;
-  cmd.geometry = geometry_;
+  cmd.geom = geomBuilder_->getGeometry(3);
+  cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
   cmd.material = material_;
   cmd.tfrm = tfrm;
   cmd.proj = proj;
   cmd.view = view;
-
   subqueue_->post(cmd);
 }
 
@@ -76,14 +93,14 @@ auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
 
 void Sprite::recomputeUV() {
   // clang-format off
-  geometry_->updateUV({
+  geomBuilder_->getGeometry(3)->updateUV({
     {{
       {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
       {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
       {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())},
       {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())}
     }}
-  }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
+  });
   // clang-format on
 }
 
@@ -96,7 +113,7 @@ void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRe
   //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
   // }}.data());
 
-  geometry_->updateUV({
+  geomBuilder_->getGeometry(3)->updateUV({
     {{
       {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
       {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
@@ -124,7 +141,7 @@ void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRe
     //   {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())},
     //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
     // }}
-  }, math::size2i_t(NUM_SEGMENTS, NUM_SEGMENTS));
+  });
 }  // clang-format on
 
 NAMESPACE_END(render)
