@@ -56,7 +56,7 @@ private:
 
   std::shared_ptr<Material> material_;
   std::shared_ptr<GeomBuilder> geomBuilder_;
-  std::shared_ptr<Geometry> geometry_;
+  u32_t geomIdx_;
 
   Image::Ptr texture_;
   math::rect4i_t textureRect_;

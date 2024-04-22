@@ -9,7 +9,7 @@
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
 
-#include <algorithm>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -19,10 +19,10 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 struct GeomPoolStats {
-  u32_t totalNumGeometries;
+  u32_t numGeoms;
 
   GeomPoolStats()
-      : totalNumGeometries(0) {}
+      : numGeoms(0) {}
 };
 
 // BufferPool
@@ -36,30 +36,31 @@ public:
 
   template <typename TShape>
   auto create(int idx, const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs,
-      EffectPtr_t effect) -> std::optional<std::string>;
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t;
 
   template <typename TShape>
-  auto createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info,
-      EffectPtr_t effect) -> std::optional<std::string>;
+  auto create(const GeometryCreateInfo &info,
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t;
+
+  template <typename TShape>
+  auto createInstance(
+      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t;
+
+  template <typename TShape>
+  auto createInstance(
+      GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t;
 
   void remove(u32_t idx);
 
-  auto find(const std::string &uid) -> Geom *;
+  auto find(const std::string &uid) -> Geom::Ptr;
 
   auto canResize(std::size_t size) const -> bool;
 
   void reserve(std::size_t size);
 
-  auto getGeometries() -> std::vector<Geom *> { return geometries_; }
+  auto getGeometries() -> std::vector<Geom::Ptr> { return geometries_; }
 
-  auto getGeometry(int idx) -> Geom * {
-    if (idx >= geometries_.size() - 1) {
-      return nullptr;
-    }
-
-    return geometries_[idx];
-  }
+  auto getGeometry(int idx) -> Geom::Ptr;
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
@@ -68,7 +69,8 @@ public:
 private:
   global::GapiPluginFunctionSet *gapiPlugin_;
   gapi::IdGeneratorPtr_t idGenerator_;
-  std::vector<Geom *> geometries_;
+  std::vector<Geom::Ptr> geometries_;
+  std::list<u32_t> availables_;
 };
 
 NAMESPACE_END(render)

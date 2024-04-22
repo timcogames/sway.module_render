@@ -6,6 +6,7 @@
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
 
+#include <algorithm>  // std::find
 #include <map>
 #include <memory>
 #include <optional>
@@ -14,24 +15,39 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 template <typename TShape>
+auto GeomBuilder::create(const GeometryCreateInfo &info,
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t {
+  return create<TShape>(availables_.front(), info, attribs, effect);
+}
+
+template <typename TShape>
 auto GeomBuilder::create(int idx, const GeometryCreateInfo &info,
-    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs,
-    EffectPtr_t effect) -> std::optional<std::string> {
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
   geometries_[idx]->create(info, effect, attribs);
 
-  return geometries_[idx]->getUid();
+  availables_.remove_if([&](int i) { return i == idx; });
+
+  return idx;
 }
 
 template <typename TShape>
-auto GeomBuilder::createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info,
-    EffectPtr_t effect) -> std::optional<std::string> {
+auto GeomBuilder::createInstance(
+    GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t {
+  return createInstance<TShape>(availables_.front(), divisor, info, effect);
+}
+
+template <typename TShape>
+auto GeomBuilder::createInstance(
+    int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
   geometries_[idx]->create(info, effect, divisor->getVertexAttribs());
 
-  return geometries_[idx]->getUid();
+  availables_.remove_if([&](int i) { return i == idx; });
+
+  return idx;
 }
 
 NAMESPACE_END(render)

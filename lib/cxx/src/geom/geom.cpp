@@ -13,7 +13,7 @@ Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
 Geom::~Geom() {
   std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
   // SAFE_DELETE_OBJECT(attribLayout_);
-  builder_->stats_.totalNumGeometries -= 1;
+  builder_->stats_.numGeoms -= 1;
 }
 
 void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
@@ -41,7 +41,7 @@ void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
   };
 
   std::for_each(buffers_.begin(), buffers_.end(), createBuffers);
-  builder_->stats_.totalNumGeometries += 1;
+  builder_->stats_.numGeoms += 1;
 }
 
 void Geom::bind() {

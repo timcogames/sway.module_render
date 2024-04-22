@@ -24,6 +24,8 @@ class GeomBuilder;
 
 class Geom : public core::foundation::Uniqueable<std::string> {
 public:
+  using Ptr = Geom *;
+
   Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder);
 
   virtual ~Geom();

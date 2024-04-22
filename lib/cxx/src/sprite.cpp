@@ -34,8 +34,8 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geomCreateInfo.bo[Constants::IDX_EBO].data = shape->data()->getElements();
 
   geomBuilder_ = subsystem->getGeomBuilder();
-  geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
-      3, geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
+  geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
+      geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
 }
 
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
@@ -61,7 +61,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.stencilDesc.front.wmask = cmd.stencilDesc.front.rmask;
   cmd.stencilDesc.front.reference = 1;
   cmd.stencilDesc.back = cmd.stencilDesc.front;
-  cmd.geom = geomBuilder_->getGeometry(3);
+  cmd.geom = geomBuilder_->getGeometry(geomIdx_);
   cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
   cmd.material = material_;
   cmd.tfrm = tfrm;
@@ -93,7 +93,7 @@ auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
 
 void Sprite::recomputeUV() {
   // clang-format off
-  geomBuilder_->getGeometry(3)->updateUV({
+  geomBuilder_->getGeometry(geomIdx_)->updateUV({
     {{
       {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
       {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
@@ -113,7 +113,7 @@ void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRe
   //   {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getT() / static_cast<f32_t>(textureSize.getH())}
   // }}.data());
 
-  geomBuilder_->getGeometry(3)->updateUV({
+  geomBuilder_->getGeometry(geomIdx_)->updateUV({
     {{
       {frameRect.getR() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},
       {frameRect.getL() / static_cast<f32_t>(textureSize.getW()), frameRect.getB() / static_cast<f32_t>(textureSize.getH())},

@@ -23,9 +23,11 @@ void GeomBuilder::remove(u32_t idx) {
   auto iter = geometries_.begin() + idx;
   SAFE_DELETE_OBJECT(*iter);
   geometries_.erase(iter);
+
+  availables_.push_back(idx);
 }
 
-auto GeomBuilder::find(const std::string &uid) -> Geom * {
+auto GeomBuilder::find(const std::string &uid) -> Geom::Ptr {
   for (auto item : geometries_) {
     if (item->getUid().value() == uid) {
       return item;
@@ -45,6 +47,17 @@ void GeomBuilder::reserve(std::size_t size) {
   }
 
   geometries_.resize(nextSize, nullptr);
+  for (auto i = 0; i < geometries_.size(); i++) {
+    availables_.push_back(i);
+  }
+}
+
+auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr {
+  if (idx >= geometries_.size() - 1) {
+    return nullptr;
+  }
+
+  return geometries_[idx];
 }
 
 NAMESPACE_END(render)
