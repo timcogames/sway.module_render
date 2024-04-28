@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(render)
 
 struct Constants {
   static constexpr std::size_t MAX_VERTEX_ATTRIBS{16};
-  static constexpr std::size_t MAX_BUFFER_OBJECTS{8};
+  static constexpr std::size_t MAX_BUFFER_OBJECTS{80};
 
   static constexpr std::size_t MAX_IDX_BUFFERS{2};
   static constexpr int IDX_VBO{0};
