@@ -14,7 +14,7 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
       {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-  shape->setPosDataAttrib(math::rect4f_t(-0.5F, -0.5F, 0.5F, 0.5F));
+  shape->setPosDataAttrib(math::rect4f_t(-0.5F, 0.5F, 0.5F, -0.5F));
   shape->setColDataAttrib(COL4F_WHITE);
   shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
@@ -36,6 +36,9 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geomBuilder_ = subsystem->getGeomBuilder();
   geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
       geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
+
+  // TODO:
+  this->setTexture(material_->getImages()[0].second, false);
 }
 
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
@@ -92,13 +95,15 @@ void Sprite::setTextureRect(const math::rect4i_t &rect) {
 auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
 
 void Sprite::recomputeUV() {
+  auto textureSize = texture_->getSize();
+
   // clang-format off
   geomBuilder_->getGeometry(geomIdx_)->updateUV({
     {{
-      {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
-      {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getB() / static_cast<f32_t>(texture_->getSize().getH())},
-      {textureRect_.getR() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())},
-      {textureRect_.getL() / static_cast<f32_t>(texture_->getSize().getW()), textureRect_.getT() / static_cast<f32_t>(texture_->getSize().getH())}
+      {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
+      {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
+      {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())},
+      {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())}
     }}
   });
   // clang-format on
