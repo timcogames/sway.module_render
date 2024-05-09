@@ -28,7 +28,7 @@ public:
   ~Sprite() = default;
 
   void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-      std::shared_ptr<Material> material, const math::size2f_t &size);
+      std::shared_ptr<Material> material, math::size2f_t size);
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime));
 

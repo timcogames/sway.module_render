@@ -8,11 +8,10 @@ SpriteAnimation::SpriteAnimation()
     , frameSize_(math::size2f_zero)
     , currentFrameIdx_(0)
     , frameTime_(0.1F)
-    , timeCounter_(0.0F)
-    , playing_(false) {}
+    , timeCounter_(0.0F) {}
 
 void SpriteAnimation::update_(f32_t dtime) {
-  if (!playing_) {
+  if (this->getStatus() != AnimationStatus::RUNNING) {
     return;
   }
 
@@ -28,7 +27,7 @@ void SpriteAnimation::update_(f32_t dtime) {
   }
 
   auto frame = frameOptional.value();
-  this->updateGeometryUV(getMaterial()->getImages()[0].second->getSize(), frame->rect);
+  this->updateGeometryUV(getMaterial()->getImage(0 /* ALBEDO */)->getSize(), frame->rect);
 }
 
 void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime) {
@@ -36,16 +35,12 @@ void SpriteAnimation::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat
   Sprite::onUpdate(tfrm, proj, view, dtime);
 }
 
-void SpriteAnimation::play() { playing_ = true; }
+void SpriteAnimation::play() { this->setStatus(AnimationStatus::RUNNING); }
 
-void SpriteAnimation::playAtFrame(s32_t idx) {}
-
-void SpriteAnimation::replay() {}
-
-void SpriteAnimation::pause() { playing_ = false; }
+void SpriteAnimation::pause() { this->setStatus(AnimationStatus::PAUSED); }
 
 void SpriteAnimation::stop() {
-  playing_ = false;
+  this->setStatus(AnimationStatus::STOPPED);
   currentFrameIdx_ = 0;
 }
 

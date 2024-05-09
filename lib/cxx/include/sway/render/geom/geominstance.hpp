@@ -61,8 +61,8 @@ public:
     }
 
     core::detail::EnumClassBitset<gapi::BufferMapRangeAccess> bitset;
-    bitset.flip(gapi::BufferMapRangeAccess::WRITE);
-    bitset.flip(gapi::BufferMapRangeAccess::INVALIDATE_BUFFER);
+    bitset.set(gapi::BufferMapRangeAccess::WRITE);
+    bitset.set(gapi::BufferMapRangeAccess::INVALIDATE_BUFFER);
     // bitset.flip(gapi::BufferMapRangeAccess::FLUSH_EXPLICIT);
 
     // data_ = (ShapeVtxDataType_t *)vbo.value()->mapRange(

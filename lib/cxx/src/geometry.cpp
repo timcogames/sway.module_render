@@ -60,7 +60,7 @@ void Geometry::updateUV(std::vector<UVData> uv, const math::size2i_t &segments) 
             currRile++;
           }
 
-          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].data());
+          attrib->importRawdata2(vtxdata, offset, uv[currRile].uv[texIdx].asDataPtr());
 
           texIdx++;
 
@@ -106,7 +106,8 @@ void Geometry::setUV(int index, std::array<math::vec2f_t, 4> coords) {
           }
 
           if (curTile == index) {
-            static_pointer_cast<GeometryVertexAttrib<math::vec2f_t>>(attrib)->setVertexData(i, coords[texIdx].data());
+            static_pointer_cast<GeometryVertexAttrib<math::vec2f_t>>(attrib)->setVertexData(
+                i, coords[texIdx].asDataPtr());
 
             attrib->importRawdata(vtxdata, offset, i);
           } else {

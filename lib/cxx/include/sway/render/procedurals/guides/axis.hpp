@@ -49,20 +49,20 @@ public:
     attribs.pos->addVtxData({-0.1F, +0.0F, +0.9F});
 
     // X axis
-    attribs.col->addVtxData(COL4F_RED.toVec4());
-    attribs.col->addVtxData(COL4F_RED.toVec4());
-    attribs.col->addVtxData(COL4F_RED.toVec4());
-    attribs.col->addVtxData(COL4F_RED.toVec4());
+    attribs.col->addVtxData(COL4F_RED.asVec4());
+    attribs.col->addVtxData(COL4F_RED.asVec4());
+    attribs.col->addVtxData(COL4F_RED.asVec4());
+    attribs.col->addVtxData(COL4F_RED.asVec4());
     // Y axis
-    attribs.col->addVtxData(COL4F_GREEN.toVec4());
-    attribs.col->addVtxData(COL4F_GREEN.toVec4());
-    attribs.col->addVtxData(COL4F_GREEN.toVec4());
-    attribs.col->addVtxData(COL4F_GREEN.toVec4());
+    attribs.col->addVtxData(COL4F_GREEN.asVec4());
+    attribs.col->addVtxData(COL4F_GREEN.asVec4());
+    attribs.col->addVtxData(COL4F_GREEN.asVec4());
+    attribs.col->addVtxData(COL4F_GREEN.asVec4());
     // Z axis
-    attribs.col->addVtxData(COL4F_BLUE.toVec4());
-    attribs.col->addVtxData(COL4F_BLUE.toVec4());
-    attribs.col->addVtxData(COL4F_BLUE.toVec4());
-    attribs.col->addVtxData(COL4F_BLUE.toVec4());
+    attribs.col->addVtxData(COL4F_BLUE.asVec4());
+    attribs.col->addVtxData(COL4F_BLUE.asVec4());
+    attribs.col->addVtxData(COL4F_BLUE.asVec4());
+    attribs.col->addVtxData(COL4F_BLUE.asVec4());
 
     // X axis
     data_->addIdxData(0);

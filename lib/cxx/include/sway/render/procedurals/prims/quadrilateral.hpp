@@ -55,25 +55,40 @@ public:
     data_->setTriElements(3 /* offset */, 1, 2, 3);
   }
 
+  void setPosDataAttrib(const std::array<f32_t, math::vec4f_t::DataElementCount_t> &coords) {
+    dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::detail::toUnderlying(math::RectEdge::IDX_L)],
+                                     coords[core::detail::toUnderlying(math::RectEdge::IDX_B)], 0.0F)
+                                     .asDataPtr());
+    dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::detail::toUnderlying(math::RectEdge::IDX_R)],
+                                     coords[core::detail::toUnderlying(math::RectEdge::IDX_B)], 0.0F)
+                                     .asDataPtr());
+    dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::detail::toUnderlying(math::RectEdge::IDX_L)],
+                                     coords[core::detail::toUnderlying(math::RectEdge::IDX_T)], 0.0F)
+                                     .asDataPtr());
+    dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::detail::toUnderlying(math::RectEdge::IDX_R)],
+                                     coords[core::detail::toUnderlying(math::RectEdge::IDX_T)], 0.0F)
+                                     .asDataPtr());
+  }
+
   void setPosDataAttrib(const math::rect4f_t &pos) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getL(), pos.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).data());
-    dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getB(), 0.0F).data());
-    dataAttribs_.pos->setData(3, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).data());
+    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getL(), pos.getB(), 0.0F).asDataPtr());
+    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).asDataPtr());
+    dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getT(), 0.0F).asDataPtr());
+    dataAttribs_.pos->setData(3, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).asDataPtr());
   }
 
   void setColDataAttrib(const math::col4f_t &col) {
-    dataAttribs_.col->setData(0, col.toVec4().data());
-    dataAttribs_.col->setData(1, col.toVec4().data());
-    dataAttribs_.col->setData(2, col.toVec4().data());
-    dataAttribs_.col->setData(3, col.toVec4().data());
+    dataAttribs_.col->setData(0, col.asVec4().asDataPtr());
+    dataAttribs_.col->setData(1, col.asVec4().asDataPtr());
+    dataAttribs_.col->setData(2, col.asVec4().asDataPtr());
+    dataAttribs_.col->setData(3, col.asVec4().asDataPtr());
   }
 
   void setTexDataAttrib(const math::rect4f_t &tex) {
-    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getL(), tex.getT()).data());
-    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getT()).data());
-    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getB()).data());
-    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getR(), tex.getB()).data());
+    dataAttribs_.tex->setData(0, math::vec2f_t(tex.getL(), tex.getB()).asDataPtr());
+    dataAttribs_.tex->setData(1, math::vec2f_t(tex.getR(), tex.getB()).asDataPtr());
+    dataAttribs_.tex->setData(2, math::vec2f_t(tex.getL(), tex.getT()).asDataPtr());
+    dataAttribs_.tex->setData(3, math::vec2f_t(tex.getR(), tex.getT()).asDataPtr());
   }
 
   [[nodiscard]]

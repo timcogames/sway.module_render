@@ -48,13 +48,13 @@ public:
   }
 
   void setPosDataAttrib(math::vec3f_t start, math::vec3f_t end) {
-    dataAttribs_.pos->setData(0, start.data());
-    dataAttribs_.pos->setData(1, end.data());
+    dataAttribs_.pos->setData(0, start.asDataPtr());
+    dataAttribs_.pos->setData(1, end.asDataPtr());
   }
 
   void setColDataAttrib(const math::col4f_t &col) {
-    dataAttribs_.col->setData(0, col.toVec4().data());
-    dataAttribs_.col->setData(1, col.toVec4().data());
+    dataAttribs_.col->setData(0, col.asVec4().asDataPtr());
+    dataAttribs_.col->setData(1, col.asVec4().asDataPtr());
   }
 
   [[nodiscard]]

@@ -37,6 +37,8 @@ public:
 
   auto getImages() -> std::vector<std::pair<std::string, Image::Ptr>> { return images_; }
 
+  auto getImage(u32_t idx) -> Image::Ptr { return images_[idx].second; }
+
   gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
 
 public:
@@ -47,7 +49,6 @@ public:
   EffectPtr_t effect_;
   std::vector<std::pair<std::string, Image::Ptr>> images_;
   MaterialDescriptor desc_;
-  Image::Ptr image_;
 };
 
 NAMESPACE_END(render)

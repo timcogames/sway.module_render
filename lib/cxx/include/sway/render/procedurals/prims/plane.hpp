@@ -49,10 +49,10 @@ public:
         attribs.pos->addVtxData({(0.0F + (f32_t)x) * tileWt, (1.0F + (f32_t)y) * tileHt, 0.0F});
         attribs.pos->addVtxData({(1.0F + (f32_t)x) * tileWt, (1.0F + (f32_t)y) * tileHt, 0.0F});
 
-        attribs.col->addVtxData(col.toVec4());
-        attribs.col->addVtxData(col.toVec4());
-        attribs.col->addVtxData(col.toVec4());
-        attribs.col->addVtxData(col.toVec4());
+        attribs.col->addVtxData(col.asVec4());
+        attribs.col->addVtxData(col.asVec4());
+        attribs.col->addVtxData(col.asVec4());
+        attribs.col->addVtxData(col.asVec4());
 
         attribs.tex->addVtxData(math::vec2f_t(0.0F, 1.0F));
         attribs.tex->addVtxData(math::vec2f_t(1.0F, 1.0F));

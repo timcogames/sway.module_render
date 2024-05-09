@@ -58,10 +58,10 @@ public:
     attribs_.pos->addVtxData({pos.getX(), pos.getY(), 0.0F});
 
     // attribs_.col->clear();
-    attribs_.col->addVtxData(COL4F_WHITE.toVec4());
-    attribs_.col->addVtxData(COL4F_WHITE.toVec4());
-    attribs_.col->addVtxData(COL4F_WHITE.toVec4());
-    attribs_.col->addVtxData(COL4F_WHITE.toVec4());
+    attribs_.col->addVtxData(COL4F_WHITE.asVec4());
+    attribs_.col->addVtxData(COL4F_WHITE.asVec4());
+    attribs_.col->addVtxData(COL4F_WHITE.asVec4());
+    attribs_.col->addVtxData(COL4F_WHITE.asVec4());
 
     attribs_.tex->addVtxData(math::vec2f_t(tex.getR(), tex.getB()));
     attribs_.tex->addVtxData(math::vec2f_t(tex.getR(), tex.getT()));

@@ -6,15 +6,40 @@ NAMESPACE_BEGIN(render)
 
 #define NUM_SEGMENTS 1
 
+enum class Flipper : u32_t { NONE = 0, HORZ, VERT, Latest };
+
+struct Flippable {
+  static auto compute(const math::rect4f_t &origin,
+      core::detail::EnumClassBitset<Flipper> flips) -> std::array<f32_t, math::vec4f_t::DataElementCount_t> {
+    std::array<f32_t, math::vec4f_t::DataElementCount_t> result;
+
+    auto flippedHorz = flips.has(Flipper::HORZ);
+    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_R : math::RectEdge::IDX_L)] = origin.getL();
+    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_L : math::RectEdge::IDX_R)] = origin.getR();
+
+    auto flippedVert = flips.has(Flipper::VERT);
+    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_B : math::RectEdge::IDX_T)] = origin.getT();
+    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_T : math::RectEdge::IDX_B)] = origin.getB();
+
+    return result;
+  }
+};
+
 void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material, const math::size2f_t &size) {
+    std::shared_ptr<Material> material, math::size2f_t size = math::size2f_one) {
   subqueue_ = subqueue;
   material_ = material;
 
+  auto halfSize = math::size2f_t(size / 2);
   auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
       {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-  shape->setPosDataAttrib(math::rect4f_t(-0.5F, 0.5F, 0.5F, -0.5F));
+  auto vertices = math::rect4f_t(-halfSize.getW(), -halfSize.getH(), halfSize.getW(), halfSize.getH());
+  core::detail::EnumClassBitset<Flipper> flips;
+  // flips.set(Flipper::HORZ);
+  // flips.set(Flipper::VERT);
+
+  shape->setPosDataAttrib(Flippable::compute(vertices, flips));
   shape->setColDataAttrib(COL4F_WHITE);
   shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
@@ -37,8 +62,7 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
       geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
 
-  // TODO:
-  this->setTexture(material_->getImages()[0].second, false);
+  this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }
 
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
