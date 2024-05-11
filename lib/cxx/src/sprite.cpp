@@ -25,6 +25,8 @@ struct Flippable {
   }
 };
 
+Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
+
 void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
     std::shared_ptr<Material> material, math::size2f_t size = math::size2f_one) {
   subqueue_ = subqueue;
@@ -66,6 +68,11 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
 }
 
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
+  auto geom = geomBuilder_->getGeometry(geomIdx_);
+  if (!geom) {
+    return;
+  }
+
   pipeline::ForwardRenderCommand cmd;
   cmd.stage = 0;
   cmd.blendDesc.enabled = true;
@@ -88,7 +95,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.stencilDesc.front.wmask = cmd.stencilDesc.front.rmask;
   cmd.stencilDesc.front.reference = 1;
   cmd.stencilDesc.back = cmd.stencilDesc.front;
-  cmd.geom = geomBuilder_->getGeometry(geomIdx_);
+  cmd.geom = geom;
   cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
   cmd.material = material_;
   cmd.tfrm = tfrm;

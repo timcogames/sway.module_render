@@ -38,7 +38,7 @@ auto RenderSubsystem::initialize() -> bool {
   }
 
   geomBuilder_ = GeomBuilder::create(idGenerator_);
-  geomBuilder_->reserve(10);
+  geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   return true;
 }

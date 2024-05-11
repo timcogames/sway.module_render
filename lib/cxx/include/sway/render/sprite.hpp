@@ -25,7 +25,7 @@ public:
 
   Sprite() = default;
 
-  ~Sprite() = default;
+  ~Sprite();
 
   void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
       std::shared_ptr<Material> material, math::size2f_t size);

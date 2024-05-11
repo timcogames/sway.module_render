@@ -22,7 +22,8 @@ GeomBuilder::~GeomBuilder() {
 void GeomBuilder::remove(u32_t idx) {
   auto iter = geometries_.begin() + idx;
   SAFE_DELETE_OBJECT(*iter);
-  geometries_.erase(iter);
+  // geometries_.erase(iter);
+  geometries_[idx] = nullptr;
 
   availables_.push_back(idx);
 }
@@ -53,7 +54,7 @@ void GeomBuilder::reserve(std::size_t size) {
 }
 
 auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr {
-  if (idx >= geometries_.size() - 1) {
+  if (idx >= geometries_.size()) {
     return nullptr;
   }
 
