@@ -20,7 +20,7 @@ public:
 
   Sprite_Debug() = default;
 
-  ~Sprite_Debug() = default;
+  ~Sprite_Debug();
 
   void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
       std::shared_ptr<Material> material);
@@ -37,7 +37,8 @@ private:
   RenderSubqueueRef_t subqueue_;
   std::shared_ptr<Material> material_;
   std::shared_ptr<GeomBuilder> geomBuilder_;
-  u32_t geomIdx_;
+  u32_t axisGeomIdx_;
+  u32_t lineGeomIdx_;
 };
 
 NAMESPACE_END(render)

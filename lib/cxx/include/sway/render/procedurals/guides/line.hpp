@@ -22,8 +22,8 @@ public:
   using VtxDataType_t = TVertexDataType;
   using IdxDataType_t = u32_t;
 
-  static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{2};
-  static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{0};
+  static constexpr std::size_t MAX_LINE_RESERVE_VERTICES{2};
+  static constexpr std::size_t MAX_LINE_RESERVE_ELEMENTS{0};
 
   Line(const std::initializer_list<gapi::VertexSemantic> &semantics)
       : remapping_(false) {
@@ -35,7 +35,7 @@ public:
   virtual ~Line() = default;
 
   void initialVtxData() {
-    data_ = std::make_shared<GeomVertexData<VtxDataType_t>>(MAX_QUAD_RESERVE_VERTICES);
+    data_ = std::make_shared<GeomVertexData<VtxDataType_t>>(MAX_LINE_RESERVE_VERTICES);
 
     // clang-format off
     dataAttribs_ = (struct GeomVertexAttribSet) {
