@@ -1,29 +1,13 @@
 #include <sway/gapi.hpp>
+#include <sway/render/flippable.hpp>
+#include <sway/render/flipper.hpp>
+#include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/sprite.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 #define NUM_SEGMENTS 1
-
-enum class Flipper : u32_t { NONE = 0, HORZ, VERT, Latest };
-
-struct Flippable {
-  static auto compute(const math::rect4f_t &origin,
-      core::detail::EnumClassBitset<Flipper> flips) -> std::array<f32_t, math::vec4f_t::DataElementCount_t> {
-    std::array<f32_t, math::vec4f_t::DataElementCount_t> result;
-
-    auto flippedHorz = flips.has(Flipper::HORZ);
-    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_R : math::RectEdge::IDX_L)] = origin.getL();
-    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_L : math::RectEdge::IDX_R)] = origin.getR();
-
-    auto flippedVert = flips.has(Flipper::VERT);
-    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_B : math::RectEdge::IDX_T)] = origin.getT();
-    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_T : math::RectEdge::IDX_B)] = origin.getB();
-
-    return result;
-  }
-};
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
@@ -32,18 +16,19 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   subqueue_ = subqueue;
   material_ = material;
 
-  auto halfSize = math::size2f_t(size / 2);
-  auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
+  auto quadrilateralShapeHalfSize = math::size2f_t(size / 2);
+  auto quadrilateralShape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
       {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-  auto vertices = math::rect4f_t(-halfSize.getW(), -halfSize.getH(), halfSize.getW(), halfSize.getH());
+  auto quadrilateralShapeVertices = math::rect4f_t(-quadrilateralShapeHalfSize.getW(),
+      -quadrilateralShapeHalfSize.getH(), quadrilateralShapeHalfSize.getW(), quadrilateralShapeHalfSize.getH());
   core::detail::EnumClassBitset<Flipper> flips;
   // flips.set(Flipper::HORZ);
   // flips.set(Flipper::VERT);
 
-  shape->setPosDataAttrib(Flippable::compute(vertices, flips));
-  shape->setColDataAttrib(COL4F_WHITE);
-  shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
+  quadrilateralShape->setPosDataAttrib(Flippable::compute(quadrilateralShapeVertices, flips));
+  quadrilateralShape->setColDataAttrib(COL4F_WHITE);
+  quadrilateralShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
   GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
@@ -52,17 +37,18 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
   geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
   auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
-  shape->data()->getVertices(data, 0, 4);
+  quadrilateralShape->data()->getVertices(data, 0, 4);
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
   geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
   geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = 6;
-  geomCreateInfo.bo[Constants::IDX_EBO].data = shape->data()->getElements();
+  geomCreateInfo.bo[Constants::IDX_EBO].data = quadrilateralShape->data()->getElements();
 
   geomBuilder_ = subsystem->getGeomBuilder();
+
   geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
-      geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
+      geomCreateInfo, quadrilateralShape->getVertexAttribs(), material_->getEffect());
 
   this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }

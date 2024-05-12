@@ -25,7 +25,8 @@ public:
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{2};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{0};
 
-  Line(const std::initializer_list<gapi::VertexSemantic> &semantics) {
+  Line(const std::initializer_list<gapi::VertexSemantic> &semantics)
+      : remapping_(false) {
     initialVtxData();
 
     data_->useSemanticSet(semantics);
@@ -34,11 +35,9 @@ public:
   virtual ~Line() = default;
 
   void initialVtxData() {
-    // clang-format off
-    data_ = std::make_shared<GeomVertexData<VtxDataType_t>>(
-      2//MAX_QUAD_RESERVE_VERTICES
-    );
+    data_ = std::make_shared<GeomVertexData<VtxDataType_t>>(MAX_QUAD_RESERVE_VERTICES);
 
+    // clang-format off
     dataAttribs_ = (struct GeomVertexAttribSet) {
       .pos = data_->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
       .col = data_->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
@@ -69,11 +68,22 @@ public:
 
   MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
-  MTHD_OVERRIDE(auto isIndexed()->bool) { return false; }
+  // clang-format off
+  MTHD_OVERRIDE(auto isIndexed() -> bool) {  // clang-format on
+    return false;
+  }
+
+  // clang-format off
+  MTHD_OVERRIDE(auto mustBeRemapped() -> bool) {  // clang-format on
+    return remapping_;
+  }
+
+  MTHD_OVERRIDE(void setRemap(bool val)) { remapping_ = val; }
 
 private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomVertexData<VtxDataType_t>> data_;
+  bool remapping_;
 };
 
 NAMESPACE_END(guides)

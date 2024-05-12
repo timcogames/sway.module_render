@@ -2,6 +2,8 @@
 #define SWAY_RENDER_HPP
 
 #include <sway/render/effect.hpp>
+#include <sway/render/flippable.hpp>
+#include <sway/render/flipper.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/geom/geominstancedatadivisor.hpp>

@@ -36,12 +36,10 @@ public:
   virtual ~Quadrilateral() = default;
 
   void initialVtxData() {
-    // clang-format off
     data_ = std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(
-      MAX_QUAD_RESERVE_VERTICES,
-      MAX_QUAD_RESERVE_ELEMENTS
-    );
+        MAX_QUAD_RESERVE_VERTICES, MAX_QUAD_RESERVE_ELEMENTS);
 
+    // clang-format off
     dataAttribs_ = (struct GeomVertexAttribSet) {
       .pos = data_->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
       .col = data_->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),

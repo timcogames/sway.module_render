@@ -11,7 +11,7 @@ auto MaterialManager::addMaterial(MaterialPtr_t mtrl) -> bool {
 }
 
 auto MaterialManager::getByUid(const std::string &name) -> MaterialPtr_t {
-  MaterialMap_t::iterator iter = materials_.find(name);
+  auto iter = materials_.find(name);
   if (iter != materials_.end()) {
     return iter->second;
   }

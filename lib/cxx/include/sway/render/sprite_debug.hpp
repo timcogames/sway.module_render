@@ -5,8 +5,7 @@
 #include <sway/render/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
-// #include <sway/render/procedurals/guides/axis.hpp>
-#include <sway/render/procedurals/prims/plane.hpp>
+#include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
@@ -24,7 +23,7 @@ public:
   ~Sprite_Debug() = default;
 
   void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-      std::shared_ptr<Material> material, const math::size2f_t &size);
+      std::shared_ptr<Material> material);
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
 
@@ -34,10 +33,11 @@ public:
   }
 
 private:
-  RenderSubqueueRef_t subqueue_;
   EffectPtr_t effect_;
+  RenderSubqueueRef_t subqueue_;
   std::shared_ptr<Material> material_;
-  std::shared_ptr<Geometry> geometry_;
+  std::shared_ptr<GeomBuilder> geomBuilder_;
+  u32_t geomIdx_;
 };
 
 NAMESPACE_END(render)

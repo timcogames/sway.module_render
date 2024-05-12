@@ -7,8 +7,6 @@
 #include <sway/render/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/procedurals/guides/axis.hpp>
-#include <sway/render/procedurals/prims/plane.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
