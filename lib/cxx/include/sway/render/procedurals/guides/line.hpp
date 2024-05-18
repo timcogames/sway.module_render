@@ -16,20 +16,19 @@ NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(procedurals)
 NAMESPACE_BEGIN(guides)
 
-template <typename TVertexDataType>
 class Line : public ShapeBase {
 public:
-  using VtxDataType_t = TVertexDataType;
+  using VtxDataType_t = math::VertexColor;
   using IdxDataType_t = u32_t;
 
   static constexpr std::size_t MAX_LINE_RESERVE_VERTICES{2};
   static constexpr std::size_t MAX_LINE_RESERVE_ELEMENTS{0};
 
-  Line(const std::initializer_list<gapi::VertexSemantic> &semantics)
+  Line()
       : remapping_(false) {
     initialVtxData();
 
-    data_->useSemanticSet(semantics);
+    data_->useSemanticSet({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
   }
 
   virtual ~Line() = default;

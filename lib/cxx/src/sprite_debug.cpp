@@ -17,8 +17,7 @@ void Sprite_Debug::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::s
   subqueue_ = subqueue;
   material_ = material;
 
-  // auto lineShape =
-  //     new procedurals::guides::Line<math::VertexColor>({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+  // auto lineShape = new procedurals::guides::Line();
 
   // lineShape->setPosDataAttrib(math::vec3f_zero, math::vec3f_t(1.0F, 1.0F, 0.0F));
   // lineShape->setColDataAttrib(COL4F_WHITE);
@@ -28,38 +27,30 @@ void Sprite_Debug::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::s
   // lineGeomCreateInfo.topology = gapi::TopologyType::LINE_LIST;
   // lineGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
   // lineGeomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
-  // lineGeomCreateInfo.bo[Constants::IDX_VBO].desc.capacity =
-  //     procedurals::guides::Line<math::VertexColor>::MAX_LINE_RESERVE_VERTICES;
-  // auto lineShapeVtxData =
-  //     new f32_t[procedurals::guides::Line<math::VertexColor>::MAX_LINE_RESERVE_VERTICES * sizeof(math::VertexColor)];
-  // lineShape->data()->getVertices(
-  //     lineShapeVtxData, 0, procedurals::guides::Line<math::VertexColor>::MAX_LINE_RESERVE_VERTICES);
-  // lineGeomCreateInfo.bo[Constants::IDX_VBO].data = lineShapeVtxData;
-  // lineGeomIdx_ = geomBuilder_->create<procedurals::guides::Line<math::VertexColor>>(
+  // lineGeomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = procedurals::guides::Line::MAX_LINE_RESERVE_VERTICES;
+  // auto lineShapeVtxData = new f32_t[procedurals::guides::Line::MAX_LINE_RESERVE_VERTICES *
+  // sizeof(math::VertexColor)]; lineShape->data()->getVertices(lineShapeVtxData, 0,
+  // procedurals::guides::Line::MAX_LINE_RESERVE_VERTICES); lineGeomCreateInfo.bo[Constants::IDX_VBO].data =
+  // lineShapeVtxData; lineGeomIdx_ = geomBuilder_->create<procedurals::guides::Line>(
   //     lineGeomCreateInfo, lineShape->getVertexAttribs(), material_->getEffect());
 
-  auto axisShape =
-      new procedurals::guides::Axis<math::VertexColor>({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+  auto axisShape = new procedurals::guides::Axis();
 
   GeometryCreateInfo axisGeomCreateInfo;
   axisGeomCreateInfo.indexed = true;
   axisGeomCreateInfo.topology = gapi::TopologyType::LINE_LIST;
   axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
   axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
-  axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.capacity =
-      procedurals::guides::Axis<math::VertexColor>::MAX_AXIS_RESERVE_VERTICES;
-  auto axisShapeVtxData =
-      new f32_t[procedurals::guides::Axis<math::VertexColor>::MAX_AXIS_RESERVE_VERTICES * sizeof(math::VertexColor)];
-  axisShape->data()->getVertices(
-      axisShapeVtxData, 0, procedurals::guides::Axis<math::VertexColor>::MAX_AXIS_RESERVE_VERTICES);
+  axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES;
+  auto axisShapeVtxData = new f32_t[procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES * sizeof(math::VertexColor)];
+  axisShape->data()->getVertices(axisShapeVtxData, 0, procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES);
   axisGeomCreateInfo.bo[Constants::IDX_VBO].data = axisShapeVtxData;
 
   axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-  axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.capacity =
-      procedurals::guides::Axis<math::VertexColor>::MAX_AXIS_RESERVE_ELEMENTS;
+  axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = procedurals::guides::Axis::MAX_AXIS_RESERVE_ELEMENTS;
   axisGeomCreateInfo.bo[Constants::IDX_EBO].data = axisShape->data()->getElements();
-  axisGeomIdx_ = geomBuilder_->create<procedurals::guides::Axis<math::VertexColor>>(
+  axisGeomIdx_ = geomBuilder_->create<procedurals::guides::Axis>(
       axisGeomCreateInfo, axisShape->getVertexAttribs(), material_->getEffect());
 }
 

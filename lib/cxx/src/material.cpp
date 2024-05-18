@@ -11,6 +11,7 @@ NAMESPACE_BEGIN(render)
 Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
     std::shared_ptr<rms::GLSLResourceManager> glslResMngr)
     : core::foundation::Uniqueable<std::string>(name)
+    , pluginFuncSet_(global::getGapiPluginFunctionSet())
     , imageResMngr_(imageResMngr)
     , glslResMngr_(glslResMngr)
     , effect_(nullptr) {}
@@ -70,6 +71,7 @@ void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info,
 
   info.type = type;
   info.code = resource->content_;
+  info.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 }
 
 auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {

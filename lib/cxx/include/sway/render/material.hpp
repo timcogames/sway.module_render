@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
+#include <sway/render/global.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/materialdescriptor.hpp>
 #include <sway/rms.hpp>
@@ -44,6 +45,7 @@ public:
 public:
   void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
 
+  global::GapiPluginFunctionSet *pluginFuncSet_;
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   EffectPtr_t effect_;
