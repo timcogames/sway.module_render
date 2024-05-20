@@ -23,6 +23,10 @@ struct Flippable {
 
     return result;
   }
+
+  static auto asRect(const math::rect4f_t &origin, core::detail::EnumClassBitset<Flipper> flips) -> math::rect4f_t {
+    return math::rect4f_t(Flippable::compute(origin, flips));
+  }
 };
 
 NAMESPACE_END(render)

@@ -24,10 +24,8 @@
 #include <sway/render/postprocessing.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/guides/line.hpp>
-#include <sway/render/procedurals/prims/plane.hpp>
 #include <sway/render/procedurals/prims/plane_debug.hpp>
 #include <sway/render/procedurals/prims/plane_list.hpp>
-#include <sway/render/procedurals/prims/plane_strip.hpp>
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/procedurals/shape.hpp>
 #include <sway/render/rendercomponent.hpp>

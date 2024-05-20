@@ -2,53 +2,57 @@
 #include <sway/render/flippable.hpp>
 #include <sway/render/flipper.hpp>
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
+#include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
 #include <sway/render/sprite.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-#define NUM_SEGMENTS 1
-
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
 void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material, math::size2f_t size = math::size2f_one) {
+    std::shared_ptr<Material> material, const math::size2f_t &size = math::size2f_one) {
   subqueue_ = subqueue;
   material_ = material;
 
-  auto quadrilateralShapeHalfSize = math::size2f_t(size / 2);
-  auto quadrilateralShape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
+  auto quadTempSize = size;
+  auto quadHalfSize = math::size2f_t(quadTempSize / 2);
+
+  auto quadShape = new procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>(
       {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-  auto quadrilateralShapeVertices = math::rect4f_t(-quadrilateralShapeHalfSize.getW(),
-      -quadrilateralShapeHalfSize.getH(), quadrilateralShapeHalfSize.getW(), quadrilateralShapeHalfSize.getH());
   core::detail::EnumClassBitset<Flipper> flips;
   // flips.set(Flipper::HORZ);
   // flips.set(Flipper::VERT);
 
-  quadrilateralShape->setPosDataAttrib(Flippable::compute(quadrilateralShapeVertices, flips));
-  quadrilateralShape->setColDataAttrib(COL4F_WHITE);
-  quadrilateralShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
+  quadShape->setPosDataAttrib(Flippable::asRect(
+      math::rect4f_t(0, 0, size.getW(), size.getH()).offset(-quadHalfSize.getW(), -quadHalfSize.getH()), flips));
+  quadShape->setColDataAttrib(COL4F_WHITE);
+  quadShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
   GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
-  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
+  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
-  geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
-  auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
-  quadrilateralShape->data()->getVertices(data, 0, 4);
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity =
+      procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES;
+  auto data = new f32_t[procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES *
+                        sizeof(math::VertexTexCoord)];
+  quadShape->data()->getVertices(
+      data, 0, procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES);
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
   geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-  geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = 6;
-  geomCreateInfo.bo[Constants::IDX_EBO].data = quadrilateralShape->data()->getElements();
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity =
+      procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_ELEMENTS;
+  geomCreateInfo.bo[Constants::IDX_EBO].data = quadShape->data()->getElements();
 
   geomBuilder_ = subsystem->getGeomBuilder();
 
-  geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
-      geomCreateInfo, quadrilateralShape->getVertexAttribs(), material_->getEffect());
+  geomIdx_ = geomBuilder_->create<procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>>(
+      geomCreateInfo, quadShape->getVertexAttribs(), material_->getEffect());
 
   this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }
@@ -82,7 +86,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.stencilDesc.front.reference = 1;
   cmd.stencilDesc.back = cmd.stencilDesc.front;
   cmd.geom = geom;
-  cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
+  cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
   cmd.material = material_;
   cmd.tfrm = tfrm;
   cmd.proj = proj;
