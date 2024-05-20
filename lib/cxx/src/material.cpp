@@ -96,7 +96,15 @@ void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
   // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
 
   for (auto image : images_) {
-    effect_->getShaderProgram()->setUniform1i(image.first, image.second->getTexture()->getUid().value());
+    auto texUid = image.second->getTexture()->getUid();
+    if (!texUid.has_value()) {
+      return;
+    }
+
+    image.second->getTexture()->setActive(texUid.value());
+    image.second->bind();
+
+    effect_->getShaderProgram()->setUniform1i(image.first, texUid.value());
   }
 
   effect_->getShaderProgram()->setUniformMat4f("mat_view", viewMtx);
@@ -104,17 +112,12 @@ void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
   effect_->getShaderProgram()->setUniformMat4f("mat_view_proj", viewProjMtx);
   effect_->getShaderProgram()->setUniformMat4f("mat_model", tfrmMtx);
   effect_->bind();
-
-  for (auto image : images_) {
-    // state_->apply();
-    image.second->getTexture()->setActive(image.second->getTexture()->getUid().value());
-    image.second->bind();
-  }
 }
 
 void Material::unbind() {
   for (auto image : images_) {
     image.second->unbind();
+    image.second->getTexture()->setActive(0);
   }
 
   effect_->unbind();
