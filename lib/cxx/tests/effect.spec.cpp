@@ -21,7 +21,7 @@ protected:
 };
 
 TEST_F(EffectTestFixture, createBuffer) {
-  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::UNDEF);
+  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::NONE);
   EXPECT_CALL(*globalGapiPlugCopy, createShader(testing::_)).WillRepeatedly(testing::Return(shaderStub));
 
   auto *shaderProgramStub = new render::global::ShaderProgramStub();

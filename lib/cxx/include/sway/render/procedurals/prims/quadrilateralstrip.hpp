@@ -25,11 +25,11 @@ public:
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
 
-  QuadrilateralStrip(
-      const std::initializer_list<gapi::VertexSemantic> &semantics, const math::size2i_t &subdivs = math::size2i_t(1))
+  QuadrilateralStrip(const std::initializer_list<gapi::VertexSemantic> &semantics, const math::size2i_t &subdivs)
       : numChunks_(subdivs.getW() + 1, subdivs.getH() + 1)
+      , area_(subdivs.area())
       , remapping_(false) {
-    initialVtxData(subdivs.area());
+    initialVtxData();
     initialElmData();
 
     data_->useSemanticSet(semantics);
@@ -37,9 +37,12 @@ public:
 
   virtual ~QuadrilateralStrip() = default;
 
-  void initialVtxData(u32_t area) {
-    data_ = std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(
-        MAX_QUAD_RESERVE_VERTICES * area, MAX_QUAD_RESERVE_ELEMENTS * area);
+  auto getReserveVerts() const { return MAX_QUAD_RESERVE_VERTICES * (area_ > 1 ? 4 : 1); }
+
+  auto getReserveElems() const { return MAX_QUAD_RESERVE_ELEMENTS * (area_); }
+
+  void initialVtxData() {
+    data_ = std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(getReserveVerts(), getReserveElems());
 
     // clang-format off
     dataAttribs_ = (struct GeomVertexAttribSet) {
@@ -53,37 +56,47 @@ public:
   void initialElmData() {
     auto offset = 0;
     for (auto y = 0; y < numChunks_.getY() - 1; y++) {
-      if (y > 0) {
-        data_->setData(offset, y * numChunks_.getY());
-        offset += 1;
-      }
+      for (auto x = 0; x < numChunks_.getX() - 1; x++) {
 
-      for (auto x = 0; x < numChunks_.getX(); x++) {
-        data_->setData(0 + offset, (y * numChunks_.getY()) + x);
-        data_->setData(1 + offset, ((y + 1) * numChunks_.getY()) + x);
-        offset += 2;
-      }
+        auto topLeft = y * numChunks_.getY() + x;
+        auto stride = numChunks_.getX();
 
-      if (y < numChunks_.getY() - 2) {
-        data_->setData(offset, (((y + 1) * numChunks_.getY()) + (numChunks_.getX() - 1)));
-        offset += 1;
+        auto TL = topLeft;
+        auto BL = topLeft + stride;
+        auto TR = topLeft + 1;
+        auto BR = topLeft + stride + 1;
+
+        data_->setTriElements(offset, TL, TR, BL);
+        offset += 3;
+
+        data_->setTriElements(offset, TR, BL, BR);
+        offset += 3;
       }
     }
   }
 
   void setPosDataAttrib(const math::rect4f_t &coords) {
     auto offset = 0;
-    for (auto y = 0; y < numChunks_.getY(); y++) {
-      for (auto x = 0; x < numChunks_.getX(); x++) {
-        auto xratio = x / static_cast<f32_t>(numChunks_.getX() - 1);
-        auto yratio = 1.0F - (y / static_cast<f32_t>(numChunks_.getY() - 1));
 
-        auto xpos = coords.getL() + (xratio * coords.getW());
-        auto ypos = coords.getT() + (yratio * coords.getH());
+    for (auto i = 0; i < numChunks_.getX() * numChunks_.getY(); i++) {
+      auto x = i % numChunks_.getX();
+      auto y = i / numChunks_.getX();
+      auto xratio = f32_t(x) / f32_t(numChunks_.getX() - 1);
+      auto yratio = 1.0F - (f32_t(y) / f32_t(numChunks_.getY() - 1));
+      auto xpos = coords.getL() + (xratio * coords.getW());
+      auto ypos = coords.getT() + (yratio * coords.getH());
 
-        dataAttribs_.pos->setData(offset, math::vec3f_t(xpos, ypos, 0.0F).asDataPtr());
-        offset += 1;
+      if (area_ > 1 && x == 1) {
+        xpos = xpos - 0.2F;
       }
+
+      if (area_ > 1 && x == 2) {
+        xpos = xpos + 0.2F;
+      }
+
+      auto data = math::vec3f_t(xpos, ypos, 0.0F);
+      dataAttribs_.pos->setData(offset, data.asDataPtr());
+      offset += 1;
     }
   }
 
@@ -102,7 +115,8 @@ public:
     for (auto y = 0; y < numChunks_.getY(); y++) {
       for (auto x = 0; x < numChunks_.getX(); x++) {
         auto size = math::Texel::convFromTexCoords<math::vec2f_t>(numChunks_.getX() - 1, numChunks_.getY() - 1);
-        dataAttribs_.tex->setData(offset, size.multiply({static_cast<f32_t>(x), static_cast<f32_t>(y)}).asDataPtr());
+        auto data = size.multiply({static_cast<f32_t>(x), static_cast<f32_t>(y)});
+        dataAttribs_.tex->setData(offset, data.asDataPtr());
         offset += 1;
       }
     }
@@ -136,6 +150,7 @@ private:
   GeomVertexAttribSet dataAttribs_;
   std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> data_;
   math::vec2i_t numChunks_;
+  u32_t area_;
   bool remapping_;
 };
 

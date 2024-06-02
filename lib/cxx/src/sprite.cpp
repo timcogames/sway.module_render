@@ -5,21 +5,24 @@
 #include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
 #include <sway/render/sprite.hpp>
 
+#include <vector>
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
 void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material, const math::size2f_t &size = math::size2f_one) {
+    std::shared_ptr<Material> material, const math::size2f_t &size, const math::size2i_t &subdivs) {
   subqueue_ = subqueue;
   material_ = material;
+  subdivs_ = subdivs;
 
   auto quadTempSize = size;
   auto quadHalfSize = math::size2f_t(quadTempSize / 2);
 
   auto quadShape = new procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>(
-      {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
+      {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0}, subdivs_);
 
   core::detail::EnumClassBitset<Flipper> flips;
   // flips.set(Flipper::HORZ);
@@ -35,18 +38,14 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
-  geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity =
-      procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES;
-  auto data = new f32_t[procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES *
-                        sizeof(math::VertexTexCoord)];
-  quadShape->data()->getVertices(
-      data, 0, procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_VERTICES);
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = quadShape->getReserveVerts();
+  auto data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
+  quadShape->data()->getVertices(data, 0, quadShape->getReserveVerts());
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
   geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-  geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity =
-      procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>::MAX_QUAD_RESERVE_ELEMENTS;
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = quadShape->getReserveElems();
   geomCreateInfo.bo[Constants::IDX_EBO].data = quadShape->data()->getElements();
 
   geomBuilder_ = subsystem->getGeomBuilder();
@@ -69,8 +68,8 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.blendDesc.src = gapi::BlendFn::SRC_ALPHA;
   cmd.blendDesc.dst = gapi::BlendFn::ONE_MINUS_SRC_ALPHA;
   cmd.blendDesc.mask = true;
-  cmd.rasterizerDesc.mode = gapi::CullFace::BACK;
-  cmd.rasterizerDesc.ccw = false;
+  cmd.rasterizerDesc.mode = gapi::CullFace::FRONT;
+  cmd.rasterizerDesc.ccw = true;
   cmd.depthDesc.enabled = true;
   cmd.depthDesc.func = gapi::CompareFn::LESS;
   cmd.depthDesc.mask = true;
@@ -115,19 +114,58 @@ void Sprite::setTextureRect(const math::rect4i_t &rect) {
 
 auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
 
+auto recomputeUVWithBorder(
+    const math::vec2f_t &pos, const math::sizef_t &size, const math::size2i_t &subdivs) -> std::vector<UVData2> {
+  std::vector<UVData2> out;
+  std::vector<math::vec2f_t> uv;
+  auto texIdx = 0;
+
+  for (auto y = 0; y < subdivs.getH() + 1; y++) {
+    for (auto x = 0; x < subdivs.getW() + 1; x++) {
+      auto data = math::vec2f_t(pos.getX() + size.getW() * x, pos.getY() + size.getH() * y);
+      uv.push_back(data);
+      texIdx += 1;
+
+      if (texIdx >= QUAD_TEXCOORD_SIZE2) {
+        out.push_back({uv});
+        uv.clear();
+        texIdx = 0;
+      }
+    }
+  }
+
+  return out;
+}
+
 void Sprite::recomputeUV() {
   auto textureSize = texture_->getSize();
 
-  // clang-format off
-  geomBuilder_->getGeometry(geomIdx_)->updateUV({
-    {{
-      {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
-      {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
-      {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())},
-      {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())}
-    }}
-  });
-  // clang-format on
+  if (subdivs_.area() > 1) {
+    // clang-format off
+    auto pos = math::vec2f_t(
+       textureRect_.getL() / static_cast<f32_t>(textureSize.getW()),
+       textureRect_.getT() / static_cast<f32_t>(textureSize.getH())
+    );
+
+    auto chunkSize = math::sizef_t(
+      (textureRect_.getW() / static_cast<f32_t>(textureSize.getW())) / subdivs_.getW(),
+      (textureRect_.getH() / static_cast<f32_t>(textureSize.getH())) / subdivs_.getH()
+    );
+
+    geomBuilder_->getGeometry(geomIdx_)->updateUV(recomputeUVWithBorder(pos, chunkSize, subdivs_));
+    // clang-format on
+  } else {
+    // clang-format off
+    geomBuilder_->getGeometry(geomIdx_)->updateUV({
+      {{
+        {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
+        {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getT() / static_cast<f32_t>(textureSize.getH())},
+        {textureRect_.getL() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())},
+        {textureRect_.getR() / static_cast<f32_t>(textureSize.getW()), textureRect_.getB() / static_cast<f32_t>(textureSize.getH())}
+      }}
+    });
+    // clang-format on
+  }
 }
 
 // clang-format off

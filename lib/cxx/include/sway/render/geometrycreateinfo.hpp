@@ -26,7 +26,7 @@ struct GeometryCreateInfo {
 
   GeometryCreateInfo()
       : indexed(false)
-      , topology(gapi::TopologyType::UNDEF) {
+      , topology(gapi::TopologyType::NONE) {
     bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::ARRAY;
     bo[Constants::IDX_EBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
   }

@@ -55,7 +55,7 @@ protected:
 void addAttributeFake(gapi::VertexAttribDescriptor desc) {}
 
 TEST_F(GeomTestFixture, createBuffer) {
-  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::UNDEF);
+  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::NONE);
   EXPECT_CALL(*globalGapiPlug, createShader(testing::_)).WillRepeatedly(testing::Return(shaderStub));
 
   auto *shaderProgramStub = new render::global::ShaderProgramStub();

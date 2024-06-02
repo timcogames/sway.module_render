@@ -56,12 +56,14 @@ void Geom::unbind() {
 
 void Geom::updateUV(std::vector<UVData2> uv) {
   auto offset = 0;
-  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * buffers_[Constants::IDX_VBO].value()->getCapacity());
+
+  auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();
+  auto vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
 
   auto texIdx = 0;
   auto currRile = 0;
 
-  for (auto i = 0; i < buffers_[Constants::IDX_VBO].value()->getCapacity(); ++i) {
+  for (auto i = 0; i < vboCapacity; i++) {
     for (auto const [_, attrib] : attribs_) {
       if (attrib->enabled()) {
         auto desc = attrib->getDescriptor();
@@ -87,12 +89,14 @@ void Geom::updateUV(std::vector<UVData2> uv) {
 
 void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto offset = 0;
-  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * buffers_[Constants::IDX_VBO].value()->getCapacity());
+
+  auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();  // Количество вершин
+  auto vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * buffers_[Constants::IDX_VBO].value()->getCapacity());
 
   auto texIdx = 0;
   auto curTile = 0;
 
-  for (auto i = 0; i < buffers_[Constants::IDX_VBO].value()->getCapacity() /* количество вершин */; ++i) {
+  for (auto i = 0; i < vboCapacity; ++i) {
     for (auto [_, attrib] : attribs_) {
       if (attrib->enabled()) {
         auto desc = attrib->getDescriptor();
