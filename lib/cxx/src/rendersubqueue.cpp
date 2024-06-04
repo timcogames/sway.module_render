@@ -4,6 +4,8 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
+#include <algorithm>  // std::reverse
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
@@ -17,6 +19,7 @@ void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet
 void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 
 void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
+  std::reverse(commands_.begin(), commands_.end());
   for (const auto &cmd : commands_) {
     if (cmd.stage != stage) {
       break;
