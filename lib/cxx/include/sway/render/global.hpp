@@ -104,18 +104,21 @@ public:
 struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {
   virtual ~MockPluginFunctionSetInterface() = default;
 
-  PURE_VIRTUAL(auto createCapability()->gapi::CapabilityPtr_t);
-  PURE_VIRTUAL(auto createShader(const gapi::ShaderCreateInfo &)->gapi::ShaderPtr_t);
-  PURE_VIRTUAL(auto createShaderProgram()->gapi::ShaderProgramPtr_t);
-  PURE_VIRTUAL(auto createIdGenerator()->gapi::IdGeneratorPtr_t);
-  PURE_VIRTUAL(auto createBuffer(gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &)->gapi::BufferPtr_t);
-  PURE_VIRTUAL(auto createVertexArray()->gapi::VertexArrayPtr_t);
-  PURE_VIRTUAL(auto createVertexAttribLayout(gapi::ShaderProgramPtr_t)->gapi::VertexAttribLayoutPtr_t);
-  PURE_VIRTUAL(auto createTexture(const gapi::TextureCreateInfo &)->gapi::TexturePtr_t);
-  PURE_VIRTUAL(auto createTextureSampler(gapi::TexturePtr_t)->gapi::TextureSamplerPtr_t);
-  PURE_VIRTUAL(auto createDrawCall()->gapi::DrawCallPtr_t);
-  PURE_VIRTUAL(auto createViewport()->gapi::ViewportPtr_t);
-  PURE_VIRTUAL(auto createStateContext()->gapi::StateContextPtr_t);
+  // clang-format off
+  PURE_VIRTUAL(auto createCapability() -> gapi::CapabilityPtr_t);
+  PURE_VIRTUAL(auto createShader(const gapi::ShaderCreateInfo &) -> gapi::ShaderPtr_t);
+  PURE_VIRTUAL(auto createShaderProgram() -> gapi::ShaderProgramPtr_t);
+  PURE_VIRTUAL(auto createIdGenerator() -> gapi::IdGeneratorPtr_t);
+  PURE_VIRTUAL(auto createBuffer(gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &) -> gapi::BufferPtr_t);
+  PURE_VIRTUAL(auto createVertexArray() -> gapi::VertexArrayPtr_t);
+  PURE_VIRTUAL(auto createVertexAttribLayout(gapi::ShaderProgramPtr_t) -> gapi::VertexAttribLayoutPtr_t);
+  PURE_VIRTUAL(auto createTexture(const gapi::TextureCreateInfo &) -> gapi::TexturePtr_t);
+  PURE_VIRTUAL(auto createTextureSampler(gapi::TexturePtr_t) -> gapi::TextureSamplerPtr_t);
+  PURE_VIRTUAL(auto createDrawCall() -> gapi::DrawCallPtr_t);
+  PURE_VIRTUAL(auto createViewport() -> gapi::ViewportPtr_t);
+  PURE_VIRTUAL(auto createStateContext() -> gapi::StateContextPtr_t);
+  PURE_VIRTUAL(auto createShaderPreprocessor(u32_t, lpcstr_t) -> gapi::ShaderPreprocessor::Ptr_t);
+  // clang-format on
 };
 
 struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
@@ -133,6 +136,7 @@ struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
   MOCK_METHOD(gapi::DrawCallPtr_t, createDrawCall, (), (override));
   MOCK_METHOD(gapi::ViewportPtr_t, createViewport, (), (override));
   MOCK_METHOD(gapi::StateContextPtr_t, createStateContext, (), (override));
+  MOCK_METHOD(gapi::ShaderPreprocessor::Ptr_t, createShaderPreprocessor, (u32_t, lpcstr_t), (override));
 };
 
 using GapiPluginFunctionSet = MockPluginFunctionSet;
