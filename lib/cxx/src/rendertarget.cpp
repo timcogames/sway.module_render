@@ -8,9 +8,7 @@ void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) {
   viewport_->set(0, 0, 800, 600);
 }
 
-void RenderTarget::activate() {
-  // viewport_->clear();
-}
+void RenderTarget::activate() { viewport_->clear(); }
 
 void RenderTarget::deactivate() {}
 
