@@ -127,7 +127,10 @@ add_subdirectory(lib/cxx)
 #---------------------------------------------------------------------------------
 
 if(MODULE_RENDER_ENABLE_TESTS)
-  message(STATUS "Tests have been enabled")
-
-  add_subdirectory(lib/cxx/tests)
+  if(${MODULE_RENDER_LIB_TYPE} MATCHES "static")
+    message(STATUS "[${MODULE_RENDER_PROJ_NAME}]: Tests have been enabled")
+    add_subdirectory(lib/cxx/tests/google)
+  else()
+    message(STATUS "[${MODULE_RENDER_PROJ_NAME}]: Tests are only allowed with a static lib")
+  endif()
 endif()

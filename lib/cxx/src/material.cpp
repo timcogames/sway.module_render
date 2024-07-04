@@ -74,12 +74,25 @@ void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info,
   info.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 }
 
-auto Material::addEffect(const std::array<std::string, 2> &names) -> bool {
-  addShader_(std::get<0>(names), shaderCreateInfoSet_.vs, gapi::ShaderType::VERT);
-  addShader_(std::get<1>(names), shaderCreateInfoSet_.fs, gapi::ShaderType::FRAG);
+void Material::addEffect(std::unordered_map<gapi::ShaderType, std::string> sources) {
+  gapi::ShaderCreateInfoSet createInfoSet;
+  createInfoSet.vs.type = gapi::ShaderType::VERT;
+  createInfoSet.vs.code = sources[gapi::ShaderType::VERT];
+  createInfoSet.vs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 
-  effect_ = Effect::create(shaderCreateInfoSet_);
-  return true;
+  createInfoSet.fs.type = gapi::ShaderType::FRAG;
+  createInfoSet.fs.code = sources[gapi::ShaderType::FRAG];
+  createInfoSet.fs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
+
+  effect_ = Effect::create(createInfoSet);
+}
+
+void Material::addEffect(const std::array<std::string, 2> &names) {
+  gapi::ShaderCreateInfoSet createInfoSet;
+  addShader_(std::get<0>(names), createInfoSet.vs, gapi::ShaderType::VERT);
+  addShader_(std::get<1>(names), createInfoSet.fs, gapi::ShaderType::FRAG);
+
+  effect_ = Effect::create(createInfoSet);
 }
 
 void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {

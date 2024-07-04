@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <optional>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -28,7 +29,9 @@ public:
 
   auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::Ptr;
 
-  auto addEffect(const std::array<std::string, 2> &names) -> bool;
+  void addEffect(std::unordered_map<gapi::ShaderType, std::string> sources);
+
+  void addEffect(const std::array<std::string, 2> &names);
 
   void bind(const std::shared_ptr<math::MatrixStack> &mtxs);
 
@@ -39,8 +42,6 @@ public:
   auto getImages() -> std::vector<std::pair<std::string, Image::Ptr>> { return images_; }
 
   auto getImage(u32_t idx) -> Image::Ptr { return images_[idx].second; }
-
-  gapi::ShaderCreateInfoSet shaderCreateInfoSet_;
 
 public:
   void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
