@@ -29,7 +29,7 @@ public:
   MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType), (override));
   MOCK_METHOD(void, link, (), (override));
   MOCK_METHOD(bool, isLinked, (), (const, override));
-  MOCK_METHOD(void, validate, ());
+  MOCK_METHOD(void, validate, (), (override));
   MOCK_METHOD(bool, isValidated, (), (const, override));
   MOCK_METHOD(void, use, (), (override));
   MOCK_METHOD(void, unuse, (), (override));
