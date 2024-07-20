@@ -83,7 +83,7 @@ private:
       RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
 
   gapi::CapabilityPtr_t capability_;
-  std::array<std::shared_ptr<RenderPass>, core::detail::toUnderlying(RenderStage::MAX_STAGE)> passes_{};
+  std::array<std::shared_ptr<RenderPass>, core::detail::toBase(RenderStage::MAX_STAGE)> passes_{};
   RenderQueueRefVector_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
   std::shared_ptr<GeomBuilder> geomBuilder_;

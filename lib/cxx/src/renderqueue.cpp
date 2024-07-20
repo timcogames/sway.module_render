@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 RenderQueue::RenderQueue()
-    : priority_(core::detail::toUnderlying(core::intrusive::Priority::NORMAL)) {}
+    : priority_(core::detail::toBase(core::intrusive::Priority::NORMAL)) {}
 
 RenderQueue::RenderQueue(u32_t priority)
     : priority_(priority) {}
@@ -27,7 +27,7 @@ void RenderQueue::removeSubqueue(const RenderSubqueueRef_t &subqueue) {
 }
 
 auto RenderQueue::getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueRefVec_t & {
-  return subqueues_[core::detail::toUnderlying(group)];
+  return subqueues_[core::detail::toBase(group)];
 }
 
 NAMESPACE_END(render)

@@ -13,7 +13,7 @@ enum class AnimationStatus : s8_t { RUNNING, PAUSED, STOPPED };
 
 class Animation {
 public:
-  inline static s32_t DFLT_NBR_CYCLES = 1;
+  inline static i32_t DFLT_NBR_CYCLES = 1;
 
   Animation()
       : status_(AnimationStatus::STOPPED)
@@ -59,7 +59,7 @@ public:
 
 private:
   AnimationStatus status_;
-  s32_t cycles_;
+  i32_t cycles_;
   bool reversed_;
   bool paused_;
 };
@@ -84,7 +84,7 @@ public:
 
   void setFrameSize(const math::size2f_t &size) { frameSize_ = size; }
 
-  void playAtFrame(s32_t idx) {}
+  void playAtFrame(i32_t idx) {}
 
   void replay() {}
 
@@ -94,7 +94,7 @@ private:
 public:
   std::shared_ptr<SpriteAnimationClip<SpriteSheetFrame>> clip_;
   math::size2f_t frameSize_;
-  s32_t currentFrameIdx_;
+  i32_t currentFrameIdx_;
   f32_t frameTime_;
   f32_t timeCounter_;
 };

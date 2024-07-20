@@ -31,7 +31,7 @@ auto RenderSubsystem::initialize() -> bool {
 
   auto state = std::make_shared<RenderState>();
 
-  for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
+  for (auto i = 0; i < core::detail::toBase(RenderStage::MAX_STAGE); i++) {
     passes_[i] = std::make_shared<RenderPass>();
     passes_[i]->setRenderTarget(target);
     passes_[i]->setRenderState(state);
@@ -69,7 +69,7 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  for (auto i = 0; i < core::detail::toUnderlying(RenderStage::MAX_STAGE); i++) {
+  for (auto i = 0; i < core::detail::toBase(RenderStage::MAX_STAGE); i++) {
     auto target = passes_[i]->getRenderTarget();
     auto state = passes_[i]->getRenderState();
 

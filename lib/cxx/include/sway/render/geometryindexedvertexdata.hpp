@@ -13,7 +13,7 @@ NAMESPACE_BEGIN(render)
 template <typename TVertexDataType>
 class GeometryIndexedVertexData : public GeometryVertexData<TVertexDataType> {
 public:
-  GeometryIndexedVertexData(s32_t vtxcount)
+  GeometryIndexedVertexData(i32_t vtxcount)
       : GeometryVertexData<TVertexDataType>(vtxcount) {}
 
   ~GeometryIndexedVertexData() = default;

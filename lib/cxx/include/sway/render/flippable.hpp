@@ -14,12 +14,12 @@ struct Flippable {
     std::array<f32_t, math::vec4f_t::DataElementCount_t> result;
 
     auto flippedHorz = flips.has(Flipper::HORZ);
-    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_R : math::RectEdge::IDX_L)] = origin.getL();
-    result[core::detail::toUnderlying(flippedHorz ? math::RectEdge::IDX_L : math::RectEdge::IDX_R)] = origin.getR();
+    result[core::detail::toBase(flippedHorz ? math::RectEdge::IDX_R : math::RectEdge::IDX_L)] = origin.getL();
+    result[core::detail::toBase(flippedHorz ? math::RectEdge::IDX_L : math::RectEdge::IDX_R)] = origin.getR();
 
     auto flippedVert = flips.has(Flipper::VERT);
-    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_B : math::RectEdge::IDX_T)] = origin.getT();
-    result[core::detail::toUnderlying(flippedVert ? math::RectEdge::IDX_T : math::RectEdge::IDX_B)] = origin.getB();
+    result[core::detail::toBase(flippedVert ? math::RectEdge::IDX_B : math::RectEdge::IDX_T)] = origin.getT();
+    result[core::detail::toBase(flippedVert ? math::RectEdge::IDX_T : math::RectEdge::IDX_B)] = origin.getB();
 
     return result;
   }

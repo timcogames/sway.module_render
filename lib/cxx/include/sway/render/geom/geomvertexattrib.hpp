@@ -21,9 +21,9 @@ public:
 
   MTHD_OVERRIDE(void setData(u32_t idx, void *val));
 
-  MTHD_OVERRIDE(void getData(void *dst, s32_t offset, s32_t idx));
+  MTHD_OVERRIDE(void getData(void *dst, i32_t offset, i32_t idx));
 
-  MTHD_OVERRIDE(void importRawdata2(void *dst, s32_t offset, void *src)) {
+  MTHD_OVERRIDE(void importRawdata2(void *dst, i32_t offset, void *src)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       *((VertexAttribType_t *)dst + offset + i) = ((VertexAttribType_t *)src)[i];
     }

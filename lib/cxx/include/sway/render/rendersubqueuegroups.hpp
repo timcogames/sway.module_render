@@ -12,7 +12,7 @@ enum class RenderSubqueueGroup : u32_t {
   Latest
 };
 
-#define RENDER_SUBQUEUE_GROUP_COUNT (core::detail::toUnderlying(RenderSubqueueGroup::Latest))
+#define RENDER_SUBQUEUE_GROUP_COUNT (core::detail::toBase(RenderSubqueueGroup::Latest))
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

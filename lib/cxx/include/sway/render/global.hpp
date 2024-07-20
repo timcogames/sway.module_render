@@ -37,7 +37,7 @@ public:
   MOCK_METHOD(void, setUniformVec4f, (const std::string &, const math::vec4f_t &), (override));
   MOCK_METHOD(void, setUniformCol4f, (const std::string &, const math::col4f_t &), (override));
   MOCK_METHOD(void, setUniformMat4f, (const std::string &, const math::mat4f_t &), (override));
-  MOCK_METHOD(void, setUniform1i, (const std::string &, s32_t), (override));
+  MOCK_METHOD(void, setUniform1i, (const std::string &, i32_t), (override));
   MOCK_METHOD(void, setUniform1f, (const std::string &, f32_t), (override));
 };
 
@@ -50,7 +50,7 @@ public:
 
   MOCK_METHOD(void, compile, (lpcstr_t), (override));
   MOCK_METHOD(bool, isCompiled, (), (const, override));
-  MOCK_METHOD(s32_t, getAttribLocation, (std::optional<u32_t>, lpcstr_t), (override));
+  MOCK_METHOD(i32_t, getAttribLocation, (std::optional<u32_t>, lpcstr_t), (override));
   MOCK_METHOD(gapi::ShaderType, getType, (), (const, override));
 };
 
@@ -79,17 +79,17 @@ public:
   MOCK_METHOD(bool, allocate, (const void *), (override));
   MOCK_METHOD(void, updateSubdata, (gapi::BufferSubdataDescriptor), (override));
   MOCK_METHOD(void, updateSubdata, (const void *), (override));
-  MOCK_METHOD(void, flush, (s32_t, s32_t), (override));
+  MOCK_METHOD(void, flush, (i32_t, i32_t), (override));
   MOCK_METHOD(void *, map, (gapi::BufferMapAccess), (override));
-  MOCK_METHOD(void *, mapRange, (s32_t, s32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess>), (override));
+  MOCK_METHOD(void *, mapRange, (i32_t, i32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess>), (override));
   MOCK_METHOD(void, unmap, (), (override));
   MOCK_METHOD(void, bindRange, (u32_t, ptrdiff_t, ptrdiff_t), (override));
   MOCK_METHOD(void, bind, (), (override));
   MOCK_METHOD(void, unbind, (), (override));
   MOCK_METHOD(gapi::BufferTarget, getTarget, (), (const, override));
   MOCK_METHOD(gapi::BufferUsage, getUsage, (), (const, override));
-  MOCK_METHOD(s32_t, getCapacity, (), (const, override));
-  MOCK_METHOD(s32_t, getByteStride, (), (const, override));
+  MOCK_METHOD(i32_t, getCapacity, (), (const, override));
+  MOCK_METHOD(i32_t, getByteStride, (), (const, override));
 };
 
 class VertexAttribLayoutStub : public gapi::VertexAttribLayout {

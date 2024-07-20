@@ -57,13 +57,13 @@ struct ForwardRenderCommand : public RenderCommand {
 };
 
 struct CameraRenderCommand : public RenderCommand {
-  s32_t viewport;
+  i32_t viewport;
   math::mat4f_t proj;
   math::mat4f_t view;
   math::vec3f_t eye;
   math::vec3f_t pos;
-  s32_t order;
-  s32_t mask;
+  i32_t order;
+  i32_t mask;
   f32_t near;
   f32_t far;
 };

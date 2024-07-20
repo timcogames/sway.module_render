@@ -22,7 +22,7 @@ void GeomVertexAttrib<TAttribFormat>::setData(u32_t idx, void *val) {
 }
 
 template <typename TAttribFormat>
-void GeomVertexAttrib<TAttribFormat>::getData(void *dst, s32_t offset, s32_t idx) {
+void GeomVertexAttrib<TAttribFormat>::getData(void *dst, i32_t offset, i32_t idx) {
   for (auto i = 0; i < descriptor_.numComponents; ++i) {
     *((VertexAttribType_t *)dst + offset + i) = vertices_[descriptor_.numComponents * idx + i];
   }

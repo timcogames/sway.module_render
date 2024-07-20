@@ -16,14 +16,14 @@ using VertexAttribMap_t = std::map<gapi::VertexSemantic, VertexAttribPtr_t>;
 template <typename TVertexDataType>
 class GeometryVertexData {
 public:
-  GeometryVertexData(s32_t count)
+  GeometryVertexData(i32_t count)
       : vtxcount_(count) {}
 
   ~GeometryVertexData() = default;
 
   template <typename TAttribFormat>
-  auto createVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve)
-      -> std::shared_ptr<GeometryVertexAttrib<TAttribFormat>> {
+  auto createVertexAttrib(
+      gapi::VertexSemantic semantic, i32_t reserve) -> std::shared_ptr<GeometryVertexAttrib<TAttribFormat>> {
     auto attrib = std::make_shared<GeometryVertexAttrib<TAttribFormat>>(semantic, reserve);
     attribs_[semantic] = attrib;
     return attrib;
@@ -56,7 +56,7 @@ public:
   }
 
   auto getVtxRawdata() -> void * {
-    s32_t offset = 0;
+    i32_t offset = 0;
     void *vtxdata = (void *)calloc(vtxcount_, sizeof(TVertexDataType));
 
     for (auto i = 0; i < vtxcount_; ++i) {
@@ -78,7 +78,7 @@ public:
 
 private:
   VertexAttribMap_t attribs_;
-  s32_t vtxcount_;
+  i32_t vtxcount_;
 };
 
 NAMESPACE_END(render)

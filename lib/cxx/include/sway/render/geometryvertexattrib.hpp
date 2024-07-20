@@ -13,7 +13,7 @@ class GeometryVertexAttrib : public gapi::VertexAttrib {
 public:
   using VertexAttribType_t = typename TAttribFormat::DataElementType_t;
 
-  GeometryVertexAttrib(gapi::VertexSemantic semantic, s32_t reserve, bool normalized = false)
+  GeometryVertexAttrib(gapi::VertexSemantic semantic, i32_t reserve, bool normalized = false)
       : vertices_(nullptr)
       , reserve_(reserve)
       , capacity_(0)
@@ -24,19 +24,19 @@ public:
 
   virtual ~GeometryVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
 
-  MTHD_OVERRIDE(void importRawdata(void *data, s32_t offset, s32_t vtx)) {
+  MTHD_OVERRIDE(void importRawdata(void *data, i32_t offset, i32_t vtx)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       *((VertexAttribType_t *)data + offset + i) = vertices_[descriptor_.numComponents * vtx + i];
     }
   }
 
-  void setVertexData(s32_t vtx, void *src) {
+  void setVertexData(i32_t vtx, void *src) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       vertices_[descriptor_.numComponents * vtx + i] = ((VertexAttribType_t *)src)[i];
     }
   }
 
-  MTHD_OVERRIDE(void importRawdata2(void *dst, s32_t offset, void *src)) {
+  MTHD_OVERRIDE(void importRawdata2(void *dst, i32_t offset, void *src)) {
     for (auto i = 0; i < descriptor_.numComponents; ++i) {
       *((VertexAttribType_t *)dst + offset + i) = ((VertexAttribType_t *)src)[i];
     }
@@ -55,7 +55,7 @@ public:
   MTHD_OVERRIDE(void use()) { enabled_ = true; }
 
   // clang-format off
-  MTHD_OVERRIDE(auto getCapacity() -> s32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getCapacity() -> i32_t) {  // clang-format on
     return capacity_;
   }
 
@@ -80,7 +80,7 @@ public:
   }
 
   [[nodiscard]]
-  auto getNumOfVertices() const -> s32_t {
+  auto getNumOfVertices() const -> i32_t {
     return counter_;
   }
 
@@ -100,9 +100,9 @@ public:
 
   gapi::VertexAttribDescriptor descriptor_;
   VertexAttribType_t *vertices_;  // Набор данных.
-  s32_t reserve_;
-  s32_t capacity_;
-  s32_t counter_;
+  i32_t reserve_;
+  i32_t capacity_;
+  i32_t counter_;
   bool enabled_;
 };
 
