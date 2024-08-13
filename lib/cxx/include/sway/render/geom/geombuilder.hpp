@@ -28,11 +28,18 @@ struct GeomPoolStats {
 // BufferPool
 class GeomBuilder {
 public:
-  static auto create(gapi::IdGeneratorPtr_t gen) -> std::shared_ptr<GeomBuilder>;
+  using Ptr_t = GeomBuilder *;
+  using SharedPtr_t = std::shared_ptr<GeomBuilder>;
+
+  static auto create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t;
+
+#pragma region "Ctors/Dtor"
 
   GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen);
 
   ~GeomBuilder();
+
+#pragma endregion
 
   template <typename TShape>
   auto create(int idx, const GeometryCreateInfo &info,

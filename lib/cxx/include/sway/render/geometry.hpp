@@ -79,9 +79,16 @@ struct UVData {
 
 class Geometry {
 public:
+  using Ptr_t = Geometry *;
+  using SharedPtr_t = std::shared_ptr<Geometry>;
+
+#pragma region "Ctors/Dtor"
+
   Geometry(gapi::IdGeneratorPtr_t idgen, EffectPtr_t effect, bool indexed);
 
   ~Geometry() = default;
+
+#pragma endregion
 
   void createArray(std::shared_ptr<procedurals::Shape> prim);
 

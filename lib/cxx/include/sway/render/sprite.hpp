@@ -18,23 +18,33 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Sprite : public RenderComponent {
-public:
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
+
+public:
+  using Ptr_t = Sprite *;
+  using SharedPtr_t = std::shared_ptr<Sprite>;
+
+#pragma region "Ctors/Dtor"
 
   Sprite() = default;
 
   ~Sprite();
 
-  void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-      std::shared_ptr<Material> material, const math::size2f_t &size,
-      const math::size2i_t &subdivs = math::size2i_t(1));
+#pragma endregion
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime));
+  void initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+      Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
+
+#pragma region "Override RenderComponent methods"
+
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
+
+#pragma endregion
 
   void updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRect);
 
   [[nodiscard]]
-  auto getMaterial() const -> std::shared_ptr<Material> {
+  auto getMaterial() const -> Material::SharedPtr_t {
     return material_;
   }
 
@@ -51,10 +61,10 @@ public:
   void recomputeUV();
 
 private:
-  RenderSubqueueRef_t subqueue_;
+  RenderSubqueue::SharedPtr_t subqueue_;
 
-  std::shared_ptr<Material> material_;
-  std::shared_ptr<GeomBuilder> geomBuilder_;
+  Material::SharedPtr_t material_;
+  GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
 
   Image::Ptr texture_;

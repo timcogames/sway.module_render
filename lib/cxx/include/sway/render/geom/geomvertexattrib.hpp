@@ -29,17 +29,11 @@ public:
     }
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) {  // clang-format on
-    return descriptor_;
-  }
+  MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) { return descriptor_; }
 
   MTHD_OVERRIDE(void use()) { descriptor_.enabled = true; }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto enabled() const -> bool) {  // clang-format on
-    return descriptor_.enabled;
-  }
+  MTHD_OVERRIDE(auto enabled() const -> bool) { return descriptor_.enabled; }
 
 private:
   GeomVertexDataBase *owner_;

@@ -16,11 +16,11 @@ RenderQueue::~RenderQueue() {
   }
 }
 
-void RenderQueue::addSubqueue(const RenderSubqueueRef_t &subqueue) {
+void RenderQueue::addSubqueue(const RenderSubqueue::SharedPtr_t &subqueue) {
   getSubqueues(subqueue->getGroup()).push_back(subqueue);
 }
 
-void RenderQueue::removeSubqueue(const RenderSubqueueRef_t &subqueue) {
+void RenderQueue::removeSubqueue(const RenderSubqueue::SharedPtr_t &subqueue) {
   auto group = subqueue->getGroup();
   auto begin = std::remove(getSubqueues(group).begin(), getSubqueues(group).end(), subqueue);
   getSubqueues(group).erase(begin, getSubqueues(group).end());

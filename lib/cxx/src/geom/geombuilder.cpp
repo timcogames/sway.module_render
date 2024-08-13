@@ -3,7 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-auto GeomBuilder::create(gapi::IdGeneratorPtr_t gen) -> std::shared_ptr<GeomBuilder> {
+auto GeomBuilder::create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t {
   return std::make_shared<GeomBuilder>(global::getGapiPluginFunctionSet(), gen);
 }
 

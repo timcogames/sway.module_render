@@ -78,18 +78,11 @@ public:
     data_->useVertexSemanticSet(arr);
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) {  // clang-format on
-    return data_->getAttribs();
-  }
+  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) { return data_->getAttribs(); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) {  // clang-format on
-    return data_->getAttrib(semantic);
-  }
+  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) { return data_->getAttrib(semantic); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::TRIANGLE_LIST;
@@ -106,10 +99,7 @@ public:
     return info;
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
-    return data_->getVtxRawdata();
-  }
+  MTHD_OVERRIDE(auto getVertices() -> void *) { return data_->getVtxRawdata(); }
 
 public:
   GeometryVertexAttribSet attribs_;
@@ -117,29 +107,28 @@ public:
 };
 
 class SpriteBatch : public RenderComponent {
-public:
   DECLARE_CLASS_METADATA(SpriteBatch, RenderComponent)
 
+public:
   SpriteBatch() = default;
 
   ~SpriteBatch() = default;
 
-  void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-      std::shared_ptr<Material> material, const math::size2f_t &size);
+  void initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+      Material::SharedPtr_t material, const math::size2f_t &size);
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtime));
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
 
   [[nodiscard]]
-  auto getMaterial() const -> std::shared_ptr<Material> {
+  auto getMaterial() const -> Material::SharedPtr_t {
     return material_;
   }
 
 private:
-  RenderSubqueueRef_t subqueue_;
-
-  std::shared_ptr<Material> material_;
+  RenderSubqueue::SharedPtr_t subqueue_;
+  Material::SharedPtr_t material_;
+  Geometry::SharedPtr_t geom_;
   std::shared_ptr<PlaneArray<math::VertexTexCoord>> geomShape_;
-  std::shared_ptr<Geometry> geom_;
 };
 
 NAMESPACE_END(render)

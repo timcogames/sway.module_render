@@ -5,8 +5,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-void SpriteBatch::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material, const math::size2f_t &size) {
+void SpriteBatch::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+    Material::SharedPtr_t material, const math::size2f_t &size) {
   subqueue_ = subqueue;
   material_ = material;
 
@@ -33,7 +33,7 @@ void SpriteBatch::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::sh
   bufset.vbo->updateSubdata(subdataDesc);
 }
 
-void SpriteBatch::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
+void SpriteBatch::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtm) {
   pipeline::ForwardRenderCommand cmd;
   cmd.stage = 0;
   cmd.blendDesc.enabled = true;

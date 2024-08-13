@@ -65,9 +65,9 @@ private:
 };
 
 class SpriteAnimation : public Sprite, public Animation {
-public:
   DECLARE_CLASS_METADATA(SpriteAnimation, Sprite)
 
+public:
   SpriteAnimation();
 
   virtual ~SpriteAnimation() = default;

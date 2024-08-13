@@ -14,33 +14,26 @@ NAMESPACE_BEGIN(procedurals)
 
 class ShapeBase {
 public:
-  // clang-format off
-  PURE_VIRTUAL(auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>);  // clang-format on
+  PURE_VIRTUAL(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>);
 
   PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
 
-  // clang-format off
-  PURE_VIRTUAL(auto isIndexed() -> bool);  // clang-format on
+  PURE_VIRTUAL(auto isIndexed() -> bool);
 
-  // clang-format off
-  PURE_VIRTUAL(auto mustBeRemapped() -> bool);  // clang-format on
+  PURE_VIRTUAL(auto mustBeRemapped() -> bool);
 
   PURE_VIRTUAL(void setRemap(bool val));
 };
 
 class Shape {
 public:
-  // clang-format off
-  PURE_VIRTUAL(auto getVertexAttribs() const -> VertexAttribMap_t);  // clang-format on
+  PURE_VIRTUAL(auto getVertexAttribs() const -> VertexAttribMap_t);
 
-  // clang-format off
-  PURE_VIRTUAL(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t);  // clang-format on
+  PURE_VIRTUAL(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t);
 
-  // clang-format off
-  PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);  // clang-format on
+  PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);
 
-  // clang-format off
-  PURE_VIRTUAL(auto getVertices() -> void *);  // clang-format on
+  PURE_VIRTUAL(auto getVertices() -> void *);
 };
 
 NAMESPACE_END(procedurals)

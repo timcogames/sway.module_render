@@ -42,27 +42,15 @@ public:
     }
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getComponent(u32_t idx) const -> void *) {  // clang-format on
-    return (void **)(&vertices_[idx]);
-  }
+  MTHD_OVERRIDE(auto getComponent(u32_t idx) const -> void *) { return (void **)(&vertices_[idx]); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) {  // clang-format on
-    return descriptor_;
-  }
+  MTHD_OVERRIDE(auto getDescriptor() -> gapi::VertexAttribDescriptor) { return descriptor_; }
 
   MTHD_OVERRIDE(void use()) { enabled_ = true; }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getCapacity() -> i32_t) {  // clang-format on
-    return capacity_;
-  }
+  MTHD_OVERRIDE(auto getCapacity() -> i32_t) { return capacity_; }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto isEnabled() const -> bool) {  // clang-format on
-    return enabled_;
-  }
+  MTHD_OVERRIDE(auto isEnabled() const -> bool) { return enabled_; }
 
   void removeVtxData() { SAFE_DELETE_ARRAY(vertices_); }
 

@@ -11,8 +11,7 @@ NAMESPACE_BEGIN(render)
 
 class GeomVertexDataBase {
 public:
-  // clang-format off
-  PURE_VIRTUAL(auto getVtxSize() const -> u32_t);  // clang-format on
+  PURE_VIRTUAL(auto getVtxSize() const -> u32_t);
 
   PURE_VIRTUAL(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics));
 };

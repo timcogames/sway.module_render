@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <optional>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -20,10 +21,17 @@ NAMESPACE_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
 public:
+  using Ptr_t = Material *;
+  using SharedPtr_t = std::shared_ptr<Material>;
+
+#pragma region "Ctors/Dtor"
+
   Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
       std::shared_ptr<rms::GLSLResourceManager> glslResMngr);
 
   ~Material() = default;
+
+#pragma endregion
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 

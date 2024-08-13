@@ -10,8 +10,8 @@ Sprite_Debug::~Sprite_Debug() {
   //  geomBuilder_->remove(lineGeomIdx_);
 }
 
-void Sprite_Debug::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material) {
+void Sprite_Debug::initialize(
+    RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
   geomBuilder_ = subsystem->getGeomBuilder();
 
   subqueue_ = subqueue;
@@ -54,7 +54,7 @@ void Sprite_Debug::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::s
       axisGeomCreateInfo, axisShape->getVertexAttribs(), material_->getEffect());
 }
 
-void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
+void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtm) {
   // auto lineGeom = geomBuilder_->getGeometry(lineGeomIdx_);
   // if (!lineGeom) {
   //   return;

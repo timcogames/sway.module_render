@@ -3,13 +3,21 @@
 
 #include <sway/core/intrusive/priorities.hpp>
 #include <sway/render/prereqs.hpp>
+#include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
+
+#include <memory>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderQueue {
 public:
+  using Ptr_t = RenderQueuePtr_t;
+  using SharedPtr_t = RenderQueueSharedPtr_t;
+
+#pragma region "Ctors/Dtor"
+
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
@@ -30,21 +38,23 @@ public:
    */
   ~RenderQueue();
 
+#pragma endregion
+
   /**
    * @brief Добавляет подочередь @ref RenderSubqueue в группу.
    *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
-   * @sa removeSubqueue(const RenderSubqueueRef_t &)
+   * @sa removeSubqueue(const RenderSubqueue::SharedPtr_t &)
    */
-  void addSubqueue(const RenderSubqueueRef_t &subqueue);
+  void addSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
 
   /**
    * @brief Удаляет подочередь @ref RenderSubqueue из группы.
    *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
-   * @sa addSubqueue(const RenderSubqueueRef_t &)
+   * @sa addSubqueue(const RenderSubqueue::SharedPtr_t &)
    */
-  void removeSubqueue(const RenderSubqueueRef_t &subqueue);
+  void removeSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
 
   /**
    * @brief Получает коллекцию подочередей.
@@ -71,7 +81,7 @@ public:
   }
 
   struct PriorityInDescendingOrder {
-    bool operator()(const RenderQueueRef_t &lhs, const RenderQueueRef_t &rhs) const {
+    bool operator()(const RenderQueue::SharedPtr_t &lhs, const RenderQueue::SharedPtr_t &rhs) const {
       return lhs->getPriority() > rhs->getPriority();
     }
   };

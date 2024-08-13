@@ -15,13 +15,11 @@ public:
 
   PURE_VIRTUAL(void importRawdata2(void *dst, i32_t offset, void *src));
 
-  // clang-format off
-  PURE_VIRTUAL(auto getDescriptor() -> gapi::VertexAttribDescriptor);  // clang-format on
+  PURE_VIRTUAL(auto getDescriptor() -> gapi::VertexAttribDescriptor);
 
   PURE_VIRTUAL(void use());
 
-  // clang-format off
-  PURE_VIRTUAL(auto enabled() const -> bool);  // clang-format on
+  PURE_VIRTUAL(auto enabled() const -> bool);
 };
 
 NAMESPACE_END(render)

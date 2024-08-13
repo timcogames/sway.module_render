@@ -35,10 +35,15 @@ IncludeCategories:
     CaseSensitive:   true
 IndentPPDirectives: AfterHash
 AlignEscapedNewlines: Left
+Macros:
+  - PURE_VIRTUAL(x)=x
+  - MTHD_VIRTUAL(x)=x
+  - MTHD_OVERRIDE(x)=x
 TypenameMacros:
   - NAMESPACE_BEGIN
   - NAMESPACE_END
   - PURE_VIRTUAL
+  - MTHD_VIRTUAL
   - MTHD_OVERRIDE
   - DECLARE_EVENT
   - TEST

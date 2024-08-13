@@ -52,10 +52,7 @@ public:
     this->useSemanticSet(semantics.begin(), semantics.end());
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVtxSize() const -> u32_t) {  // clang-format on
-    return numVerts_;
-  }
+  MTHD_OVERRIDE(auto getVtxSize() const -> u32_t) { return numVerts_; }
 
   void getVertices(void *dst, u32_t offset, u32_t numVerts) {
     auto len = offset + numVerts;

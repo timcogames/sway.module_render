@@ -9,11 +9,22 @@
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
+#include <memory>
+
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderSubqueue {
 public:
+#pragma region "Define aliases"
+
+  using Ptr_t = RenderSubqueuePtr_t;
+  using SharedPtr_t = RenderSubqueueSharedPtr_t;
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
@@ -23,6 +34,8 @@ public:
   RenderSubqueue(RenderSubqueueGroup group = RenderSubqueueGroup::OPAQUE);
 
   ~RenderSubqueue() = default;
+
+#pragma endregion
 
   void initialize();
 

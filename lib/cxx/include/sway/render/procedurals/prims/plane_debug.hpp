@@ -73,18 +73,11 @@ public:
     data_->useVertexSemanticSet(arr);
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) {  // clang-format on
-    return data_->getAttribs();
-  }
+  MTHD_OVERRIDE(auto getVertexAttribs() const -> VertexAttribMap_t) { return data_->getAttribs(); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) {  // clang-format on
-    return data_->getAttrib(semantic);
-  }
+  MTHD_OVERRIDE(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t) { return data_->getAttrib(semantic); }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {  // clang-format on
+  MTHD_OVERRIDE(auto getGeometryInfo() -> GeometryCreateInfo) {
     GeometryCreateInfo info;
 
     info.topology = gapi::TopologyType::LINE_LIST;
@@ -96,10 +89,7 @@ public:
     return info;
   }
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getVertices() -> void *) {  // clang-format on
-    return data_->getVtxRawdata();
-  }
+  MTHD_OVERRIDE(auto getVertices() -> void *) { return data_->getVtxRawdata(); }
 
 private:
   GeometryDataPtr<TVertexDataType> data_;

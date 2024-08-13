@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context *context)
+RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context)
     : core::foundation::Subsystem(context) {
   global::pluginInstance_ = plug;
 }
@@ -43,7 +43,7 @@ auto RenderSubsystem::initialize() -> bool {
   return true;
 }
 
-auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueueRef_t {
+auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {
   if (this->getQueueByPriority(priority)) {
     return nullptr;
   }
@@ -52,7 +52,7 @@ auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueueRef_t {
   return queues_.back();
 }
 
-auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueueRef_t {
+auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {
   for (auto queue : queues_) {
     if (queue->getPriority() == priority) {
       return queue;
@@ -85,13 +85,13 @@ void RenderSubsystem::render() {
 }
 
 void RenderSubsystem::renderSubqueues_(
-    RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state) {
+    RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state) {
   const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
   }
 
-  for (const RenderSubqueueRef_t &subqueue : subqueues) {
+  for (const RenderSubqueue::SharedPtr_t &subqueue : subqueues) {
     subqueue->render(stage, state->getContext());
   }
 }

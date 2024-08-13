@@ -15,28 +15,28 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Sprite_Debug : public RenderComponent {
-public:
   DECLARE_CLASS_METADATA(Sprite_Debug, RenderComponent)
 
+public:
   Sprite_Debug() = default;
 
   ~Sprite_Debug();
 
-  void initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-      std::shared_ptr<Material> material);
+  void initialize(
+      RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material);
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
 
   [[nodiscard]]
-  auto getMaterial() const -> std::shared_ptr<Material> {
+  auto getMaterial() const -> Material::SharedPtr_t {
     return material_;
   }
 
 private:
   EffectPtr_t effect_;
-  RenderSubqueueRef_t subqueue_;
-  std::shared_ptr<Material> material_;
-  std::shared_ptr<GeomBuilder> geomBuilder_;
+  RenderSubqueue::SharedPtr_t subqueue_;
+  Material::SharedPtr_t material_;
+  GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t axisGeomIdx_;
   u32_t lineGeomIdx_;
 };

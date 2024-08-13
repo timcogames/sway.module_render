@@ -12,8 +12,8 @@ NAMESPACE_BEGIN(render)
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
-void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_ptr<RenderSubqueue> subqueue,
-    std::shared_ptr<Material> material, const math::size2f_t &size, const math::size2i_t &subdivs) {
+void Sprite::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+    Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs) {
   subqueue_ = subqueue;
   material_ = material;
   subdivs_ = subdivs;
@@ -56,7 +56,7 @@ void Sprite::initialize(std::shared_ptr<RenderSubsystem> subsystem, std::shared_
   this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }
 
-void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtime) {
+void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtm) {
   auto geom = geomBuilder_->getGeometry(geomIdx_);
   if (!geom) {
     return;

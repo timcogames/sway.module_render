@@ -6,6 +6,7 @@
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
+#include <sway/render/renderqueue.hpp>
 #include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -18,8 +19,17 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderSubsystem : public core::foundation::Subsystem {
-public:
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
+
+public:
+#pragma region "Define aliases"
+
+  using Ptr_t = RenderSubsystemPtr_t;
+  using SharedPtr_t = RenderSubsystemSharedPtr_t;
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   /**
    * @brief Конструктор класса.
@@ -27,12 +37,14 @@ public:
    *
    * @param[in] context Контекст подсистемы.
    */
-  RenderSubsystem(core::Plugin *plug, core::foundation::Context *context);
+  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
   virtual ~RenderSubsystem();
+
+#pragma endregion
 
   /**
    * @brief Создает новую очередь и добавляет её в контейнер.
@@ -40,17 +52,17 @@ public:
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto createQueue(u32_t priority) -> RenderQueueRef_t;
+  auto createQueue(u32_t priority) -> RenderQueue::SharedPtr_t;
 
   /**
    * @brief Получает очередь по индексу.
    *
-   * @param[in] index Индекс очереди.
+   * @param[in] idx Индекс очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto getQueueByIdx(u32_t index) -> RenderQueueRef_t { return queues_[index]; }
+  auto getQueueByIdx(u32_t idx) -> RenderQueue::SharedPtr_t { return queues_[idx]; }
 
-  auto getQueueByPriority(u32_t priority) -> RenderQueueRef_t;
+  auto getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t;
 
   /**
    * @brief Получает все очереди.
@@ -67,26 +79,29 @@ public:
    */
   void render();
 
-  // clang-format off
-  MTHD_OVERRIDE(auto initialize() -> bool);  // clang-format on
+#pragma region "Override Subsystem methods"
 
-  MTHD_OVERRIDE(void tick(float timestep)) {}
+  MTHD_OVERRIDE(auto initialize() -> bool);
+
+  MTHD_OVERRIDE(void tick(f32_t dtm)) {}
 
   MTHD_OVERRIDE(void shutdown()) {}
 
+#pragma endregion
+
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
-  auto getGeomBuilder() -> std::shared_ptr<GeomBuilder> { return geomBuilder_; }
+  auto getGeomBuilder() -> GeomBuilder::SharedPtr_t { return geomBuilder_; }
 
 private:
   void renderSubqueues_(
-      RenderQueueRef_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
+      RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
 
   gapi::CapabilityPtr_t capability_;
   std::array<std::shared_ptr<RenderPass>, core::detail::toBase(RenderStage::MAX_STAGE)> passes_{};
   RenderQueueRefVector_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
-  std::shared_ptr<GeomBuilder> geomBuilder_;
+  GeomBuilder::SharedPtr_t geomBuilder_;
 };
 
 NAMESPACE_END(render)

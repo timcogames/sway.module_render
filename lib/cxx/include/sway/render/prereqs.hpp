@@ -25,21 +25,24 @@ class RenderSubqueue;
 class RenderQueue;
 class RenderSubsystem;
 
-using VertexChannelRef_t = std::shared_ptr<class VertexChannel>;
+using VertexChannelRef_t = std::shared_ptr<VertexChannel>;
 using VertexChannelRefMap_t = std::map<gapi::VertexSemantic, VertexChannelRef_t>;
 
-using EffectPtr_t = class Effect *;
+using EffectPtr_t = Effect *;
 
-using GeometryRef_t = std::shared_ptr<class Geometry>;
+using GeometryRef_t = std::shared_ptr<Geometry>;
 using GeometryRefVec_t = std::vector<GeometryRef_t>;
 
-using RenderSubqueueRef_t = std::shared_ptr<class RenderSubqueue>;
-using RenderSubqueueRefVec_t = std::vector<RenderSubqueueRef_t>;
+using RenderSubqueuePtr_t = RenderSubqueue *;
+using RenderSubqueueSharedPtr_t = std::shared_ptr<RenderSubqueue>;
+using RenderSubqueueRefVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 
-using RenderQueueRef_t = std::shared_ptr<class RenderQueue>;
-using RenderQueueRefVector_t = std::vector<RenderQueueRef_t>;
+using RenderQueuePtr_t = RenderQueue *;
+using RenderQueueSharedPtr_t = std::shared_ptr<RenderQueue>;
+using RenderQueueRefVector_t = std::vector<RenderQueueSharedPtr_t>;
 
-using RenderSubsystemRef_t = std::shared_ptr<class RenderSubsystem>;
+using RenderSubsystemPtr_t = RenderSubsystem *;
+using RenderSubsystemSharedPtr_t = std::shared_ptr<RenderSubsystem>;
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
