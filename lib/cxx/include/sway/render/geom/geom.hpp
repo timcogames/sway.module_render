@@ -16,6 +16,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 #define QUAD_TEXCOORD_SIZE2 4
+
 struct UVData2 {
   std::vector<math::vec2f_t> uv;
 };
