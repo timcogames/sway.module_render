@@ -16,13 +16,13 @@ NAMESPACE_BEGIN(render)
 
 template <typename TShape>
 auto GeomBuilder::create(const GeometryCreateInfo &info,
-    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t {
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t {
   return create<TShape>(availables_.front(), info, attribs, effect);
 }
 
 template <typename TShape>
 auto GeomBuilder::create(int idx, const GeometryCreateInfo &info,
-    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t {
+    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
   geometries_[idx]->create(info, effect, attribs);
@@ -34,13 +34,13 @@ auto GeomBuilder::create(int idx, const GeometryCreateInfo &info,
 
 template <typename TShape>
 auto GeomBuilder::createInstance(
-    GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t {
+    GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, Effect::Ptr_t effect) -> u32_t {
   return createInstance<TShape>(availables_.front(), divisor, info, effect);
 }
 
 template <typename TShape>
 auto GeomBuilder::createInstance(
-    int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t {
+    int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, Effect::Ptr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
   geometries_[idx]->create(info, effect, divisor->getVertexAttribs());

@@ -43,19 +43,19 @@ public:
 
   template <typename TShape>
   auto create(int idx, const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t;
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto create(const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, EffectPtr_t effect) -> u32_t;
+      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto createInstance(
-      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t;
+      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto createInstance(
-      GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, EffectPtr_t effect) -> u32_t;
+      GeomInstanceDataDivisor<TShape> *divisor, const GeometryCreateInfo &info, Effect::Ptr_t effect) -> u32_t;
 
   void remove(u32_t idx);
 

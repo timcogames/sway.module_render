@@ -19,9 +19,11 @@
 #include <sway/render/material.hpp>
 #include <sway/render/materialdescriptor.hpp>
 #include <sway/render/materialmanager.hpp>
+#include <sway/render/pipeline/blenddescriptor.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/pipeline/rendercommandhandler.hpp>
-#include <sway/render/postprocessing.hpp>
+#include <sway/render/ppe/postprocessing.hpp>
+#include <sway/render/ppe/silhouettepostprocessing.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/guides/line.hpp>
 #include <sway/render/procedurals/prims/plane_debug.hpp>
@@ -37,7 +39,6 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
 #include <sway/render/rendertarget.hpp>
-#include <sway/render/silhouettepostprocessing.hpp>
 #include <sway/render/sprite.hpp>
 #include <sway/render/sprite_debug.hpp>
 #include <sway/render/spriteanimation.hpp>

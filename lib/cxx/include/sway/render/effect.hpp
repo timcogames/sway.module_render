@@ -12,8 +12,10 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Effect {
+  DECLARE_CLASSPTR_ALIAS(Effect)
+
 public:
-  static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectPtr_t;
+  static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> Effect::Ptr_t;
 
   /**
    * @brief Конструктор класса.

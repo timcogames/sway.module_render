@@ -25,16 +25,11 @@ RenderSubsystem::~RenderSubsystem() {
 auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
   idGenerator_ = global::getGapiPluginFunctionSet()->createIdGenerator();
+  viewport_ = global::getGapiPluginFunctionSet()->createViewport();
 
-  auto target = std::make_shared<RenderTarget>();
-  target->setScissorViewport(global::getGapiPluginFunctionSet()->createViewport());
-
-  auto state = std::make_shared<RenderState>();
-
-  for (auto i = 0; i < core::detail::toBase(RenderStage::MAX_STAGE); i++) {
-    passes_[i] = std::make_shared<RenderPass>();
-    passes_[i]->setRenderTarget(target);
-    passes_[i]->setRenderState(state);
+  ppe_ = std::make_shared<PostProcessing>(viewport_);
+  for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
+    ppe_->addPass(i);
   }
 
   geomBuilder_ = GeomBuilder::create(idGenerator_);
@@ -69,9 +64,9 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  for (auto i = 0; i < core::detail::toBase(RenderStage::MAX_STAGE); i++) {
-    auto target = passes_[i]->getRenderTarget();
-    auto state = passes_[i]->getRenderState();
+  for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
+    auto target = ppe_->passes_[i]->getRenderTarget();
+    auto state = ppe_->passes_[i]->getRenderState();
 
     target->activate();
 
@@ -86,7 +81,7 @@ void RenderSubsystem::render() {
 
 void RenderSubsystem::renderSubqueues_(
     RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state) {
-  const RenderSubqueueRefVec_t &subqueues = queue->getSubqueues(group);
+  const RenderSubqueueSharedPtrVec_t &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
   }

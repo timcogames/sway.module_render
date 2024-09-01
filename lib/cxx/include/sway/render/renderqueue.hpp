@@ -12,10 +12,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderQueue {
-public:
-  using Ptr_t = RenderQueuePtr_t;
-  using SharedPtr_t = RenderQueueSharedPtr_t;
+  DECLARE_CLASSPTR_ALIAS(RenderQueue)
 
+public:
 #pragma region "Ctors/Dtor"
 
   /**
@@ -61,7 +60,7 @@ public:
    *
    * @param[in] group Группа подочереди.
    */
-  auto getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueRefVec_t &;
+  auto getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueSharedPtrVec_t &;
 
   /**
    * @brief Устанавливает значение приоритета.
@@ -88,7 +87,7 @@ public:
 
 private:
   u32_t priority_;  // Приоритет очереди.
-  RenderSubqueueRefVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
+  RenderSubqueueSharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
 };
 
 NAMESPACE_END(render)

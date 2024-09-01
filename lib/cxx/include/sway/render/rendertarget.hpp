@@ -1,19 +1,24 @@
 #ifndef SWAY_RENDER_RENDERTARGET_HPP
 #define SWAY_RENDER_RENDERTARGET_HPP
 
+#include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/namespacemacros.hpp>
-
-#include <memory>
+#include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderTarget {
+  DECLARE_CLASSPTR_ALIAS(RenderTarget)
+
 public:
+#pragma region "Ctors/Dtor"
+
   RenderTarget() = default;
 
   ~RenderTarget() = default;
+
+#pragma endregion
 
   void setScissorViewport(gapi::ViewportPtr_t viewport);
 

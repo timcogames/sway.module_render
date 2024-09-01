@@ -7,6 +7,7 @@
 #include <sway/render/global.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/materialdescriptor.hpp>
+#include <sway/render/prereqs.hpp>
 #include <sway/rms.hpp>
 
 #include <memory>
@@ -20,10 +21,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
-public:
-  using Ptr_t = Material *;
-  using SharedPtr_t = std::shared_ptr<Material>;
+  DECLARE_CLASSPTR_ALIAS(Material)
 
+public:
 #pragma region "Ctors/Dtor"
 
   Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
@@ -45,7 +45,7 @@ public:
 
   void unbind();
 
-  auto getEffect() -> EffectPtr_t { return effect_; }
+  auto getEffect() -> Effect::Ptr_t { return effect_; }
 
   auto getImages() -> std::vector<std::pair<std::string, Image::Ptr>> { return images_; }
 
@@ -57,7 +57,7 @@ public:
   global::GapiPluginFunctionSet *pluginFuncSet_;
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
-  EffectPtr_t effect_;
+  Effect::Ptr_t effect_;
   std::vector<std::pair<std::string, Image::Ptr>> images_;
   MaterialDescriptor desc_;
 };

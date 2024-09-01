@@ -1,17 +1,24 @@
 #ifndef SWAY_RENDER_RENDERSTATE_HPP
 #define SWAY_RENDER_RENDERSTATE_HPP
 
+#include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/namespacemacros.hpp>
+#include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderState {
+  DECLARE_CLASSPTR_ALIAS(RenderState)
+
 public:
+#pragma region "Ctors/Dtor"
+
   RenderState();
 
   ~RenderState() = default;
+
+#pragma endregion
 
   void restore();
 

@@ -3,7 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectPtr_t {
+auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> Effect::Ptr_t {
   auto *instance = new Effect(global::getGapiPluginFunctionSet(), infoSet);
   return instance;
 }

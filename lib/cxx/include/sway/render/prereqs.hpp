@@ -8,41 +8,46 @@
 #include <algorithm>  // std::sort
 #include <functional>  // std::bind
 #include <iostream>  // std::cout
-#include <memory>  // std::shared_ptr, std::make_shared
-#include <unordered_map>  // std::unordered_map
-#include <vector>  // std::vector
+#include <map>
+#include <memory>  // std::unique_ptr, std::shared_ptr
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-class VertexChannel;
-template <typename TYPE>
-class GeometryVertexChannel;
-class GeometryData;
-class Effect;
-class Geometry;
-class RenderSubqueue;
-class RenderQueue;
-class RenderSubsystem;
+#define DECLARE_CLSPTR_TYPES(CLASS)                  \
+  class CLASS;                                       \
+  using CLASS##Ptr_t = CLASS *;                      \
+  using CLASS##UniquePtr_t = std::unique_ptr<CLASS>; \
+  using CLASS##SharedPtr_t = std::shared_ptr<CLASS>;
 
-using VertexChannelRef_t = std::shared_ptr<VertexChannel>;
-using VertexChannelRefMap_t = std::map<gapi::VertexSemantic, VertexChannelRef_t>;
+#define DECLARE_CLASSPTR_ALIAS(CLASS)     \
+public:                                   \
+  using Ptr_t = CLASS##Ptr_t;             \
+  using UniquePtr_t = CLASS##UniquePtr_t; \
+  using SharedPtr_t = CLASS##SharedPtr_t;
 
-using EffectPtr_t = Effect *;
+DECLARE_CLSPTR_TYPES(VertexChannel)
+DECLARE_CLSPTR_TYPES(Geometry)
+DECLARE_CLSPTR_TYPES(Effect)
+DECLARE_CLSPTR_TYPES(Material)
+DECLARE_CLSPTR_TYPES(MaterialManager)
+DECLARE_CLSPTR_TYPES(RenderSubqueue)
+DECLARE_CLSPTR_TYPES(RenderQueue)
+DECLARE_CLSPTR_TYPES(RenderSubsystem)
+DECLARE_CLSPTR_TYPES(RenderPass)
+DECLARE_CLSPTR_TYPES(RenderTarget)
+DECLARE_CLSPTR_TYPES(RenderState)
+DECLARE_CLSPTR_TYPES(PostProcessing)
+DECLARE_CLSPTR_TYPES(Sprite)
 
-using GeometryRef_t = std::shared_ptr<Geometry>;
-using GeometryRefVec_t = std::vector<GeometryRef_t>;
+#undef DECLARE_CLSPTR_TYPES
 
-using RenderSubqueuePtr_t = RenderSubqueue *;
-using RenderSubqueueSharedPtr_t = std::shared_ptr<RenderSubqueue>;
-using RenderSubqueueRefVec_t = std::vector<RenderSubqueueSharedPtr_t>;
-
-using RenderQueuePtr_t = RenderQueue *;
-using RenderQueueSharedPtr_t = std::shared_ptr<RenderQueue>;
-using RenderQueueRefVector_t = std::vector<RenderQueueSharedPtr_t>;
-
-using RenderSubsystemPtr_t = RenderSubsystem *;
-using RenderSubsystemSharedPtr_t = std::shared_ptr<RenderSubsystem>;
+using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
+using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;
+using MaterialSharedPtrMap_t = std::map<std::string, MaterialSharedPtr_t>;
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

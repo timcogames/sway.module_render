@@ -26,7 +26,7 @@ void RenderQueue::removeSubqueue(const RenderSubqueue::SharedPtr_t &subqueue) {
   getSubqueues(group).erase(begin, getSubqueues(group).end());
 }
 
-auto RenderQueue::getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueRefVec_t & {
+auto RenderQueue::getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueSharedPtrVec_t & {
   return subqueues_[core::detail::toBase(group)];
 }
 

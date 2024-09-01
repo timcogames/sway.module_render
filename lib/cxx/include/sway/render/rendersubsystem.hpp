@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geombuilder.hpp>
+#include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
 #include <sway/render/renderqueue.hpp>
@@ -20,15 +21,9 @@ NAMESPACE_BEGIN(render)
 
 class RenderSubsystem : public core::foundation::Subsystem {
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
+  DECLARE_CLASSPTR_ALIAS(RenderSubsystem)
 
 public:
-#pragma region "Define aliases"
-
-  using Ptr_t = RenderSubsystemPtr_t;
-  using SharedPtr_t = RenderSubsystemSharedPtr_t;
-
-#pragma endregion
-
 #pragma region "Ctors/Dtor"
 
   /**
@@ -67,7 +62,7 @@ public:
   /**
    * @brief Получает все очереди.
    */
-  auto getQueues() -> RenderQueueRefVector_t { return queues_; }
+  auto getQueues() -> RenderQueueSharedPtrVec_t { return queues_; }
 
   /**
    * @brief Сортирует очереди по приоритету.
@@ -95,11 +90,12 @@ public:
 
 private:
   void renderSubqueues_(
-      RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state);
+      RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
 
   gapi::CapabilityPtr_t capability_;
-  std::array<std::shared_ptr<RenderPass>, core::detail::toBase(RenderStage::MAX_STAGE)> passes_{};
-  RenderQueueRefVector_t queues_;
+  gapi::ViewportPtr_t viewport_;
+  PostProcessing::SharedPtr_t ppe_;
+  RenderQueueSharedPtrVec_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
 };

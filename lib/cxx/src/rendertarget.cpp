@@ -3,10 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) {
-  viewport_ = viewport;
-  viewport_->set(0, 0, 800, 600);
-}
+void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) { viewport_ = viewport; }
 
 void RenderTarget::activate() { viewport_->clear(); }
 

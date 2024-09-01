@@ -1,11 +1,13 @@
 #ifndef SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP
 #define SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP
 
+#include <sway/core.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geometry.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
+#include <sway/render/pipeline/blenddescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -26,13 +28,6 @@ struct RenderCommand {};
 //   std::shared_ptr<Material> material;
 // };
 
-struct BlendDescriptor {
-  bool enabled;
-  gapi::BlendFn src;
-  gapi::BlendFn dst;
-  bool mask;
-};
-
 struct ForwardRenderCommand : public RenderCommand {
   u32_t stage;
 
@@ -46,7 +41,7 @@ struct ForwardRenderCommand : public RenderCommand {
   std::shared_ptr<Geometry> geometry;
   Geom *geom;
   gapi::TopologyType topology;
-  std::shared_ptr<Material> material;
+  Material::SharedPtr_t material;
 
   math::mat4f_t tfrm;
   math::mat4f_t proj;

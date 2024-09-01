@@ -19,11 +19,9 @@ NAMESPACE_BEGIN(render)
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
+  DECLARE_CLASSPTR_ALIAS(Sprite)
 
 public:
-  using Ptr_t = Sprite *;
-  using SharedPtr_t = std::shared_ptr<Sprite>;
-
 #pragma region "Ctors/Dtor"
 
   Sprite() = default;

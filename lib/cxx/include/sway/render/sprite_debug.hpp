@@ -33,7 +33,7 @@ public:
   }
 
 private:
-  EffectPtr_t effect_;
+  Effect::Ptr_t effect_;
   RenderSubqueue::SharedPtr_t subqueue_;
   Material::SharedPtr_t material_;
   GeomBuilder::SharedPtr_t geomBuilder_;

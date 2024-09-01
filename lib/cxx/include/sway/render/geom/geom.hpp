@@ -34,7 +34,7 @@ public:
   template <class TObject>
   void call(std::function<void(TObject)> callback);
 
-  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, EffectPtr_t effect,
+  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
       std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
 
   MTHD_VIRTUAL(void bind());

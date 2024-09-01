@@ -6,7 +6,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-enum class RenderStage : u32_t { DEPTH = 0, COLOR = 1, STENCIL = 2, MAX_STAGE = 3 };
+enum class RenderStage : i32_t { IDX_DEPTH = GLOB_IDX_INITIAL, IDX_COLOR, IDX_STENCIL, Latest };
+
+#define MAX_RENDER_STAGES core::detail::toBase(RenderStage::Latest)
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

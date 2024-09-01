@@ -16,7 +16,7 @@ Geom::~Geom() {
   builder_->stats_.numGeoms -= 1;
 }
 
-void Geom::create(const GeometryCreateInfo &info, EffectPtr_t effect,
+void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
     std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
 
   attribs_ = attribs;

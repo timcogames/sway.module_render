@@ -72,7 +72,7 @@ public:
 
   virtual ~SpriteAnimation() = default;
 
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t deltaTime));
+  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
 
   MTHD_OVERRIDE(void play());
 
@@ -89,7 +89,7 @@ public:
   void replay() {}
 
 private:
-  void update_(f32_t dtime);
+  void update_(f32_t dtm);
 
 public:
   std::shared_ptr<SpriteAnimationClip<SpriteSheetFrame>> clip_;

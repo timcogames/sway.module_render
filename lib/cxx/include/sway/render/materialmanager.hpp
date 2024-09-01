@@ -11,21 +11,18 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-using MaterialPtr_t = std::shared_ptr<Material>;
-using MaterialMap_t = std::map<std::string, MaterialPtr_t>;
-
 class MaterialManager {
 public:
   MaterialManager();
 
   ~MaterialManager() = default;
 
-  auto addMaterial(MaterialPtr_t mtrl) -> bool;
+  auto addMaterial(MaterialSharedPtr_t mtrl) -> bool;
 
-  auto getByUid(const std::string &name) -> MaterialPtr_t;
+  auto getByUid(const std::string &name) -> MaterialSharedPtr_t;
 
 private:
-  MaterialMap_t materials_;
+  MaterialSharedPtrMap_t materials_;
 };
 
 NAMESPACE_END(render)

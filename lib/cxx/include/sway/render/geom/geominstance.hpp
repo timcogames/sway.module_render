@@ -27,7 +27,7 @@ public:
     SAFE_DELETE_OBJECT(dataDivisor_);
   }
 
-  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info, EffectPtr_t effect,
+  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
       std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs)) {
     vao_ = gapiPlugin_->createVertexArray();
     Geom::create(info, effect, attribs);

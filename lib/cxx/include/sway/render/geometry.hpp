@@ -84,7 +84,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  Geometry(gapi::IdGeneratorPtr_t idgen, EffectPtr_t effect, bool indexed);
+  Geometry(gapi::IdGeneratorPtr_t idgen, Effect::Ptr_t effect, bool indexed);
 
   ~Geometry() = default;
 
@@ -115,7 +115,7 @@ private:
   VertexAttribMap_t attribs_;
   gapi::VertexAttribLayoutPtr_t attribLayout_;
   gapi::BufferSet bufset_{nullptr, nullptr, nullptr};
-  EffectPtr_t effect_;
+  Effect::Ptr_t effect_;
   bool indexed_;
 };
 

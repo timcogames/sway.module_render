@@ -15,14 +15,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderSubqueue {
+  DECLARE_CLASSPTR_ALIAS(RenderSubqueue)
+
 public:
-#pragma region "Define aliases"
-
-  using Ptr_t = RenderSubqueuePtr_t;
-  using SharedPtr_t = RenderSubqueueSharedPtr_t;
-
-#pragma endregion
-
 #pragma region "Ctors/Dtor"
 
   /**
@@ -44,7 +39,7 @@ public:
    *
    * @param[in] geometry Отрисовываемый объект.
    */
-  // void addGeometry(GeometryRef_t geometry);
+  // void addGeometry(GeometrySharedPtr_t geometry);
 
   void post(pipeline::ForwardRenderCommand cmd);
 
