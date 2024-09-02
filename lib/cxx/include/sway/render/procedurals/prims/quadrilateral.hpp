@@ -68,11 +68,11 @@ public:
                                      .asDataPtr());
   }
 
-  void setPosDataAttrib(const math::rect4f_t &pos) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getL(), pos.getB(), 0.0F).asDataPtr());
-    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), 0.0F).asDataPtr());
-    dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getT(), 0.0F).asDataPtr());
-    dataAttribs_.pos->setData(3, math::vec3f_t(pos.getR(), pos.getT(), 0.0F).asDataPtr());
+  void setPosDataAttrib(const math::rect4f_t &pos, f32_t zindex = 0.0F) {
+    dataAttribs_.pos->setData(0, math::vec3f_t(pos.getL(), pos.getB(), zindex).asDataPtr());
+    dataAttribs_.pos->setData(1, math::vec3f_t(pos.getR(), pos.getB(), zindex).asDataPtr());
+    dataAttribs_.pos->setData(2, math::vec3f_t(pos.getL(), pos.getT(), zindex).asDataPtr());
+    dataAttribs_.pos->setData(3, math::vec3f_t(pos.getR(), pos.getT(), zindex).asDataPtr());
   }
 
   void setColDataAttrib(const math::col4f_t &col) {
