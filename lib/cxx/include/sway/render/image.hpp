@@ -13,9 +13,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Image {
-public:
-  using Ptr = std::shared_ptr<Image>;
+  DECLARE_CLASS_POINTER_ALIASES(Image)
 
+public:
   Image();
 
   ~Image() = default;

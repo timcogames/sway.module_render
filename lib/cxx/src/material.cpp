@@ -39,7 +39,7 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
   return true;
 }
 
-auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::Ptr {
+auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t {
   auto image = std::make_shared<Image>();
 
 #ifndef EMSCRIPTEN_PLATFORM

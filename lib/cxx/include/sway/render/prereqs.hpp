@@ -32,9 +32,8 @@ DECLARE_CLASS_POINTER_TYPES(RenderPass)
 DECLARE_CLASS_POINTER_TYPES(RenderTarget)
 DECLARE_CLASS_POINTER_TYPES(RenderState)
 DECLARE_CLASS_POINTER_TYPES(PostProcessing)
+DECLARE_CLASS_POINTER_TYPES(Image)
 DECLARE_CLASS_POINTER_TYPES(Sprite)
-
-#undef DECLARE_CLASS_POINTER_TYPES
 
 using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;

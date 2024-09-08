@@ -93,7 +93,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   subqueue_->post(cmd);
 }
 
-void Sprite::setTexture(Image::Ptr texture, bool recomputeUVRequired) {
+void Sprite::setTexture(Image::SharedPtr_t texture, bool recomputeUVRequired) {
   if (recomputeUVRequired) {
     setTextureRect(math::rect4i_t(0, 0, texture->getSize()));
   }
@@ -101,7 +101,7 @@ void Sprite::setTexture(Image::Ptr texture, bool recomputeUVRequired) {
   texture_ = texture;
 }
 
-auto Sprite::getTexture() const -> Image::Ptr { return texture_; }
+auto Sprite::getTexture() const -> Image::SharedPtr_t { return texture_; }
 
 void Sprite::setTextureRect(const math::rect4i_t &rect) {
   if (textureRect_.equals(rect)) {

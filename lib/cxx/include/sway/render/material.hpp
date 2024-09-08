@@ -35,7 +35,7 @@ public:
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
-  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::Ptr;
+  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t;
 
   void addEffect(std::unordered_map<gapi::ShaderType, std::string> sources);
 
@@ -47,9 +47,9 @@ public:
 
   auto getEffect() -> Effect::Ptr_t { return effect_; }
 
-  auto getImages() -> std::vector<std::pair<std::string, Image::Ptr>> { return images_; }
+  auto getImages() -> std::vector<std::pair<std::string, Image::SharedPtr_t>> { return images_; }
 
-  auto getImage(u32_t idx) -> Image::Ptr { return images_[idx].second; }
+  auto getImage(u32_t idx) -> Image::SharedPtr_t { return images_[idx].second; }
 
 public:
   void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
@@ -58,7 +58,7 @@ public:
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   Effect::Ptr_t effect_;
-  std::vector<std::pair<std::string, Image::Ptr>> images_;
+  std::vector<std::pair<std::string, Image::SharedPtr_t>> images_;
   MaterialDescriptor desc_;
 };
 
