@@ -14,7 +14,7 @@ NAMESPACE_BEGIN(procedurals)
 
 class ShapeBase {
 public:
-  PURE_VIRTUAL(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>);
+  PURE_VIRTUAL(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t>);
 
   PURE_VIRTUAL(void getVertices(void *dst, u32_t start, u32_t end));
 

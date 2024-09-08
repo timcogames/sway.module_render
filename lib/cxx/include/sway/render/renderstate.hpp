@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderState {
-  DECLARE_CLASSPTR_ALIAS(RenderState)
+  DECLARE_CLASS_POINTER_ALIASES(RenderState)
 
 public:
 #pragma region "Ctors/Dtor"

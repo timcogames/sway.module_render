@@ -4,7 +4,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder)
+Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
     : core::foundation::Uniqueable<std::string>(core::misc::newGuid<UUID_NBR_OF_GROUPS>(UUID_MAGIC))
     , gapiPlugin_(plug)
     , builder_(builder)
@@ -17,7 +17,7 @@ Geom::~Geom() {
 }
 
 void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-    std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs) {
+    std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs) {
 
   attribs_ = attribs;
 

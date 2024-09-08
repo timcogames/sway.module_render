@@ -78,10 +78,9 @@ struct UVData {
 };
 
 class Geometry {
-public:
-  using Ptr_t = Geometry *;
-  using SharedPtr_t = std::shared_ptr<Geometry>;
+  DECLARE_CLASS_POINTER_ALIASES(Geometry)
 
+public:
 #pragma region "Ctors/Dtor"
 
   Geometry(gapi::IdGeneratorPtr_t idgen, Effect::Ptr_t effect, bool indexed);

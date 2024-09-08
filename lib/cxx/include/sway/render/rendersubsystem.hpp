@@ -21,7 +21,7 @@ NAMESPACE_BEGIN(render)
 
 class RenderSubsystem : public core::foundation::Subsystem {
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
-  DECLARE_CLASSPTR_ALIAS(RenderSubsystem)
+  DECLARE_CLASS_POINTER_ALIASES(RenderSubsystem)
 
 public:
 #pragma region "Ctors/Dtor"

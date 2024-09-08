@@ -15,7 +15,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class PostProcessing {
-  DECLARE_CLASSPTR_ALIAS(PostProcessing)
+  DECLARE_CLASS_POINTER_ALIASES(PostProcessing)
 
 public:
 #pragma region "Ctors/Dtor"

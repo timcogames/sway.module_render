@@ -25,7 +25,7 @@ NAMESPACE_BEGIN(render)
 // };
 
 class RenderPass {
-  DECLARE_CLASSPTR_ALIAS(RenderPass)
+  DECLARE_CLASS_POINTER_ALIASES(RenderPass)
 
 public:
 #pragma region "Ctors/Dtor"

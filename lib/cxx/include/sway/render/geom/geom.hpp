@@ -7,6 +7,7 @@
 #include <sway/render/geom/geomvertexattribbase.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
+#include <sway/render/prereqs.hpp>
 
 #include <algorithm>
 #include <array>
@@ -21,21 +22,23 @@ struct UVData2 {
   std::vector<math::vec2f_t> uv;
 };
 
-class GeomBuilder;
-
 class Geom : public core::foundation::Uniqueable<std::string> {
-public:
-  using Ptr = Geom *;
+  DECLARE_CLASS_POINTER_ALIASES(Geom)
 
-  Geom(global::GapiPluginFunctionSet *plug, GeomBuilder *builder);
+public:
+#pragma region "Ctors/Dtor"
+
+  Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder);
 
   virtual ~Geom();
+
+#pragma endregion
 
   template <class TObject>
   void call(std::function<void(TObject)> callback);
 
   MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs));
+      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs));
 
   MTHD_VIRTUAL(void bind());
 
@@ -49,11 +52,11 @@ public:
 
 protected:
   global::GapiPluginFunctionSet *gapiPlugin_;
-  GeomBuilder *builder_;
+  GeomBuilderPtr_t builder_;
 
 private:
   gapi::VertexAttribLayoutPtr_t attribLayout_;
-  std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
+  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
   std::array<std::optional<gapi::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};
 };
 

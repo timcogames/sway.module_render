@@ -3,11 +3,14 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class GeomVertexAttribBase {
+  DECLARE_CLASS_POINTER_ALIASES(GeomVertexAttribBase)
+
 public:
   PURE_VIRTUAL(void setData(u32_t idx, void *val));
 

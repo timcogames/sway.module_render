@@ -8,6 +8,7 @@
 #include <sway/render/geom/geominstance.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
+#include <sway/render/prereqs.hpp>
 
 #include <list>
 #include <map>
@@ -27,11 +28,14 @@ struct GeomPoolStats {
 
 // BufferPool
 class GeomBuilder {
+  DECLARE_CLASS_POINTER_ALIASES(GeomBuilder)
+
 public:
-  using Ptr_t = GeomBuilder *;
-  using SharedPtr_t = std::shared_ptr<GeomBuilder>;
+#pragma region "Static methods"
 
   static auto create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t;
+
+#pragma endregion
 
 #pragma region "Ctors/Dtor"
 
@@ -43,11 +47,11 @@ public:
 
   template <typename TShape>
   auto create(int idx, const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t;
+      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
-  auto create(const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs, Effect::Ptr_t effect) -> u32_t;
+  auto create(const GeometryCreateInfo &info, std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs,
+      Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto createInstance(
@@ -59,15 +63,15 @@ public:
 
   void remove(u32_t idx);
 
-  auto find(const std::string &uid) -> Geom::Ptr;
+  auto find(const std::string &uid) -> Geom::Ptr_t;
 
   auto canResize(std::size_t size) const -> bool;
 
   void reserve(std::size_t size);
 
-  auto getGeometries() -> std::vector<Geom::Ptr> { return geometries_; }
+  auto getGeometries() -> std::vector<Geom::Ptr_t> { return geometries_; }
 
-  auto getGeometry(int idx) -> Geom::Ptr;
+  auto getGeometry(int idx) -> Geom::Ptr_t;
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
@@ -76,7 +80,7 @@ public:
 private:
   global::GapiPluginFunctionSet *gapiPlugin_;
   gapi::IdGeneratorPtr_t idGenerator_;
-  std::vector<Geom::Ptr> geometries_;
+  std::vector<Geom::Ptr_t> geometries_;
   std::list<u32_t> availables_;
 };
 

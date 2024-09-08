@@ -39,7 +39,7 @@ struct ForwardRenderCommand : public RenderCommand {
   gapi::StencilDescriptor stencilDesc;
 
   std::shared_ptr<Geometry> geometry;
-  Geom *geom;
+  Geom::Ptr_t geom;
   gapi::TopologyType topology;
   Material::SharedPtr_t material;
 

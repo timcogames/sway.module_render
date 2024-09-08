@@ -127,7 +127,7 @@ public:
     return data_;
   }
 
-  MTHD_OVERRIDE(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>>) {
+  MTHD_OVERRIDE(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t>) {
     return data_->getAttribs();
   }
 

@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class RenderQueue {
-  DECLARE_CLASSPTR_ALIAS(RenderQueue)
+  DECLARE_CLASS_POINTER_ALIASES(RenderQueue)
 
 public:
 #pragma region "Ctors/Dtor"

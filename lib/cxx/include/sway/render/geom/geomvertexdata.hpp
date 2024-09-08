@@ -20,9 +20,9 @@ public:
   virtual ~GeomVertexData() = default;
 
   template <typename TAttribFormat>
-  auto createAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<GeomVertexAttribBase>;
+  auto createAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBase::SharedPtr_t;
 
-  auto getAttrib(gapi::VertexSemantic semantic) -> std::shared_ptr<GeomVertexAttribBase> {
+  auto getAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBase::SharedPtr_t {
     auto iter = attribs_.find(semantic);
     if (iter != attribs_.end()) {
       return iter->second;
@@ -32,7 +32,7 @@ public:
   }
 
   [[nodiscard]]
-  auto getAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> {
+  auto getAttribs() const -> std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> {
     return attribs_;
   }
 
@@ -73,7 +73,7 @@ public:
   }
 
 private:
-  std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
+  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
   u32_t numVerts_;
 };
 

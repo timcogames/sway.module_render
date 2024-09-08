@@ -21,7 +21,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
-  DECLARE_CLASSPTR_ALIAS(Material)
+  DECLARE_CLASS_POINTER_ALIASES(Material)
 
 public:
 #pragma region "Ctors/Dtor"

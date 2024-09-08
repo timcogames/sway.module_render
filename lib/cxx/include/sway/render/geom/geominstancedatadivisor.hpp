@@ -79,12 +79,12 @@ public:
     return indices;
   }
 
-  auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> {
+  auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> {
     return instances_[0]->data()->getAttribs();
   }
 
 private:
-  std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs_;
+  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
   std::vector<gapi::VertexSemantic> semantics_;
   std::vector<TShape *> instances_;
   u32_t offsetIndex_;

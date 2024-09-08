@@ -28,7 +28,7 @@ void GeomBuilder::remove(u32_t idx) {
   availables_.push_back(idx);
 }
 
-auto GeomBuilder::find(const std::string &uid) -> Geom::Ptr {
+auto GeomBuilder::find(const std::string &uid) -> Geom::Ptr_t {
   for (auto item : geometries_) {
     if (item->getUid().value() == uid) {
       return item;
@@ -53,7 +53,7 @@ void GeomBuilder::reserve(std::size_t size) {
   }
 }
 
-auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr {
+auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr_t {
   if (idx >= geometries_.size()) {
     return nullptr;
   }

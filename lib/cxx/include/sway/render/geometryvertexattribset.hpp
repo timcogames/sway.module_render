@@ -12,9 +12,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 struct GeomVertexAttribSet {
-  std::shared_ptr<GeomVertexAttribBase> pos;
-  std::shared_ptr<GeomVertexAttribBase> col;
-  std::shared_ptr<GeomVertexAttribBase> tex;
+  GeomVertexAttribBase::SharedPtr_t pos;
+  GeomVertexAttribBase::SharedPtr_t col;
+  GeomVertexAttribBase::SharedPtr_t tex;
 };
 
 struct GeometryVertexAttribSet {

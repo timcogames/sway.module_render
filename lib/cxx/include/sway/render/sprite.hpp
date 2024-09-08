@@ -19,7 +19,7 @@ NAMESPACE_BEGIN(render)
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
-  DECLARE_CLASSPTR_ALIAS(Sprite)
+  DECLARE_CLASS_POINTER_ALIASES(Sprite)
 
 public:
 #pragma region "Ctors/Dtor"
@@ -57,6 +57,26 @@ public:
   auto getTextureRect() const -> math::rect4i_t;
 
   void recomputeUV();
+
+  // void setFlippedX(bool flippedX) {
+  //   if (flippedX_ != flippedX) {
+  //     textureRect_.x += textureRect_.w;
+  //     textureRect_.w *= -1;
+  //     flippedX_ = flippedX;
+
+  //     dirtyBits_.set(DirtyBitPosition::TEXTURE_BIT);
+  //   }
+  // }
+
+  // void setFlippedY(bool flippedY) {
+  //   if (flippedY_ != flippedY) {
+  //     textureRect_.y += textureRect_.h;
+  //     textureRect_.h *= -1;
+  //     flippedY_ = flippedY;
+
+  //     dirtyBits_.set(DirtyBitPosition::TEXTURE_BIT);
+  //   }
+  // }
 
 private:
   RenderSubqueue::SharedPtr_t subqueue_;

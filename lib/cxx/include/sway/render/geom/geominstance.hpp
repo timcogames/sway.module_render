@@ -5,18 +5,17 @@
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geominstancedatadivisor.hpp>
+#include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
-
-class GeomBuilder;
 
 template <typename TShape>
 class GeomInstance : public Geom {
 public:
   using ShapeVtxDataType_t = typename TShape::VtxDataType_t;
 
-  GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilder *builder, GeomInstanceDataDivisor<TShape> *divisor)
+  GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
       : Geom(plug, builder)
       , dataDivisor_(divisor)
       , data_(nullptr) {}
@@ -28,7 +27,7 @@ public:
   }
 
   MTHD_OVERRIDE(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-      std::map<gapi::VertexSemantic, std::shared_ptr<GeomVertexAttribBase>> attribs)) {
+      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs)) {
     vao_ = gapiPlugin_->createVertexArray();
     Geom::create(info, effect, attribs);
   }

@@ -6,8 +6,7 @@ NAMESPACE_BEGIN(render)
 
 template <typename TVertexDataType>
 template <typename TAttribFormat>
-auto GeomVertexData<TVertexDataType>::createAttrib(gapi::VertexSemantic semantic)
-    -> std::shared_ptr<GeomVertexAttribBase> {
+auto GeomVertexData<TVertexDataType>::createAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBase::SharedPtr_t {
   auto attrib = std::make_shared<GeomVertexAttrib<TAttribFormat>>(this, semantic, false);
   attribs_[semantic] = attrib;
   return attrib;
