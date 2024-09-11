@@ -34,13 +34,6 @@ public:
 
   void initialize();
 
-  /**
-   * @brief Добавляет отрисовываемый объект.
-   *
-   * @param[in] geometry Отрисовываемый объект.
-   */
-  // void addGeometry(GeometrySharedPtr_t geometry);
-
   void post(pipeline::ForwardRenderCommand cmd);
 
   /**

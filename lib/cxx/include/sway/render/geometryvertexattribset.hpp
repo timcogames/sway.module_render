@@ -4,7 +4,6 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/geometryvertexattrib.hpp>
 
 #include <memory>
 
@@ -15,12 +14,6 @@ struct GeomVertexAttribSet {
   GeomVertexAttribBase::SharedPtr_t pos;
   GeomVertexAttribBase::SharedPtr_t col;
   GeomVertexAttribBase::SharedPtr_t tex;
-};
-
-struct GeometryVertexAttribSet {
-  std::shared_ptr<GeometryVertexAttrib<math::vec3f_t>> pos;
-  std::shared_ptr<GeometryVertexAttrib<math::vec4f_t>> col;
-  std::shared_ptr<GeometryVertexAttrib<math::vec2f_t>> tex;
 };
 
 NAMESPACE_END(render)

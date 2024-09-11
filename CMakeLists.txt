@@ -95,9 +95,14 @@ set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
 include_directories("${GLOB_THIRD_PARTY_DIR}/json/include")
-include_directories("${GLOB_GTEST_ROOT_DIR}/include")
-include_directories("${GLOB_GMOCK_ROOT_DIR}/include")
+
 include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
+if(MODULE_RENDER_ENABLE_TESTS)
+  include_directories("${GLOB_GTEST_ROOT_DIR}/include")
+  include_directories("${GLOB_GMOCK_ROOT_DIR}/include")
+  include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/tests")
+endif()
+
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")

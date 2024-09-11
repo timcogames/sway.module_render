@@ -2,7 +2,6 @@ BasedOnStyle: LLVM
 IndentWidth: 2
 Standard: c++17
 AllowShortEnumsOnASingleLine: true
-BreakAfterAttributes: Always
 BreakConstructorInitializers: BeforeComma
 BreakBeforeBraces: Custom
 BraceWrapping:
@@ -45,7 +44,15 @@ TypenameMacros:
   - PURE_VIRTUAL
   - MTHD_VIRTUAL
   - MTHD_OVERRIDE
+  - DECLARE_SUPERCLASS
+  - DECLARE_CLASS_METADATA
+  - DECLARE_CLASS_POINTER_TYPES
+  - DECLARE_CLASS_POINTER_ALIASES
   - DECLARE_EVENT
+  - DECLARE_EMSCRIPTEN
+  - DECLARE_EMSCRIPTEN_BINDING
+  - EMSCRIPTEN_BINDING_BEGIN
+  - EMSCRIPTEN_BINDING_END
   - TEST
   - TEST_F
 AlwaysBreakTemplateDeclarations: true

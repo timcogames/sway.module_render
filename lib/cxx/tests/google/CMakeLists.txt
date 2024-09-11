@@ -27,14 +27,16 @@ set(GMOCK_INC_DIR "${GMOCK_ROOT}/include")
 
 include_directories("${GTEST_INC_DIR}")
 include_directories("${GMOCK_INC_DIR}")
-include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
+# include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
+# include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/tests")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 
 #--------------------------------------------------------------------------------
 # Find project test files
 #--------------------------------------------------------------------------------
 
-file(GLOB MODULE_RENDER_TEST_SOURCES "${MODULE_RENDER_ROOT_DIR}/lib/cxx/tests/*/*.spec.cpp")
+# file(GLOB MODULE_RENDER_TEST_SOURCES "${MODULE_RENDER_ROOT_DIR}/lib/cxx/tests/*/*.spec.cpp")
+file(GLOB MODULE_RENDER_TEST_SOURCES "${MODULE_RENDER_ROOT_DIR}/lib/cxx/tests/*/*.cpp")
 
 #--------------------------------------------------------------------------------
 # Build tests

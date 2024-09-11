@@ -9,12 +9,8 @@
 #include <sway/render/geom/geominstancedatadivisor.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
-#include <sway/render/geometry.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
-#include <sway/render/geometryindexedvertexdata.hpp>
-#include <sway/render/geometryvertexattrib.hpp>
 #include <sway/render/geometryvertexattribset.hpp>
-#include <sway/render/geometryvertexdata.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
 #include <sway/render/materialdescriptor.hpp>
@@ -26,9 +22,8 @@
 #include <sway/render/ppe/silhouettepostprocessing.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/guides/line.hpp>
-#include <sway/render/procedurals/prims/plane_debug.hpp>
-#include <sway/render/procedurals/prims/plane_list.hpp>
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
+#include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
 #include <sway/render/procedurals/shape.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderpass.hpp>
@@ -44,7 +39,6 @@
 #include <sway/render/spriteanimation.hpp>
 #include <sway/render/spriteanimationclip.hpp>
 #include <sway/render/spriteanimationmodes.hpp>
-#include <sway/render/spritebatch.hpp>
 #include <sway/render/spritesheet.hpp>
 
 #endif  // SWAY_RENDER_HPP

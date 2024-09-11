@@ -15,9 +15,6 @@ NAMESPACE_BEGIN(render)
 NAMESPACE_BEGIN(procedurals)
 NAMESPACE_BEGIN(guides)
 
-template <typename TVertexDataType>
-using GeometryDataPtr = std::shared_ptr<GeometryIndexedVertexData<TVertexDataType>>;
-
 class Axis : public ShapeBase {
 public:
   using VtxDataType_t = math::VertexColor;

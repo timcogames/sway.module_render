@@ -1,5 +1,4 @@
 #include <sway/render/effect.hpp>
-#include <sway/render/geometry.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
@@ -58,12 +57,6 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
       drawCall_->execute(cmd.topology, set, core::ValueDataType::UINT);
 
       cmd.geom->unbind();
-    } else {
-      cmd.geometry->bind();
-
-      drawCall_->execute(cmd.geometry->getTopology(), cmd.geometry->getBufferSet(), core::ValueDataType::UINT);
-
-      cmd.geometry->unbind();
     }
 
     cmd.material->unbind();

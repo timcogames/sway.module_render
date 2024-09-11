@@ -4,7 +4,6 @@
 #include <sway/core.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/geom/geom.hpp>
-#include <sway/render/geometry.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
 #include <sway/render/pipeline/blenddescriptor.hpp>
@@ -38,7 +37,6 @@ struct ForwardRenderCommand : public RenderCommand {
   gapi::DepthDescriptor depthDesc;
   gapi::StencilDescriptor stencilDesc;
 
-  std::shared_ptr<Geometry> geometry;
   Geom::Ptr_t geom;
   gapi::TopologyType topology;
   Material::SharedPtr_t material;

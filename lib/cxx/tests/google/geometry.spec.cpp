@@ -7,66 +7,15 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <google/plugfixture.hpp>
+
 using namespace sway;
 
-TEST(Geom, createVertexData) {
-  auto numVerts = 4;
-  auto geomVertexData = std::make_shared<render::GeomVertexData<math::VertexColor>>(numVerts);
+class GeometryTestFixture : public PlugTestFixture {};
 
-  auto pos = geomVertexData->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS);
-  ASSERT_FALSE(pos->enabled());
-
-  pos->setData(0, math::vec3f_t(1.0F, 1.0F, 1.0F).asDataPtr());
-  pos->setData(1, math::vec3f_t(1.1F, 1.1F, 1.1F).asDataPtr());
-  pos->setData(2, math::vec3f_t(1.2F, 1.2F, 1.2F).asDataPtr());
-  pos->setData(3, math::vec3f_t(1.3F, 1.3F, 1.3F).asDataPtr());
-
-  auto col = geomVertexData->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL);
-  ASSERT_FALSE(col->enabled());
-
-  col->setData(0, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).asDataPtr());
-  col->setData(1, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).asDataPtr());
-  col->setData(2, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).asDataPtr());
-  col->setData(3, math::vec4f_t(1.0F, 1.0F, 1.0F, 1.0F).asDataPtr());
-
-  geomVertexData->useSemanticSet({gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
-  ASSERT_TRUE(pos->enabled());
-  ASSERT_TRUE(col->enabled());
-
-  // auto data = (math::VertexColor *)geomVertexData->getVertices();
-  // for (auto i = 0; i < numVerts; i++) {
-  //   std::cout << data[i] << std::endl;
-  // }
-
-  // free(data);
-}
-
-render::global::GapiPluginFunctionSet *globalGapiPlug;
-
-class GeomTestFixture : public testing::Test {
-protected:
-  render::global::MockPluginFunctionSet mockedGapiPlug;
-
-  void SetUp() { globalGapiPlug = &mockedGapiPlug; }
-
-  void TearDown() { globalGapiPlug = nullptr; }
-};
-
-void addAttributeFake(gapi::VertexAttribDescriptor desc) {}
-
-TEST_F(GeomTestFixture, createBuffer) {
-  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::NONE);
-  EXPECT_CALL(*globalGapiPlug, createShader(testing::_)).WillRepeatedly(testing::Return(shaderStub));
-
-  auto *shaderProgramStub = new render::global::ShaderProgramStub();
-  EXPECT_CALL(*globalGapiPlug, createShaderProgram()).WillRepeatedly(testing::Return(shaderProgramStub));
-  EXPECT_CALL(*shaderProgramStub, attach(shaderStub)).Times(2);
-  EXPECT_CALL(*shaderProgramStub, link());
-  EXPECT_CALL(*shaderProgramStub, isLinked()).WillOnce(testing::Return(true));
-  EXPECT_CALL(*shaderProgramStub, validate());
-  EXPECT_CALL(*shaderProgramStub, isValidated()).WillOnce(testing::Return(true));
-  // EXPECT_CALL(*shaderProgramStub, use());
-  // EXPECT_CALL(*shaderProgramStub, unuse());
+TEST_F(GeometryTestFixture, create_buffer) {
+  auto *shaderStub = createShaderStub(globalGapiPlug);
+  auto *shaderProgStub = createShaderProgStub(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
   infoSet.vs.type = gapi::ShaderType::VERT;
@@ -99,7 +48,7 @@ TEST_F(GeomTestFixture, createBuffer) {
   EXPECT_CALL(*globalGapiPlug, createIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
   EXPECT_CALL(*globalGapiPlug, createVertexArray()).WillRepeatedly(testing::Return(vertexArrayStub));
   EXPECT_CALL(*globalGapiPlug, createBuffer(testing::_, testing::_)).WillRepeatedly(testing::Return(bufferStub));
-  EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgramStub))
+  EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgStub))
       .WillRepeatedly(testing::Return(vertexAttribLayoutStub));
 
   constexpr auto numInstances = 1;
@@ -158,6 +107,11 @@ TEST_F(GeomTestFixture, createBuffer) {
   geomInstance_0->remap();
   geomInstance_1->remap();
 
+  // ---------------------
+  shaderProgStub->use();
+  shaderProgStub->unuse();
+  // ---------------------
+
   // SAFE_DELETE_OBJECT(geomDataDivisor);
   SAFE_DELETE_OBJECT(vertexArrayStub);
   SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
@@ -165,6 +119,6 @@ TEST_F(GeomTestFixture, createBuffer) {
   SAFE_DELETE_OBJECT(idGeneratorStub);
   // SAFE_DELETE_OBJECT(geomBuilder);
   SAFE_DELETE_OBJECT(shaderStub);
-  // SAFE_DELETE_OBJECT(shaderProgramStub);
-  SAFE_DELETE_OBJECT(effect);
+  SAFE_DELETE_OBJECT(shaderProgStub);
+  // SAFE_DELETE_OBJECT(effect);
 }

@@ -3,7 +3,6 @@
 
 #include <sway/render/geom/geomvertexattrib.hpp>
 #include <sway/render/geometrycreateinfo.hpp>
-#include <sway/render/geometryindexedvertexdata.hpp>
 #include <sway/render/prereqs.hpp>
 
 #include <memory>
@@ -23,17 +22,6 @@ public:
   PURE_VIRTUAL(auto mustBeRemapped() -> bool);
 
   PURE_VIRTUAL(void setRemap(bool val));
-};
-
-class Shape {
-public:
-  PURE_VIRTUAL(auto getVertexAttribs() const -> VertexAttribMap_t);
-
-  PURE_VIRTUAL(auto getVertexAttrib(gapi::VertexSemantic semantic) const -> VertexAttribPtr_t);
-
-  PURE_VIRTUAL(auto getGeometryInfo() -> GeometryCreateInfo);
-
-  PURE_VIRTUAL(auto getVertices() -> void *);
 };
 
 NAMESPACE_END(procedurals)
