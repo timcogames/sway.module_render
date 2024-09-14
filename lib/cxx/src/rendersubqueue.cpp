@@ -25,14 +25,22 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
     }
 
     state->setBlendEnable(cmd.blendDesc.enabled);
-    state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
+    if (cmd.blendDesc.enabled) {
+      state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
+      state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
+      state->setDepthMask(cmd.blendDesc.mask);
+    }
+
     state->setDepthEnable(cmd.depthDesc.enabled);
-    state->setDepthFn(cmd.depthDesc.func);
+    if (cmd.depthDesc.enabled) {
+      state->setDepthFn(cmd.depthDesc.func);
+    }
+
     state->setStencilEnable(cmd.stencilDesc.enabled);
-    state->setStencilFn(cmd.stencilDesc.front.func, cmd.stencilDesc.front.reference, cmd.stencilDesc.front.rmask);
-    state->setStencilOp(cmd.stencilDesc.front.fail, cmd.stencilDesc.front.depthFail, cmd.stencilDesc.front.depthPass);
-    state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
-    state->setDepthMask(cmd.blendDesc.mask);
+    if (cmd.stencilDesc.enabled) {
+      state->setStencilFn(cmd.stencilDesc.front.func, cmd.stencilDesc.front.reference, cmd.stencilDesc.front.rmask);
+      state->setStencilOp(cmd.stencilDesc.front.fail, cmd.stencilDesc.front.depthFail, cmd.stencilDesc.front.depthPass);
+    }
 
     matrixStack_->push<math::MatrixType::PROJ>(cmd.proj);
     matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
