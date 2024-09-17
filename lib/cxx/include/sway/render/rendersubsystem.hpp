@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geombuilder.hpp>
+#include <sway/render/ppe/fullscreenquadrilateral.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
@@ -40,6 +41,9 @@ public:
   virtual ~RenderSubsystem();
 
 #pragma endregion
+
+  auto createPostProcessing(
+      RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) -> FullscreenQuadrilateral::SharedPtr_t;
 
   /**
    * @brief Создает новую очередь и добавляет её в контейнер.
@@ -98,6 +102,7 @@ private:
   RenderQueueSharedPtrVec_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
+  FullscreenQuadrilateral::SharedPtr_t fullscreenQuad_;
 };
 
 NAMESPACE_END(render)

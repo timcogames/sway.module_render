@@ -27,15 +27,23 @@ auto RenderSubsystem::initialize() -> bool {
   idGenerator_ = global::getGapiPluginFunctionSet()->createIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
 
+  geomBuilder_ = GeomBuilder::create(idGenerator_);
+  geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
+
+  return true;
+}
+
+auto RenderSubsystem::createPostProcessing(
+    RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) -> FullscreenQuadrilateral::SharedPtr_t {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
   for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
     ppe_->addPass(i);
   }
 
-  geomBuilder_ = GeomBuilder::create(idGenerator_);
-  geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
+  fullscreenQuad_ = std::make_shared<FullscreenQuadrilateral>();
+  fullscreenQuad_->initialize(geomBuilder_, subqueue, material);
 
-  return true;
+  return fullscreenQuad_;
 }
 
 auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {

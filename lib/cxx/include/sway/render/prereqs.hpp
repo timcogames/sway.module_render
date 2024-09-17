@@ -34,6 +34,7 @@ DECLARE_CLASS_POINTER_TYPES(RenderState)
 DECLARE_CLASS_POINTER_TYPES(PostProcessing)
 DECLARE_CLASS_POINTER_TYPES(Image)
 DECLARE_CLASS_POINTER_TYPES(Sprite)
+DECLARE_CLASS_POINTER_TYPES(FullscreenQuadrilateral)
 
 using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;

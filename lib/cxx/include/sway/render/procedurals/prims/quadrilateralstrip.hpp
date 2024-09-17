@@ -75,7 +75,7 @@ public:
     }
   }
 
-  void setPosDataAttrib(const math::rect4f_t &coords) {
+  void setPosDataAttrib(const math::rect4f_t &coords, f32_t zindex = 0.0F) {
     auto offset = 0;
 
     for (auto i = 0; i < numChunks_.getX() * numChunks_.getY(); i++) {
@@ -94,7 +94,7 @@ public:
         xpos = xpos + 0.2F;
       }
 
-      auto data = math::vec3f_t(xpos, ypos, 0.0F);
+      auto data = math::vec3f_t(xpos, ypos, zindex);
       dataAttribs_.pos->setData(offset, data.asDataPtr());
       offset += 1;
     }
