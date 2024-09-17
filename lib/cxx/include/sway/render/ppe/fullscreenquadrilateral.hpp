@@ -8,7 +8,7 @@
 #include <sway/render/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/procedurals/prims/quadrilateral.hpp>
+#include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
@@ -39,10 +39,13 @@ public:
 
     // auto shape = new procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>(
     //     {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0}, math::size2i_t(1));
-    auto shape = new procedurals::prims::Quadrilateral<math::VertexColor>(
-        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+    auto shape = new procedurals::prims::QuadrilateralStrip<math::VertexColor>(
+        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL}, math::size2i_t(1));
 
-    shape->setPosDataAttrib(math::rect4f_t(-1.0F, -1.0F, 1.0F, 1.0F), 0.0f);
+    //  core::detail::EnumClassBitset<Flipper> flips;
+    //     shape->setPosDataAttrib(
+    //         Flippable::asRect(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(-0.5F, -0.5F), flips), 2.0f);
+    shape->setPosDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(-0.5F, -0.5F), 2.0f);
     shape->setColDataAttrib(COL4F_WHITE);
     // shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
@@ -51,17 +54,17 @@ public:
     geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
-    auto data = new f32_t[4 * sizeof(math::VertexColor)];
-    shape->data()->getVertices(data, 0, 4);
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = shape->getReserveVerts();
+    auto data = new f32_t[shape->getReserveVerts() * sizeof(math::VertexColor)];
+    shape->data()->getVertices(data, 0, shape->getReserveVerts());
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
     geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
     geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-    geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = 6;
+    geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = shape->getReserveElems();
     geomCreateInfo.bo[Constants::IDX_EBO].data = shape->data()->getElements();
 
-    geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexColor>>(
+    geomIdx_ = geomBuilder_->create<procedurals::prims::QuadrilateralStrip<math::VertexColor>>(
         geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
   }
 
@@ -88,13 +91,13 @@ public:
     // clang-format off
     cmd.tfrm = math::mat4f_t();
     cmd.proj.setData(math::Projection((struct math::ProjectionDescription) {
-      .rect = {{ -1.0F /* L */, 1.0F /* B->T */, 1.0F /* R */, -1.0F /* T->B */ }},
+      .rect = {{ -1.0F /* L */, -1.0F /* B->T */, 1.0F /* R */, 1.0F /* T->B */ }},
       .fov = 0,
       .aspect = 800.0F / 600.0F,
       .znear = 1.0F,
       .zfar = 10.0F
     }).makeOrtho());
-    cmd.view = math::xform3f_t::translate(cmd.view, -1.0F, -1.0F, 0.0F);
+    cmd.view = math::xform3f_t::translate(cmd.view, 0.0F, 0.0F, 0.0F);
     // clang-format on
     subqueue_->post(cmd);
   }

@@ -42,8 +42,8 @@ public:
 
 #pragma endregion
 
-  auto createPostProcessing(
-      RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) -> FullscreenQuadrilateral::SharedPtr_t;
+  void createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
+      Material::SharedPtr_t material);  // -> FullscreenQuadrilateral::SharedPtr_t;
 
   /**
    * @brief Создает новую очередь и добавляет её в контейнер.
