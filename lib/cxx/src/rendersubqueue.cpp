@@ -11,6 +11,7 @@ NAMESPACE_BEGIN(render)
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
     : group_(group) {
   matrixStack_ = std::make_shared<math::MatrixStack>();
+  initialize();
 }
 
 void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall(); }
