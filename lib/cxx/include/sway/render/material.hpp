@@ -33,6 +33,8 @@ public:
 
 #pragma endregion
 
+  void addImage(const std::string &alias, Image::SharedPtr_t img);
+
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
   auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t;

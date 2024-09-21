@@ -119,7 +119,7 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   axisCmd.stencilDesc.back = axisCmd.stencilDesc.front;
   axisCmd.geom = axisGeom;
   axisCmd.topology = gapi::TopologyType::LINE_LIST;
-  axisCmd.material = material_;
+  axisCmd.mtrl = material_;
   axisCmd.tfrm = tfrm;
   axisCmd.proj = proj;
   axisCmd.view = view;

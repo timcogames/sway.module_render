@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/image.hpp>
 #include <sway/render/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -26,8 +27,15 @@ public:
 
   void deactivate();
 
+  void attachColorBufferObject();
+
+  auto getColorBuffer() const -> Image::SharedPtr_t { return colorTex_; }
+
 private:
   gapi::ViewportPtr_t viewport_;
+  gapi::Framebuffer::Ptr_t colorFbo_;
+  Image::SharedPtr_t colorTex_;
+  bool attached_{false};
 };
 
 NAMESPACE_END(render)

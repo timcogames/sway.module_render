@@ -86,7 +86,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   cmd.stencilDesc.back = cmd.stencilDesc.front;
   cmd.geom = geom;
   cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
-  cmd.material = material_;
+  cmd.mtrl = material_;
   cmd.tfrm = tfrm;
   cmd.proj = proj;
   cmd.view = view;

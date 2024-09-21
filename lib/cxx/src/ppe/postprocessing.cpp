@@ -1,17 +1,23 @@
 #include <sway/render/ppe/postprocessing.hpp>
+#include <sway/render/renderstages.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
 PostProcessing::PostProcessing(gapi::ViewportPtr_t viewport) {
-  target_ = std::make_shared<RenderTarget>();
-  target_->setScissorViewport(viewport);
+  viewport_ = viewport;
   state_ = std::make_shared<RenderState>();
 }
 
-void PostProcessing::addPass(u32_t idx) {
+void PostProcessing::addPass(u32_t idx, RenderTarget::SharedPtr_t target) {
   passes_[idx] = std::make_shared<RenderPass>();
-  passes_[idx]->setRenderTarget(target_);
+  target->setScissorViewport(viewport_);
+  if (idx == core::detail::toBase(RenderStage::IDX_COLOR)) {
+    target->attachColorBufferObject();
+  }
+
+  passes_[idx]->setRenderTarget(target);
+
   passes_[idx]->setRenderState(state_);
 }
 

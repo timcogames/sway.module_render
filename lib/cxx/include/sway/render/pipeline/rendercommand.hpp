@@ -39,7 +39,7 @@ struct ForwardRenderCommand : public RenderCommand {
 
   Geom::Ptr_t geom;
   gapi::TopologyType topology;
-  Material::SharedPtr_t material;
+  Material::SharedPtr_t mtrl;
 
   math::mat4f_t tfrm;
   math::mat4f_t proj;

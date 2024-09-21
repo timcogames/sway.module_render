@@ -26,14 +26,16 @@ public:
 
 #pragma endregion
 
-  void addPass(u32_t idx);
+  void addPass(u32_t idx, RenderTarget::SharedPtr_t target);
+
+  auto getPass(u32_t idx) -> RenderPass::SharedPtr_t { return passes_[idx]; }
 
   void preRender();
 
   void postRender();
 
 public:
-  RenderTarget::SharedPtr_t target_;
+  gapi::ViewportPtr_t viewport_;
   RenderState::SharedPtr_t state_;
   std::array<RenderPass::SharedPtr_t, MAX_RENDER_STAGES> passes_{};
 };

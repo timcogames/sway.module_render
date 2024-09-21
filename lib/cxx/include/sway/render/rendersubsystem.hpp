@@ -92,7 +92,7 @@ public:
 
   auto getGeomBuilder() -> GeomBuilder::SharedPtr_t { return geomBuilder_; }
 
-private:
+public:
   void renderSubqueues_(
       RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
 

@@ -25,6 +25,8 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
       break;
     }
 
+    // state->setCapabilityEnable(gapi::StateCapability::ALPHA_TEST, true);
+
     state->setBlendEnable(cmd.blendDesc.enabled);
     if (cmd.blendDesc.enabled) {
       state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
@@ -47,7 +49,7 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
     matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
     matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
 
-    cmd.material->bind(matrixStack_);
+    cmd.mtrl->bind(matrixStack_);
 
     if (cmd.geom != nullptr) {
       cmd.geom->bind();
@@ -68,7 +70,7 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
       cmd.geom->unbind();
     }
 
-    cmd.material->unbind();
+    cmd.mtrl->unbind();
 
     matrixStack_->pop<math::MatrixType::TFRM>();
     matrixStack_->pop<math::MatrixType::PROJ>();

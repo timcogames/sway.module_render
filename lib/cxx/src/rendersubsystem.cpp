@@ -36,9 +36,13 @@ auto RenderSubsystem::initialize() -> bool {
 void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
   // -> FullscreenQuadrilateral::SharedPtr_t {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
-  for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
-    ppe_->addPass(i);
-  }
+  // for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
+  //   ppe_->addPass(i);
+  // }
+
+  ppe_->addPass(core::detail::toBase(RenderStage::IDX_COLOR), std::make_shared<RenderTarget>());
+  ppe_->addPass(core::detail::toBase(RenderStage::IDX_DEPTH), std::make_shared<RenderTarget>());
+  ppe_->addPass(core::detail::toBase(RenderStage::IDX_STENCIL), std::make_shared<RenderTarget>());
 
   // fullscreenQuad_ = std::make_shared<FullscreenQuadrilateral>();
   // fullscreenQuad_->initialize(geomBuilder_, subqueue, material);

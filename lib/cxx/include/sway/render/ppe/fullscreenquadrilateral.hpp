@@ -31,31 +31,32 @@ public:
 
 #pragma endregion
 
-  void initialize(
-      GeomBuilder::SharedPtr_t geomBuilder, RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
+  void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder,
+      RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
     geomBuilder_ = geomBuilder;
     subqueue_ = subqueue;
     material_ = material;
 
-    // auto shape = new procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>(
-    //     {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0}, math::size2i_t(1));
-    auto shape = new procedurals::prims::Quadrilateral<math::VertexColor>(
-        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL});
+    screenWdt_ = (f32_t)glob.getIntegerOrDefault("screen_wdt", 800);
+    screenHgt_ = (f32_t)glob.getIntegerOrDefault("screen_hgt", 600);
+
+    auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
+        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
     //  core::detail::EnumClassBitset<Flipper> flips;
     //     shape->setPosDataAttrib(
     //         Flippable::asRect(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(-0.5F, -0.5F), flips), 2.0f);
-    shape->setPosDataAttrib(/*math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(0.0F, 0.0F), */ 22.0F /*ZINDEX*/);
+    shape->setPosDataAttrib(/*math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(0.0F, 0.0F), */ 30.0F /*ZINDEX*/);
     shape->setColDataAttrib(COL4F_WHITE);
-    // shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
+    shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
     GeometryCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = true;
     geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
     geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
-    auto data = new f32_t[4 * sizeof(math::VertexColor)];
+    auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
     shape->data()->getVertices(data, 0, 4);
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
@@ -75,7 +76,7 @@ public:
     //   std::cout << ((u32_t *)geomCreateInfo.bo[Constants::IDX_EBO].data)[i] << std::endl;
     // }
 
-    geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexColor>>(
+    geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
         geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
   }
 
@@ -94,17 +95,14 @@ public:
     cmd.stencilDesc.enabled = false;
     cmd.geom = geom;
     cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
-    cmd.material = material_;
-    // cmd.tfrm = math::mat4f_t();
-    // cmd.proj = math::mat4f_t();
-    // cmd.view = math::mat4f_t();
+    cmd.mtrl = material_;
 
     // clang-format off
     cmd.tfrm = math::mat4f_t();
     cmd.proj.setData(math::Projection((struct math::ProjectionDescription) {
       .rect = {{ -1.0F, -1.0F, 1.0F, 1.0F }},
       .fov = 0,
-      .aspect = 800.0F / 600.0F,
+      .aspect = screenWdt_ / screenHgt_,
       .znear = 1.0F,
       .zfar = 10.0F
     }).makeOrtho());
@@ -125,6 +123,9 @@ private:
   Material::SharedPtr_t material_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
+
+  f32_t screenWdt_;
+  f32_t screenHgt_;
 };
 
 NAMESPACE_END(render)
