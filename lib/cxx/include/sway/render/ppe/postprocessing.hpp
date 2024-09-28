@@ -10,6 +10,7 @@
 #include <sway/render/rendertarget.hpp>
 
 #include <array>
+#include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
@@ -26,9 +27,15 @@ public:
 
 #pragma endregion
 
-  void addPass(u32_t idx, RenderTarget::SharedPtr_t target);
+  // void addPass(u32_t idx, RenderTarget::SharedPtr_t target);
 
-  auto getPass(u32_t idx) -> RenderPass::SharedPtr_t { return passes_[idx]; }
+  void add(RenderPass::SharedPtr_t pass, i32_t idx);
+
+  void apply(gapi::Framebuffer::Ptr_t framebuf);
+
+  auto getPass(u32_t idx) -> RenderPass::SharedPtr_t;
+
+  auto getNumPasses() const { return passes_.size(); }
 
   void preRender();
 
@@ -37,7 +44,7 @@ public:
 public:
   gapi::ViewportPtr_t viewport_;
   RenderState::SharedPtr_t state_;
-  std::array<RenderPass::SharedPtr_t, MAX_RENDER_STAGES> passes_{};
+  std::vector<RenderPass::SharedPtr_t> passes_{};
 };
 
 NAMESPACE_END(render)

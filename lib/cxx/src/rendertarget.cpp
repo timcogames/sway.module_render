@@ -24,28 +24,42 @@ void RenderTarget::attachColorBufferObject() {
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   colorTex_->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
 
-  colorFbo_ = global::getGapiPluginFunctionSet()->createFramebuffer();
-  colorFbo_->attach(gapi::FramebufferAttachment::COL_1, colorTex_->getTexture(), 0);
+  colorFBO_ = global::getGapiPluginFunctionSet()->createFramebuffer();
+  colorFBO_->attach(gapi::FramebufferAttachment::COL_1, colorTex_->getTexture(), 0);
+
+  renderBO_ = global::getGapiPluginFunctionSet()->createRenderBuffer();
+  renderBO_->store(gapi::PixelFormat::RGBA4, math::size2i_t(800, 600), 0);
 }
 
-void RenderTarget::activate() {
-  if (attached_) {
-    colorFbo_->bind();
-  }
-
-  viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
-  // viewport_->clear(gapi::ClearFlag::COLOR | gapi::ClearFlag::DEPTH | gapi::ClearFlag::STENCIL);
+void RenderTarget::activate(gapi::StateContextPtr_t ctx) {
+  auto clearFlags = core::detail::toBase(gapi::ClearFlag::COLOR);
 
   if (attached_) {
-    viewport_->clear(gapi::ClearFlag::COLOR);
-  } else {
-    viewport_->clear(gapi::ClearFlag::NONE);
+    colorFBO_->bind();
   }
+
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::COLOR)) {
+    viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
+  }
+
+  auto clearDepth = 0;
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::DEPTH)) {
+    ctx->setClearDepth(clearDepth);
+    ctx->setDepthMask(true);
+  }
+
+  auto clearStencil = 0;
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::STENCIL)) {
+    ctx->setClearStencil(clearStencil);
+    ctx->setStencilMask(0x0);
+  }
+
+  viewport_->clear(core::detail::toEnum<gapi::ClearFlag>(clearFlags));
 }
 
 void RenderTarget::deactivate() {
   if (attached_) {
-    colorFbo_->unbind();
+    colorFBO_->unbind();
   }
 }
 

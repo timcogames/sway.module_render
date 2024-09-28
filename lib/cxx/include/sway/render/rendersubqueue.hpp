@@ -62,6 +62,8 @@ public:
   }
 
 private:
+  void renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state);
+
   gapi::DrawCallPtr_t drawCall_;
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;

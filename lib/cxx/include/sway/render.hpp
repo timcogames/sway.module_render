@@ -18,8 +18,9 @@
 #include <sway/render/pipeline/blenddescriptor.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/pipeline/rendercommandhandler.hpp>
-#include <sway/render/ppe/fullscreenquadrilateral.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
+#include <sway/render/ppe/postprocessingpass.hpp>
+#include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/ppe/silhouettepostprocessing.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/guides/line.hpp>

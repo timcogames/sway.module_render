@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geombuilder.hpp>
-#include <sway/render/ppe/fullscreenquadrilateral.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
+#include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
 #include <sway/render/renderqueue.hpp>
@@ -13,7 +13,6 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 
 #include <array>  // std::array
-#include <memory>  // std::shared_ptr
 #include <stack>  // std::stack
 #include <vector>  // std::vector
 
@@ -102,7 +101,7 @@ public:
   RenderQueueSharedPtrVec_t queues_;
   gapi::IdGeneratorPtr_t idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
-  FullscreenQuadrilateral::SharedPtr_t fullscreenQuad_;
+  // ScreenQuad::SharedPtr_t quad_;
 };
 
 NAMESPACE_END(render)

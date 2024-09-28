@@ -59,30 +59,35 @@ public:
     // dataAttribs_.pos->setData(2, math::vec3f_t(-0.5F, +0.5F, zindex).asDataPtr());
     // dataAttribs_.pos->setData(3, math::vec3f_t(+0.5F, +0.5F, zindex).asDataPtr());
 
+    // data_->setTriElements(0, 2, 0, 1);
+    // data_->setTriElements(3, 3, 2, 1);
+
+    // dataAttribs_.pos->setData(0, math::vec3f_t(-0.5F, +0.5F, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(1, math::vec3f_t(-0.5F, -0.5F, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(2, math::vec3f_t(+0.5F, +0.5F, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(3, math::vec3f_t(+0.5F, -0.5F, zindex).asDataPtr());
+
+    // data_->setTriElements(0, 0, 1, 2);
+    // data_->setTriElements(3, 1, 3, 2);
+
     dataAttribs_.pos->setData(0, math::vec3f_t(-0.5F, +0.5F, zindex).asDataPtr());
     dataAttribs_.pos->setData(1, math::vec3f_t(-0.5F, -0.5F, zindex).asDataPtr());
     dataAttribs_.pos->setData(2, math::vec3f_t(+0.5F, +0.5F, zindex).asDataPtr());
     dataAttribs_.pos->setData(3, math::vec3f_t(+0.5F, -0.5F, zindex).asDataPtr());
-
-    // data_->setTriElements(0, 2, 0, 1);
-    // data_->setTriElements(3, 3, 2, 1);
-
-    data_->setTriElements(0, 0, 1, 2);
-    data_->setTriElements(3, 1, 3, 2);
   }
 
-  void setPosDataAttrib(const std::array<f32_t, math::vec4f_t::DataElementCount_t> &coords) {
+  void setPosDataAttrib(const std::array<f32_t, math::vec4f_t::DataElementCount_t> &coords, f32_t zindex = 0.0F) {
     dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], 0.0F)
+                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], zindex)
                                      .asDataPtr());
     dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], 0.0F)
+                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], zindex)
                                      .asDataPtr());
     dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], 0.0F)
+                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], zindex)
                                      .asDataPtr());
     dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], 0.0F)
+                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], zindex)
                                      .asDataPtr());
   }
 

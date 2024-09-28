@@ -1,4 +1,5 @@
 #include <sway/render/global.hpp>
+#include <sway/render/ppe/postprocessingpass.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
@@ -36,13 +37,21 @@ auto RenderSubsystem::initialize() -> bool {
 void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
   // -> FullscreenQuadrilateral::SharedPtr_t {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
-  // for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
-  //   ppe_->addPass(i);
-  // }
 
-  ppe_->addPass(core::detail::toBase(RenderStage::IDX_COLOR), std::make_shared<RenderTarget>());
-  ppe_->addPass(core::detail::toBase(RenderStage::IDX_DEPTH), std::make_shared<RenderTarget>());
-  ppe_->addPass(core::detail::toBase(RenderStage::IDX_STENCIL), std::make_shared<RenderTarget>());
+  auto frstPass = std::make_shared<PostProcessingPass>("frst");
+  auto frstTarget = std::make_shared<RenderTarget>();
+  frstTarget->setScissorViewport(viewport_);
+  frstTarget->attachColorBufferObject();
+  std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderTarget(frstTarget);
+  std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(std::make_shared<RenderState>());
+  ppe_->add(frstPass, core::detail::toBase(RenderStage::IDX_COLOR));
+
+  auto scndPass = std::make_shared<PostProcessingPass>("scnd");
+  auto scndTarget = std::make_shared<RenderTarget>();
+  scndTarget->setScissorViewport(viewport_);
+  std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
+  std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
+  ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
 
   // fullscreenQuad_ = std::make_shared<FullscreenQuadrilateral>();
   // fullscreenQuad_->initialize(geomBuilder_, subqueue, material);
@@ -76,11 +85,11 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  for (auto i = 0; i < MAX_RENDER_STAGES; i++) {
-    auto target = ppe_->passes_[i]->getRenderTarget();
-    auto state = ppe_->passes_[i]->getRenderState();
+  for (auto i = 0; i < ppe_->getNumPasses(); i++) {
+    auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
+    auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
 
-    target->activate();
+    target->activate(state->getContext());
 
     for (auto &queue : queues_) {
       renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);

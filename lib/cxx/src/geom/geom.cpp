@@ -42,9 +42,12 @@ void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
 
   std::for_each(buffers_.begin(), buffers_.end(), createBuffers);
   builder_->stats_.numGeoms += 1;
+
+  vao_ = gapiPlugin_->createVertexArray();
 }
 
 void Geom::bind() {
+  vao_->bind();
   this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
   attribLayout_->enable();
 }
@@ -52,6 +55,7 @@ void Geom::bind() {
 void Geom::unbind() {
   attribLayout_->disable();
   this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
+  vao_->unbind();
 }
 
 void Geom::updateUV(std::vector<UVData2> uv) {

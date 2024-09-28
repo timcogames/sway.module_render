@@ -55,6 +55,7 @@ protected:
   GeomBuilderPtr_t builder_;
 
 private:
+  gapi::VertexArrayPtr_t vao_;
   gapi::VertexAttribLayoutPtr_t attribLayout_;
   std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
   std::array<std::optional<gapi::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};

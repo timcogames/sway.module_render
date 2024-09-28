@@ -23,7 +23,7 @@ public:
 
   void setScissorViewport(gapi::ViewportPtr_t viewport);
 
-  void activate();
+  void activate(gapi::StateContextPtr_t ctx);
 
   void deactivate();
 
@@ -33,7 +33,8 @@ public:
 
 private:
   gapi::ViewportPtr_t viewport_;
-  gapi::Framebuffer::Ptr_t colorFbo_;
+  gapi::Framebuffer::Ptr_t colorFBO_;
+  gapi::RenderBuffer::Ptr_t renderBO_;
   Image::SharedPtr_t colorTex_;
   bool attached_{false};
 };

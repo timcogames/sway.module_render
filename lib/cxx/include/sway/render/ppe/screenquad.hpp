@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_PPE_FULLSCREENQUADRILATERAL_HPP
-#define SWAY_RENDER_PPE_FULLSCREENQUADRILATERAL_HPP
+#ifndef SWAY_RENDER_PPE_SCREENQUAD_HPP
+#define SWAY_RENDER_PPE_SCREENQUAD_HPP
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
@@ -11,6 +11,7 @@
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
+#include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueue.hpp>
 
 #include <memory>
@@ -18,45 +19,44 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
 
-class FullscreenQuadrilateral : public RenderComponent {
-  DECLARE_CLASS_METADATA(FullscreenQuadrilateral, RenderComponent)
-  DECLARE_CLASS_POINTER_ALIASES(FullscreenQuadrilateral)
+class ScreenQuad {
+  DECLARE_CLASS_POINTER_ALIASES(ScreenQuad)
 
 public:
 #pragma region "Ctors/Dtor"
 
-  FullscreenQuadrilateral() = default;
+  ScreenQuad() {
+    drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall();
+    matrixStack_ = std::make_shared<math::MatrixStack>();
+  }
 
-  ~FullscreenQuadrilateral() { geomBuilder_->remove(geomIdx_); }
+  ~ScreenQuad() { geomBuilder_->remove(geomIdx_); }
 
 #pragma endregion
 
-  void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder,
-      RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
+  void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder, Material::SharedPtr_t material) {
     geomBuilder_ = geomBuilder;
-    subqueue_ = subqueue;
     material_ = material;
 
     screenWdt_ = (f32_t)glob.getIntegerOrDefault("screen_wdt", 800);
     screenHgt_ = (f32_t)glob.getIntegerOrDefault("screen_hgt", 600);
 
-    auto shape = new procedurals::prims::Quadrilateral<math::VertexTexCoord>(
-        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
+    auto shape = new procedurals::prims::Quadrilateral<math::VertexPosition>({gapi::VertexSemantic::POS});
 
     //  core::detail::EnumClassBitset<Flipper> flips;
     //     shape->setPosDataAttrib(
     //         Flippable::asRect(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(-0.5F, -0.5F), flips), 2.0f);
     shape->setPosDataAttrib(/*math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(0.0F, 0.0F), */ 30.0F /*ZINDEX*/);
-    shape->setColDataAttrib(COL4F_WHITE);
-    shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
+    // shape->setColDataAttrib(COL4F_WHITE);
+    // shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
     GeometryCreateInfo geomCreateInfo;
-    geomCreateInfo.indexed = true;
-    geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
+    geomCreateInfo.indexed = false;
+    geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexPosition);
     geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
-    auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
+    auto data = new f32_t[4 * sizeof(math::VertexPosition)];
     shape->data()->getVertices(data, 0, 4);
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
@@ -76,42 +76,57 @@ public:
     //   std::cout << ((u32_t *)geomCreateInfo.bo[Constants::IDX_EBO].data)[i] << std::endl;
     // }
 
-    geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexTexCoord>>(
+    geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexPosition>>(
         geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
   }
 
-#pragma region "Override RenderComponent methods"
-
-  MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm)) {
+  void onUpdate(f32_t dtm) {
     auto geom = geomBuilder_->getGeometry(geomIdx_);
     if (!geom) {
       return;
     }
 
     pipeline::ForwardRenderCommand cmd;
-    cmd.stage = 0;
+    cmd.stage = core::detail::toBase(RenderStage::IDX_DEPTH);
     cmd.blendDesc.enabled = false;
     cmd.depthDesc.enabled = false;
     cmd.stencilDesc.enabled = false;
     cmd.geom = geom;
-    cmd.topology = gapi::TopologyType::TRIANGLE_LIST;
+    cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
     cmd.mtrl = material_;
+    cmd.tfrm = cmd.proj = cmd.view = math::mat4f_t();
 
-    // clang-format off
-    cmd.tfrm = math::mat4f_t();
-    cmd.proj.setData(math::Projection((struct math::ProjectionDescription) {
-      .rect = {{ -1.0F, -1.0F, 1.0F, 1.0F }},
-      .fov = 0,
-      .aspect = screenWdt_ / screenHgt_,
-      .znear = 1.0F,
-      .zfar = 10.0F
-    }).makeOrtho());
-    cmd.view = math::mat4f_t();
-    // clang-format on
-    subqueue_->post(cmd);
+    matrixStack_->push<math::MatrixType::PROJ>(cmd.proj);
+    matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
+    matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
+
+    cmd.mtrl->bind(matrixStack_);
+
+    if (cmd.geom != nullptr) {
+      cmd.geom->bind();
+
+      gapi::BufferSet bufset;
+      if (cmd.geom->getBuffer(Constants::IDX_VBO).has_value()) {
+        bufset.vbo = cmd.geom->getBuffer(Constants::IDX_VBO).value();
+      }
+
+      if (cmd.geom->getBuffer(Constants::IDX_EBO).has_value()) {
+        bufset.ebo = cmd.geom->getBuffer(Constants::IDX_EBO).value();
+      } else {
+        bufset.ebo = nullptr;
+      }
+
+      drawCall_->execute(cmd.topology, bufset, core::ValueDataType::UINT);
+
+      cmd.geom->unbind();
+    }
+
+    cmd.mtrl->unbind();
+
+    matrixStack_->pop<math::MatrixType::TFRM>();
+    matrixStack_->pop<math::MatrixType::PROJ>();
+    matrixStack_->pop<math::MatrixType::VIEW>();
   }
-
-#pragma endregion
 
   [[nodiscard]]
   auto getMaterial() const -> Material::SharedPtr_t {
@@ -119,7 +134,8 @@ public:
   }
 
 private:
-  RenderSubqueue::SharedPtr_t subqueue_;
+  gapi::DrawCallPtr_t drawCall_;
+  std::shared_ptr<math::MatrixStack> matrixStack_;
   Material::SharedPtr_t material_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
@@ -131,4 +147,4 @@ private:
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_RENDER_PPE_FULLSCREENQUADRILATERAL_HPP
+#endif  // SWAY_RENDER_PPE_SCREENQUAD_HPP

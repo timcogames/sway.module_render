@@ -28,25 +28,22 @@ class RenderPass {
   DECLARE_CLASS_POINTER_ALIASES(RenderPass)
 
 public:
-#pragma region "Ctors/Dtor"
+  RenderPass(const std::string &name)
+      : name_(name) {}
 
-  RenderPass();
+  virtual ~RenderPass() = default;
 
-  ~RenderPass() = default;
+  PURE_VIRTUAL(void apply(gapi::Framebuffer::Ptr_t framebuf));
 
-#pragma endregion
+  // PURE_VIRTUAL(void apply(FrameBuffer &framebuf, const RenderMetaData &metadata));
 
-  void setRenderTarget(RenderTarget::SharedPtr_t target) { target_ = target; }
+  // PURE_VIRTUAL(void apply(gapi::FrameBuffer::SharedPtr_t src, gapi::FrameBuffer::SharedPtr_t dst));
 
-  auto getRenderTarget() -> RenderTarget::SharedPtr_t { return target_; }
-
-  void setRenderState(RenderState::SharedPtr_t state) { state_ = state; }
-
-  auto getRenderState() -> RenderState::SharedPtr_t { return state_; }
+  auto name() const -> const std::string & { return name_; }
 
 private:
-  RenderTarget::SharedPtr_t target_;
-  RenderState::SharedPtr_t state_;
+  // u32_t id_;
+  std::string name_;
 };
 
 NAMESPACE_END(render)
