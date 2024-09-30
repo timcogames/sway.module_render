@@ -1,4 +1,5 @@
 #include <sway/render/global.hpp>
+#include <sway/render/rendersubsystem.hpp>
 #include <sway/render/rendertarget.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -6,7 +7,7 @@ NAMESPACE_BEGIN(render)
 
 void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) { viewport_ = viewport; }
 
-void RenderTarget::attachColorBufferObject() {
+void RenderTarget::attachColorBufferObject(RenderSubsystemPtr_t subsys) {
   attached_ = true;
 
   gapi::TextureCreateInfo colorTexCreateInfo;
@@ -19,7 +20,7 @@ void RenderTarget::attachColorBufferObject() {
   colorTexCreateInfo.mipLevels = 0;
 
   colorTex_ = std::make_shared<Image>();
-  colorTex_->create(colorTexCreateInfo);
+  colorTex_->create(subsys->textureIdGenerator_, colorTexCreateInfo);
   colorTex_->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   colorTex_->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);

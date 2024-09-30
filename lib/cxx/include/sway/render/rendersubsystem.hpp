@@ -87,7 +87,7 @@ public:
 
 #pragma endregion
 
-  auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
+  auto getBufferIdGenerator() -> gapi::IdGeneratorPtr_t { return bufferIdGenerator_; }
 
   auto getGeomBuilder() -> GeomBuilder::SharedPtr_t { return geomBuilder_; }
 
@@ -99,7 +99,8 @@ public:
   gapi::ViewportPtr_t viewport_;
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
-  gapi::IdGeneratorPtr_t idGenerator_;
+  gapi::IdGenerator::Ptr_t bufferIdGenerator_;
+  gapi::IdGenerator::Ptr_t textureIdGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   // ScreenQuad::SharedPtr_t quad_;
 };

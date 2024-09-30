@@ -53,6 +53,8 @@ public:
 
   auto getImage(u32_t idx) -> Image::SharedPtr_t { return images_[idx].second; }
 
+  void setSubsys(RenderSubsystemPtr_t subsys);
+
 public:
   void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
 
@@ -62,6 +64,8 @@ public:
   Effect::Ptr_t effect_;
   std::vector<std::pair<std::string, Image::SharedPtr_t>> images_;
   MaterialDescriptor desc_;
+
+  RenderSubsystemPtr_t subsys_;
 };
 
 NAMESPACE_END(render)

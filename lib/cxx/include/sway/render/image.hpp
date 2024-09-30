@@ -20,9 +20,9 @@ public:
 
   ~Image() = default;
 
-  void create(const gapi::TextureCreateInfo &createInfo);
+  void create(gapi::IdGenerator::Ptr_t idgen, const gapi::TextureCreateInfo &createInfo);
 
-  void create(const loader::ImageDescriptor &desc);
+  void create(gapi::IdGenerator::Ptr_t idgen, const loader::ImageDescriptor &desc);
 
   /**
    * @brief Привязывает.

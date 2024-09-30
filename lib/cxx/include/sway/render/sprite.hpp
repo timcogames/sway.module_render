@@ -30,7 +30,7 @@ public:
 
 #pragma endregion
 
-  void initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+  void initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
       Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
 
 #pragma region "Override RenderComponent methods"

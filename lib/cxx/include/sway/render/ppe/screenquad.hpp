@@ -43,12 +43,7 @@ public:
 
     auto shape = new procedurals::prims::Quadrilateral<math::VertexPosition>({gapi::VertexSemantic::POS});
 
-    //  core::detail::EnumClassBitset<Flipper> flips;
-    //     shape->setPosDataAttrib(
-    //         Flippable::asRect(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(-0.5F, -0.5F), flips), 2.0f);
     shape->setPosDataAttrib(/*math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F).offset(0.0F, 0.0F), */ 30.0F /*ZINDEX*/);
-    // shape->setColDataAttrib(COL4F_WHITE);
-    // shape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
     GeometryCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = false;
@@ -59,22 +54,6 @@ public:
     auto data = new f32_t[4 * sizeof(math::VertexPosition)];
     shape->data()->getVertices(data, 0, 4);
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
-
-    // auto offset = 0;
-    // for (auto i = 0; i < 4; i++) {
-    //   std::cout << math::vec3f_t(data[offset + 0], data[offset + 1], data[offset + 2]) << std::endl;
-    //   std::cout << math::vec4f_t(data[offset + 3], data[offset + 4], data[offset + 5], data[offset + 6]) <<
-    //   std::endl; offset += 7;
-    // }
-
-    geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
-    geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
-    geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = 6;
-    geomCreateInfo.bo[Constants::IDX_EBO].data = shape->data()->getElements();
-
-    // for (auto i = 0; i < 6; i++) {
-    //   std::cout << ((u32_t *)geomCreateInfo.bo[Constants::IDX_EBO].data)[i] << std::endl;
-    // }
 
     geomIdx_ = geomBuilder_->create<procedurals::prims::Quadrilateral<math::VertexPosition>>(
         geomCreateInfo, shape->getVertexAttribs(), material_->getEffect());
@@ -91,8 +70,8 @@ public:
     cmd.blendDesc.enabled = false;
     cmd.depthDesc.enabled = false;
     cmd.stencilDesc.enabled = false;
-    cmd.geom = geom;
     cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
+    cmd.geom = geom;
     cmd.mtrl = material_;
     cmd.tfrm = cmd.proj = cmd.view = math::mat4f_t();
 
@@ -101,26 +80,15 @@ public:
     matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
 
     cmd.mtrl->bind(matrixStack_);
+    cmd.geom->bind();
 
-    if (cmd.geom != nullptr) {
-      cmd.geom->bind();
+    gapi::BufferSet bufset;
+    bufset.vbo = cmd.geom->getBuffer(Constants::IDX_VBO).value();
+    bufset.ebo = nullptr;
 
-      gapi::BufferSet bufset;
-      if (cmd.geom->getBuffer(Constants::IDX_VBO).has_value()) {
-        bufset.vbo = cmd.geom->getBuffer(Constants::IDX_VBO).value();
-      }
+    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::UINT);
 
-      if (cmd.geom->getBuffer(Constants::IDX_EBO).has_value()) {
-        bufset.ebo = cmd.geom->getBuffer(Constants::IDX_EBO).value();
-      } else {
-        bufset.ebo = nullptr;
-      }
-
-      drawCall_->execute(cmd.topology, bufset, core::ValueDataType::UINT);
-
-      cmd.geom->unbind();
-    }
-
+    cmd.geom->unbind();
     cmd.mtrl->unbind();
 
     matrixStack_->pop<math::MatrixType::TFRM>();

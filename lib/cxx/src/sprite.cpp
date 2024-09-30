@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(render)
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
-void Sprite::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
     Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs) {
   subqueue_ = subqueue;
   material_ = material;
@@ -48,7 +48,7 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::
   geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = quadShape->getReserveElems();
   geomCreateInfo.bo[Constants::IDX_EBO].data = quadShape->data()->getElements();
 
-  geomBuilder_ = subsystem->getGeomBuilder();
+  geomBuilder_ = subsys->getGeomBuilder();
 
   geomIdx_ = geomBuilder_->create<procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>>(
       geomCreateInfo, quadShape->getVertexAttribs(), material_->getEffect());

@@ -27,7 +27,7 @@ public:
 
   void deactivate();
 
-  void attachColorBufferObject();
+  void attachColorBufferObject(RenderSubsystemPtr_t subsys);
 
   auto getColorBuffer() const -> Image::SharedPtr_t { return colorTex_; }
 

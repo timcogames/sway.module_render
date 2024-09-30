@@ -16,7 +16,8 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::
 RenderSubsystem::~RenderSubsystem() {
   queues_.clear();
 
-  SAFE_DELETE_OBJECT(idGenerator_);
+  SAFE_DELETE_OBJECT(textureIdGenerator_);
+  SAFE_DELETE_OBJECT(bufferIdGenerator_);
   SAFE_DELETE_OBJECT(capability_);
 
   SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
@@ -25,10 +26,11 @@ RenderSubsystem::~RenderSubsystem() {
 
 auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
-  idGenerator_ = global::getGapiPluginFunctionSet()->createIdGenerator();
+  bufferIdGenerator_ = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
+  textureIdGenerator_ = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
 
-  geomBuilder_ = GeomBuilder::create(idGenerator_);
+  geomBuilder_ = GeomBuilder::create(bufferIdGenerator_);
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   return true;
@@ -41,7 +43,7 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   auto frstPass = std::make_shared<PostProcessingPass>("frst");
   auto frstTarget = std::make_shared<RenderTarget>();
   frstTarget->setScissorViewport(viewport_);
-  frstTarget->attachColorBufferObject();
+  frstTarget->attachColorBufferObject(this);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderTarget(frstTarget);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(std::make_shared<RenderState>());
   ppe_->add(frstPass, core::detail::toBase(RenderStage::IDX_COLOR));

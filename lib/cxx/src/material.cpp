@@ -2,6 +2,7 @@
 #include <sway/gapi/texturesampler.hpp>
 #include <sway/gapi/texturewraps.hpp>
 #include <sway/render/material.hpp>
+#include <sway/render/rendersubsystem.hpp>
 
 #include <thread>
 
@@ -31,7 +32,7 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
 #endif
 
   auto image = std::make_shared<Image>();
-  image->create(resource->getDescriptor());
+  image->create(subsys_->textureIdGenerator_, resource->getDescriptor());
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
@@ -47,7 +48,7 @@ auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::st
   // image->getTexture()->setUnpackAlignement(1);
 #endif
 
-  image->create(createInfo);
+  image->create(subsys_->textureIdGenerator_, createInfo);
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
@@ -115,6 +116,8 @@ void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
       return;
     }
 
+    std::cout << getUid().value().c_str() << " " << texUid.value() << std::endl;
+
     image.second->getTexture()->setActive(texUid.value());
     image.second->bind();
 
@@ -136,6 +139,8 @@ void Material::unbind() {
 
   effect_->unbind();
 }
+
+void Material::setSubsys(RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
 
 NAMESPACE_END(render)
 NAMESPACE_END(sway)
