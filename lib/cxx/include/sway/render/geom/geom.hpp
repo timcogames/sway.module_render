@@ -13,8 +13,8 @@
 #include <array>
 #include <optional>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 #define QUAD_TEXCOORD_SIZE2 4
 
@@ -37,8 +37,8 @@ public:
   template <class TObject>
   void call(std::function<void(TObject)> callback);
 
-  MTHD_VIRTUAL(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs));
+  MTHD_VIRTUAL(void create(
+      const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs));
 
   MTHD_VIRTUAL(void bind());
 
@@ -57,12 +57,12 @@ protected:
 private:
   gapi::VertexArrayPtr_t vao_;
   gapi::VertexAttribLayoutPtr_t attribLayout_;
-  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
+  GeomVertexAttribSharedPtrMap_t attribs_;
   std::array<std::optional<gapi::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #include <sway/render/geom/geom.inl>
 

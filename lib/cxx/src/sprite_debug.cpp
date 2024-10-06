@@ -2,8 +2,8 @@
 #include <sway/render/procedurals/guides/line.hpp>
 #include <sway/render/sprite_debug.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 Sprite_Debug::~Sprite_Debug() {
   geomBuilder_->remove(axisGeomIdx_);
@@ -38,15 +38,15 @@ void Sprite_Debug::initialize(
 
   GeometryCreateInfo axisGeomCreateInfo;
   axisGeomCreateInfo.indexed = true;
-  axisGeomCreateInfo.topology = gapi::TopologyType::LINE_LIST;
-  axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+  axisGeomCreateInfo.topology = gapi::TopologyType::Enum::LINE_LIST;
+  axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
   axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES;
   auto axisShapeVtxData = new f32_t[procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES * sizeof(math::VertexColor)];
   axisShape->data()->getVertices(axisShapeVtxData, 0, procedurals::guides::Axis::MAX_AXIS_RESERVE_VERTICES);
   axisGeomCreateInfo.bo[Constants::IDX_VBO].data = axisShapeVtxData;
 
-  axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+  axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
   axisGeomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = procedurals::guides::Axis::MAX_AXIS_RESERVE_ELEMENTS;
   axisGeomCreateInfo.bo[Constants::IDX_EBO].data = axisShape->data()->getElements();
@@ -98,27 +98,27 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   pipeline::ForwardRenderCommand axisCmd;
   axisCmd.stage = core::detail::toBase(RenderStage::IDX_COLOR);
   axisCmd.blendDesc.enabled = true;
-  axisCmd.blendDesc.src = gapi::BlendFn::SRC_ALPHA;
-  axisCmd.blendDesc.dst = gapi::BlendFn::ONE_MINUS_SRC_ALPHA;
+  axisCmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
+  axisCmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;
   axisCmd.blendDesc.mask = true;
   axisCmd.rasterizerDesc.mode = gapi::CullFace::BACK;
   axisCmd.rasterizerDesc.ccw = false;
   axisCmd.depthDesc.enabled = true;
-  axisCmd.depthDesc.func = gapi::CompareFn::LESS;
+  axisCmd.depthDesc.func = gapi::CompareFn::Enum::LESS;
   axisCmd.depthDesc.mask = true;
   axisCmd.depthDesc.near = 0;
   axisCmd.depthDesc.far = 0;
   axisCmd.stencilDesc.enabled = true;
-  axisCmd.stencilDesc.front.func = gapi::CompareFn::ALWAYS;
-  axisCmd.stencilDesc.front.fail = gapi::StencilOp::KEEP;
-  axisCmd.stencilDesc.front.depthFail = gapi::StencilOp::KEEP;
-  axisCmd.stencilDesc.front.depthPass = gapi::StencilOp::REPLACE;
+  axisCmd.stencilDesc.front.func = gapi::CompareFn::Enum::ALWAYS;
+  axisCmd.stencilDesc.front.fail = gapi::StencilOp::Enum::KEEP;
+  axisCmd.stencilDesc.front.depthFail = gapi::StencilOp::Enum::KEEP;
+  axisCmd.stencilDesc.front.depthPass = gapi::StencilOp::Enum::REPLACE;
   axisCmd.stencilDesc.front.rmask = 0xFFFFFF;
   axisCmd.stencilDesc.front.wmask = axisCmd.stencilDesc.front.rmask;
   axisCmd.stencilDesc.front.reference = 1;
   axisCmd.stencilDesc.back = axisCmd.stencilDesc.front;
   axisCmd.geom = axisGeom;
-  axisCmd.topology = gapi::TopologyType::LINE_LIST;
+  axisCmd.topology = gapi::TopologyType::Enum::LINE_LIST;
   axisCmd.mtrl = material_;
   axisCmd.tfrm = tfrm;
   axisCmd.proj = proj;
@@ -126,5 +126,5 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   subqueue_->post(axisCmd);
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

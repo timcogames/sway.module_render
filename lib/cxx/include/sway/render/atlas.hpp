@@ -7,8 +7,8 @@
 #include <unordered_map>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 using Pixel = u32_t;
 // struct Pixel {
@@ -47,7 +47,7 @@ private:
   std::vector<ImageDataPack> packages_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_ATLAS_HPP

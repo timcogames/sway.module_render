@@ -5,8 +5,8 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context)
     : core::foundation::Subsystem(context) {
@@ -125,5 +125,5 @@ void RenderSubsystem::renderSubqueues_(
   }
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

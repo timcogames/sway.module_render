@@ -6,8 +6,8 @@
 #include <sway/render/spriteanimationclip.hpp>
 #include <sway/render/spriteanimationmodes.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 enum class AnimationStatus : s8_t { RUNNING, PAUSED, STOPPED };
 
@@ -99,7 +99,7 @@ public:
   f32_t timeCounter_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITEANIMATION_HPP

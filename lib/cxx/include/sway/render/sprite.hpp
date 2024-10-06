@@ -14,8 +14,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
@@ -96,7 +96,7 @@ private:
   // math::size2f_t panelDims_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITE_HPP

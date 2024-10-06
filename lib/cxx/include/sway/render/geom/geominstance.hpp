@@ -1,14 +1,12 @@
 #ifndef SWAY_RENDER_GEOMINSTANCE_HPP
 #define SWAY_RENDER_GEOMINSTANCE_HPP
 
-#include <sway/core.hpp>
-#include <sway/gapi.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geominstancedatadivisor.hpp>
-#include <sway/render/prereqs.hpp>
+#include <sway/render/typedefs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TShape>
 class GeomInstance : public Geom {
@@ -26,8 +24,8 @@ public:
     SAFE_DELETE_OBJECT(dataDivisor_);
   }
 
-  MTHD_OVERRIDE(void create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs)) {
+  MTHD_OVERRIDE(void create(
+      const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs)) {
     vao_ = gapiPlugin_->createVertexArray();
     Geom::create(info, effect, attribs);
   }
@@ -44,7 +42,7 @@ public:
 
   template <typename TDataType, typename TMemFn = std::function<void *(void *, TDataType, std::size_t)>>
   void updateData(TMemFn callback, int offset, TDataType vertices, gapi::BufferPtr_t vbo,
-      core::detail::EnumClassBitset<gapi::BufferMapRangeAccess> bitset) {
+      core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset) {
     data_ = (ShapeVtxDataType_t *)vbo->mapRange(
         offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t), bitset);
     callback(data_, vertices, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
@@ -59,9 +57,9 @@ public:
       return;
     }
 
-    core::detail::EnumClassBitset<gapi::BufferMapRangeAccess> bitset;
-    bitset.set(gapi::BufferMapRangeAccess::WRITE);
-    bitset.set(gapi::BufferMapRangeAccess::INVALIDATE_BUFFER);
+    core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset;
+    bitset.set(gapi::BufferMapRangeAccess::Enum::WRITE);
+    bitset.set(gapi::BufferMapRangeAccess::Enum::INVALIDATE_BUFFER);
     // bitset.flip(gapi::BufferMapRangeAccess::FLUSH_EXPLICIT);
 
     // data_ = (ShapeVtxDataType_t *)vbo.value()->mapRange(
@@ -93,7 +91,7 @@ private:
   ShapeVtxDataType_t *data_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMINSTANCE_HPP

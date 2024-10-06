@@ -11,8 +11,8 @@
 
 #include <string>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 // enum class RenderPassType : u32_t { DEPTH, COLOR, REFRACT, BLENDED, SENTINEL };
 // enum class RenderPassAction { KEEP = 0, CLEAR = 1, DONT_CARE = 2 };
@@ -57,7 +57,7 @@ private:
   PassType::Enum type_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERPASS_HPP

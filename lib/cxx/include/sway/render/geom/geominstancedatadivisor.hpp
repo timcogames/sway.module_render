@@ -10,8 +10,8 @@
 #include <memory>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TShape>
 class GeomInstanceDataDivisor {
@@ -79,18 +79,16 @@ public:
     return indices;
   }
 
-  auto getVertexAttribs() const -> std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> {
-    return instances_[0]->data()->getAttribs();
-  }
+  auto getVertexAttribs() const -> GeomVertexAttribSharedPtrMap_t { return instances_[0]->data()->getAttribs(); }
 
 private:
-  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
+  GeomVertexAttribSharedPtrMap_t attribs_;
   std::vector<gapi::VertexSemantic> semantics_;
   std::vector<TShape *> instances_;
   u32_t offsetIndex_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMINSTANCEDATADIVISOR_HPP

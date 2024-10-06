@@ -4,9 +4,9 @@
 #include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <gmock/gmock.h>
 #include <google/plugfixture.hpp>
 
 using namespace sway;
@@ -18,14 +18,14 @@ TEST_F(GeometryTestFixture, create_buffer) {
   auto *shaderProgStub = createShaderProgStub(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
-  infoSet.vs.type = gapi::ShaderType::VERT;
+  infoSet.vs.type = gapi::ShaderType::Enum::VERT;
   infoSet.vs.code = "";
-  infoSet.fs.type = gapi::ShaderType::FRAG;
+  infoSet.fs.type = gapi::ShaderType::Enum::FRAG;
   infoSet.fs.code = "";
   auto *effect = new render::Effect(globalGapiPlug, infoSet);
 
   auto *idGeneratorStub = new render::global::IdGeneratorStub();
-  ON_CALL(*idGeneratorStub, newGuid()).WillByDefault(testing::Return(1));
+  ON_CALL(*idGeneratorStub, getNextUid()).WillByDefault(testing::Return(1));
 
   auto *vertexArrayStub = new render::global::VertexArrayStub();
   ON_CALL(*vertexArrayStub, bind()).WillByDefault([&] {});
@@ -45,7 +45,7 @@ TEST_F(GeometryTestFixture, create_buffer) {
   auto *vertexAttribLayoutStub = new render::global::VertexAttribLayoutStub();
   EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(6 /* кол.-во вызовов */));
 
-  EXPECT_CALL(*globalGapiPlug, createIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
+  EXPECT_CALL(*globalGapiPlug, createBufferIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));
   EXPECT_CALL(*globalGapiPlug, createVertexArray()).WillRepeatedly(testing::Return(vertexArrayStub));
   EXPECT_CALL(*globalGapiPlug, createBuffer(testing::_, testing::_)).WillRepeatedly(testing::Return(bufferStub));
   EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgStub))
@@ -66,14 +66,14 @@ TEST_F(GeometryTestFixture, create_buffer) {
 
   render::GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
-  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_LIST;
-  geomCreateInfo.bo[render::Constants::IDX_VBO].desc.usage = gapi::BufferUsage::DYNAMIC;
+  geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_LIST;
+  geomCreateInfo.bo[render::Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::DYNAMIC;
   geomCreateInfo.bo[render::Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexColor);
   geomCreateInfo.bo[render::Constants::IDX_VBO].desc.capacity =
       4 * geomDataDivisor->getInstSize();  // rectGeomShape_->data()->getVtxSize();
   geomCreateInfo.bo[render::Constants::IDX_VBO].data = nullptr;
 
-  geomCreateInfo.bo[render::Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.bo[render::Constants::IDX_EBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
   auto idxs = geomDataDivisor->getIndices<numInstances>();
   geomCreateInfo.bo[render::Constants::IDX_EBO].desc.capacity = idxs.size();

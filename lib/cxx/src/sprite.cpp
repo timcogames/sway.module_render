@@ -7,8 +7,8 @@
 
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
@@ -35,15 +35,15 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::Sha
 
   GeometryCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
-  geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
-  geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
+  geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
   geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = quadShape->getReserveVerts();
   auto data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
   quadShape->data()->getVertices(data, 0, quadShape->getReserveVerts());
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
-  geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::STATIC;
+  geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
   geomCreateInfo.bo[Constants::IDX_EBO].desc.capacity = quadShape->getReserveElems();
   geomCreateInfo.bo[Constants::IDX_EBO].data = quadShape->data()->getElements();
@@ -65,27 +65,27 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   pipeline::ForwardRenderCommand cmd;
   cmd.stage = core::detail::toBase(RenderStage::IDX_COLOR);
   cmd.blendDesc.enabled = true;
-  cmd.blendDesc.src = gapi::BlendFn::SRC_ALPHA;
-  cmd.blendDesc.dst = gapi::BlendFn::ONE_MINUS_SRC_ALPHA;
+  cmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
+  cmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;
   cmd.blendDesc.mask = true;
   cmd.rasterizerDesc.mode = gapi::CullFace::FRONT;
   cmd.rasterizerDesc.ccw = true;
   cmd.depthDesc.enabled = true;
-  cmd.depthDesc.func = gapi::CompareFn::LESS;
+  cmd.depthDesc.func = gapi::CompareFn::Enum::LESS;
   cmd.depthDesc.mask = true;
   cmd.depthDesc.near = 0;
   cmd.depthDesc.far = 0;
   cmd.stencilDesc.enabled = true;
-  cmd.stencilDesc.front.func = gapi::CompareFn::ALWAYS;
-  cmd.stencilDesc.front.fail = gapi::StencilOp::KEEP;
-  cmd.stencilDesc.front.depthFail = gapi::StencilOp::KEEP;
-  cmd.stencilDesc.front.depthPass = gapi::StencilOp::REPLACE;
+  cmd.stencilDesc.front.func = gapi::CompareFn::Enum::ALWAYS;
+  cmd.stencilDesc.front.fail = gapi::StencilOp::Enum::KEEP;
+  cmd.stencilDesc.front.depthFail = gapi::StencilOp::Enum::KEEP;
+  cmd.stencilDesc.front.depthPass = gapi::StencilOp::Enum::REPLACE;
   cmd.stencilDesc.front.rmask = 0xFFFFFF;
   cmd.stencilDesc.front.wmask = cmd.stencilDesc.front.rmask;
   cmd.stencilDesc.front.reference = 1;
   cmd.stencilDesc.back = cmd.stencilDesc.front;
   cmd.geom = geom;
-  cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
+  cmd.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
   cmd.mtrl = material_;
   cmd.tfrm = tfrm;
   cmd.proj = proj;
@@ -208,5 +208,5 @@ void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRe
   });
 }  // clang-format on
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

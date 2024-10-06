@@ -1,8 +1,8 @@
 #include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/renderstages.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 PostProcessing::PostProcessing(gapi::ViewportPtr_t viewport) {
   viewport_ = viewport;
@@ -41,5 +41,5 @@ void PostProcessing::preRender() {}
 
 void PostProcessing::postRender() {}
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

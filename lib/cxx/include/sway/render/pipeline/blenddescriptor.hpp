@@ -4,19 +4,19 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(pipeline)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(pipeline)
 
 struct BlendDescriptor {
   bool enabled;
-  gapi::BlendFn src;
-  gapi::BlendFn dst;
+  gapi::BlendFn::Enum src;
+  gapi::BlendFn::Enum dst;
   bool mask;
 };
 
-NAMESPACE_END(pipeline)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace pipeline
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PIPELINE_BLENDDESCRIPTOR_HPP

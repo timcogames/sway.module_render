@@ -11,8 +11,8 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class Sprite_Debug : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite_Debug, RenderComponent)
@@ -41,7 +41,7 @@ private:
   u32_t lineGeomIdx_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITE_DEBUG_HPP

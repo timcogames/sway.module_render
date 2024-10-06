@@ -9,8 +9,8 @@
 
 #include <string>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderQueuePass : public RenderQueue, public RenderPass {
   DECLARE_CLASS_POINTER_ALIASES(RenderQueuePass)
@@ -25,7 +25,7 @@ public:
   MTHD_OVERRIDE(void execute());
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERQUEUEPASS_HPP

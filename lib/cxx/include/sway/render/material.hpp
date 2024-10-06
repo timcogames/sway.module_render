@@ -17,8 +17,8 @@
 #include <utility>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
   DECLARE_CLASS_POINTER_ALIASES(Material)
@@ -39,7 +39,7 @@ public:
 
   auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t;
 
-  void addEffect(std::unordered_map<gapi::ShaderType, std::string> sources);
+  void addEffect(std::unordered_map<gapi::ShaderType::Enum, std::string> sources);
 
   void addEffect(const std::array<std::string, 2> &names);
 
@@ -56,7 +56,7 @@ public:
   void setSubsys(RenderSubsystemPtr_t subsys);
 
 public:
-  void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type);
+  void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType::Enum type);
 
   global::GapiPluginFunctionSet *pluginFuncSet_;
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
@@ -68,7 +68,7 @@ public:
   RenderSubsystemPtr_t subsys_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_MATERIAL_HPP

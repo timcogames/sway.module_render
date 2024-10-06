@@ -8,8 +8,8 @@
 
 #include <stdlib.h>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TVertexDataType>
 class GeomVertexData : public GeomVertexDataBase {
@@ -32,7 +32,7 @@ public:
   }
 
   [[nodiscard]]
-  auto getAttribs() const -> std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> {
+  auto getAttribs() const -> GeomVertexAttribSharedPtrMap_t {
     return attribs_;
   }
 
@@ -73,12 +73,12 @@ public:
   }
 
 private:
-  std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs_;
+  GeomVertexAttribSharedPtrMap_t attribs_;
   u32_t numVerts_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #include <sway/render/geom/geomvertexdata.inl>
 

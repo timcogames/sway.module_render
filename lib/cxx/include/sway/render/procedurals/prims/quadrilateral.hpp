@@ -11,10 +11,10 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(procedurals)
-NAMESPACE_BEGIN(prims)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(procedurals)
+NS_BEGIN(prims)
 
 template <typename TVertexDataType>
 class Quadrilateral : public ShapeBase {
@@ -77,17 +77,17 @@ public:
   }
 
   void setPosDataAttrib(const std::array<f32_t, math::vec4f_t::DataElementCount_t> &coords, f32_t zindex = 0.0F) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], zindex)
+    dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_L)],
+                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_B)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_B)], zindex)
+    dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_R)],
+                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_B)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], zindex)
+    dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_L)],
+                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_T)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::IDX_T)], zindex)
+    dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_R)],
+                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_T)], zindex)
                                      .asDataPtr());
   }
 
@@ -117,9 +117,7 @@ public:
     return data_;
   }
 
-  MTHD_OVERRIDE(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t>) {
-    return data_->getAttribs();
-  }
+  MTHD_OVERRIDE(auto getVertexAttribs() const -> GeomVertexAttribSharedPtrMap_t) { return data_->getAttribs(); }
 
   MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
@@ -135,9 +133,9 @@ private:
   bool remapping_;
 };
 
-NAMESPACE_END(prims)
-NAMESPACE_END(procedurals)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace prims
+NS_END()  // namespace procedurals
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PROCEDURALS_PRIMS_QUADRILATERAL_HPP

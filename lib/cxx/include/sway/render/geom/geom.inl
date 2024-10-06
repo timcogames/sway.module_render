@@ -1,8 +1,8 @@
 #include <sway/core.hpp>
 #include <sway/render/geom/geom.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <class TObject>
 void Geom::call(std::function<void(TObject)> callback) {
@@ -13,5 +13,5 @@ void Geom::call(std::function<void(TObject)> callback) {
   }
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

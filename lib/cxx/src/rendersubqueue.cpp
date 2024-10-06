@@ -5,8 +5,8 @@
 
 #include <algorithm>  // std::reverse
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
     : group_(group) {
@@ -37,9 +37,9 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
     state->setStencilOp(cmd.stencilDesc.front.fail, cmd.stencilDesc.front.depthFail, cmd.stencilDesc.front.depthPass);
   }
 
-  matrixStack_->push<math::MatrixType::PROJ>(cmd.proj);
-  matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
-  matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
+  matrixStack_->push<math::MatrixType::Enum::PROJ>(cmd.proj);
+  matrixStack_->push<math::MatrixType::Enum::VIEW>(cmd.view);
+  matrixStack_->push<math::MatrixType::Enum::TFRM>(cmd.tfrm);
 
   cmd.mtrl->bind(matrixStack_);
 
@@ -57,16 +57,16 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
       bufset.ebo = nullptr;
     }
 
-    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::UINT);
+    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::Enum::UINT);
 
     cmd.geom->unbind();
   }
 
   cmd.mtrl->unbind();
 
-  matrixStack_->pop<math::MatrixType::TFRM>();
-  matrixStack_->pop<math::MatrixType::PROJ>();
-  matrixStack_->pop<math::MatrixType::VIEW>();
+  matrixStack_->pop<math::MatrixType::Enum::TFRM>();
+  matrixStack_->pop<math::MatrixType::Enum::PROJ>();
+  matrixStack_->pop<math::MatrixType::Enum::VIEW>();
 
   state->setStencilEnable(false);
   state->setDepthEnable(false);
@@ -86,5 +86,5 @@ void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
   commands_.clear();
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

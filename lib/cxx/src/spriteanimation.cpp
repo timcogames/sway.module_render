@@ -1,7 +1,7 @@
 #include <sway/render/spriteanimation.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 SpriteAnimation::SpriteAnimation()
     : clip_(nullptr)
@@ -44,5 +44,5 @@ void SpriteAnimation::stop() {
   currentFrameIdx_ = 0;
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

@@ -6,8 +6,8 @@
 #include <sway/render/image.hpp>
 #include <sway/render/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderTarget {
   DECLARE_CLASS_POINTER_ALIASES(RenderTarget)
@@ -39,7 +39,7 @@ private:
   bool attached_{false};
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERTARGET_HPP

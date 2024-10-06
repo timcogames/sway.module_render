@@ -1,7 +1,7 @@
 #include <sway/render/geom/geombuilder.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 auto GeomBuilder::create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t {
   return std::make_shared<GeomBuilder>(global::getGapiPluginFunctionSet(), gen);
@@ -61,5 +61,5 @@ auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr_t {
   return geometries_[idx];
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

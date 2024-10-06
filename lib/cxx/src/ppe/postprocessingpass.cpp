@@ -1,7 +1,7 @@
 #include <sway/render/ppe/postprocessingpass.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 PostProcessingPass::PostProcessingPass(const std::string &name)
     : RenderPass(name)
@@ -12,5 +12,5 @@ void PostProcessingPass::apply(gapi::Framebuffer::Ptr_t framebuf) {}
 
 void PostProcessingPass::execute() {}
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

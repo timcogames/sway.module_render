@@ -7,8 +7,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 struct GeomVertexAttribSet {
   GeomVertexAttribBase::SharedPtr_t pos;
@@ -16,7 +16,7 @@ struct GeomVertexAttribSet {
   GeomVertexAttribBase::SharedPtr_t tex;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMETRYVERTEXATTRIBSET_HPP

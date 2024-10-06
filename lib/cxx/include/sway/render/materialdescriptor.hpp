@@ -7,8 +7,8 @@
 #include <memory>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 struct MaterialDescriptor {
   math::col4f_t ambient;
@@ -23,7 +23,7 @@ struct MaterialDescriptor {
   }
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_MATERIALDESCRIPTOR_HPP

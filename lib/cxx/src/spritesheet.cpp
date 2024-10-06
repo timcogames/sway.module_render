@@ -1,7 +1,7 @@
 #include <sway/render/spritesheet.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 SpriteSheet::SpriteSheet(nlohmann::json jobject) { parseAnimations(jobject); }
 
@@ -55,5 +55,5 @@ auto SpriteSheet::hasAnimation(const std::string &name) const -> bool {
   return animations_.find(name) != animations_.end();
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

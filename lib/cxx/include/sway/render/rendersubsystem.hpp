@@ -18,8 +18,8 @@
 #include <stack>  // std::stack
 #include <vector>  // std::vector
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderSubsystem : public core::foundation::Subsystem {
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
@@ -110,7 +110,7 @@ public:
   // ScreenQuad::SharedPtr_t quad_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERSUBSYSTEM_HPP

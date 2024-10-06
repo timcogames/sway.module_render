@@ -1,8 +1,8 @@
 #include <sway/render/renderqueuepass.hpp>
 #include <sway/render/rendersubqueue.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 RenderQueuePass::RenderQueuePass(const std::string &name)
     : RenderPass(name) {}
@@ -11,5 +11,5 @@ void RenderQueuePass::apply(gapi::Framebuffer::Ptr_t framebuf) {}
 
 void RenderQueuePass::execute() {}
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

@@ -11,18 +11,18 @@
 #include <memory>
 #include <optional>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TShape>
-auto GeomBuilder::create(const GeometryCreateInfo &info,
-    std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs, Effect::Ptr_t effect) -> u32_t {
+auto GeomBuilder::create(
+    const GeometryCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t {
   return create<TShape>(availables_.front(), info, attribs, effect);
 }
 
 template <typename TShape>
-auto GeomBuilder::create(int idx, const GeometryCreateInfo &info,
-    std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs, Effect::Ptr_t effect) -> u32_t {
+auto GeomBuilder::create(
+    int idx, const GeometryCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
   geometries_[idx]->create(info, effect, attribs);
@@ -50,5 +50,5 @@ auto GeomBuilder::createInstance(
   return idx;
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

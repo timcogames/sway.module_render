@@ -8,8 +8,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderQueue {
   DECLARE_CLASS_POINTER_ALIASES(RenderQueue)
@@ -90,7 +90,7 @@ private:
   RenderSubqueue::SharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERQUEUE_HPP

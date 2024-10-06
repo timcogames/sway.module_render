@@ -7,8 +7,8 @@
 
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TVertexDataType, typename TElementDataType>
 class GeomIndexedVertexData : public GeomVertexData<TVertexDataType> {
@@ -52,7 +52,7 @@ private:
   u32_t numElems_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMINDEXEDVERTEXDATA_HPP

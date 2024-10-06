@@ -1,11 +1,11 @@
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 RenderQueue::RenderQueue()
-    : priority_(core::detail::toBase(core::intrusive::Priority::NORMAL)) {}
+    : priority_(core::detail::toBase(core::intrusive::Priority::Enum::NORMAL)) {}
 
 RenderQueue::RenderQueue(u32_t priority)
     : priority_(priority) {}
@@ -30,5 +30,5 @@ auto RenderQueue::getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueShare
   return subqueues_[core::detail::toBase(group)];
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

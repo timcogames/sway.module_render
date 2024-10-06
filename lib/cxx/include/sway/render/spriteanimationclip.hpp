@@ -9,8 +9,8 @@
 #include <optional>
 #include <unordered_map>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 struct FrameMetadata {
   math::point2f_t anchor;
@@ -72,7 +72,7 @@ private:
   std::string name_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITEANIMATIONCLIP_HPP

@@ -16,8 +16,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class ScreenQuad {
   DECLARE_CLASS_POINTER_ALIASES(ScreenQuad)
@@ -47,8 +47,8 @@ public:
 
     GeometryCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = false;
-    geomCreateInfo.topology = gapi::TopologyType::TRIANGLE_STRIP;
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
+    geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexPosition);
     geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
     auto data = new f32_t[4 * sizeof(math::VertexPosition)];
@@ -70,14 +70,14 @@ public:
     cmd.blendDesc.enabled = false;
     cmd.depthDesc.enabled = false;
     cmd.stencilDesc.enabled = false;
-    cmd.topology = gapi::TopologyType::TRIANGLE_STRIP;
+    cmd.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
     cmd.geom = geom;
     cmd.mtrl = material_;
     cmd.tfrm = cmd.proj = cmd.view = math::mat4f_t();
 
-    matrixStack_->push<math::MatrixType::PROJ>(cmd.proj);
-    matrixStack_->push<math::MatrixType::VIEW>(cmd.view);
-    matrixStack_->push<math::MatrixType::TFRM>(cmd.tfrm);
+    matrixStack_->push<math::MatrixType::Enum::PROJ>(cmd.proj);
+    matrixStack_->push<math::MatrixType::Enum::VIEW>(cmd.view);
+    matrixStack_->push<math::MatrixType::Enum::TFRM>(cmd.tfrm);
 
     cmd.mtrl->bind(matrixStack_);
     cmd.geom->bind();
@@ -86,14 +86,14 @@ public:
     bufset.vbo = cmd.geom->getBuffer(Constants::IDX_VBO).value();
     bufset.ebo = nullptr;
 
-    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::UINT);
+    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::Enum::UINT);
 
     cmd.geom->unbind();
     cmd.mtrl->unbind();
 
-    matrixStack_->pop<math::MatrixType::TFRM>();
-    matrixStack_->pop<math::MatrixType::PROJ>();
-    matrixStack_->pop<math::MatrixType::VIEW>();
+    matrixStack_->pop<math::MatrixType::Enum::TFRM>();
+    matrixStack_->pop<math::MatrixType::Enum::PROJ>();
+    matrixStack_->pop<math::MatrixType::Enum::VIEW>();
   }
 
   [[nodiscard]]
@@ -112,7 +112,7 @@ private:
   f32_t screenHgt_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PPE_SCREENQUAD_HPP

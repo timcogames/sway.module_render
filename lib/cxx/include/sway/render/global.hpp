@@ -9,9 +9,9 @@
 #  include <gmock/gmock.h>
 #endif
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(global)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(global)
 
 #ifdef RENDER_USE_GMOCK
 
@@ -25,8 +25,8 @@ public:
   virtual ~ShaderProgramStub() = default;
 
   MOCK_METHOD(void, attach, (gapi::ShaderPtr_t), (override));
-  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType, gapi::ShaderPtr_t>), bool), (override));
-  MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType), (override));
+  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType::Enum, gapi::ShaderPtr_t>), bool), (override));
+  MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType::Enum), (override));
   MOCK_METHOD(void, link, (), (override));
   MOCK_METHOD(bool, isLinked, (), (const, override));
   MOCK_METHOD(void, validate, (), (override));
@@ -43,7 +43,7 @@ public:
 
 class ShaderStub : public gapi::Shader {
 public:
-  ShaderStub(gapi::ShaderType type)
+  ShaderStub(gapi::ShaderType::Enum type)
       : gapi::Shader(type) {}
 
   virtual ~ShaderStub() = default;
@@ -51,14 +51,14 @@ public:
   MOCK_METHOD(void, compile, (lpcstr_t), (override));
   MOCK_METHOD(bool, isCompiled, (), (const, override));
   MOCK_METHOD(i32_t, getAttribLocation, (std::optional<u32_t>, lpcstr_t), (override));
-  MOCK_METHOD(gapi::ShaderType, getType, (), (const, override));
+  MOCK_METHOD(gapi::ShaderType::Enum, getType, (), (const, override));
 };
 
 class IdGeneratorStub : public gapi::IdGenerator {
 public:
   virtual ~IdGeneratorStub() = default;
 
-  MOCK_METHOD(u32_t, newGuid, (), (override));
+  MOCK_METHOD(u32_t, getNextUid, (), (override));
 };
 
 class VertexArrayStub : public gapi::VertexArray {
@@ -80,14 +80,15 @@ public:
   MOCK_METHOD(void, updateSubdata, (gapi::BufferSubdataDescriptor), (override));
   MOCK_METHOD(void, updateSubdata, (const void *), (override));
   MOCK_METHOD(void, flush, (i32_t, i32_t), (override));
-  MOCK_METHOD(void *, map, (gapi::BufferMapAccess), (override));
-  MOCK_METHOD(void *, mapRange, (i32_t, i32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess>), (override));
+  MOCK_METHOD(void *, map, (gapi::BufferMapAccess::Enum), (override));
+  MOCK_METHOD(
+      void *, mapRange, (i32_t, i32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum>), (override));
   MOCK_METHOD(void, unmap, (), (override));
   MOCK_METHOD(void, bindRange, (u32_t, ptrdiff_t, ptrdiff_t), (override));
   MOCK_METHOD(void, bind, (), (override));
   MOCK_METHOD(void, unbind, (), (override));
-  MOCK_METHOD(gapi::BufferTarget, getTarget, (), (const, override));
-  MOCK_METHOD(gapi::BufferUsage, getUsage, (), (const, override));
+  MOCK_METHOD(gapi::BufferTarget::Enum, getTarget, (), (const, override));
+  MOCK_METHOD(gapi::BufferUsage::Enum, getUsage, (), (const, override));
   MOCK_METHOD(i32_t, getCapacity, (), (const, override));
   MOCK_METHOD(i32_t, getByteStride, (), (const, override));
 };
@@ -108,11 +109,14 @@ struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {
   PURE_VIRTUAL(auto createCapability() -> gapi::CapabilityPtr_t);
   PURE_VIRTUAL(auto createShader(const gapi::ShaderCreateInfo &) -> gapi::ShaderPtr_t);
   PURE_VIRTUAL(auto createShaderProgram() -> gapi::ShaderProgramPtr_t);
-  PURE_VIRTUAL(auto createIdGenerator() -> gapi::IdGeneratorPtr_t);
+  PURE_VIRTUAL(auto createBufferIdGenerator() -> gapi::IdGeneratorPtr_t);
   PURE_VIRTUAL(auto createBuffer(gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &) -> gapi::BufferPtr_t);
+  PURE_VIRTUAL(auto createFramebuffer() -> gapi::FramebufferPtr_t);
+  PURE_VIRTUAL(auto createRenderBuffer() -> gapi::RenderBufferPtr_t);
   PURE_VIRTUAL(auto createVertexArray() -> gapi::VertexArrayPtr_t);
   PURE_VIRTUAL(auto createVertexAttribLayout(gapi::ShaderProgramPtr_t) -> gapi::VertexAttribLayoutPtr_t);
-  PURE_VIRTUAL(auto createTexture(const gapi::TextureCreateInfo &) -> gapi::TexturePtr_t);
+  PURE_VIRTUAL(auto createTextureIdGenerator() -> gapi::IdGeneratorPtr_t);
+  PURE_VIRTUAL(auto createTexture(gapi::IdGeneratorPtr_t, const gapi::TextureCreateInfo &) -> gapi::TexturePtr_t);
   PURE_VIRTUAL(auto createTextureSampler(gapi::TexturePtr_t) -> gapi::TextureSamplerPtr_t);
   PURE_VIRTUAL(auto createDrawCall() -> gapi::DrawCallPtr_t);
   PURE_VIRTUAL(auto createViewport() -> gapi::ViewportPtr_t);
@@ -127,11 +131,14 @@ struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
   MOCK_METHOD(gapi::CapabilityPtr_t, createCapability, (), (override));
   MOCK_METHOD(gapi::ShaderPtr_t, createShader, (const gapi::ShaderCreateInfo &), (override));
   MOCK_METHOD(gapi::ShaderProgramPtr_t, createShaderProgram, (), (override));
-  MOCK_METHOD(gapi::IdGeneratorPtr_t, createIdGenerator, (), (override));
+  MOCK_METHOD(gapi::IdGeneratorPtr_t, createBufferIdGenerator, (), (override));
   MOCK_METHOD(gapi::BufferPtr_t, createBuffer, (gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &), (override));
+  MOCK_METHOD(gapi::FramebufferPtr_t, createFramebuffer, (), (override));
+  MOCK_METHOD(gapi::RenderBufferPtr_t, createRenderBuffer, (), (override));
   MOCK_METHOD(gapi::VertexArrayPtr_t, createVertexArray, (), (override));
   MOCK_METHOD(gapi::VertexAttribLayoutPtr_t, createVertexAttribLayout, (gapi::ShaderProgramPtr_t), (override));
-  MOCK_METHOD(gapi::TexturePtr_t, createTexture, (const gapi::TextureCreateInfo &), (override));
+  MOCK_METHOD(gapi::IdGeneratorPtr_t, createTextureIdGenerator, (), (override));
+  MOCK_METHOD(gapi::TexturePtr_t, createTexture, (gapi::IdGeneratorPtr_t, const gapi::TextureCreateInfo &), (override));
   MOCK_METHOD(gapi::TextureSamplerPtr_t, createTextureSampler, (gapi::TexturePtr_t), (override));
   MOCK_METHOD(gapi::DrawCallPtr_t, createDrawCall, (), (override));
   MOCK_METHOD(gapi::ViewportPtr_t, createViewport, (), (override));
@@ -152,8 +159,8 @@ extern GapiPluginFunctionSet *pluginFunctionSet_;
 
 auto getGapiPluginFunctionSet() -> GapiPluginFunctionSet *;
 
-NAMESPACE_END(global)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace global
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GLOBAL_HPP

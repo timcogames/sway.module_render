@@ -10,10 +10,10 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(procedurals)
-NAMESPACE_BEGIN(guides)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(procedurals)
+NS_BEGIN(guides)
 
 class Axis : public ShapeBase {
 public:
@@ -37,13 +37,13 @@ public:
     };
     // clang-format on
 
-    core::detail::EnumClassBitset<math::Axis> axises;
-    axises.set(math::Axis::RIGHT);
-    axises.set(math::Axis::UP);
+    core::detail::EnumClassBitset<math::Axis::Enum> axises;
+    axises.set(math::Axis::Enum::RIGHT);
+    axises.set(math::Axis::Enum::UP);
 
     auto offsetVtxes = 0, offsetIdxes = 0;
 
-    if (axises.has(math::Axis::RIGHT)) {  // X axis
+    if (axises.has(math::Axis::Enum::RIGHT)) {  // X axis
       dataAttribs_.pos->setData(0 + offsetVtxes, math::vec3f_t(+0.0F, +0.0F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(1 + offsetVtxes, math::vec3f_t(+1.0F, +0.0F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.9F, +0.1F, +0.0F).asDataPtr());
@@ -66,7 +66,7 @@ public:
       offsetIdxes += 6;
     }
 
-    if (axises.has(math::Axis::UP)) {  // Y axis
+    if (axises.has(math::Axis::Enum::UP)) {  // Y axis
       dataAttribs_.pos->setData(0 + offsetVtxes, math::vec3f_t(+0.0F, +0.0F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(1 + offsetVtxes, math::vec3f_t(+0.0F, +1.0F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.1F, +0.9F, +0.0F).asDataPtr());
@@ -89,7 +89,7 @@ public:
       offsetIdxes += 6;
     }
 
-    if (axises.has(math::Axis::FORWARD)) {  // Z axis
+    if (axises.has(math::Axis::Enum::FORWARD)) {  // Z axis
       dataAttribs_.pos->setData(0 + offsetVtxes, math::vec3f_t(+0.0F, +0.0F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(1 + offsetVtxes, math::vec3f_t(+0.0F, +0.0F, +1.0F).asDataPtr());
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.1F, +0.0F, +0.9F).asDataPtr());
@@ -122,9 +122,7 @@ public:
     return data_;
   }
 
-  MTHD_OVERRIDE(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t>) {
-    return data_->getAttribs();
-  }
+  MTHD_OVERRIDE(auto getVertexAttribs() const->GeomVertexAttribSharedPtrMap_t) { return data_->getAttribs(); }
 
   MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
@@ -140,9 +138,9 @@ private:
   bool remapping_;
 };
 
-NAMESPACE_END(guides)
-NAMESPACE_END(procedurals)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace guides
+NS_END()  // namespace procedurals
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PROCEDURALS_GUIDES_AXIS_HPP

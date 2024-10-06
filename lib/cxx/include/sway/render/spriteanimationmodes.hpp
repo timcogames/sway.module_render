@@ -3,12 +3,12 @@
 
 #include <sway/core.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 enum class SpriteAnimationMode : u32_t { ONCE, LOOP };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITEANIMATIONMODES_HPP

@@ -1,8 +1,8 @@
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/geom/geominstance.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 // GeomInstance::GeomInstance(
 //     global::GapiPluginFunctionSet *plug, GeomBuilder *builder, GeomInstanceDataDivisor<TVertexDataType> *divisor)
@@ -19,5 +19,5 @@ NAMESPACE_BEGIN(render)
 //   vao_->unbind();
 // }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

@@ -10,8 +10,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 // class PostProcessingPass : public IRenderPass {
 //   DECLARE_CLASS_POINTER_ALIASES(PostProcessingPass)
@@ -70,7 +70,7 @@ private:
   RenderState::SharedPtr_t state_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PPE_POSTPROCESSINGPASS_HPP

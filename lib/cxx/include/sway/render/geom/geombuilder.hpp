@@ -16,8 +16,8 @@
 #include <optional>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 struct GeomPoolStats {
   u32_t numGeoms;
@@ -46,12 +46,11 @@ public:
 #pragma endregion
 
   template <typename TShape>
-  auto create(int idx, const GeometryCreateInfo &info,
-      std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs, Effect::Ptr_t effect) -> u32_t;
+  auto create(
+      int idx, const GeometryCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
-  auto create(const GeometryCreateInfo &info, std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs,
-      Effect::Ptr_t effect) -> u32_t;
+  auto create(const GeometryCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto createInstance(
@@ -84,8 +83,8 @@ private:
   std::list<u32_t> availables_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #include <sway/render/geom/geombuilder.inl>
 

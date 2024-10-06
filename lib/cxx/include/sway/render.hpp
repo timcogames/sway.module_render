@@ -45,5 +45,6 @@
 #include <sway/render/spriteanimationclip.hpp>
 #include <sway/render/spriteanimationmodes.hpp>
 #include <sway/render/spritesheet.hpp>
+#include <sway/render/typedefs.hpp>
 
 #endif  // SWAY_RENDER_HPP

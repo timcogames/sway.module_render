@@ -11,10 +11,10 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(procedurals)
-NAMESPACE_BEGIN(guides)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(procedurals)
+NS_BEGIN(guides)
 
 class Line : public ShapeBase {
 public:
@@ -60,9 +60,7 @@ public:
     return data_;
   }
 
-  MTHD_OVERRIDE(auto getVertexAttribs() const->std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t>) {
-    return data_->getAttribs();
-  }
+  MTHD_OVERRIDE(auto getVertexAttribs() const->GeomVertexAttribSharedPtrMap_t) { return data_->getAttribs(); }
 
   MTHD_OVERRIDE(void getVertices(void *dst, u32_t start, u32_t end)) { data_->getVertices(dst, start, end); }
 
@@ -78,9 +76,9 @@ private:
   bool remapping_;
 };
 
-NAMESPACE_END(guides)
-NAMESPACE_END(procedurals)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace guides
+NS_END()  // namespace procedurals
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PROCEDURALS_GUIDES_LINE_HPP

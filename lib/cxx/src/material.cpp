@@ -6,8 +6,8 @@
 
 #include <thread>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
     std::shared_ptr<rms::GLSLResourceManager> glslResMngr)
@@ -34,8 +34,8 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
   auto image = std::make_shared<Image>();
   image->create(subsys_->textureIdGenerator_, resource->getDescriptor());
   image->getTextureSampler()->setWrapMode(
-      gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
-  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+      gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT);
+  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::Enum::NEAREST, gapi::TextureFilter::Enum::NEAREST);
 
   addImage(alias, image);
   return true;
@@ -50,14 +50,14 @@ auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::st
 
   image->create(subsys_->textureIdGenerator_, createInfo);
   image->getTextureSampler()->setWrapMode(
-      gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
-  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+      gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT);
+  image->getTextureSampler()->setFilterMode(gapi::TextureFilter::Enum::NEAREST, gapi::TextureFilter::Enum::NEAREST);
 
   addImage(alias, image);
   return image;
 }
 
-void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType type) {
+void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType::Enum type) {
   auto resource = glslResMngr_->findLoadedResource(name);
   if (!resource) {
     printf("The file %s was not found\n", name.c_str());
@@ -76,14 +76,14 @@ void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info,
   info.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 }
 
-void Material::addEffect(std::unordered_map<gapi::ShaderType, std::string> sources) {
+void Material::addEffect(std::unordered_map<gapi::ShaderType::Enum, std::string> sources) {
   gapi::ShaderCreateInfoSet createInfoSet;
-  createInfoSet.vs.type = gapi::ShaderType::VERT;
-  createInfoSet.vs.code = sources[gapi::ShaderType::VERT];
+  createInfoSet.vs.type = gapi::ShaderType::Enum::VERT;
+  createInfoSet.vs.code = sources[gapi::ShaderType::Enum::VERT];
   createInfoSet.vs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 
-  createInfoSet.fs.type = gapi::ShaderType::FRAG;
-  createInfoSet.fs.code = sources[gapi::ShaderType::FRAG];
+  createInfoSet.fs.type = gapi::ShaderType::Enum::FRAG;
+  createInfoSet.fs.code = sources[gapi::ShaderType::Enum::FRAG];
   createInfoSet.fs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 
   effect_ = Effect::create(createInfoSet);
@@ -91,16 +91,16 @@ void Material::addEffect(std::unordered_map<gapi::ShaderType, std::string> sourc
 
 void Material::addEffect(const std::array<std::string, 2> &names) {
   gapi::ShaderCreateInfoSet createInfoSet;
-  addShader_(std::get<0>(names), createInfoSet.vs, gapi::ShaderType::VERT);
-  addShader_(std::get<1>(names), createInfoSet.fs, gapi::ShaderType::FRAG);
+  addShader_(std::get<0>(names), createInfoSet.vs, gapi::ShaderType::Enum::VERT);
+  addShader_(std::get<1>(names), createInfoSet.fs, gapi::ShaderType::Enum::FRAG);
 
   effect_ = Effect::create(createInfoSet);
 }
 
 void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
-  auto viewMtx = mtxs->top<math::MatrixType::VIEW>();
-  auto projMtx = mtxs->top<math::MatrixType::PROJ>();
-  auto tfrmMtx = mtxs->top<math::MatrixType::TFRM>();
+  auto viewMtx = mtxs->top<math::MatrixType::Enum::VIEW>();
+  auto projMtx = mtxs->top<math::MatrixType::Enum::PROJ>();
+  auto tfrmMtx = mtxs->top<math::MatrixType::Enum::TFRM>();
 
   auto viewProjMtx = viewMtx * projMtx;
 
@@ -142,5 +142,5 @@ void Material::unbind() {
 
 void Material::setSubsys(RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

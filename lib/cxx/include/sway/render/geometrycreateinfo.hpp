@@ -5,8 +5,8 @@
 #include <sway/gapi/topologytypes.hpp>
 #include <sway/namespacemacros.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 struct Constants {
   static constexpr std::size_t MAX_VERTEX_ATTRIBS{16};
@@ -21,18 +21,18 @@ struct Constants {
 
 struct GeometryCreateInfo {
   bool indexed;
-  gapi::TopologyType topology;
+  gapi::TopologyType::Enum topology;
   std::array<gapi::BufferCreateInfo, Constants::MAX_IDX_BUFFERS> bo{};
 
   GeometryCreateInfo()
       : indexed(false)
-      , topology(gapi::TopologyType::NONE) {
-    bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::ARRAY;
-    bo[Constants::IDX_EBO].desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+      , topology(gapi::TopologyType::Enum::NONE) {
+    bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::Enum::ARRAY;
+    bo[Constants::IDX_EBO].desc.target = gapi::BufferTarget::Enum::ELEMENT_ARRAY;
   }
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMETRYCREATEINFO_HPP

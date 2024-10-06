@@ -14,9 +14,9 @@
 #include <string>
 #include <vector>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(pipeline)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(pipeline)
 
 struct RenderCommand {};
 
@@ -38,7 +38,7 @@ struct ForwardRenderCommand : public RenderCommand {
   gapi::StencilDescriptor stencilDesc;
 
   Geom::Ptr_t geom;
-  gapi::TopologyType topology;
+  gapi::TopologyType::Enum topology;
   Material::SharedPtr_t mtrl;
 
   math::mat4f_t tfrm;
@@ -61,8 +61,8 @@ struct CameraRenderCommand : public RenderCommand {
   f32_t far;
 };
 
-NAMESPACE_END(pipeline)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace pipeline
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP

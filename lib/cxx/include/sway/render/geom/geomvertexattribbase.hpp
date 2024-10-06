@@ -1,12 +1,10 @@
 #ifndef SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP
 #define SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP
 
-#include <sway/core.hpp>
-#include <sway/gapi.hpp>
-#include <sway/render/prereqs.hpp>
+#include <sway/render/typedefs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class GeomVertexAttribBase {
   DECLARE_CLASS_POINTER_ALIASES(GeomVertexAttribBase)
@@ -25,7 +23,7 @@ public:
   PURE_VIRTUAL(auto enabled() const -> bool);
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP

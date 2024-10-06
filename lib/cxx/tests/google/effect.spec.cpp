@@ -4,9 +4,9 @@
 #include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <gmock/gmock.h>
 #include <google/plugfixture.hpp>
 
 using namespace sway;
@@ -18,9 +18,9 @@ TEST_F(EffectTestFixture, create_buffer) {
   auto *shaderProgStub = createShaderProgStub(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
-  infoSet.vs.type = gapi::ShaderType::VERT;
+  infoSet.vs.type = gapi::ShaderType::Enum::VERT;
   infoSet.vs.code = "";
-  infoSet.fs.type = gapi::ShaderType::FRAG;
+  infoSet.fs.type = gapi::ShaderType::Enum::FRAG;
   infoSet.fs.code = "";
   auto *effect = new render::Effect(globalGapiPlug, infoSet);
 

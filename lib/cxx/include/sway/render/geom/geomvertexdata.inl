@@ -1,8 +1,8 @@
 #include <sway/core.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 template <typename TVertexDataType>
 template <typename TAttribFormat>
@@ -12,5 +12,5 @@ auto GeomVertexData<TVertexDataType>::createAttrib(gapi::VertexSemantic semantic
   return attrib;
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

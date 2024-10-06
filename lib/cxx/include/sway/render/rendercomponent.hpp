@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderComponent : public core::foundation::Object {
   DECLARE_CLASS_METADATA(RenderComponent, core::foundation::Object)
@@ -22,7 +22,7 @@ public:
   // PURE_VIRTUAL(void onDestroy());
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_COMPONENT_HPP

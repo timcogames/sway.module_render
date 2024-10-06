@@ -7,8 +7,8 @@
 
 #include <vector>  // std::vector
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class RenderPassManager {
   DECLARE_CLASS_POINTER_ALIASES(RenderPassManager)
@@ -46,7 +46,7 @@ private:
   RenderPass::SharedPtrVec_t passes_{};
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_RENDERPASSMANAGER_HPP

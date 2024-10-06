@@ -1,15 +1,12 @@
 #ifndef SWAY_RENDER_EFFECT_HPP
 #define SWAY_RENDER_EFFECT_HPP
 
-#include <sway/core.hpp>
-#include <sway/gapi.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
+#include <sway/render/typedefs.hpp>
 
-#include <memory>
-
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class Effect {
   DECLARE_CLASS_POINTER_ALIASES(Effect)
@@ -46,7 +43,7 @@ private:
   gapi::ShaderProgramPtr_t program_;  // Указатель на шейдерную программу.
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_EFFECT_HPP

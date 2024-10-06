@@ -3,12 +3,12 @@
 
 #include <sway/core.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 enum class Flipper : u32_t { NONE = 0, HORZ, VERT, Latest };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_FLIPPER_HPP

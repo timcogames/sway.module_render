@@ -5,8 +5,8 @@
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geomvertexattribbase.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class GeomVertexDataBase;
 
@@ -41,8 +41,8 @@ private:
   VertexAttribType_t *vertices_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #include <sway/render/geom/geomvertexattrib.inl>
 

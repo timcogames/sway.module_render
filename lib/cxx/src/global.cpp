@@ -1,8 +1,8 @@
 #include <sway/render/global.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
-NAMESPACE_BEGIN(global)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(global)
 
 #ifdef RENDER_USE_GMOCK
 
@@ -32,6 +32,6 @@ auto getGapiPluginFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
 
 #endif
 
-NAMESPACE_END(global)
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace global
+NS_END()  // namespace render
+NS_END()  // namespace sway

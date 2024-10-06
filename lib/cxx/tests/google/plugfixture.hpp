@@ -6,8 +6,9 @@
 #include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <gmock/gmock.h>
 
 using namespace sway;
 
@@ -24,7 +25,7 @@ protected:
 };
 
 inline auto createShaderStub(render::global::GapiPluginFunctionSet *plug) -> render::global::ShaderStub * {
-  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::NONE);
+  auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::Enum::NONE);
   EXPECT_CALL(*plug, createShader(testing::_)).WillRepeatedly(testing::Return(shaderStub));
   return shaderStub;
 }

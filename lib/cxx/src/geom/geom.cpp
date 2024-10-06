@@ -1,8 +1,8 @@
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
     : core::foundation::Uniqueable<std::string>(core::misc::newGuid<UUID_NBR_OF_GROUPS>(UUID_MAGIC))
@@ -16,8 +16,7 @@ Geom::~Geom() {
   builder_->stats_.numGeoms -= 1;
 }
 
-void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect,
-    std::map<gapi::VertexSemantic, GeomVertexAttribBase::SharedPtr_t> attribs) {
+void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs) {
 
   attribs_ = attribs;
 
@@ -137,5 +136,5 @@ void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   buffers_[Constants::IDX_VBO].value()->updateSubdata(vtxdata);
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway

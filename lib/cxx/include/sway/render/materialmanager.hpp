@@ -8,8 +8,8 @@
 #include <memory>
 #include <string>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class MaterialManager {
 public:
@@ -25,7 +25,7 @@ private:
   MaterialSharedPtrMap_t materials_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_MATERIALMANAGER_HPP

@@ -8,8 +8,8 @@
 #include <optional>
 #include <unordered_map>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class SpriteSheet {
 public:
@@ -30,7 +30,7 @@ public:
   std::unordered_map<std::string, SpriteAnimation> animations_;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_SPRITESHEET_HPP

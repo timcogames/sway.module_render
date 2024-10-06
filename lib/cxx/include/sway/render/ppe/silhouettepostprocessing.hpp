@@ -5,8 +5,8 @@
 #include <sway/gapi.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 class SilhouettePostProcessing : public PostProcessing {
 public:
@@ -16,7 +16,7 @@ public:
   ~SilhouettePostProcessing() = default;
 };
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
 
 #endif  // SWAY_RENDER_PPE_SILHOUETTEPOSTPROCESSING_HPP

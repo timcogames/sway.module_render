@@ -1,7 +1,7 @@
 #include <sway/render/materialmanager.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(render)
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
 
 MaterialManager::MaterialManager() {}
 
@@ -19,5 +19,5 @@ auto MaterialManager::getByUid(const std::string &name) -> MaterialSharedPtr_t {
   return nullptr;
 }
 
-NAMESPACE_END(render)
-NAMESPACE_END(sway)
+NS_END()  // namespace render
+NS_END()  // namespace sway
