@@ -10,5 +10,7 @@ PostProcessingPass::PostProcessingPass(const std::string &name)
 
 void PostProcessingPass::apply(gapi::Framebuffer::Ptr_t framebuf) {}
 
+void PostProcessingPass::execute() {}
+
 NAMESPACE_END(render)
 NAMESPACE_END(sway)

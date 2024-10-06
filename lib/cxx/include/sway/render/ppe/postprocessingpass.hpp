@@ -53,6 +53,8 @@ public:
 
   MTHD_OVERRIDE(void apply(gapi::Framebuffer::Ptr_t framebuf));
 
+  MTHD_OVERRIDE(void execute());
+
 #pragma endregion
 
   void setRenderTarget(RenderTarget::SharedPtr_t target) { target_ = target; }

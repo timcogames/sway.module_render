@@ -30,6 +30,8 @@ auto RenderSubsystem::initialize() -> bool {
   textureIdGenerator_ = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
 
+  passMngr_ = std::make_shared<RenderPassManager>();
+
   geomBuilder_ = GeomBuilder::create(bufferIdGenerator_);
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
@@ -61,15 +63,6 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   // return fullscreenQuad_;
 }
 
-auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {
-  if (this->getQueueByPriority(priority)) {
-    return nullptr;
-  }
-
-  queues_.push_back(std::make_shared<RenderQueue>(priority));
-  return queues_.back();
-}
-
 auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {
   for (auto queue : queues_) {
     if (queue->getPriority() == priority) {
@@ -80,6 +73,20 @@ auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedP
   return nullptr;
 }
 
+auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {
+  if (this->getQueueByPriority(priority)) {
+    return nullptr;
+  }
+
+  queues_.push_back(std::make_shared<RenderQueue>(priority));
+  return queues_.back();
+}
+
+void RenderSubsystem::createQueuePass(const std::string &name, i32_t idx) {
+  auto pass = std::make_shared<RenderQueuePass>(name);
+  passMngr_->addPass(std::static_pointer_cast<RenderPass>(pass), idx);
+}
+
 void RenderSubsystem::sortQueues() {
   if (queues_.size() >= 2) {
     std::sort(queues_.begin(), queues_.end(), RenderQueue::PriorityInDescendingOrder());
@@ -87,6 +94,10 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
+  for (auto i = 0; i < passMngr_->getNumPasses(); i++) {
+    auto pass = passMngr_->getPass(i);
+  }
+
   for (auto i = 0; i < ppe_->getNumPasses(); i++) {
     auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
     auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();

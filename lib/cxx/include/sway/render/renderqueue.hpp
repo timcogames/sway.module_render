@@ -87,7 +87,7 @@ public:
 
 private:
   u32_t priority_;  // Приоритет очереди.
-  RenderSubqueueSharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
+  RenderSubqueue::SharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
 };
 
 NAMESPACE_END(render)

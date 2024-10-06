@@ -29,7 +29,10 @@
 #include <sway/render/procedurals/shape.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderpass.hpp>
+#include <sway/render/renderpassmanager.hpp>
+#include <sway/render/renderpasstypes.hpp>
 #include <sway/render/renderqueue.hpp>
+#include <sway/render/renderqueuepass.hpp>
 #include <sway/render/renderstages.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueue.hpp>

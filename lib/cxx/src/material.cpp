@@ -116,7 +116,7 @@ void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
       return;
     }
 
-    std::cout << getUid().value().c_str() << " " << texUid.value() << std::endl;
+    // std::cout << getUid().value().c_str() << " " << texUid.value() << std::endl;
 
     image.second->getTexture()->setActive(texUid.value());
     image.second->bind();

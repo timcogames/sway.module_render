@@ -8,7 +8,9 @@
 #include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
+#include <sway/render/renderpassmanager.hpp>
 #include <sway/render/renderqueue.hpp>
+#include <sway/render/renderqueuepass.hpp>
 #include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -45,14 +47,6 @@ public:
       Material::SharedPtr_t material);  // -> FullscreenQuadrilateral::SharedPtr_t;
 
   /**
-   * @brief Создает новую очередь и добавляет её в контейнер.
-   *
-   * @param[in] priority Приоритет очереди.
-   * @return Умный указатель на объект класса очереди.
-   */
-  auto createQueue(u32_t priority) -> RenderQueue::SharedPtr_t;
-
-  /**
    * @brief Получает очередь по индексу.
    *
    * @param[in] idx Индекс очереди.
@@ -61,6 +55,16 @@ public:
   auto getQueueByIdx(u32_t idx) -> RenderQueue::SharedPtr_t { return queues_[idx]; }
 
   auto getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t;
+
+  /**
+   * @brief Создает новую очередь и добавляет её в контейнер.
+   *
+   * @param[in] priority Приоритет очереди.
+   * @return Умный указатель на объект класса очереди.
+   */
+  auto createQueue(u32_t priority) -> RenderQueue::SharedPtr_t;
+
+  void createQueuePass(const std::string &name, i32_t idx);
 
   /**
    * @brief Получает все очереди.
@@ -97,6 +101,7 @@ public:
 
   gapi::CapabilityPtr_t capability_;
   gapi::ViewportPtr_t viewport_;
+  RenderPassManager::SharedPtr_t passMngr_;
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
   gapi::IdGenerator::Ptr_t bufferIdGenerator_;

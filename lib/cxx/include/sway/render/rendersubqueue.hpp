@@ -16,6 +16,7 @@ NAMESPACE_BEGIN(render)
 
 class RenderSubqueue {
   DECLARE_CLASS_POINTER_ALIASES(RenderSubqueue)
+  DECLARE_CLASS_VECTOR(RenderSubqueue, SharedPtr)
 
 public:
 #pragma region "Ctors/Dtor"

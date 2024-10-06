@@ -4,10 +4,12 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/prereqs.hpp>
+#include <sway/render/renderpasstypes.hpp>
+#include <sway/render/renderqueue.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
 
-#include <memory>
+#include <string>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(render)
@@ -24,8 +26,11 @@ NAMESPACE_BEGIN(render)
 //   u32_t clearStencil;
 // };
 
+struct RenderPassCreateInfo {};
+
 class RenderPass {
   DECLARE_CLASS_POINTER_ALIASES(RenderPass)
+  DECLARE_CLASS_VECTOR(RenderPass, SharedPtr)
 
 public:
   RenderPass(const std::string &name)
@@ -33,7 +38,13 @@ public:
 
   virtual ~RenderPass() = default;
 
+  // PURE_VIRTUAL(void setup());
+
+  // PURE_VIRTUAL(void dispose());
+
   PURE_VIRTUAL(void apply(gapi::Framebuffer::Ptr_t framebuf));
+
+  PURE_VIRTUAL(void execute());
 
   // PURE_VIRTUAL(void apply(FrameBuffer &framebuf, const RenderMetaData &metadata));
 
@@ -42,8 +53,8 @@ public:
   auto name() const -> const std::string & { return name_; }
 
 private:
-  // u32_t id_;
   std::string name_;
+  PassType::Enum type_;
 };
 
 NAMESPACE_END(render)
