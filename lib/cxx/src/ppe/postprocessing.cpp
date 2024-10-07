@@ -39,7 +39,11 @@ auto PostProcessing::getPass(u32_t idx) -> RenderPass::SharedPtr_t { return pass
 
 void PostProcessing::preRender() {}
 
-void PostProcessing::postRender() {}
+void PostProcessing::postRender() {
+  for (auto &pass : passes_) {
+    pass->execute();
+  }
+}
 
 NS_END()  // namespace render
 NS_END()  // namespace sway

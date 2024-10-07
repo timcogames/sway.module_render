@@ -38,29 +38,30 @@ auto RenderSubsystem::initialize() -> bool {
   return true;
 }
 
-void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
-  // -> FullscreenQuadrilateral::SharedPtr_t {
+void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, core::misc::Dictionary glob) {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
 
-  auto frstPass = std::make_shared<PostProcessingPass>("frst");
+  renderState_ = std::make_shared<RenderState>();
+
+  fullscreenQuad_ = std::make_shared<render::ScreenQuad>();
+  fullscreenQuad_->initialize(glob, geomBuilder_);
+
+  auto frstPass = std::make_shared<PostProcessingPass>("frst", fullscreenQuad_);
+  frstPass->setEnabled(true);
   auto frstTarget = std::make_shared<RenderTarget>();
   frstTarget->setScissorViewport(viewport_);
   frstTarget->attachColorBufferObject(this);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderTarget(frstTarget);
-  std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(std::make_shared<RenderState>());
+  std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(renderState_);
   ppe_->add(frstPass, core::detail::toBase(RenderStage::IDX_COLOR));
 
-  auto scndPass = std::make_shared<PostProcessingPass>("scnd");
-  auto scndTarget = std::make_shared<RenderTarget>();
-  scndTarget->setScissorViewport(viewport_);
-  std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
-  std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
-  ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
-
-  // fullscreenQuad_ = std::make_shared<FullscreenQuadrilateral>();
-  // fullscreenQuad_->initialize(geomBuilder_, subqueue, material);
-
-  // return fullscreenQuad_;
+  // auto scndPass = std::make_shared<PostProcessingPass>("scnd", fullscreenQuad_);
+  // scndPass->setEnabled(true);
+  // auto scndTarget = std::make_shared<RenderTarget>();
+  // scndTarget->setScissorViewport(viewport_);
+  // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
+  // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
+  // ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
 }
 
 auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {
@@ -98,6 +99,8 @@ void RenderSubsystem::render() {
     auto pass = passMngr_->getPass(i);
   }
 
+  ppe_->preRender();
+
   for (auto i = 0; i < ppe_->getNumPasses(); i++) {
     auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
     auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
@@ -111,6 +114,27 @@ void RenderSubsystem::render() {
 
     target->deactivate();
   }
+
+  auto clearFlags = core::detail::toBase(gapi::ClearFlag::COLOR);
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::COLOR)) {
+    viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
+  }
+
+  auto clearDepth = 0;
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::DEPTH)) {
+    renderState_->getContext()->setClearDepth(clearDepth);
+    renderState_->getContext()->setDepthMask(true);
+  }
+
+  auto clearStencil = 0;
+  if (clearFlags & core::detail::toBase(gapi::ClearFlag::STENCIL)) {
+    renderState_->getContext()->setClearStencil(clearStencil);
+    renderState_->getContext()->setStencilMask(0x0);
+  }
+
+  viewport_->clear(core::detail::toEnum<gapi::ClearFlag>(clearFlags));
+
+  ppe_->postRender();
 }
 
 void RenderSubsystem::renderSubqueues_(

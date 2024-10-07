@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderpass.hpp>
 #include <sway/render/renderstate.hpp>
@@ -43,7 +44,7 @@ class PostProcessingPass : public RenderPass {
 public:
 #pragma region "Ctors/Dtor"
 
-  PostProcessingPass(const std::string &name);
+  PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad);
 
   virtual ~PostProcessingPass() = default;
 
@@ -65,9 +66,15 @@ public:
 
   auto getRenderState() -> RenderState::SharedPtr_t { return state_; }
 
+  auto isEnabled() -> bool { return enabled_; }
+
+  void setEnabled(bool val) { enabled_ = val; }
+
 private:
   RenderTarget::SharedPtr_t target_;
   RenderState::SharedPtr_t state_;
+  ScreenQuad::SharedPtr_t quad_;
+  bool enabled_;
 };
 
 NS_END()  // namespace render

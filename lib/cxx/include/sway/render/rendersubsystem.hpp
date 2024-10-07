@@ -43,8 +43,7 @@ public:
 
 #pragma endregion
 
-  void createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
-      Material::SharedPtr_t material);  // -> FullscreenQuadrilateral::SharedPtr_t;
+  void createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, core::misc::Dictionary glob);
 
   /**
    * @brief Получает очередь по индексу.
@@ -100,6 +99,7 @@ public:
       RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
 
   gapi::CapabilityPtr_t capability_;
+  RenderState::SharedPtr_t renderState_;
   gapi::ViewportPtr_t viewport_;
   RenderPassManager::SharedPtr_t passMngr_;
   PostProcessing::SharedPtr_t ppe_;
@@ -107,7 +107,7 @@ public:
   gapi::IdGenerator::Ptr_t bufferIdGenerator_;
   gapi::IdGenerator::Ptr_t textureIdGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
-  // ScreenQuad::SharedPtr_t quad_;
+  ScreenQuad::SharedPtr_t fullscreenQuad_;
 };
 
 NS_END()  // namespace render
