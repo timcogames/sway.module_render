@@ -107,27 +107,29 @@ void RenderSubsystem::render() {
 
   // renderState_->getContext()->setDepthEnable(true);
 
-  for (auto i = 0; i < ppe_->getNumPasses(); i++) {
-    auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
-    auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
+  // for (auto i = 0; i < ppe_->getNumPasses(); i++) {
+  //   auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
+  //   auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
 
-    //   target->activate(state->getContext());
+  //   //   target->activate(state->getContext());
 
-    for (auto &queue : queues_) {
-      renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);
-      renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i, state);
-    }
+  //   for (auto &queue : queues_) {
+  //     renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);
+  //     renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i, state);
+  //   }
 
-    //   target->deactivate();
-  }
+  //   //   target->deactivate();
+  // }
 
-  // viewport_->setClearColor(math::col4f_t(255.0F, 255.0F, 255.0F, 1.0F));
-  // viewport_->clear(gapi::ClearFlag::COLOR);
+  viewport_->setClearColor(math::col4f_t(255.0F, 255.0F, 255.0F, 1.0F));
+  viewport_->clear(gapi::ClearFlag::COLOR);
 
-  gapi::RasterizerDescriptor rast;
-  rast.mode = gapi::CullFace::DISABLED;
-  rast.ccw = false;
-  rasterizer_->apply(renderState_->getContext(), rast);
+  // renderState_->getContext()->setCapabilityEnable(gapi::StateCapability::Enum::CULL_FACE, true);
+  // gapi::RasterizerDescriptor rasterizerDesc;
+  // rasterizerDesc.mode = gapi::CullFace::BACK;
+  // rasterizerDesc.ccw = true;
+  // rasterizer_->apply(renderState_->getContext(), rasterizerDesc);
+
   ppe_->postRender();
 }
 

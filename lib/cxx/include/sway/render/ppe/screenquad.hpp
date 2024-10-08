@@ -37,18 +37,23 @@ public:
         {gapi::ShaderType::Enum::VERT, "layout (location = 0) in vec3 attrib_position;"
                                        "layout (location = 1) in vec4 attrib_color;"
                                        "layout (location = 2) in vec2 attrib_texcoord_0;"
-                                       "out vec2 uv;"
+                                       "uniform mat4 mat_view_proj;"
+                                       "uniform mat4 mat_tfrm;"
+                                       "out vec4 vtx_color;"
+                                       "out vec2 vtx_uv;"
                                        "void main() {"
-                                       "    gl_Position = vec4(attrib_position, 1.0);"
+                                       //  "    gl_Position = vec4(attrib_position, 1.0);"
+                                       "    gl_Position = mat_view_proj * vec4(attrib_position, 1.0);"
                                        //  "    uv = attrib_position.xy * 0.5 + 0.5;"
-                                       "    uv = attrib_texcoord_0;"
+                                       "    vtx_color = attrib_color;"
+                                       "    vtx_uv = attrib_texcoord_0;"
                                        "}"},
-        {gapi::ShaderType::Enum::FRAG, "in vec2 uv;"
+        {gapi::ShaderType::Enum::FRAG, "in vec4 vtx_color;"
+                                       "in vec2 vtx_uv;"
                                        "uniform sampler2D tex_color;"
                                        "out vec4 frag_color;"
                                        "void main() {"
-                                       //  "    frag_color = texture(tex_color, uv);"
-                                       "    frag_color = vec4(1.0, 0.0, 0.0, 1.0);"
+                                       "    frag_color = texture(tex_color, vtx_uv) * vtx_color;"
                                        //  "    frag_color = vec4(vec3(1.0 - texture(tex_color, uv)), 1.0);"
                                        "}"}};
 
@@ -74,18 +79,18 @@ public:
     auto shape = new procedurals::prims::Quad<math::VertexTexCoord>(
         {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
 
-    shape->setPosDataAttrib(0.0f);
+    shape->setPosDataAttrib(5.0f);
     shape->setColDataAttrib();
     shape->setTexDataAttrib();
 
     GeometryCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = false;
-    geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_LIST;
+    geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 6;
-    auto data = new f32_t[6 * sizeof(math::VertexTexCoord)];
-    shape->data()->getVertices(data, 0, 6);
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
+    auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
+    shape->data()->getVertices(data, 0, 4);
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
     geomIdx_ = geomBuilder_->create<procedurals::prims::Quad<math::VertexTexCoord>>(
@@ -105,7 +110,7 @@ public:
     bufset.vbo = geom->getBuffer(Constants::IDX_VBO).value();
     bufset.ebo = nullptr;
 
-    drawCall_->execute(gapi::TopologyType::Enum::TRIANGLE_LIST, bufset, core::ValueDataType::Enum::UINT);
+    drawCall_->execute(gapi::TopologyType::Enum::TRIANGLE_STRIP, bufset, core::ValueDataType::Enum::UINT);
 
     geom->unbind();
     effect_->unbind();

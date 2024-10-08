@@ -21,7 +21,7 @@ class Quad : public ShapeBase {
 public:
   using VtxDataType_t = TVertexDataType;
 
-  static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{6};
+  static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
 
   Quad(const std::initializer_list<gapi::VertexSemantic> &semantics)
       : remapping_(false) {
@@ -45,33 +45,48 @@ public:
   }
 
   void setPosDataAttrib(f32_t zindex) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(1, math::vec3f_t(+0.5f, -0.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(2, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(0, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(1, math::vec3f_t(+0.5f, -0.5f, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(2, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
 
-    dataAttribs_.pos->setData(3, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(4, math::vec3f_t(-0.5f, +0.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(5, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
-  }
+    // dataAttribs_.pos->setData(3, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(4, math::vec3f_t(-0.5f, +0.5f, zindex).asDataPtr());
+    // dataAttribs_.pos->setData(5, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
 
-  void setTexDataAttrib() {
-    dataAttribs_.tex->setData(0, math::vec2f_t(0.0f, 0.0f).asDataPtr());
-    dataAttribs_.tex->setData(1, math::vec2f_t(1.0f, 1.0f).asDataPtr());
-    dataAttribs_.tex->setData(2, math::vec2f_t(0.0f, 1.0f).asDataPtr());
-
-    dataAttribs_.tex->setData(3, math::vec2f_t(0.0f, 0.0f).asDataPtr());
-    dataAttribs_.tex->setData(4, math::vec2f_t(1.0f, 0.0f).asDataPtr());
-    dataAttribs_.tex->setData(5, math::vec2f_t(1.0f, 1.0f).asDataPtr());
+    dataAttribs_.pos->setData(0, math::vec3f_t(-100.5f, +100.5f, zindex).asDataPtr());
+    dataAttribs_.pos->setData(1, math::vec3f_t(-100.5f, -100.5f, zindex).asDataPtr());
+    dataAttribs_.pos->setData(2, math::vec3f_t(+100.5f, +100.5f, zindex).asDataPtr());
+    dataAttribs_.pos->setData(3, math::vec3f_t(+100.5f, -100.5f, zindex).asDataPtr());
   }
 
   void setColDataAttrib() {
+    // dataAttribs_.col->setData(0, COL4F_RED.asVec4().asDataPtr());
+    // dataAttribs_.col->setData(1, COL4F_RED.asVec4().asDataPtr());
+    // dataAttribs_.col->setData(2, COL4F_RED.asVec4().asDataPtr());
+
+    // dataAttribs_.col->setData(3, COL4F_RED.asVec4().asDataPtr());
+    // dataAttribs_.col->setData(4, COL4F_RED.asVec4().asDataPtr());
+    // dataAttribs_.col->setData(5, COL4F_RED.asVec4().asDataPtr());
+
     dataAttribs_.col->setData(0, COL4F_RED.asVec4().asDataPtr());
     dataAttribs_.col->setData(1, COL4F_RED.asVec4().asDataPtr());
     dataAttribs_.col->setData(2, COL4F_RED.asVec4().asDataPtr());
-
     dataAttribs_.col->setData(3, COL4F_RED.asVec4().asDataPtr());
-    dataAttribs_.col->setData(4, COL4F_RED.asVec4().asDataPtr());
-    dataAttribs_.col->setData(5, COL4F_RED.asVec4().asDataPtr());
+  }
+
+  void setTexDataAttrib() {
+    // dataAttribs_.tex->setData(0, math::vec2f_t(0.0f, 0.0f).asDataPtr());
+    // dataAttribs_.tex->setData(1, math::vec2f_t(1.0f, 1.0f).asDataPtr());
+    // dataAttribs_.tex->setData(2, math::vec2f_t(0.0f, 1.0f).asDataPtr());
+
+    // dataAttribs_.tex->setData(3, math::vec2f_t(0.0f, 0.0f).asDataPtr());
+    // dataAttribs_.tex->setData(4, math::vec2f_t(1.0f, 0.0f).asDataPtr());
+    // dataAttribs_.tex->setData(5, math::vec2f_t(1.0f, 1.0f).asDataPtr());
+
+    dataAttribs_.tex->setData(0, math::vec2f_t(0.0f, 1.0f).asDataPtr());
+    dataAttribs_.tex->setData(1, math::vec2f_t(0.0f, 0.0f).asDataPtr());
+    dataAttribs_.tex->setData(2, math::vec2f_t(1.0f, 1.0f).asDataPtr());
+    dataAttribs_.tex->setData(3, math::vec2f_t(1.0f, 0.0f).asDataPtr());
   }
 
   [[nodiscard]]
