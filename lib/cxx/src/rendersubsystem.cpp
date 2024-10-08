@@ -26,6 +26,7 @@ RenderSubsystem::~RenderSubsystem() {
 
 auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
+  rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
   bufferIdGenerator_ = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
   textureIdGenerator_ = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
@@ -95,45 +96,38 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  for (auto i = 0; i < passMngr_->getNumPasses(); i++) {
-    auto pass = passMngr_->getPass(i);
-  }
+  // for (auto i = 0; i < passMngr_->getNumPasses(); i++) {
+  //   auto pass = passMngr_->getPass(i);
+  // }
 
-  ppe_->preRender();
+  // ppe_->preRender();
+
+  // viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
+  // viewport_->clear(gapi::ClearFlag::COLOR | gapi::ClearFlag::DEPTH);
+
+  // renderState_->getContext()->setDepthEnable(true);
 
   for (auto i = 0; i < ppe_->getNumPasses(); i++) {
     auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
     auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
 
-    target->activate(state->getContext());
+    //   target->activate(state->getContext());
 
     for (auto &queue : queues_) {
       renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);
       renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i, state);
     }
 
-    target->deactivate();
+    //   target->deactivate();
   }
 
-  auto clearFlags = core::detail::toBase(gapi::ClearFlag::COLOR);
-  if (clearFlags & core::detail::toBase(gapi::ClearFlag::COLOR)) {
-    viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
-  }
+  // viewport_->setClearColor(math::col4f_t(255.0F, 255.0F, 255.0F, 1.0F));
+  // viewport_->clear(gapi::ClearFlag::COLOR);
 
-  auto clearDepth = 0;
-  if (clearFlags & core::detail::toBase(gapi::ClearFlag::DEPTH)) {
-    renderState_->getContext()->setClearDepth(clearDepth);
-    renderState_->getContext()->setDepthMask(true);
-  }
-
-  auto clearStencil = 0;
-  if (clearFlags & core::detail::toBase(gapi::ClearFlag::STENCIL)) {
-    renderState_->getContext()->setClearStencil(clearStencil);
-    renderState_->getContext()->setStencilMask(0x0);
-  }
-
-  viewport_->clear(core::detail::toEnum<gapi::ClearFlag>(clearFlags));
-
+  gapi::RasterizerDescriptor rast;
+  rast.mode = gapi::CullFace::DISABLED;
+  rast.ccw = false;
+  rasterizer_->apply(renderState_->getContext(), rast);
   ppe_->postRender();
 }
 

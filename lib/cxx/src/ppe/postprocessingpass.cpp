@@ -24,8 +24,6 @@ void PostProcessingPass::execute() {
   auto tex = target_->getColorBuffer()->getTexture();
   auto texUid = tex->getUid();
 
-  std::cout << "texUid " << texUid.value() << std::endl;
-
   tex->setActive(texUid.value());
   tex->bind();
 

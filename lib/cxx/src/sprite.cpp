@@ -64,18 +64,18 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
 
   pipeline::ForwardRenderCommand cmd;
   cmd.stage = core::detail::toBase(RenderStage::IDX_COLOR);
-  cmd.blendDesc.enabled = true;
+  cmd.blendDesc.enabled = false;
   cmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
   cmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;
-  cmd.blendDesc.mask = true;
-  cmd.rasterizerDesc.mode = gapi::CullFace::FRONT;
-  cmd.rasterizerDesc.ccw = true;
+  cmd.blendDesc.mask = false;
+  // cmd.rasterizerDesc.mode = gapi::CullFace::FRONT;
+  // cmd.rasterizerDesc.ccw = true;
   cmd.depthDesc.enabled = true;
   cmd.depthDesc.func = gapi::CompareFn::Enum::LESS;
-  cmd.depthDesc.mask = true;
-  cmd.depthDesc.near = 0;
-  cmd.depthDesc.far = 0;
-  cmd.stencilDesc.enabled = true;
+  // cmd.depthDesc.mask = true;
+  // cmd.depthDesc.near = 0;
+  // cmd.depthDesc.far = 0;
+  cmd.stencilDesc.enabled = false;
   cmd.stencilDesc.front.func = gapi::CompareFn::Enum::ALWAYS;
   cmd.stencilDesc.front.fail = gapi::StencilOp::Enum::KEEP;
   cmd.stencilDesc.front.depthFail = gapi::StencilOp::Enum::KEEP;

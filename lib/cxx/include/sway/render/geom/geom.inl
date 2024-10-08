@@ -4,8 +4,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-template <class TObject>
-void Geom::call(std::function<void(TObject)> callback) {
+template <class OBJ>
+void Geom::call(std::function<void(OBJ)> callback) {
   for (auto buf : buffers_) {
     if (buf.has_value()) {
       callback(buf.value());

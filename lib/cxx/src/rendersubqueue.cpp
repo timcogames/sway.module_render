@@ -19,23 +19,24 @@ void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet
 void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 
 void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state) {
-  state->setBlendEnable(cmd.blendDesc.enabled);
-  if (cmd.blendDesc.enabled) {
-    state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
-    state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
-    state->setDepthMask(cmd.blendDesc.mask);
-  }
+  // state->setBlendEnable(cmd.blendDesc.enabled);
+  // if (cmd.blendDesc.enabled) {
+  //   state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
+  //   state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
+  //   state->setDepthMask(cmd.blendDesc.mask);
+  // }
 
-  state->setDepthEnable(cmd.depthDesc.enabled);
-  if (cmd.depthDesc.enabled) {
-    state->setDepthFn(cmd.depthDesc.func);
-  }
+  // state->setDepthEnable(cmd.depthDesc.enabled);
+  // if (cmd.depthDesc.enabled) {
+  //   state->setDepthFn(cmd.depthDesc.func);
+  // }
 
-  state->setStencilEnable(cmd.stencilDesc.enabled);
-  if (cmd.stencilDesc.enabled) {
-    state->setStencilFn(cmd.stencilDesc.front.func, cmd.stencilDesc.front.reference, cmd.stencilDesc.front.rmask);
-    state->setStencilOp(cmd.stencilDesc.front.fail, cmd.stencilDesc.front.depthFail, cmd.stencilDesc.front.depthPass);
-  }
+  // state->setStencilEnable(cmd.stencilDesc.enabled);
+  // if (cmd.stencilDesc.enabled) {
+  //   state->setStencilFn(cmd.stencilDesc.front.func, cmd.stencilDesc.front.reference, cmd.stencilDesc.front.rmask);
+  //   state->setStencilOp(cmd.stencilDesc.front.fail, cmd.stencilDesc.front.depthFail,
+  //   cmd.stencilDesc.front.depthPass);
+  // }
 
   matrixStack_->push<math::MatrixType::Enum::PROJ>(cmd.proj);
   matrixStack_->push<math::MatrixType::Enum::VIEW>(cmd.view);
@@ -68,9 +69,9 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
   matrixStack_->pop<math::MatrixType::Enum::PROJ>();
   matrixStack_->pop<math::MatrixType::Enum::VIEW>();
 
-  state->setStencilEnable(false);
-  state->setDepthEnable(false);
-  state->setBlendEnable(false);
+  // state->setStencilEnable(false);
+  // state->setDepthEnable(false);
+  // state->setBlendEnable(false);
 }
 
 void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {

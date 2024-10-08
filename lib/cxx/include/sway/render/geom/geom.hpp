@@ -34,8 +34,8 @@ public:
 
 #pragma endregion
 
-  template <class TObject>
-  void call(std::function<void(TObject)> callback);
+  template <class OBJ>
+  void call(std::function<void(OBJ)> callback);
 
   MTHD_VIRTUAL(void create(
       const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs));
