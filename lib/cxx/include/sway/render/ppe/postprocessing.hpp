@@ -31,7 +31,7 @@ public:
 
   void add(RenderPass::SharedPtr_t pass, i32_t idx);
 
-  void apply(gapi::Framebuffer::Ptr_t framebuf);
+  void apply(gapi::FrameBuffer::Ptr_t framebuf);
 
   auto getPass(u32_t idx) -> RenderPass::SharedPtr_t;
 

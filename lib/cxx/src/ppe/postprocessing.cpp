@@ -29,7 +29,7 @@ void PostProcessing::add(RenderPass::SharedPtr_t pass, i32_t idx) {
   }
 }
 
-void PostProcessing::apply(gapi::Framebuffer::Ptr_t framebuf) {
+void PostProcessing::apply(gapi::FrameBuffer::Ptr_t framebuf) {
   for (auto &pass : passes_) {
     pass->apply(framebuf);
   }

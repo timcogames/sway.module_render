@@ -52,7 +52,7 @@ public:
 
 #pragma region "Override RenderPass methods"
 
-  MTHD_OVERRIDE(void apply(gapi::Framebuffer::Ptr_t framebuf));
+  MTHD_OVERRIDE(void apply(gapi::FrameBuffer::Ptr_t framebuf));
 
   MTHD_OVERRIDE(void begin());
 
