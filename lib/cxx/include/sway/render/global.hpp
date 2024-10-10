@@ -133,7 +133,8 @@ struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
   MOCK_METHOD(gapi::ShaderProgramPtr_t, createShaderProgram, (), (override));
   MOCK_METHOD(gapi::IdGeneratorPtr_t, createBufferIdGenerator, (), (override));
   MOCK_METHOD(gapi::BufferPtr_t, createBuffer, (gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &), (override));
-  MOCK_METHOD(gapi::FramebufferPtr_t, createFramebuffer, (), (override));
+  MOCK_METHOD(gapi::IdGeneratorPtr_t, createFrameBufferIdGenerator, (), (override));
+  MOCK_METHOD(gapi::FrameBufferPtr_t, createFrameBuffer, (), (override));
   MOCK_METHOD(gapi::RenderBufferPtr_t, createRenderBuffer, (), (override));
   MOCK_METHOD(gapi::VertexArrayPtr_t, createVertexArray, (), (override));
   MOCK_METHOD(gapi::VertexAttribLayoutPtr_t, createVertexAttribLayout, (gapi::ShaderProgramPtr_t), (override));

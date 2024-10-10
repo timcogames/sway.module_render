@@ -22,7 +22,7 @@ public:
     }
   }
 
-  void apply(gapi::Framebuffer::Ptr_t framebuf) {
+  void apply(gapi::FrameBuffer::Ptr_t framebuf) {
     for (auto &pass : passes_) {
       pass->apply(framebuf);
     }

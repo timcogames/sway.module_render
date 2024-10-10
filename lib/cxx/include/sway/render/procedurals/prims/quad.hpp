@@ -37,52 +37,20 @@ public:
 
     // clang-format off
     dataAttribs_ = (struct GeomVertexAttribSet) {
-      .pos = data_->template createAttrib<math::vec3f_t>(gapi::VertexSemantic::POS),
-      .col = data_->template createAttrib<math::vec4f_t>(gapi::VertexSemantic::COL),
+      .pos = data_->template createAttrib<math::vec2f_t>(gapi::VertexSemantic::POS),
       .tex = data_->template createAttrib<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0)
     };
     // clang-format on
   }
 
-  void setPosDataAttrib(f32_t zindex) {
-    // dataAttribs_.pos->setData(0, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
-    // dataAttribs_.pos->setData(1, math::vec3f_t(+0.5f, -0.5f, zindex).asDataPtr());
-    // dataAttribs_.pos->setData(2, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
-
-    // dataAttribs_.pos->setData(3, math::vec3f_t(+0.5f, +0.5f, zindex).asDataPtr());
-    // dataAttribs_.pos->setData(4, math::vec3f_t(-0.5f, +0.5f, zindex).asDataPtr());
-    // dataAttribs_.pos->setData(5, math::vec3f_t(-0.5f, -0.5f, zindex).asDataPtr());
-
-    dataAttribs_.pos->setData(0, math::vec3f_t(-100.5f, +100.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(1, math::vec3f_t(-100.5f, -100.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(2, math::vec3f_t(+100.5f, +100.5f, zindex).asDataPtr());
-    dataAttribs_.pos->setData(3, math::vec3f_t(+100.5f, -100.5f, zindex).asDataPtr());
-  }
-
-  void setColDataAttrib() {
-    // dataAttribs_.col->setData(0, COL4F_RED.asVec4().asDataPtr());
-    // dataAttribs_.col->setData(1, COL4F_RED.asVec4().asDataPtr());
-    // dataAttribs_.col->setData(2, COL4F_RED.asVec4().asDataPtr());
-
-    // dataAttribs_.col->setData(3, COL4F_RED.asVec4().asDataPtr());
-    // dataAttribs_.col->setData(4, COL4F_RED.asVec4().asDataPtr());
-    // dataAttribs_.col->setData(5, COL4F_RED.asVec4().asDataPtr());
-
-    dataAttribs_.col->setData(0, COL4F_RED.asVec4().asDataPtr());
-    dataAttribs_.col->setData(1, COL4F_RED.asVec4().asDataPtr());
-    dataAttribs_.col->setData(2, COL4F_RED.asVec4().asDataPtr());
-    dataAttribs_.col->setData(3, COL4F_RED.asVec4().asDataPtr());
+  void setPosDataAttrib() {
+    dataAttribs_.pos->setData(0, math::vec2f_t(-1.0F, +1.0F).asDataPtr());  // v0 - top left corner
+    dataAttribs_.pos->setData(1, math::vec2f_t(-1.0F, -1.0F).asDataPtr());  // v1 - bottom left corner
+    dataAttribs_.pos->setData(2, math::vec2f_t(+1.0F, +1.0F).asDataPtr());  // v2 - top right corner
+    dataAttribs_.pos->setData(3, math::vec2f_t(+1.0F, -1.0F).asDataPtr());  // v3 - bottom right corner
   }
 
   void setTexDataAttrib() {
-    // dataAttribs_.tex->setData(0, math::vec2f_t(0.0f, 0.0f).asDataPtr());
-    // dataAttribs_.tex->setData(1, math::vec2f_t(1.0f, 1.0f).asDataPtr());
-    // dataAttribs_.tex->setData(2, math::vec2f_t(0.0f, 1.0f).asDataPtr());
-
-    // dataAttribs_.tex->setData(3, math::vec2f_t(0.0f, 0.0f).asDataPtr());
-    // dataAttribs_.tex->setData(4, math::vec2f_t(1.0f, 0.0f).asDataPtr());
-    // dataAttribs_.tex->setData(5, math::vec2f_t(1.0f, 1.0f).asDataPtr());
-
     dataAttribs_.tex->setData(0, math::vec2f_t(0.0f, 1.0f).asDataPtr());
     dataAttribs_.tex->setData(1, math::vec2f_t(0.0f, 0.0f).asDataPtr());
     dataAttribs_.tex->setData(2, math::vec2f_t(1.0f, 1.0f).asDataPtr());

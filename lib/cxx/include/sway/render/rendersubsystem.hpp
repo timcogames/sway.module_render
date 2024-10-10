@@ -106,6 +106,7 @@ public:
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
   gapi::IdGenerator::Ptr_t bufferIdGenerator_;
+  gapi::IdGenerator::Ptr_t frameBufferIdGenerator_;
   gapi::IdGenerator::Ptr_t textureIdGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;

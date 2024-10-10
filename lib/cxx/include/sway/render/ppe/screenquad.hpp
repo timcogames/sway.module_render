@@ -20,6 +20,11 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
+struct VertexPosition2D {
+  f32_t x, y;
+  f32_t u, v;
+};
+
 class ScreenQuad {
   DECLARE_CLASS_POINTER_ALIASES(ScreenQuad)
 
@@ -34,27 +39,19 @@ public:
 
   void createEffect() {
     std::unordered_map<gapi::ShaderType::Enum, std::string> sources = {
-        {gapi::ShaderType::Enum::VERT, "layout (location = 0) in vec3 attrib_position;"
-                                       "layout (location = 1) in vec4 attrib_color;"
-                                       "layout (location = 2) in vec2 attrib_texcoord_0;"
-                                       "uniform mat4 mat_view_proj;"
-                                       "uniform mat4 mat_tfrm;"
-                                       "out vec4 vtx_color;"
+        {gapi::ShaderType::Enum::VERT, "layout (location = 0) in vec2 attrib_pos;"
+                                       "layout (location = 1) in vec2 attrib_texcoord_0;"
                                        "out vec2 vtx_uv;"
                                        "void main() {"
-                                       //  "    gl_Position = vec4(attrib_position, 1.0);"
-                                       "    gl_Position = mat_view_proj * vec4(attrib_position, 1.0);"
-                                       //  "    uv = attrib_position.xy * 0.5 + 0.5;"
-                                       "    vtx_color = attrib_color;"
+                                       "    gl_Position = vec4(attrib_pos, 0.0, 1.0);"
                                        "    vtx_uv = attrib_texcoord_0;"
                                        "}"},
-        {gapi::ShaderType::Enum::FRAG, "in vec4 vtx_color;"
-                                       "in vec2 vtx_uv;"
+        {gapi::ShaderType::Enum::FRAG, "in vec2 vtx_uv;"
                                        "uniform sampler2D tex_color;"
                                        "out vec4 frag_color;"
                                        "void main() {"
-                                       "    frag_color = texture(tex_color, vtx_uv) * vtx_color;"
-                                       //  "    frag_color = vec4(vec3(1.0 - texture(tex_color, uv)), 1.0);"
+                                       //  "    frag_color = vec4(vec3(1.0 - texture(tex_color, vtx_uv)), 1.0);"
+                                       "    frag_color = texture(tex_color, vtx_uv);"
                                        "}"}};
 
     gapi::ShaderCreateInfoSet createInfoSet;
@@ -71,29 +68,29 @@ public:
   void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder) {
     geomBuilder_ = geomBuilder;
 
-    screenWdt_ = (f32_t)glob.getIntegerOrDefault("screen_wdt", 800);
-    screenHgt_ = (f32_t)glob.getIntegerOrDefault("screen_hgt", 600);
-
     createEffect();
 
-    auto shape = new procedurals::prims::Quad<math::VertexTexCoord>(
-        {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0});
+    auto shape =
+        new procedurals::prims::Quad<VertexPosition2D>({gapi::VertexSemantic::POS, gapi::VertexSemantic::TEXCOORD_0});
 
-    shape->setPosDataAttrib(5.0f);
-    shape->setColDataAttrib();
+    shape->setPosDataAttrib();
     shape->setTexDataAttrib();
 
     GeometryCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = false;
     geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
-    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
+    geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(VertexPosition2D);
     geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = 4;
-    auto data = new f32_t[4 * sizeof(math::VertexTexCoord)];
+    auto data = new f32_t[4 * sizeof(VertexPosition2D)];
     shape->data()->getVertices(data, 0, 4);
+    // std::cout << math::vec2f_t(data[0], data[1]) << std::endl;
+    // std::cout << math::vec2f_t(data[2], data[3]) << std::endl;
+    // std::cout << math::vec2f_t(data[4], data[5]) << std::endl;
+    // std::cout << math::vec2f_t(data[6], data[7]) << std::endl;
     geomCreateInfo.bo[Constants::IDX_VBO].data = data;
 
-    geomIdx_ = geomBuilder_->create<procedurals::prims::Quad<math::VertexTexCoord>>(
+    geomIdx_ = geomBuilder_->create<procedurals::prims::Quad<VertexPosition2D>>(
         geomCreateInfo, shape->getVertexAttribs(), effect_);
   }
 
@@ -122,6 +119,7 @@ private:
   gapi::DrawCallPtr_t drawCall_;
   Effect::Ptr_t effect_;
   GeomBuilder::SharedPtr_t geomBuilder_;
+  Geom::Ptr_t geom_;
   u32_t geomIdx_;
 
   f32_t screenWdt_;

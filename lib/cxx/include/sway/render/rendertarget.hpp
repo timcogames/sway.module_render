@@ -33,7 +33,7 @@ public:
 
 private:
   gapi::ViewportPtr_t viewport_;
-  gapi::Framebuffer::Ptr_t colorFBO_;
+  gapi::FrameBuffer::Ptr_t colorFBO_;
   gapi::RenderBuffer::Ptr_t renderBO_;
   Image::SharedPtr_t colorTex_;
   bool attached_{false};

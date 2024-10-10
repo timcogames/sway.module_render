@@ -20,7 +20,11 @@ public:
 
   virtual ~RenderQueuePass() = default;
 
-  MTHD_OVERRIDE(void apply(gapi::Framebuffer::Ptr_t framebuf));
+  MTHD_OVERRIDE(void apply(gapi::FrameBuffer::Ptr_t framebuf));
+
+  MTHD_OVERRIDE(void begin()) {}
+
+  MTHD_OVERRIDE(void end()) {}
 
   MTHD_OVERRIDE(void execute());
 };

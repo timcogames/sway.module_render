@@ -28,8 +28,10 @@ auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
   rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
   bufferIdGenerator_ = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
+  frameBufferIdGenerator_ = global::getGapiPluginFunctionSet()->createFrameBufferIdGenerator();
   textureIdGenerator_ = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
+  viewport_->set(800, 600);
 
   passMngr_ = std::make_shared<RenderPassManager>();
 
@@ -43,6 +45,7 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   ppe_ = std::make_shared<PostProcessing>(viewport_);
 
   renderState_ = std::make_shared<RenderState>();
+  renderState_->getContext()->setDepthEnable(true);
 
   fullscreenQuad_ = std::make_shared<render::ScreenQuad>();
   fullscreenQuad_->initialize(glob, geomBuilder_);
@@ -102,33 +105,30 @@ void RenderSubsystem::render() {
 
   // ppe_->preRender();
 
-  // viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
-  // viewport_->clear(gapi::ClearFlag::COLOR | gapi::ClearFlag::DEPTH);
-
-  // renderState_->getContext()->setDepthEnable(true);
-
-  // for (auto i = 0; i < ppe_->getNumPasses(); i++) {
-  //   auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderTarget();
-  //   auto state = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(i))->getRenderState();
-
-  //   //   target->activate(state->getContext());
-
-  //   for (auto &queue : queues_) {
-  //     renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, i, state);
-  //     renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, i, state);
-  //   }
-
-  //   //   target->deactivate();
-  // }
-
-  viewport_->setClearColor(math::col4f_t(255.0F, 255.0F, 255.0F, 1.0F));
-  viewport_->clear(gapi::ClearFlag::COLOR);
-
   // renderState_->getContext()->setCapabilityEnable(gapi::StateCapability::Enum::CULL_FACE, true);
   // gapi::RasterizerDescriptor rasterizerDesc;
   // rasterizerDesc.mode = gapi::CullFace::BACK;
   // rasterizerDesc.ccw = true;
   // rasterizer_->apply(renderState_->getContext(), rasterizerDesc);
+
+  // for (auto i = 0; i < ppe_->getNumPasses(); i++) {
+  renderState_->getContext()->setDepthEnable(true);
+  std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(0))->begin();
+
+  viewport_->setClearColor(math::col4f_t(0.0F, 0.0F, 0.0F, 0.0F));
+  viewport_->clear(gapi::ClearFlag::COLOR | gapi::ClearFlag::DEPTH);
+
+  for (auto &queue : queues_) {
+    renderSubqueues_(queue, RenderSubqueueGroup::OPAQUE, 0, renderState_);
+    renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, 0, renderState_);
+  }
+
+  std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(0))->end();
+  renderState_->getContext()->setDepthEnable(false);
+  // }
+
+  viewport_->setClearColor(math::col4f_t(0.0F, 0.0F, 0.0F, 255.0F));
+  viewport_->clear(gapi::ClearFlag::COLOR);
 
   ppe_->postRender();
 }

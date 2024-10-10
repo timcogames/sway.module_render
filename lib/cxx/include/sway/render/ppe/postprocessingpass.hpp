@@ -54,6 +54,10 @@ public:
 
   MTHD_OVERRIDE(void apply(gapi::Framebuffer::Ptr_t framebuf));
 
+  MTHD_OVERRIDE(void begin());
+
+  MTHD_OVERRIDE(void end());
+
   MTHD_OVERRIDE(void execute());
 
 #pragma endregion
@@ -75,6 +79,9 @@ private:
   RenderState::SharedPtr_t state_;
   ScreenQuad::SharedPtr_t quad_;
   bool enabled_;
+
+  math::mat4f_t vp_;
+  math::mat4f_t tfrm_;
 };
 
 NS_END()  // namespace render

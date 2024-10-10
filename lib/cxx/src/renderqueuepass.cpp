@@ -7,7 +7,7 @@ NS_BEGIN(render)
 RenderQueuePass::RenderQueuePass(const std::string &name)
     : RenderPass(name) {}
 
-void RenderQueuePass::apply(gapi::Framebuffer::Ptr_t framebuf) {}
+void RenderQueuePass::apply(gapi::FrameBuffer::Ptr_t framebuf) {}
 
 void RenderQueuePass::execute() {}
 

@@ -42,7 +42,11 @@ public:
 
   // PURE_VIRTUAL(void dispose());
 
-  PURE_VIRTUAL(void apply(gapi::Framebuffer::Ptr_t framebuf));
+  PURE_VIRTUAL(void apply(gapi::FrameBuffer::Ptr_t framebuf));
+
+  PURE_VIRTUAL(void begin());
+
+  PURE_VIRTUAL(void end());
 
   PURE_VIRTUAL(void execute());
 

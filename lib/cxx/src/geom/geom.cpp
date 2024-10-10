@@ -17,7 +17,6 @@ Geom::~Geom() {
 }
 
 void Geom::create(const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs) {
-
   attribs_ = attribs;
 
   attribLayout_ = gapiPlugin_->createVertexAttribLayout(effect->getShaderProgram());

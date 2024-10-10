@@ -22,8 +22,8 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
   // state->setBlendEnable(cmd.blendDesc.enabled);
   // if (cmd.blendDesc.enabled) {
   //   state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
-  //   state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
   //   state->setDepthMask(cmd.blendDesc.mask);
+  //   state->setColorMask(cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask, cmd.blendDesc.mask);
   // }
 
   // state->setDepthEnable(cmd.depthDesc.enabled);
@@ -71,6 +71,8 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
 
   // state->setStencilEnable(false);
   // state->setDepthEnable(false);
+  // state->setDepthMask(false);  // <--
+  // state->setColorMask(true, true, true, true);  // defaults
   // state->setBlendEnable(false);
 }
 
