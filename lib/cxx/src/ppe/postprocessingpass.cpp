@@ -1,10 +1,11 @@
 #include <sway/render/ppe/postprocessingpass.hpp>
+#include <sway/render/temp/pipeline/stage/pass/passtypes.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 PostProcessingPass::PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad)
-    : RenderPass(name)
+    : Pass(core::detail::toBase(PassType::Enum::FINAL), name)  // PassQueueGroup::Enum::IDX_PRESENT
     , target_(nullptr)
     , state_(nullptr)
     , quad_(quad)
@@ -16,25 +17,22 @@ void PostProcessingPass::apply(gapi::FrameBuffer::Ptr_t framebuf) {
   }
 }
 
-void PostProcessingPass::begin() { target_->activate(state_->getContext()); }
-
-void PostProcessingPass::end() { target_->deactivate(); }
-
 void PostProcessingPass::execute() {
   if (!enabled_) {
     return;
   }
 
-  auto tex = target_->getColorBuffer()->getTexture();
-  auto texUid = tex->getUid();
+  auto sceneTex = target_->getColorBuffer()->getTexture();
+  auto sceneTexUid = sceneTex->getUid();
 
-  tex->setActive(texUid.value());
-  tex->bind();
+  sceneTex->setActive(sceneTexUid.value());
+  sceneTex->bind();
 
-  quad_->getShader()->setUniform1i("tex_color", texUid.value());
+  quad_->getShader()->setUniform1i("scene_sampler", sceneTexUid.value());
+  // quad_->getShader()->setUniform1i("depth_sampler", depthTexUid.value());
   quad_->draw();
 
-  tex->unbind();
+  sceneTex->unbind();
 }
 
 NS_END()  // namespace render

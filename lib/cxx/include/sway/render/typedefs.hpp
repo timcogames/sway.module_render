@@ -6,9 +6,20 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-#define DECLARE_CLASS_VECTOR(CLASS, TYPE) \
-public:                                   \
-  using TYPE##Vec_t = std::vector<CLASS::TYPE##_t>;
+// clang-format off
+#define CONTAINER_TYPE_(PRE, TYPE) PRE##TYPE##_t
+
+#define DECLARE_REF_ARRAY(OBJ, SIZE)                                          \
+  public: using CONTAINER_TYPE_(Ref, Arr) = std::array<OBJ, SIZE>;
+
+#define DECLARE_PTR_ARRAY(OBJ, TYPE, SIZE)                                    \
+  public: using CONTAINER_TYPE_(TYPE, Arr) = std::array<OBJ::TYPE##_t, SIZE>;
+
+#define DECLARE_PTR_VECTOR(OBJ, TYPE)                                         \
+  public:                                                                     \
+    using Index_t = i32_t;                                                    \
+    using CONTAINER_TYPE_(TYPE, Vec) = std::vector<OBJ::TYPE##_t>;
+// clang-format on
 
 DECLARE_CLASS_POINTER_TYPES(VertexChannel)
 DECLARE_CLASS_POINTER_TYPES(GeomVertexAttribBase)
@@ -31,6 +42,11 @@ DECLARE_CLASS_POINTER_TYPES(PostProcessing)
 DECLARE_CLASS_POINTER_TYPES(Image)
 DECLARE_CLASS_POINTER_TYPES(Sprite)
 DECLARE_CLASS_POINTER_TYPES(ScreenQuad)
+
+DECLARE_CLASS_POINTER_TYPES(Pipeline)
+DECLARE_CLASS_POINTER_TYPES(Renderer)
+DECLARE_CLASS_POINTER_TYPES(Pass)
+DECLARE_CLASS_POINTER_TYPES(Stage)
 
 using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;

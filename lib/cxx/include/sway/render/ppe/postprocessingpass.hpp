@@ -5,9 +5,9 @@
 #include <sway/gapi.hpp>
 #include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/renderpass.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
+#include <sway/render/temp/pipeline/stage/pass/pass.hpp>
 
 #include <memory>
 
@@ -38,7 +38,7 @@ NS_BEGIN(render)
 
 class PostProcessingEffect {};
 
-class PostProcessingPass : public RenderPass {
+class PostProcessingPass : public Pass {
   DECLARE_CLASS_POINTER_ALIASES(PostProcessingPass)
 
 public:
@@ -46,17 +46,17 @@ public:
 
   PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad);
 
-  virtual ~PostProcessingPass() = default;
+  DTOR_VIRTUAL_DEFAULT(PostProcessingPass);
 
 #pragma endregion
 
-#pragma region "Override RenderPass methods"
+#pragma region "Override Pass methods"
+
+  MTHD_OVERRIDE(void setup()) {}
+
+  MTHD_OVERRIDE(void dispose()) {}
 
   MTHD_OVERRIDE(void apply(gapi::FrameBuffer::Ptr_t framebuf));
-
-  MTHD_OVERRIDE(void begin());
-
-  MTHD_OVERRIDE(void end());
 
   MTHD_OVERRIDE(void execute());
 

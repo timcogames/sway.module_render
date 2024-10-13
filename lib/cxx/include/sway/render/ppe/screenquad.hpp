@@ -12,7 +12,6 @@
 #include <sway/render/procedurals/prims/quad.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
-#include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueue.hpp>
 
 #include <memory>
@@ -47,11 +46,12 @@ public:
                                        "    vtx_uv = attrib_texcoord_0;"
                                        "}"},
         {gapi::ShaderType::Enum::FRAG, "in vec2 vtx_uv;"
-                                       "uniform sampler2D tex_color;"
+                                       "uniform sampler2D scene_sampler;"
                                        "out vec4 frag_color;"
                                        "void main() {"
-                                       //  "    frag_color = vec4(vec3(1.0 - texture(tex_color, vtx_uv)), 1.0);"
-                                       "    frag_color = texture(tex_color, vtx_uv);"
+                                       "    vec4 scene_texel = texture(scene_sampler, vtx_uv);"
+                                       "    frag_color = vec4(vec3(1.0 - scene_texel), 1.0);"
+                                       //  "    frag_color = scene_texel;"
                                        "}"}};
 
     gapi::ShaderCreateInfoSet createInfoSet;

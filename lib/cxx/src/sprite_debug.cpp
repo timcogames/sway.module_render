@@ -96,7 +96,7 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   }
 
   pipeline::ForwardRenderCommand axisCmd;
-  axisCmd.stage = core::detail::toBase(RenderStage::IDX_COLOR);
+  axisCmd.stage = 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/;
   axisCmd.blendDesc.enabled = false;
   axisCmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
   axisCmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;

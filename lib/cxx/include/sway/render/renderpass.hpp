@@ -4,49 +4,32 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/renderpasstypes.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
+#include <sway/render/temp/pipeline/stage/pass/passtypes.hpp>
 
 #include <string>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-// enum class RenderPassType : u32_t { DEPTH, COLOR, REFRACT, BLENDED, SENTINEL };
-// enum class RenderPassAction { KEEP = 0, CLEAR = 1, DONT_CARE = 2 };
-
-// struct RenderPassInfo {
-//   RenderPassAction color;
-//   RenderPassAction depth;
-//   RenderPassAction stencil;
-//   u32_t clearColor;
-//   u32_t clearDepth;
-//   u32_t clearStencil;
-// };
-
-struct RenderPassCreateInfo {};
-
 class RenderPass {
   DECLARE_CLASS_POINTER_ALIASES(RenderPass)
-  DECLARE_CLASS_VECTOR(RenderPass, SharedPtr)
+  DECLARE_PTR_VECTOR(RenderPass, SharedPtr)
 
 public:
-  RenderPass(const std::string &name)
-      : name_(name) {}
+  RenderPass(const std::string &name, PassType::Enum type)
+      : name_(name)
+      , type_(type) {}
 
-  virtual ~RenderPass() = default;
+  DTOR_VIRTUAL_DEFAULT(RenderPass);
 
-  // PURE_VIRTUAL(void setup());
+  PURE_VIRTUAL(void setup());
 
-  // PURE_VIRTUAL(void dispose());
+  PURE_VIRTUAL(void dispose());
 
   PURE_VIRTUAL(void apply(gapi::FrameBuffer::Ptr_t framebuf));
-
-  PURE_VIRTUAL(void begin());
-
-  PURE_VIRTUAL(void end());
 
   PURE_VIRTUAL(void execute());
 
@@ -55,6 +38,8 @@ public:
   // PURE_VIRTUAL(void apply(gapi::FrameBuffer::SharedPtr_t src, gapi::FrameBuffer::SharedPtr_t dst));
 
   auto name() const -> const std::string & { return name_; }
+
+  auto type() const -> PassType::Enum { return type_; }
 
 private:
   std::string name_;

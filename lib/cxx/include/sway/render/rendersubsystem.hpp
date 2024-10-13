@@ -7,12 +7,9 @@
 #include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/ppe/screenquad.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/renderpass.hpp>
-#include <sway/render/renderpassmanager.hpp>
 #include <sway/render/renderqueue.hpp>
-#include <sway/render/renderqueuepass.hpp>
-#include <sway/render/renderstages.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
+#include <sway/render/temp/pipeline.hpp>
 
 #include <array>  // std::array
 #include <stack>  // std::stack
@@ -102,7 +99,6 @@ public:
   gapi::StateEnableable<gapi::RasterizerDescriptor> *rasterizer_;
   RenderState::SharedPtr_t renderState_;
   gapi::ViewportPtr_t viewport_;
-  RenderPassManager::SharedPtr_t passMngr_;
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
   gapi::IdGenerator::Ptr_t bufferIdGenerator_;
@@ -110,6 +106,8 @@ public:
   gapi::IdGenerator::Ptr_t textureIdGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
+
+  Pipeline::SharedPtr_t pipeline_;
 };
 
 NS_END()  // namespace render

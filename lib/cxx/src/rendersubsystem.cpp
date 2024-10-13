@@ -33,8 +33,6 @@ auto RenderSubsystem::initialize() -> bool {
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
   viewport_->set(800, 600);
 
-  passMngr_ = std::make_shared<RenderPassManager>();
-
   geomBuilder_ = GeomBuilder::create(bufferIdGenerator_);
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
@@ -57,7 +55,7 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   frstTarget->attachColorBufferObject(this);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderTarget(frstTarget);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(renderState_);
-  ppe_->add(frstPass, core::detail::toBase(RenderStage::IDX_COLOR));
+  ppe_->add(frstPass, 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/);
 
   // auto scndPass = std::make_shared<PostProcessingPass>("scnd", fullscreenQuad_);
   // scndPass->setEnabled(true);
@@ -66,6 +64,9 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
   // ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
+
+  pipeline_ = std::make_shared<Pipeline>();
+  pipeline_->setup();
 }
 
 auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {
@@ -85,11 +86,6 @@ auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {
 
   queues_.push_back(std::make_shared<RenderQueue>(priority));
   return queues_.back();
-}
-
-void RenderSubsystem::createQueuePass(const std::string &name, i32_t idx) {
-  auto pass = std::make_shared<RenderQueuePass>(name);
-  passMngr_->addPass(std::static_pointer_cast<RenderPass>(pass), idx);
 }
 
 void RenderSubsystem::sortQueues() {
@@ -112,8 +108,11 @@ void RenderSubsystem::render() {
   // rasterizer_->apply(renderState_->getContext(), rasterizerDesc);
 
   // for (auto i = 0; i < ppe_->getNumPasses(); i++) {
+
+  auto target = std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(0))->getRenderTarget();
+
   renderState_->getContext()->setDepthEnable(true);
-  std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(0))->begin();
+  target->activate(renderState_->getContext());
 
   viewport_->setClearColor(math::col4f_t(0.0F, 0.0F, 0.0F, 0.0F));
   viewport_->clear(gapi::ClearFlag::COLOR | gapi::ClearFlag::DEPTH);
@@ -123,7 +122,7 @@ void RenderSubsystem::render() {
     renderSubqueues_(queue, RenderSubqueueGroup::TRANSPARENT, 0, renderState_);
   }
 
-  std::static_pointer_cast<PostProcessingPass>(ppe_->getPass(0))->end();
+  target->deactivate();
   renderState_->getContext()->setDepthEnable(false);
   // }
 

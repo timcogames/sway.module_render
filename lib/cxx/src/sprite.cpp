@@ -63,7 +63,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   }
 
   pipeline::ForwardRenderCommand cmd;
-  cmd.stage = core::detail::toBase(RenderStage::IDX_COLOR);
+  cmd.stage = 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/;
   cmd.blendDesc.enabled = false;
   cmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
   cmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;
