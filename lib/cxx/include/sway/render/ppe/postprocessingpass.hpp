@@ -15,7 +15,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 // class PostProcessingPass : public IRenderPass {
-//   DECLARE_CLASS_POINTER_ALIASES(PostProcessingPass)
+//   DECLARE_PTR_ALIASES(PostProcessingPass)
 
 // public:
 //   PostProcessingPass(const std::string &name, const core::misc::Dictionary &glob)
@@ -39,7 +39,7 @@ NS_BEGIN(render)
 class PostProcessingEffect {};
 
 class PostProcessingPass : public Pass {
-  DECLARE_CLASS_POINTER_ALIASES(PostProcessingPass)
+  DECLARE_PTR_ALIASES(PostProcessingPass)
 
 public:
 #pragma region "Ctors/Dtor"

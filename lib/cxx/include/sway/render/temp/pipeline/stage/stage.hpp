@@ -10,7 +10,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Stage : public PassQueue {
-  DECLARE_CLASS_POINTER_ALIASES(Stage)
+  DECLARE_PTR_ALIASES(Stage)
   DECLARE_PTR_VECTOR(Stage, SharedPtr)
 
 public:

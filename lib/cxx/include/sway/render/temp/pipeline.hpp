@@ -4,50 +4,28 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/prereqs.hpp>
-#include <sway/render/temp/pipeline/renderer.hpp>
-#include <sway/render/temp/pipeline/stage/pass/subqueues/geompass.hpp>
+#include <sway/render/temp/pipeline/stage/stagegroupindexes.hpp>
+#include <sway/render/temp/pipeline/stage/stagequeue.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Pipeline {
-  DECLARE_CLASS_POINTER_ALIASES(Pipeline)
+  DECLARE_PTR_ALIASES(Pipeline)
 
 public:
 #pragma region "Ctors/Dtor"
 
-  Pipeline() {
-    for (auto i = 0; i < RendererTypeCountWithoutNone; i++) {
-      renderers_.push_back(std::make_shared<Renderer>(core::detail::toEnum<RendererType::Enum>(i)));
-    }
-  }
+  Pipeline() {}
 
   DTOR_VIRTUAL_DEFAULT(Pipeline);
 
 #pragma endregion
 
-  void setup() {
-    auto forward = getRenderer(RendererType::Enum::FORWARD);
-    auto forwardStageQueue = forward->getStageQueue(StageGroupIndex::Enum::IDX_SHADING);
-    auto forwardStage = forwardStageQueue.addStage();
-
-    forwardStage->addPass(std::make_shared<GeomPass>("geom"));
-  }
-
-  void renderScene(PassType::Enum type) {
-    auto forward = getRenderer(RendererType::Enum::FORWARD);
-    auto forwardStageQueue = forward->getStageQueue(StageGroupIndex::Enum::IDX_SHADING).getStages();
-  }
-
-  void render() { renderScene(PassType::Enum::GEOM); }
-
-  auto getRenderer(RendererType::Enum type) -> Renderer::SharedPtr_t {
-    return *std::find_if(std::begin(renderers_), std::end(renderers_),
-        [&](Renderer::SharedPtr_t renderer) { return renderer->type() == type; });
-  }
+  auto getStageQueue(StageGroupIndex::Enum group) -> StageQueue { return queues_[core::detail::toBase(group)]; }
 
 private:
-  Renderer::SharedPtrVec_t renderers_;
+  StageQueue::RefArr_t queues_;
 };
 
 NS_END()  // namespace render

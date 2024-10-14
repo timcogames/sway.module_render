@@ -7,7 +7,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class GeomVertexAttribBase {
-  DECLARE_CLASS_POINTER_ALIASES(GeomVertexAttribBase)
+  DECLARE_PTR_ALIASES(GeomVertexAttribBase)
 
 public:
   PURE_VIRTUAL(void setData(u32_t idx, void *val));

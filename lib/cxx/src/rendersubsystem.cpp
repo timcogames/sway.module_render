@@ -11,6 +11,16 @@ NS_BEGIN(render)
 RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context)
     : core::foundation::Subsystem(context) {
   global::pluginInstance_ = plug;
+
+  for (auto i = 0; i < RendererTypeCountWithoutNone; i++) {
+    renderers_.push_back(std::make_shared<Renderer>(core::detail::toEnum<RendererType::Enum>(i)));
+  }
+
+  // auto forward = getRenderer(RendererType::Enum::FORWARD);
+  // auto forwardStageQueue = forward->getStageQueue(StageGroupIndex::Enum::IDX_SHADING);
+  // auto forwardStage = forwardStageQueue.addStage();
+
+  // forwardStage->addPass(std::make_shared<GeomPass>("geom"));
 }
 
 RenderSubsystem::~RenderSubsystem() {
@@ -64,9 +74,6 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
   // ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
-
-  pipeline_ = std::make_shared<Pipeline>();
-  pipeline_->setup();
 }
 
 auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {

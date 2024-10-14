@@ -19,7 +19,7 @@ NS_BEGIN(render)
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
-  DECLARE_CLASS_POINTER_ALIASES(Sprite)
+  DECLARE_PTR_ALIASES(Sprite)
 
 public:
 #pragma region "Ctors/Dtor"

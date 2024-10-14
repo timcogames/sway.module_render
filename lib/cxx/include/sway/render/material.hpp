@@ -21,7 +21,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
-  DECLARE_CLASS_POINTER_ALIASES(Material)
+  DECLARE_PTR_ALIASES(Material)
 
 public:
 #pragma region "Ctors/Dtor"

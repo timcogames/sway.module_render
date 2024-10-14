@@ -12,7 +12,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Pass {
-  DECLARE_CLASS_POINTER_ALIASES(Pass)
+  DECLARE_PTR_ALIASES(Pass)
   DECLARE_PTR_VECTOR(Pass, SharedPtr)
 
 public:

@@ -11,7 +11,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Technique {
-  DECLARE_CLASS_POINTER_ALIASES(Technique)
+  DECLARE_PTR_ALIASES(Technique)
 
 public:
 #pragma region "Ctors/Dtor"

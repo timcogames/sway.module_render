@@ -10,6 +10,7 @@
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/temp/pipeline.hpp>
+#include <sway/render/temp/renderer.hpp>
 
 #include <array>  // std::array
 #include <stack>  // std::stack
@@ -20,7 +21,7 @@ NS_BEGIN(render)
 
 class RenderSubsystem : public core::foundation::Subsystem {
   DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
-  DECLARE_CLASS_POINTER_ALIASES(RenderSubsystem)
+  DECLARE_PTR_ALIASES(RenderSubsystem)
 
 public:
 #pragma region "Ctors/Dtor"
@@ -107,7 +108,12 @@ public:
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
 
-  Pipeline::SharedPtr_t pipeline_;
+  auto getRenderer(RendererType::Enum type) -> Renderer::SharedPtr_t {
+    return *std::find_if(std::begin(renderers_), std::end(renderers_),
+        [&](Renderer::SharedPtr_t renderer) { return renderer->type() == type; });
+  }
+
+  Renderer::SharedPtrVec_t renderers_;
 };
 
 NS_END()  // namespace render

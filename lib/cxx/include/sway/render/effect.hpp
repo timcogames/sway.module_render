@@ -9,7 +9,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Effect {
-  DECLARE_CLASS_POINTER_ALIASES(Effect)
+  DECLARE_PTR_ALIASES(Effect)
 
 public:
   static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> Effect::Ptr_t;

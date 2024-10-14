@@ -8,7 +8,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Image {
-  DECLARE_CLASS_POINTER_ALIASES(Image)
+  DECLARE_PTR_ALIASES(Image)
 
 public:
   Image();

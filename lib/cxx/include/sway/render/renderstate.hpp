@@ -7,7 +7,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderState {
-  DECLARE_CLASS_POINTER_ALIASES(RenderState)
+  DECLARE_PTR_ALIASES(RenderState)
 
 public:
 #pragma region "Ctors/Dtor"

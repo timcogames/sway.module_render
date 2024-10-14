@@ -15,7 +15,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class PostProcessing {
-  DECLARE_CLASS_POINTER_ALIASES(PostProcessing)
+  DECLARE_PTR_ALIASES(PostProcessing)
 
 public:
 #pragma region "Ctors/Dtor"

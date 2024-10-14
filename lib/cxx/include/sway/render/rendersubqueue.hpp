@@ -15,7 +15,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderSubqueue {
-  DECLARE_CLASS_POINTER_ALIASES(RenderSubqueue)
+  DECLARE_PTR_ALIASES(RenderSubqueue)
   DECLARE_PTR_VECTOR(RenderSubqueue, SharedPtr)
 
 public:

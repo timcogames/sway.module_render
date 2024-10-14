@@ -10,7 +10,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderTarget {
-  DECLARE_CLASS_POINTER_ALIASES(RenderTarget)
+  DECLARE_PTR_ALIASES(RenderTarget)
 
 public:
 #pragma region "Ctors/Dtor"

@@ -25,7 +25,7 @@ struct VertexPosition2D {
 };
 
 class ScreenQuad {
-  DECLARE_CLASS_POINTER_ALIASES(ScreenQuad)
+  DECLARE_PTR_ALIASES(ScreenQuad)
 
 public:
 #pragma region "Ctors/Dtor"

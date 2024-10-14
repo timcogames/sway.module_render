@@ -28,7 +28,7 @@ struct GeomPoolStats {
 
 // BufferPool
 class GeomBuilder {
-  DECLARE_CLASS_POINTER_ALIASES(GeomBuilder)
+  DECLARE_PTR_ALIASES(GeomBuilder)
 
 public:
 #pragma region "Static methods"

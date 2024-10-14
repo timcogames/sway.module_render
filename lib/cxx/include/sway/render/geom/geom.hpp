@@ -23,7 +23,7 @@ struct UVData2 {
 };
 
 class Geom : public core::foundation::Uniqueable<std::string> {
-  DECLARE_CLASS_POINTER_ALIASES(Geom)
+  DECLARE_PTR_ALIASES(Geom)
 
 public:
 #pragma region "Ctors/Dtor"

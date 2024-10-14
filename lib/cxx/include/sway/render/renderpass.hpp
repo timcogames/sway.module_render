@@ -15,7 +15,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderPass {
-  DECLARE_CLASS_POINTER_ALIASES(RenderPass)
+  DECLARE_PTR_ALIASES(RenderPass)
   DECLARE_PTR_VECTOR(RenderPass, SharedPtr)
 
 public:

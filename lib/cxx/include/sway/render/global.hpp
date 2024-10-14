@@ -111,7 +111,8 @@ struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {
   PURE_VIRTUAL(auto createShaderProgram() -> gapi::ShaderProgramPtr_t);
   PURE_VIRTUAL(auto createBufferIdGenerator() -> gapi::IdGeneratorPtr_t);
   PURE_VIRTUAL(auto createBuffer(gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &) -> gapi::BufferPtr_t);
-  PURE_VIRTUAL(auto createFramebuffer() -> gapi::FramebufferPtr_t);
+  PURE_VIRTUAL(auto createFrameBufferIdGenerator() -> gapi::IdGeneratorPtr_t);
+  PURE_VIRTUAL(auto createFrameBuffer(gapi::IdGeneratorPtr_t) -> gapi::FrameBufferPtr_t);
   PURE_VIRTUAL(auto createRenderBuffer() -> gapi::RenderBufferPtr_t);
   PURE_VIRTUAL(auto createVertexArray() -> gapi::VertexArrayPtr_t);
   PURE_VIRTUAL(auto createVertexAttribLayout(gapi::ShaderProgramPtr_t) -> gapi::VertexAttribLayoutPtr_t);
@@ -122,6 +123,7 @@ struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {
   PURE_VIRTUAL(auto createViewport() -> gapi::ViewportPtr_t);
   PURE_VIRTUAL(auto createStateContext() -> gapi::StateContextPtr_t);
   PURE_VIRTUAL(auto createShaderPreprocessor(u32_t, lpcstr_t) -> gapi::ShaderPreprocessor::Ptr_t);
+  PURE_VIRTUAL(auto createRasterizerState() -> gapi::StateEnableable<gapi::RasterizerDescriptor> *);
   // clang-format on
 };
 
@@ -134,7 +136,7 @@ struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
   MOCK_METHOD(gapi::IdGeneratorPtr_t, createBufferIdGenerator, (), (override));
   MOCK_METHOD(gapi::BufferPtr_t, createBuffer, (gapi::IdGeneratorPtr_t, const gapi::BufferCreateInfo &), (override));
   MOCK_METHOD(gapi::IdGeneratorPtr_t, createFrameBufferIdGenerator, (), (override));
-  MOCK_METHOD(gapi::FrameBufferPtr_t, createFrameBuffer, (), (override));
+  MOCK_METHOD(gapi::FrameBufferPtr_t, createFrameBuffer, (gapi::IdGeneratorPtr_t), (override));
   MOCK_METHOD(gapi::RenderBufferPtr_t, createRenderBuffer, (), (override));
   MOCK_METHOD(gapi::VertexArrayPtr_t, createVertexArray, (), (override));
   MOCK_METHOD(gapi::VertexAttribLayoutPtr_t, createVertexAttribLayout, (gapi::ShaderProgramPtr_t), (override));
@@ -145,6 +147,7 @@ struct MockPluginFunctionSet : public MockPluginFunctionSetInterface {
   MOCK_METHOD(gapi::ViewportPtr_t, createViewport, (), (override));
   MOCK_METHOD(gapi::StateContextPtr_t, createStateContext, (), (override));
   MOCK_METHOD(gapi::ShaderPreprocessor::Ptr_t, createShaderPreprocessor, (u32_t, lpcstr_t), (override));
+  MOCK_METHOD(gapi::StateEnableable<gapi::RasterizerDescriptor> *, createRasterizerState, (), (override));
 };
 
 using GapiPluginFunctionSet = MockPluginFunctionSet;
