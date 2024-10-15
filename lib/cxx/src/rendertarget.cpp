@@ -22,12 +22,12 @@ void RenderTarget::attachColorBufferObject(RenderSubsystemPtr_t subsys) {
   texCreateInfo.mipLevels = 0;
 
   colorTex_ = std::make_shared<Image>();
-  colorTex_->create(subsys->textureIdGenerator_, texCreateInfo);
+  colorTex_->create(subsys->getIdGenerator(2 /* TEXTURE */), texCreateInfo);
   colorTex_->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::Enum::CLAMP, gapi::TextureWrap::Enum::CLAMP, gapi::TextureWrap::Enum::CLAMP);
   colorTex_->getTextureSampler()->setFilterMode(gapi::TextureFilter::Enum::LINEAR, gapi::TextureFilter::Enum::LINEAR);
 
-  colorFBO_ = global::getGapiPluginFunctionSet()->createFrameBuffer(subsys->frameBufferIdGenerator_);
+  colorFBO_ = global::getGapiPluginFunctionSet()->createFrameBuffer(subsys->getIdGenerator(1 /* FRAME */));
   colorFBO_->bind();
   colorFBO_->attach(gapi::FrameBufferAttachment::Enum::COL_1, colorTex_->getTexture(), 0);
 

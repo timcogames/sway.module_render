@@ -88,7 +88,7 @@ public:
 
 #pragma endregion
 
-  auto getBufferIdGenerator() -> gapi::IdGeneratorPtr_t { return bufferIdGenerator_; }
+  auto getIdGenerator(i32_t idx) const { return idGenerator_[idx]; }
 
   auto getGeomBuilder() -> GeomBuilder::SharedPtr_t { return geomBuilder_; }
 
@@ -102,18 +102,23 @@ public:
   gapi::ViewportPtr_t viewport_;
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
-  gapi::IdGenerator::Ptr_t bufferIdGenerator_;
-  gapi::IdGenerator::Ptr_t frameBufferIdGenerator_;
-  gapi::IdGenerator::Ptr_t textureIdGenerator_;
+  std::array<gapi::IdGenerator::Ptr_t, 3> idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
 
-  auto getRenderer(RendererType::Enum type) -> Renderer::SharedPtr_t {
-    return *std::find_if(std::begin(renderers_), std::end(renderers_),
-        [&](Renderer::SharedPtr_t renderer) { return renderer->type() == type; });
+  void addRenderer(Renderer::UniquePtr_t renderer) { availRenderers_.push_back(std::move(renderer)); }
+
+  auto getRenderer_(u32_t type) -> Renderer::UniquePtrVec_t::iterator {
+    return std::find_if(availRenderers_.begin(), availRenderers_.end(),
+        [&](Renderer::UniquePtr_t &renderer) { return renderer->type() == type; });
   }
 
-  Renderer::SharedPtrVec_t renderers_;
+  void setActiveRenderer(u32_t type) { activeRenderer_ = std::move(*getRenderer_(type)); }
+
+  auto getActiveRenderer() -> Renderer::UniquePtr_t & { return activeRenderer_; }
+
+  Renderer::UniquePtrVec_t availRenderers_;
+  Renderer::UniquePtr_t activeRenderer_;
 };
 
 NS_END()  // namespace render

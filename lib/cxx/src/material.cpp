@@ -32,7 +32,7 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
 #endif
 
   auto image = std::make_shared<Image>();
-  image->create(subsys_->textureIdGenerator_, resource->getDescriptor());
+  image->create(subsys_->getIdGenerator(2 /* TEXTURE */), resource->getDescriptor());
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT);
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::Enum::NEAREST, gapi::TextureFilter::Enum::NEAREST);
@@ -48,7 +48,7 @@ auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::st
   // image->getTexture()->setUnpackAlignement(1);
 #endif
 
-  image->create(subsys_->textureIdGenerator_, createInfo);
+  image->create(subsys_->getIdGenerator(2 /* TEXTURE */), createInfo);
   image->getTextureSampler()->setWrapMode(
       gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT);
   image->getTextureSampler()->setFilterMode(gapi::TextureFilter::Enum::NEAREST, gapi::TextureFilter::Enum::NEAREST);

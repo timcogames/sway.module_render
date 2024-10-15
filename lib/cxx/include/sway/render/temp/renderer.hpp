@@ -14,12 +14,12 @@ NS_BEGIN(render)
 
 class Renderer {
   DECLARE_PTR_ALIASES(Renderer)
-  DECLARE_PTR_VECTOR(Renderer, SharedPtr)
+  DECLARE_PTR_VECTOR(Renderer, UniquePtr)
 
 public:
 #pragma region "Ctors/Dtor"
 
-  Renderer(RendererType::Enum type)
+  Renderer(u32_t type)
       : type_(type) {
     pipeline_ = new Pipeline();
   }
@@ -30,11 +30,11 @@ public:
 
   auto getPipeline() -> Pipeline::Ptr_t { return pipeline_; }
 
-  auto type() const -> RendererType::Enum { return type_; }
+  auto type() const -> u32_t { return type_; }
 
-private:
+protected:
   Pipeline::Ptr_t pipeline_;
-  RendererType::Enum type_;
+  u32_t type_;
 };
 
 NS_END()  // namespace render

@@ -4,6 +4,7 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
+#include <sway/render/temp/forwardrenderer.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -12,22 +13,21 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::
     : core::foundation::Subsystem(context) {
   global::pluginInstance_ = plug;
 
-  for (auto i = 0; i < RendererTypeCountWithoutNone; i++) {
-    renderers_.push_back(std::make_shared<Renderer>(core::detail::toEnum<RendererType::Enum>(i)));
-  }
+  idGenerator_[0] = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
+  idGenerator_[1] = global::getGapiPluginFunctionSet()->createFrameBufferIdGenerator();
+  idGenerator_[2] = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
 
-  // auto forward = getRenderer(RendererType::Enum::FORWARD);
-  // auto forwardStageQueue = forward->getStageQueue(StageGroupIndex::Enum::IDX_SHADING);
-  // auto forwardStage = forwardStageQueue.addStage();
-
-  // forwardStage->addPass(std::make_shared<GeomPass>("geom"));
+  addRenderer(std::make_unique<ForwardRenderer>());
+  setActiveRenderer(core::detail::toBase(RendererType::Enum::FORWARD));
 }
 
 RenderSubsystem::~RenderSubsystem() {
   queues_.clear();
 
-  SAFE_DELETE_OBJECT(textureIdGenerator_);
-  SAFE_DELETE_OBJECT(bufferIdGenerator_);
+  SAFE_DELETE_OBJECT(idGenerator_[2]);
+  SAFE_DELETE_OBJECT(idGenerator_[1]);
+  SAFE_DELETE_OBJECT(idGenerator_[0]);
+
   SAFE_DELETE_OBJECT(capability_);
 
   SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
@@ -37,13 +37,10 @@ RenderSubsystem::~RenderSubsystem() {
 auto RenderSubsystem::initialize() -> bool {
   capability_ = global::getGapiPluginFunctionSet()->createCapability();
   rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
-  bufferIdGenerator_ = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
-  frameBufferIdGenerator_ = global::getGapiPluginFunctionSet()->createFrameBufferIdGenerator();
-  textureIdGenerator_ = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
   viewport_->set(800, 600);
 
-  geomBuilder_ = GeomBuilder::create(bufferIdGenerator_);
+  geomBuilder_ = GeomBuilder::create(getIdGenerator(0 /* GEOMETRY */));
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   return true;
@@ -102,10 +99,6 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
-  // for (auto i = 0; i < passMngr_->getNumPasses(); i++) {
-  //   auto pass = passMngr_->getPass(i);
-  // }
-
   // ppe_->preRender();
 
   // renderState_->getContext()->setCapabilityEnable(gapi::StateCapability::Enum::CULL_FACE, true);
@@ -133,20 +126,22 @@ void RenderSubsystem::render() {
   renderState_->getContext()->setDepthEnable(false);
   // }
 
-  viewport_->setClearColor(math::col4f_t(0.0F, 0.0F, 0.0F, 255.0F));
-  viewport_->clear(gapi::ClearFlag::COLOR);
+  auto clearColor = math::col4f_t(0.0F, 0.0F, 0.0F, 255.0F);
+  auto clearFlag = gapi::ClearFlag::COLOR;
+  viewport_->setClearColor(clearColor);
+  viewport_->clear(clearFlag);
 
   ppe_->postRender();
 }
 
 void RenderSubsystem::renderSubqueues_(
-    RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, std::shared_ptr<RenderState> state) {
-  const RenderSubqueueSharedPtrVec_t &subqueues = queue->getSubqueues(group);
+    RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state) {
+  const auto &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
   }
 
-  for (const RenderSubqueue::SharedPtr_t &subqueue : subqueues) {
+  for (const auto &subqueue : subqueues) {
     subqueue->render(stage, state->getContext());
   }
 }
