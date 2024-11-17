@@ -4,7 +4,6 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
-#include <sway/render/temp/forwardrenderer.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -16,9 +15,6 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::
   idGenerator_[0] = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
   idGenerator_[1] = global::getGapiPluginFunctionSet()->createFrameBufferIdGenerator();
   idGenerator_[2] = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
-
-  addRenderer(std::make_unique<ForwardRenderer>());
-  setActiveRenderer(core::detail::toBase(RendererType::Enum::FORWARD));
 }
 
 RenderSubsystem::~RenderSubsystem() {

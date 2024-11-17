@@ -7,7 +7,6 @@
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
-#include <sway/render/temp/pipeline/stage/pass/pass.hpp>
 
 #include <memory>
 
@@ -38,7 +37,7 @@ NS_BEGIN(render)
 
 class PostProcessingEffect {};
 
-class PostProcessingPass : public Pass {
+class PostProcessingPass {
   DECLARE_PTR_ALIASES(PostProcessingPass)
 
 public:
@@ -50,17 +49,13 @@ public:
 
 #pragma endregion
 
-#pragma region "Override Pass methods"
+  void setup() {}
 
-  MTHD_OVERRIDE(void setup()) {}
+  void dispose() {}
 
-  MTHD_OVERRIDE(void dispose()) {}
+  void apply(gapi::FrameBuffer::Ptr_t framebuf);
 
-  MTHD_OVERRIDE(void apply(gapi::FrameBuffer::Ptr_t framebuf));
-
-  MTHD_OVERRIDE(void execute());
-
-#pragma endregion
+  void execute();
 
   void setRenderTarget(RenderTarget::SharedPtr_t target) { target_ = target; }
 

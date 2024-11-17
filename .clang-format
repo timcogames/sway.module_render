@@ -26,11 +26,13 @@ IncludeCategories:
     Priority:        1
   - Regex:           '^<sway/.*\.hpp>'
     Priority:        2
-  - Regex:           '<(catch2|boost|gtest)\/'
+  - Regex:           '^<google/.*\.hpp>'
     Priority:        3
-  - Regex:           '^<.*'
+  - Regex:           '<(catch2|boost|gtest|gmock)\/'
     Priority:        4
-    SortPriority:    4
+  - Regex:           '^<.*'
+    Priority:        5
+    SortPriority:    5
     CaseSensitive:   true
 IndentPPDirectives: AfterHash
 AlignEscapedNewlines: Left

@@ -70,7 +70,8 @@ public:
   void setPriority(u32_t priority) { priority_ = priority; }
 
   /**
-   * @brief Получает значение приоритета.
+   * \~english @brief Get the priority value.
+   * \~russian @brief Получает значение приоритета.
    *
    * @sa setPriority(u32_t)
    */

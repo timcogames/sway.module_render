@@ -1,12 +1,10 @@
 #include <sway/render/ppe/postprocessingpass.hpp>
-#include <sway/render/temp/pipeline/stage/pass/passtypes.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 PostProcessingPass::PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad)
-    : Pass(core::detail::toBase(PassType::Enum::FINAL), name)  // PassQueueGroup::Enum::IDX_PRESENT
-    , target_(nullptr)
+    : target_(nullptr)
     , state_(nullptr)
     , quad_(quad)
     , enabled_(true) {}

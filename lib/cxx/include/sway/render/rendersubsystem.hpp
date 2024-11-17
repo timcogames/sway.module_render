@@ -9,8 +9,6 @@
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
-#include <sway/render/temp/pipeline.hpp>
-#include <sway/render/temp/renderer.hpp>
 
 #include <array>  // std::array
 #include <stack>  // std::stack
@@ -105,20 +103,6 @@ public:
   std::array<gapi::IdGenerator::Ptr_t, 3> idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
-
-  void addRenderer(Renderer::UniquePtr_t renderer) { availRenderers_.push_back(std::move(renderer)); }
-
-  auto getRenderer_(u32_t type) -> Renderer::UniquePtrVec_t::iterator {
-    return std::find_if(availRenderers_.begin(), availRenderers_.end(),
-        [&](Renderer::UniquePtr_t &renderer) { return renderer->type() == type; });
-  }
-
-  void setActiveRenderer(u32_t type) { activeRenderer_ = std::move(*getRenderer_(type)); }
-
-  auto getActiveRenderer() -> Renderer::UniquePtr_t & { return activeRenderer_; }
-
-  Renderer::UniquePtrVec_t availRenderers_;
-  Renderer::UniquePtr_t activeRenderer_;
 };
 
 NS_END()  // namespace render
