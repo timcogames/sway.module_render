@@ -6,13 +6,13 @@
 #include <sway/math.hpp>
 #include <sway/rms.hpp>
 
-#include <cstddef>  // std::size_t
-#include <functional>  // std::bind
-#include <iostream>  // std::cout
-#include <memory>  // std::unique_ptr, std::shared_ptr
+#include <cstddef>  // size_t
+#include <functional>  // bind
+#include <iostream>  // cout
+#include <memory>  // unique_ptr, shared_ptr
 #include <optional>
 #include <string>
-#include <utility>  // std::move
+#include <utility>  // move
 
 // containers
 #include <array>
@@ -24,6 +24,6 @@
 #include <vector>
 
 // algorithms
-#include <algorithm>  // std::sort, find_if
+#include <algorithm>  // sort, find_if
 
 #endif  // SWAY_RENDER_PREREQS_HPP

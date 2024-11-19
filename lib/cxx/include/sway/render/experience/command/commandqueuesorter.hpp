@@ -1,0 +1,48 @@
+#ifndef SWAY_RENDER_EXPERIENCE_COMMANDQUEUESORTER_HPP
+#define SWAY_RENDER_EXPERIENCE_COMMANDQUEUESORTER_HPP
+
+#include <sway/render/experience/command/_typedefs.hpp>
+#include <sway/render/experience/command/commandbuffer.hpp>
+#include <sway/render/prereqs.hpp>
+
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(experience)
+
+DECLARE_ENUM(SortOrder, ASCENDING, DESCENDING)
+
+struct SortByPriorityInAscendingOrder {
+  constexpr auto operator()(
+      const CommandBufferTypedefs::UniquePtr_t &lhs, const CommandBufferTypedefs::UniquePtr_t &rhs) -> bool {
+    return lhs->priority() < rhs->priority();
+  }
+};
+
+struct SortByPriorityInDescendingOrder {
+  constexpr auto operator()(
+      const CommandBufferTypedefs::UniquePtr_t &lhs, const CommandBufferTypedefs::UniquePtr_t &rhs) -> bool {
+    return lhs->priority() > rhs->priority();
+  }
+};
+
+struct CommandQueueSorter {
+  static void sort(CommandBufferTypedefs::SubContainer_t &subqueue, SortOrder::Enum order) {
+    switch (order) {
+      case SortOrder::Enum::ASCENDING:
+        std::stable_sort(subqueue.begin(), subqueue.end(), SortByPriorityInAscendingOrder());
+        break;
+      case SortOrder::Enum::DESCENDING:
+        std::stable_sort(subqueue.begin(), subqueue.end(), SortByPriorityInDescendingOrder());
+        break;
+      case SortOrder::Enum::NONE:
+      default:
+        break;
+    }
+  }
+};
+
+NS_END()  // namespace experience
+NS_END()  // namespace render
+NS_END()  // namespace sway
+
+#endif  // SWAY_RENDER_EXPERIENCE_COMMANDQUEUESORTER_HPP

@@ -4,12 +4,12 @@
 #include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
-#include <gtest/gtest.h>
-
-#include <gmock/gmock.h>
 #include <google/plugfixture.hpp>
 
-using namespace sway;
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+NS_SHORT_SWAY()
 
 class EffectTestFixture : public PlugTestFixture {};
 

@@ -30,7 +30,7 @@ void PostProcessing::add(std::shared_ptr<PostProcessingPass> pass, i32_t idx) {
 
 void PostProcessing::apply(gapi::FrameBuffer::Ptr_t framebuf) {
   for (auto &pass : passes_) {
-    // pass->apply(framebuf);
+    pass->apply(framebuf);
   }
 }
 
@@ -40,7 +40,7 @@ void PostProcessing::preRender() {}
 
 void PostProcessing::postRender() {
   for (auto &pass : passes_) {
-    // pass->execute();
+    pass->execute();
   }
 }
 

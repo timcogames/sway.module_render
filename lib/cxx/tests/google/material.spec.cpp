@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace sway;
+NS_SHORT_SWAY()
 
 TEST(Material, addEffect) {
   const std::unordered_map<gapi::ShaderType::Enum, std::string> sources = {

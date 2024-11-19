@@ -6,11 +6,10 @@
 #include <sway/render.hpp>
 #include <sway/render/global.hpp>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <gmock/gmock.h>
-
-using namespace sway;
+NS_SHORT_SWAY()
 
 extern render::global::GapiPluginFunctionSet *globalGapiPlug;
 
@@ -30,8 +29,8 @@ inline auto createShaderStub(render::global::GapiPluginFunctionSet *plug) -> ren
   return shaderStub;
 }
 
-inline auto createShaderProgStub(render::global::GapiPluginFunctionSet *plug,
-    render::global::ShaderStub *shader) -> render::global::ShaderProgramStub * {
+inline auto createShaderProgStub(render::global::GapiPluginFunctionSet *plug, render::global::ShaderStub *shader)
+    -> render::global::ShaderProgramStub * {
   auto *shaderProgStub = new render::global::ShaderProgramStub();
   EXPECT_CALL(*plug, createShaderProgram()).WillRepeatedly(testing::Return(shaderProgStub));
   EXPECT_CALL(*shaderProgStub, attach(shader)).Times(2);

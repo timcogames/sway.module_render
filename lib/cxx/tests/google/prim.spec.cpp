@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace sway;
+NS_SHORT_SWAY()
 
 TEST(Prim, plane) {
   // render::procedurals::prims::Plane plane();

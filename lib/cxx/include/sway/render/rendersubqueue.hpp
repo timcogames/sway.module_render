@@ -4,7 +4,6 @@
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
-#include <sway/render/pipeline/rendercommandhandler.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
@@ -52,15 +51,9 @@ public:
   /**
    * @brief Получает группу подочереди.
    */
-  [[nodiscard]]
-  auto getGroup() const -> RenderSubqueueGroup {
-    return group_;
-  }
+  [[nodiscard]] auto getGroup() const -> RenderSubqueueGroup { return group_; }
 
-  [[nodiscard]]
-  auto getCommands() -> std::vector<pipeline::ForwardRenderCommand> {
-    return commands_;
-  }
+  [[nodiscard]] auto getCommands() -> std::vector<pipeline::ForwardRenderCommand> { return commands_; }
 
 private:
   void renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state);

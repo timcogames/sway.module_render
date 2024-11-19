@@ -11,7 +11,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace sway;
+NS_SHORT_SWAY()
 
 std::string data{R"(
     {
