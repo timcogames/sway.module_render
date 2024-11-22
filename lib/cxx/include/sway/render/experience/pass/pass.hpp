@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PASS_HPP
 #define SWAY_RENDER_EXPERIENCE_PASS_HPP
 
+#include <sway/render/experience/base/disposable.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/prereqs.hpp>
@@ -9,7 +10,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Pass : public core::misc::Enableable {
+class Pass : public core::misc::Enableable, public Disposable {
 public:
 #pragma region "Static methods"
 
@@ -25,7 +26,11 @@ public:
 
 #pragma endregion
 
-  void dispose();
+#pragma region "Override Disposable methods"
+
+  MTHD_OVERRIDE(void dispose());
+
+#pragma endregion
 
 private:
   bool dirty_;

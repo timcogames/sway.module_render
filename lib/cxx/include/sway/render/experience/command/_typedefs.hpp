@@ -1,7 +1,6 @@
 #ifndef SWAY_RENDER_EXPERIENCE_COMMAND_TYPEDEFS_HPP
 #define SWAY_RENDER_EXPERIENCE_COMMAND_TYPEDEFS_HPP
 
-// #include <sway/render/experience/command/queuetypes.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()

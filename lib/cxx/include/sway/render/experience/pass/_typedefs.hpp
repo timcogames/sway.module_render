@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PASS_TYPEDEFS_HPP
 #define SWAY_RENDER_EXPERIENCE_PASS_TYPEDEFS_HPP
 
+#include <sway/render/experience/base/cache.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -14,15 +15,9 @@ using UniquePtr_t = std::unique_ptr<Pass>;
 using SharedPtr_t = std::shared_ptr<Pass>;
 }  // namespace PassTypedefs
 
-class PassCache;
 namespace PassCacheTypedefs {
-using UniquePtr_t = std::unique_ptr<PassCache>;
+using UniquePtr_t = std::unique_ptr<Cache<Pass>>;
 }  // namespace PassCacheTypedefs
-
-struct PassCacheItem;
-namespace PassCacheItemTypedefs {
-using Container_t = std::vector<PassCacheItem>;
-}  // namespace PassCacheItemTypedefs
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

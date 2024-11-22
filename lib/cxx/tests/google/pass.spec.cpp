@@ -2,7 +2,6 @@
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
 #include <sway/render/experience/pass/pass.hpp>
-#include <sway/render/experience/pass/passcache.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 
 #include <google/plugfixture.hpp>
@@ -29,8 +28,8 @@ TEST(GraphicsPassTest, render) {
   buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
   buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
 
-  auto passCache = std::make_unique<PassCache>();
-  auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
+  auto passCache = std::make_unique<Cache<Pass>>();
+  auto pass = passCache->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 0});
   pass->setQueue(std::move(queue));
   pass->render();
 }

@@ -1,14 +1,15 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 #define SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 
-#include <sway/render/experience/pass/passcache.hpp>
+#include <sway/render/experience/base/disposable.hpp>
+#include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Pipeline {
+class Pipeline : public Disposable {
 public:
 #pragma region "Ctors/Dtor"
 
@@ -19,6 +20,12 @@ public:
 #pragma endregion
 
   void initialize();
+
+#pragma region "Override Disposable methods"
+
+  MTHD_OVERRIDE(void dispose());
+
+#pragma endregion
 
 #pragma region "Getters/Setters"
 

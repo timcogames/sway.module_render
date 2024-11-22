@@ -10,7 +10,9 @@ Pipeline::Pipeline()
   initialize();
 }
 
-void Pipeline::initialize() { passes_ = std::make_unique<PassCache>(); }
+void Pipeline::initialize() { passes_ = std::make_unique<Cache<Pass>>(); }
+
+void Pipeline::dispose() {}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

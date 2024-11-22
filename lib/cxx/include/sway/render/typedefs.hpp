@@ -41,11 +41,6 @@ DECLARE_PTR_TYPES(Image)
 DECLARE_PTR_TYPES(Sprite)
 DECLARE_PTR_TYPES(ScreenQuad)
 
-DECLARE_PTR_TYPES(Pipeline)
-DECLARE_PTR_TYPES(Renderer)
-DECLARE_PTR_TYPES(Pass)
-DECLARE_PTR_TYPES(Stage)
-
 using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;
 using MaterialSharedPtrMap_t = std::map<std::string, MaterialSharedPtr_t>;
