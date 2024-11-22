@@ -20,15 +20,17 @@ public:
 
 #pragma endregion
 
+  auto createBuffer(const CommandBufferDescriptor &desc) -> CommandBufferTypedefs::OptionalRef_t;
+
   void add(CommandBufferTypedefs::Ptr_t buf);
 
   void remove(const CommandBufferTypedefs::UniquePtr_t &buf);
 
-  void process(u32_t group);
+  void process(u32_t idx);
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] auto subqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
+  [[nodiscard]] inline auto subqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
 
 #pragma endregion
 

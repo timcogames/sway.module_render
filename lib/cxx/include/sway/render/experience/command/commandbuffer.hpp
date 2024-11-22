@@ -3,24 +3,20 @@
 
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/command.hpp>
+#include <sway/render/experience/command/commandbufferdescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-struct CommandBufferCreateInfo {
-  u32_t group;
-  u32_t priority;
-};
-
 class CommandBuffer {
 public:
 #pragma region "Ctors/Dtor"
 
-  CommandBuffer(const CommandBufferCreateInfo &info)
-      : group_(info.group)
-      , priority_(info.priority) {}
+  CommandBuffer(const CommandBufferDescriptor &desc)
+      : group_(desc.group)
+      , priority_(desc.priority) {}
 
   DTOR_DEFAULT(CommandBuffer);
 
@@ -32,15 +28,17 @@ public:
 
   auto peek(CommandType::Enum *type) const -> CommandTypedefs::Ptr_t;
 
-  [[nodiscard]] auto empty() const -> bool;
-
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] auto commands() const -> CommandTypedefs::Queue_t const & { return commands_; }
+  [[nodiscard]] inline auto commands() const -> CommandTypedefs::Queue_t const & { return commands_; }
 
-  [[nodiscard]] auto group() const -> u32_t { return group_; }
+  [[nodiscard]] inline auto group() const -> u32_t { return group_; }
 
-  [[nodiscard]] auto priority() const -> u32_t { return priority_; }
+  [[nodiscard]] inline auto priority() const -> u32_t { return priority_; }
+
+  [[nodiscard]] inline auto size() const -> std::size_t { return commands_.size(); }
+
+  [[nodiscard]] inline auto empty() const -> bool { return commands_.empty(); }
 
 #pragma endregion
 

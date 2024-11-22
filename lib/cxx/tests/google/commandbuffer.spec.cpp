@@ -17,10 +17,12 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(CommandBufferTest, submit) {
-  CommandBuffer buf((struct CommandBufferCreateInfo){});
+  CommandBuffer buf((struct CommandBufferDescriptor){});
   buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
   buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
   buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
+
+  ASSERT_EQ(buf.size(), 3);
 
   CommandBufferExecutor executor;
   CommandBufferTypedefs::RefArray_t refs = {buf};

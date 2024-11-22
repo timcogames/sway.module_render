@@ -1,0 +1,19 @@
+#ifndef SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP
+#define SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP
+
+#include <sway/render/prereqs.hpp>
+
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(experience)
+
+struct CommandBufferDescriptor {
+  u32_t group;
+  u32_t priority;
+};
+
+NS_END()  // namespace experience
+NS_END()  // namespace render
+NS_END()  // namespace sway
+
+#endif  // SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP

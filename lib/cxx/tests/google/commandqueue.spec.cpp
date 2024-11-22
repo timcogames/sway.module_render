@@ -17,22 +17,32 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(CommandQueueTest, sort) {
-  auto group = 0;
+  const u32_t MAIN_GROUP = 0;
   CommandQueue queue;
 
-  auto buf1 = new CommandBuffer((struct CommandBufferCreateInfo){.group = group, .priority = 0});
+  auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 0});
+  ASSERT_EQ(buf1->group(), MAIN_GROUP);
+  ASSERT_EQ(buf1->priority(), 0);
+
   buf1->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
   buf1->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
   buf1->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
   queue.add(buf1);
 
-  auto buf2 = new CommandBuffer((struct CommandBufferCreateInfo){.group = group, .priority = 1});
-  buf2->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
-  buf2->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
-  buf2->enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
-  queue.add(buf2);
+  auto buf2Opt = queue.createBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 1});
+  if (!buf2Opt.has_value()) {
+    // ERR
+  }
 
-  CommandQueueSorter::sort(queue.subqueue(group), SortOrder::Enum::ASCENDING);
+  auto &buf2 = buf2Opt->get();
+  ASSERT_EQ(buf2.group(), MAIN_GROUP);
+  ASSERT_EQ(buf2.priority(), 1);
 
-  queue.process(group);
+  buf2.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
+  buf2.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
+  buf2.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
+
+  CommandQueueSorter::sort(queue.subqueue(MAIN_GROUP), SortOrder::Enum::ASCENDING);
+
+  queue.process(MAIN_GROUP);
 }

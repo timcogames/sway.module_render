@@ -19,6 +19,7 @@ class CommandBuffer;
 namespace CommandBufferTypedefs {
 using Ref_t = std::reference_wrapper<CommandBuffer>;
 using RefArray_t = std::vector<Ref_t>;
+using OptionalRef_t = std::optional<Ref_t>;
 using Ptr_t = CommandBuffer *;
 using UniquePtr_t = std::unique_ptr<CommandBuffer>;
 using SubContainer_t = std::vector<UniquePtr_t>;

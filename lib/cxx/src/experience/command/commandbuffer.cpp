@@ -24,8 +24,6 @@ auto CommandBuffer::peek(CommandType::Enum *type) const -> CommandTypedefs::Ptr_
   return cmd;
 }
 
-auto CommandBuffer::empty() const -> bool { return commands_.empty(); }
-
 NS_END()  // namespace experience
 NS_END()  // namespace render
 NS_END()  // namespace sway
