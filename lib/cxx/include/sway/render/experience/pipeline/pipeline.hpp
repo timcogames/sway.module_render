@@ -1,8 +1,9 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 #define SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 
-#include <sway/render/experience/base/disposable.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
+#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
+#include <sway/render/experience/utility/disposable.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -13,7 +14,7 @@ class Pipeline : public Disposable {
 public:
 #pragma region "Ctors/Dtor"
 
-  Pipeline();
+  Pipeline(const PipelineDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(Pipeline);
 

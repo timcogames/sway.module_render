@@ -11,9 +11,13 @@ NS_BEGIN(experience)
 
 class Technique : public Pipeline {
 public:
+#pragma region "Static methods"
+
+#pragma endregion
+
 #pragma region "Ctors/Dtor"
 
-  Technique(const std::string &name) {}
+  Technique(const PipelineDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(Technique);
 

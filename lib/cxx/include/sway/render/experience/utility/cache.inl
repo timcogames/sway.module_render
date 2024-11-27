@@ -1,6 +1,6 @@
-#include <sway/render/experience/base/cache.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
+#include <sway/render/experience/utility/cache.hpp>
 
 namespace std {
 template <>
@@ -23,6 +23,10 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 template <typename TYPE>
+Cache<TYPE>::Cache()
+    : numUsed_(0) {}
+
+template <typename TYPE>
 Cache<TYPE>::~Cache() {
   for (auto &item : items_) {
     item.data->dispose();
@@ -34,6 +38,8 @@ Cache<TYPE>::~Cache() {
 template <typename TYPE>
 template <typename DESC, typename RET>
 auto Cache<TYPE>::getOrCreate(const DESC &desc) -> RET * {
+  numUsed_++;
+
   auto hash = core::misc::hashValue(desc);
   auto iter = std::find_if(items_.begin(), items_.end(), [hash](auto &item) { return item.hash == hash; });
   if (iter != items_.end()) {

@@ -1,0 +1,24 @@
+#ifndef SWAY_RENDER_EXPERIENCE_TYPEDEFS_HPP
+#define SWAY_RENDER_EXPERIENCE_TYPEDEFS_HPP
+
+#include <sway/render/prereqs.hpp>
+
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(experience)
+
+struct RenderContext;
+namespace RenderContextTypedefs {
+using Ptr_t = RenderContext *;
+}  // namespace RenderContextTypedefs
+
+struct RenderModule;
+namespace RenderModuleTypedefs {
+using Ptr_t = RenderModule *;
+}  // namespace RenderModuleTypedefs
+
+NS_END()  // namespace experience
+NS_END()  // namespace render
+NS_END()  // namespace sway
+
+#endif  // SWAY_RENDER_EXPERIENCE_TYPEDEFS_HPP

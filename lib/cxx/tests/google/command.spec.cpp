@@ -1,6 +1,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
+#include <sway/render/experience/command/commandbuffer.hpp>
+#include <sway/render/experience/command/commandbufferexecutor.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
 #include <sway/render/experience/command/commandqueuesorter.hpp>
 
@@ -15,6 +17,19 @@
 NS_SHORT_SWAY()
 NS_SHORT(render)
 NS_SHORT(render::experience)
+
+TEST(CommandBufferTest, submit) {
+  CommandBuffer buf((struct CommandBufferDescriptor){});
+  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
+  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
+  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
+
+  ASSERT_EQ(buf.size(), 3);
+
+  CommandBufferExecutor executor;
+  CommandBufferTypedefs::RefArray_t refs = {buf};
+  executor.submit(refs);
+}
 
 TEST(CommandQueueTest, sort) {
   const u32_t MAIN_GROUP = 0;

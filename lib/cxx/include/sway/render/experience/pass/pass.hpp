@@ -1,9 +1,10 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PASS_HPP
 #define SWAY_RENDER_EXPERIENCE_PASS_HPP
 
-#include <sway/render/experience/base/disposable.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
+#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
+#include <sway/render/experience/utility/disposable.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -14,7 +15,7 @@ class Pass : public core::misc::Enableable, public Disposable {
 public:
 #pragma region "Static methods"
 
-  static auto get(const PassDescriptor &desc) -> PassTypedefs::Ptr_t;
+  static auto get(const PipelineDescriptor &pipeDesc, const PassDescriptor &passDesc) -> PassTypedefs::Ptr_t;
 
 #pragma endregion
 

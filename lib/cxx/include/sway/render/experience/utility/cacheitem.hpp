@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_CACHEITEM_HPP
 #define SWAY_RENDER_EXPERIENCE_CACHEITEM_HPP
 
-#include <sway/render/experience/base/_typedefs.hpp>
+#include <sway/render/experience/utility/_typedefs.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
