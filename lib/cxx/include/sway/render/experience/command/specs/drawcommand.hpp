@@ -1,0 +1,33 @@
+#ifndef SWAY_RENDER_EXPERIENCE_DRAWCOMMAND_HPP
+#define SWAY_RENDER_EXPERIENCE_DRAWCOMMAND_HPP
+
+#include <sway/render/experience/command/command.hpp>
+#include <sway/render/prereqs.hpp>
+
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(experience)
+
+class DrawCommand final : public Command {
+  DECLARE_CLASS_METADATA(DrawCommand, Command)
+
+public:
+#pragma region "Ctors/Dtor"
+
+  DrawCommand()
+      : Command(CommandType::Enum::DRAW) {}
+
+#pragma endregion
+
+#pragma region "Pure virtual methods"
+
+  MTHD_VIRTUAL_OVERRIDE(void apply()) { std::cout << "DrawCommand" << std::endl; }
+
+#pragma endregion
+};
+
+NS_END()  // namespace experience
+NS_END()  // namespace render
+NS_END()  // namespace sway
+
+#endif  // SWAY_RENDER_EXPERIENCE_DRAWCOMMAND_HPP

@@ -3,7 +3,6 @@
 
 #include <sway/core.hpp>
 #include <sway/render/effect.hpp>
-#include <sway/render/experience/command/command.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/image.hpp>
 #include <sway/render/material.hpp>
@@ -19,6 +18,8 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(pipeline)
 
+struct RenderCommand {};
+
 // struct ForwardRenderPass {
 //   StencilStateData stencil;
 //   DepthStateData depth;
@@ -26,7 +27,7 @@ NS_BEGIN(pipeline)
 //   std::shared_ptr<Material> material;
 // };
 
-struct ForwardRenderCommand : public experience::Command {
+struct ForwardRenderCommand : public RenderCommand {
   u32_t stage;
 
   BlendDescriptor blendDesc;
@@ -48,7 +49,7 @@ struct ForwardRenderCommand : public experience::Command {
       : geom(nullptr) {}
 };
 
-struct CameraRenderCommand : public experience::Command {
+struct CameraRenderCommand : public RenderCommand {
   i32_t viewport;
   math::mat4f_t proj;
   math::mat4f_t view;

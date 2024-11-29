@@ -1,0 +1,33 @@
+#ifndef SWAY_RENDER_EXPERIENCE_ENDPASSCOMMAND_HPP
+#define SWAY_RENDER_EXPERIENCE_ENDPASSCOMMAND_HPP
+
+#include <sway/render/experience/command/command.hpp>
+#include <sway/render/prereqs.hpp>
+
+NS_BEGIN_SWAY()
+NS_BEGIN(render)
+NS_BEGIN(experience)
+
+class EndPassCommand final : public Command {
+  DECLARE_CLASS_METADATA(EndPassCommand, Command)
+
+public:
+#pragma region "Ctors/Dtor"
+
+  EndPassCommand()
+      : Command(CommandType::Enum::END_PASS) {}
+
+#pragma endregion
+
+#pragma region "Pure virtual methods"
+
+  MTHD_VIRTUAL_OVERRIDE(void apply()) { std::cout << "EndPassCommand" << std::endl; }
+
+#pragma endregion
+};
+
+NS_END()  // namespace experience
+NS_END()  // namespace render
+NS_END()  // namespace sway
+
+#endif  // SWAY_RENDER_EXPERIENCE_ENDPASSCOMMAND_HPP

@@ -1,6 +1,12 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
+#include <sway/render/experience/command/specs/beginpasscommand.hpp>
+#include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
+#include <sway/render/experience/command/specs/drawcommand.hpp>
+#include <sway/render/experience/command/specs/drawcommandhandler.hpp>
+#include <sway/render/experience/command/specs/endpasscommand.hpp>
+#include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 
@@ -23,13 +29,14 @@ TEST(GraphicsPassTest, render) {
     // ERR
   }
 
-  auto &buf = bufOpt->get();
-  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::BEGIN_PASS}));
-  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::DRAW}));
-  buf.enqueue(std::make_unique<Command>((struct Command){.type = CommandType::Enum::END_PASS}));
-
   auto passCache = std::make_unique<Cache<Pass>>();
   auto pass = passCache->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 0});
   pass->setQueue(std::move(queue));
+
+  auto &buf = bufOpt->get();
+  buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
+  buf.enqueue(std::make_unique<DrawCommand>());
+  buf.enqueue(std::make_unique<EndPassCommand>());
+
   pass->render();
 }

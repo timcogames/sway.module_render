@@ -7,12 +7,19 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-struct Command;
+class Command;
 namespace CommandTypedefs {
 using Ptr_t = Command *;
 using UniquePtr_t = std::unique_ptr<Command>;
 using Queue_t = std::queue<UniquePtr_t>;
 }  // namespace CommandTypedefs
+
+class CommandHandler;
+namespace CommandHandlerTypedefs {
+using Ptr_t = CommandHandler *;
+using UniquePtr_t = std::unique_ptr<CommandHandler>;
+using Container_t = std::unordered_map<std::string, UniquePtr_t>;
+}  // namespace CommandHandlerTypedefs
 
 class CommandBuffer;
 namespace CommandBufferTypedefs {

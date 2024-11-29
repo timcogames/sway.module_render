@@ -4,25 +4,24 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+void CommandBufferExecutor::registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler) {
+  handlers_.emplace(handler->key(), std::move(handler));
+}
+
 void CommandBufferExecutor::submit(const CommandBufferTypedefs::RefArray_t &refs) {
   for (const auto &ref : refs) {
     CommandType::Enum type;
     while (auto *cmd = ref.get().peek(&type)) {
-      switch (type) {
-        case CommandType::Enum::BEGIN_PASS:
-          handleBeginPass_(cmd);
-          break;
-        case CommandType::Enum::DRAW:
-          handleDraw_(cmd);
-          break;
-        case CommandType::Enum::END_PASS:
-          handleEndPass_(cmd);
-          break;
-        default:
-          throw core::runtime::Exception("Unknown render queue command");
-      };
-
+      run_(cmd);
       ref.get().dequeue();
+    }
+  }
+}
+
+void CommandBufferExecutor::run_(CommandTypedefs::Ptr_t cmd) {
+  for (const auto &[key, handler] : handlers_) {
+    if (key == cmd->getClassname()) {
+      handler->handle(cmd);
     }
   }
 }

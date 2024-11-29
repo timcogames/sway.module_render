@@ -9,8 +9,35 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-struct Command {
-  CommandType::Enum type;
+class Command {
+  DECLARE_SUPERCLASS()
+
+public:
+#pragma region "Ctors/Dtor"
+
+  Command(CommandType::Enum type)
+      : type_(type)
+      , data_(nullptr) {}
+
+  DTOR_VIRTUAL(Command) noexcept {}
+
+#pragma endregion
+
+#pragma region "Pure virtual methods"
+
+  PURE_VIRTUAL(void apply());
+
+#pragma endregion
+
+#pragma region "Getters/Setters"
+
+  [[nodiscard]] auto type() const -> CommandType::Enum { return type_; }
+
+#pragma endregion
+
+private:
+  CommandType::Enum type_;
+  void *data_;
 };
 
 NS_END()  // namespace experience

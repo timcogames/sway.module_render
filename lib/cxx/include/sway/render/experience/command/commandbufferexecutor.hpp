@@ -3,6 +3,7 @@
 
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandbuffer.hpp>
+#include <sway/render/experience/command/commandhandler.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -19,14 +20,15 @@ public:
 
 #pragma endregion
 
+  void registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler);
+
   void submit(const CommandBufferTypedefs::RefArray_t &refs);
 
+protected:
+  void run_(CommandTypedefs::Ptr_t cmd);
+
 private:
-  void handleBeginPass_(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling BEGIN_PASS" << std::endl; }
-
-  void handleDraw_(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling DRAW" << std::endl; }
-
-  void handleEndPass_(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling END_PASS" << std::endl; }
+  CommandHandlerTypedefs::Container_t handlers_;
 };
 
 NS_END()  // namespace experience
