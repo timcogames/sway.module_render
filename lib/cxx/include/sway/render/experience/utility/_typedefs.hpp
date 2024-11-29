@@ -12,12 +12,10 @@ namespace CacheableTypedefs {
 using UniquePtr_t = std::unique_ptr<Cacheable>;
 }  // namespace CacheableTypedefs
 
-// clang-format off
-template <typename TYPE> struct CacheItem;
+struct CacheItem;
 namespace CacheItemTypedefs {
-template <typename TYPE> using Container_t = std::vector<CacheItem<TYPE>>;
+using Container_t = std::vector<CacheItem>;
 }  // namespace CacheItemTypedefs
-// clang-format on
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

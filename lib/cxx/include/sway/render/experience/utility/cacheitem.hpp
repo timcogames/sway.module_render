@@ -8,7 +8,6 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-template <class TYPE>
 struct CacheItem {
   std::size_t hash;
   CacheableTypedefs::UniquePtr_t data;

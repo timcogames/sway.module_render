@@ -16,7 +16,7 @@ using SharedPtr_t = std::shared_ptr<Pass>;
 }  // namespace PassTypedefs
 
 namespace PassCacheTypedefs {
-using UniquePtr_t = std::unique_ptr<Cache<Pass>>;
+using UniquePtr_t = std::unique_ptr<Cache>;
 }  // namespace PassCacheTypedefs
 
 NS_END()  // namespace experience

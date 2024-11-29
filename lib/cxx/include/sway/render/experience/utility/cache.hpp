@@ -9,7 +9,6 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-template <class TYPE>
 class Cache {
 public:
 #pragma region "Ctors/Dtor"
@@ -20,11 +19,11 @@ public:
 
 #pragma endregion
 
-  template <typename DESC, typename RET>
-  auto getOrCreate(const DESC &desc) -> RET *;
+  template <typename TYPE, typename DESC>
+  auto getOrCreate(const DESC &desc) -> TYPE *;
 
 private:
-  CacheItemTypedefs::Container_t<TYPE> items_;
+  CacheItemTypedefs::Container_t items_;
 };
 
 NS_END()  // namespace experience

@@ -26,8 +26,8 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(CommandBufferTest, submit) {
-  auto passCache = std::make_unique<Cache<Pass>>();
-  auto pass = passCache->getOrCreate<PassDescriptor, Pass>((struct PassDescriptor){.format = 0});
+  auto passCache = std::make_unique<Cache>();
+  auto pass = passCache->getOrCreate<Pass>((struct PassDescriptor){.format = 0});
 
   CommandBuffer buf((struct CommandBufferDescriptor){});
   buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
@@ -49,8 +49,8 @@ TEST(CommandQueueTest, sort) {
   const u32_t MAIN_GROUP = 0;
   CommandQueue queue;
 
-  auto passCache = std::make_unique<Cache<Pass>>();
-  auto pass = passCache->getOrCreate<PassDescriptor, Pass>((struct PassDescriptor){.format = 0});
+  auto passCache = std::make_unique<Cache>();
+  auto pass = passCache->getOrCreate<Pass>((struct PassDescriptor){.format = 0});
 
   auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 0});
   ASSERT_EQ(buf1->group(), MAIN_GROUP);

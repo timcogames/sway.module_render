@@ -14,9 +14,9 @@ ForwardRenderer::ForwardRenderer()
   auto ctx = RenderModule::getInternalContext();
   ctx->techniqueMngr->registerTech("forward", [](Technique &tech, const TechniqueMetadata &meta) {
     // Depth prepass
-    tech.passes()->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 1});
+    tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
     // Opaque/Transparent objects
-    tech.passes()->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 2});
+    tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 2});
   });
 
   auto tech = std::make_shared<Technique>();

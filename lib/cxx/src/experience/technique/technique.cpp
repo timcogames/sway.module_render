@@ -6,7 +6,7 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 Technique::Technique()
-    : passes_(std::make_unique<Cache<Pass>>()) {}
+    : passes_(std::make_unique<Cache>()) {}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

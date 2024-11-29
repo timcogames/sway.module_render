@@ -15,28 +15,19 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-template <typename TYPE>
-Cache<TYPE>::Cache() {}
-
-template <typename TYPE>
-Cache<TYPE>::~Cache() {
-  items_.clear();
-}
-
-template <typename TYPE>
-template <typename DESC, typename RET>
-auto Cache<TYPE>::getOrCreate(const DESC &desc) -> RET * {
+template <typename TYPE, typename DESC>
+auto Cache::getOrCreate(const DESC &desc) -> TYPE * {
   auto hash = core::misc::hashValue(desc);
   auto iter = std::find_if(items_.begin(), items_.end(), [hash](auto &item) { return item.hash == hash; });
   if (iter != items_.end()) {
-    return static_cast<RET *>(iter->data.get());
+    return static_cast<TYPE *>(iter->data.get());
   }
 
-  CacheItem<TYPE> item;
+  CacheItem item;
   item.hash = hash;
-  item.data = std::make_unique<RET>(desc);
+  item.data = std::make_unique<TYPE>(desc);
   items_.push_back(std::move(item));
-  return static_cast<RET *>(items_.back().data.get());
+  return static_cast<TYPE *>(items_.back().data.get());
 }
 
 NS_END()  // namespace experience

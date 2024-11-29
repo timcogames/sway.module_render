@@ -29,8 +29,8 @@ TEST(GraphicsPassTest, render) {
     // ERR
   }
 
-  auto passCache = std::make_unique<Cache<Pass>>();
-  auto pass = passCache->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 0});
+  auto passCache = std::make_unique<Cache>();
+  auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
   pass->setQueue(std::move(queue));
 
   auto &buf = bufOpt->get();
