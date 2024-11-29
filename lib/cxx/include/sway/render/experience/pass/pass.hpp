@@ -3,6 +3,7 @@
 
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
+#include <sway/render/experience/stage/stage.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/utility/cacheable.hpp>
 #include <sway/render/prereqs.hpp>
@@ -28,6 +29,7 @@ public:
 #pragma endregion
 
 private:
+  StageTypedefs::Container_t stages_;
   bool dirty_;
 };
 
