@@ -24,6 +24,12 @@ public:
 
 #pragma endregion
 
+#pragma region "Pure virtual methods"
+
+  PURE_VIRTUAL(void render());
+
+#pragma endregion
+
 #pragma region "Getters/Setters"
 
   [[nodiscard]] inline auto type() const -> u32_t { return type_; }
@@ -34,7 +40,7 @@ public:
 
 #pragma endregion
 
-private:
+protected:
   u32_t type_;
   TechniqueTypedefs::SharedPtr_t technique_;
 };

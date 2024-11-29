@@ -18,8 +18,8 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(PipelineTest, setup) {
-  const auto fwd = core::detail::toBase(RendererType::Enum::IDX_FORWARD);
-  const auto def = core::detail::toBase(RendererType::Enum::IDX_DEFERRED);
+  const auto fwd = core::detail::toBase(RendererType::Enum::IDX_FWD);
+  const auto def = core::detail::toBase(RendererType::Enum::IDX_DEF);
 
   auto mod = std::make_unique<RenderModule>();
   mod->prepare();
@@ -37,11 +37,6 @@ TEST(PipelineTest, setup) {
 
   auto ctx = RenderModule::getInternalContext();
 
-  PipelineDescriptor pipeDesc;
-  pipeDesc.type = 0;
-
-  PassDescriptor passDesc;
-  passDesc.format = 0;
-
-  auto pass = Pass::get(pipeDesc, passDesc);
+  auto tech = std::make_shared<Technique>();
+  auto pass = Pass::get(tech.get(), (struct PassDescriptor){.format = 0});
 }

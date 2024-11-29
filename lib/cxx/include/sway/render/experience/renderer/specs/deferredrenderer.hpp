@@ -18,6 +18,12 @@ public:
   DTOR_VIRTUAL_DEFAULT(DeferredRenderer);
 
 #pragma endregion
+
+#pragma region "Override Renderer methods"
+
+  MTHD_VIRTUAL_OVERRIDE(void render());
+
+#pragma endregion
 };
 
 NS_END()  // namespace experience

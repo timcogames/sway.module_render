@@ -1,41 +1,24 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 #define SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 
-#include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
-#include <sway/render/experience/utility/disposable.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Pipeline : public Disposable {
+class Pipeline {
 public:
 #pragma region "Ctors/Dtor"
 
   Pipeline(const PipelineDescriptor &desc);
 
-  DTOR_VIRTUAL_DEFAULT(Pipeline);
+  DTOR_DEFAULT(Pipeline);
 
 #pragma endregion
 
   void initialize();
-
-#pragma region "Override Disposable methods"
-
-  MTHD_OVERRIDE(void dispose());
-
-#pragma endregion
-
-#pragma region "Getters/Setters"
-
-  [[nodiscard]] inline auto passes() const -> const PassCacheTypedefs::UniquePtr_t & { return passes_; }
-
-#pragma endregion
-
-private:
-  PassCacheTypedefs::UniquePtr_t passes_;
 };
 
 NS_END()  // namespace experience

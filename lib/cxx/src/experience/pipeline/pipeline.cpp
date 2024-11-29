@@ -5,14 +5,9 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-Pipeline::Pipeline(const PipelineDescriptor &desc)
-    : passes_(nullptr) {
-  initialize();
-}
+Pipeline::Pipeline(const PipelineDescriptor &desc) { initialize(); }
 
-void Pipeline::initialize() { passes_ = std::make_unique<Cache<Pass>>(); }
-
-void Pipeline::dispose() {}
+void Pipeline::initialize() {}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

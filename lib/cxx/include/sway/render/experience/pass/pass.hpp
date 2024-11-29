@@ -3,19 +3,19 @@
 
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
-#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
-#include <sway/render/experience/utility/disposable.hpp>
+#include <sway/render/experience/technique/_typedefs.hpp>
+#include <sway/render/experience/utility/cacheable.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Pass : public core::misc::Enableable, public Disposable {
+class Pass : public core::misc::Enableable, public Cacheable {
 public:
 #pragma region "Static methods"
 
-  static auto get(const PipelineDescriptor &pipeDesc, const PassDescriptor &passDesc) -> PassTypedefs::Ptr_t;
+  static auto get(TechniqueTypedefs::Ptr_t tech, const PassDescriptor &desc) -> PassTypedefs::Ptr_t;
 
 #pragma endregion
 
@@ -24,12 +24,6 @@ public:
   Pass(const PassDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(Pass);
-
-#pragma endregion
-
-#pragma region "Override Disposable methods"
-
-  MTHD_OVERRIDE(void dispose());
 
 #pragma endregion
 

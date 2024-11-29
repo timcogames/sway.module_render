@@ -7,7 +7,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-DECLARE_ENUM_IDX(RendererType, IDX_FORWARD, IDX_DEFERRED)
+DECLARE_ENUM_IDX(RendererType, IDX_FWD, IDX_DEF)
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

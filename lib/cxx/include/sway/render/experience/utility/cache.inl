@@ -1,18 +1,11 @@
 #include <sway/render/experience/pass/passdescriptor.hpp>
-#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
 #include <sway/render/experience/utility/cache.hpp>
+#include <sway/render/experience/utility/cacheable.hpp>
 
 namespace std {
 template <>
 struct hash<sway::render::experience::PassDescriptor> {
   auto operator()(const sway::render::experience::PassDescriptor &desc) const noexcept -> size_t {
-    return desc.hashValue();
-  }
-};
-
-template <>
-struct hash<sway::render::experience::PipelineDescriptor> {
-  auto operator()(const sway::render::experience::PipelineDescriptor &desc) const noexcept -> size_t {
     return desc.hashValue();
   }
 };
@@ -23,23 +16,16 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 template <typename TYPE>
-Cache<TYPE>::Cache()
-    : numUsed_(0) {}
+Cache<TYPE>::Cache() {}
 
 template <typename TYPE>
 Cache<TYPE>::~Cache() {
-  for (auto &item : items_) {
-    item.data->dispose();
-  }
-
   items_.clear();
 }
 
 template <typename TYPE>
 template <typename DESC, typename RET>
 auto Cache<TYPE>::getOrCreate(const DESC &desc) -> RET * {
-  numUsed_++;
-
   auto hash = core::misc::hashValue(desc);
   auto iter = std::find_if(items_.begin(), items_.end(), [hash](auto &item) { return item.hash == hash; });
   if (iter != items_.end()) {

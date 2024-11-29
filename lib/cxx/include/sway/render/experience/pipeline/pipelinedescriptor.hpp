@@ -9,12 +9,6 @@ NS_BEGIN(experience)
 
 struct PipelineDescriptor {
   u32_t type;
-
-  auto hashValue() const -> std::size_t {
-    std::size_t hash{0};
-    core::misc::hashCombine(hash, type);
-    return hash;
-  }
 };
 
 NS_END()  // namespace experience

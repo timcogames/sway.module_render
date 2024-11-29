@@ -25,7 +25,6 @@ public:
 
 private:
   CacheItemTypedefs::Container_t<TYPE> items_;
-  u32_t numUsed_;
 };
 
 NS_END()  // namespace experience

@@ -1,4 +1,3 @@
-#include <sway/render/experience/pipeline/pipeline.hpp>
 #include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/renderer/renderermanager.hpp>
 #include <sway/render/experience/renderer/renderertypes.hpp>
@@ -16,8 +15,8 @@ RenderContext context_;  ///< Internat context.
 auto RenderModule::getInternalContext() -> RenderContextTypedefs::Ptr_t { return &context_; }
 
 void RenderModule::prepare() {
-  context_.pipeCache = std::make_unique<Cache<Pipeline>>();
   context_.techniqueMngr = std::make_unique<TechniqueManager>();
+
   context_.rendererMngr = std::make_unique<RendererManager>();
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new ForwardRenderer()));
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new DeferredRenderer()));
@@ -42,7 +41,7 @@ void RenderModule::setActiveRenderer(i32_t idx) {
   state_.activeRendererIdx = idx;
 }
 
-void RenderModule::initial() { setActiveRenderer(core::detail::toBase(RendererType::Enum::IDX_FORWARD)); }
+void RenderModule::initial() { setActiveRenderer(core::detail::toBase(RendererType::Enum::IDX_FWD)); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

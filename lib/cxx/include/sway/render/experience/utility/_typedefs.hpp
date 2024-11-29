@@ -7,10 +7,10 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Disposable;
-namespace DisposableTypedefs {
-using UniquePtr_t = std::unique_ptr<Disposable>;
-}  // namespace DisposableTypedefs
+class Cacheable;
+namespace CacheableTypedefs {
+using UniquePtr_t = std::unique_ptr<Cacheable>;
+}  // namespace CacheableTypedefs
 
 // clang-format off
 template <typename TYPE> struct CacheItem;

@@ -11,7 +11,7 @@ NS_BEGIN(experience)
 template <class TYPE>
 struct CacheItem {
   std::size_t hash;
-  DisposableTypedefs::UniquePtr_t data;
+  CacheableTypedefs::UniquePtr_t data;
 };
 
 NS_END()  // namespace experience

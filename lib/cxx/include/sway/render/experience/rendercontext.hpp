@@ -1,7 +1,6 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 
-#include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/renderer/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/prereqs.hpp>
@@ -11,7 +10,6 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 struct RenderContext {
-  PipelineCacheTypedefs::UniquePtr_t pipeCache;
   TechniqueManagerTypedefs::UniquePtr_t techniqueMngr;
   RendererManagerTypedefs::UniquePtr_t rendererMngr;
 };

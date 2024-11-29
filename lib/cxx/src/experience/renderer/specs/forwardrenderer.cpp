@@ -10,17 +10,21 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 ForwardRenderer::ForwardRenderer()
-    : Renderer(core::detail::toBase(RendererType::Enum::IDX_FORWARD)) {
+    : Renderer(core::detail::toBase(RendererType::Enum::IDX_FWD)) {
   auto ctx = RenderModule::getInternalContext();
   ctx->techniqueMngr->registerTech("forward", [](Technique &tech, const TechniqueMetadata &meta) {
+    // Depth prepass
     tech.passes()->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 1});
+    // Opaque/Transparent objects
     tech.passes()->getOrCreate<PassDescriptor, GraphicsPass>((struct PassDescriptor){.format = 2});
   });
 
-  auto tech = std::make_shared<Technique>((struct PipelineDescriptor){.type = 0});
+  auto tech = std::make_shared<Technique>();
   ctx->techniqueMngr->get("forward").value()(*tech, (struct TechniqueMetadata){});
   setTechnique(tech);
 }
+
+void ForwardRenderer::render() {}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render
