@@ -15,7 +15,7 @@ public:
 
   Technique(const std::string &name);
 
-  DTOR_VIRTUAL_DEFAULT(Technique);
+  DTOR_DEFAULT(Technique);
 
 #pragma endregion
 

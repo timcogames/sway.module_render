@@ -10,9 +10,15 @@ NS_BEGIN(experience)
 
 class TechniqueManager {
 public:
+#pragma region "Registering/Unregistering"
+
   auto registerTech(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool;
 
-  auto remove(const std::string &name) -> bool;
+  auto unregister(const std::string &name) -> bool;
+
+#pragma endregion
+
+#pragma region "Getters/Setters"
 
   auto get(const std::string &name) -> TechniqueTypedefs::BuilderResult_t;
 

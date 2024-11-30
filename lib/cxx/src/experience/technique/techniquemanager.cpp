@@ -10,9 +10,9 @@ auto TechniqueManager::registerTech(const std::string &name, TechniqueTypedefs::
   return result.second;
 }
 
-auto TechniqueManager::remove(const std::string &name) -> bool {
-  auto removed = registers_.erase(name);
-  return (removed == 1);
+auto TechniqueManager::unregister(const std::string &name) -> bool {
+  auto erased = registers_.erase(name);
+  return (erased == 1);
 }
 
 auto TechniqueManager::get(const std::string &name) -> TechniqueTypedefs::BuilderResult_t {

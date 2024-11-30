@@ -11,10 +11,6 @@ NS_BEGIN(experience)
 
 class Renderer {
 public:
-#pragma region "Static methods"
-
-#pragma endregion
-
 #pragma region "Ctors/Dtor"
 
   Renderer(u32_t type)
