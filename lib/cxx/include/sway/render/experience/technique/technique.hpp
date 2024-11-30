@@ -13,7 +13,7 @@ class Technique {
 public:
 #pragma region "Ctors/Dtor"
 
-  Technique();
+  Technique(const std::string &name);
 
   DTOR_VIRTUAL_DEFAULT(Technique);
 

@@ -5,7 +5,8 @@
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/global.hpp>
-#include <sway/render/image.hpp>
+#include <sway/render/img/_typedefs.hpp>
+#include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/materialdescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/rms.hpp>
@@ -24,27 +25,39 @@ public:
 
 #pragma endregion
 
-  void addImage(const std::string &alias, Image::SharedPtr_t img);
+#pragma region "Adding/Updating/Removing"
+
+  void addImage(const std::string &alias, ImageTypedefs::SharedPtr_t img);
 
   auto addImage(const std::string &resname, const std::string &alias) -> bool;
 
-  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t;
+  auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> ImageTypedefs::SharedPtr_t;
 
   void addEffect(std::unordered_map<gapi::ShaderType::Enum, std::string> sources);
 
   void addEffect(const std::array<std::string, 2> &names);
 
+#pragma endregion
+
+#pragma region "Binding/Unbinding"
+
   void bind(const std::shared_ptr<math::MatrixStack> &mtxs);
 
   void unbind();
 
+#pragma endregion
+
+#pragma region "Getters/Setters"
+
   auto getEffect() -> Effect::Ptr_t { return effect_; }
 
-  auto getImages() -> std::vector<std::pair<std::string, Image::SharedPtr_t>> { return images_; }
+  auto getImages() -> ImageTypedefs::Container_t { return images_; }
 
-  auto getImage(u32_t idx) -> Image::SharedPtr_t { return images_[idx].second; }
+  auto getImage(u32_t idx) -> ImageTypedefs::SharedPtr_t { return images_[idx].second; }
 
   void setSubsys(RenderSubsystemPtr_t subsys);
+
+#pragma endregion
 
 public:
   void addShader_(const std::string &name, gapi::ShaderCreateInfo &info, gapi::ShaderType::Enum type);
@@ -53,7 +66,7 @@ public:
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
   Effect::Ptr_t effect_;
-  std::vector<std::pair<std::string, Image::SharedPtr_t>> images_;
+  ImageTypedefs::Container_t images_;
   MaterialDescriptor desc_;
 
   RenderSubsystemPtr_t subsys_;

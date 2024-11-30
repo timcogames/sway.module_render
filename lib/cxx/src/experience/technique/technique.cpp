@@ -5,7 +5,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-Technique::Technique()
+Technique::Technique(const std::string &name)
     : passes_(std::make_unique<Cache>()) {}
 
 NS_END()  // namespace experience

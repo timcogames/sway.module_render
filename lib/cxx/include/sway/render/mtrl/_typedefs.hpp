@@ -10,6 +10,7 @@ class Material;
 namespace MaterialTypedefs {
 using Ptr_t = Material *;
 using SharedPtr_t = std::shared_ptr<Material>;
+using UniquePtr_t = std::unique_ptr<Material>;
 using Container_t = std::map<std::string, SharedPtr_t>;
 }  // namespace MaterialTypedefs
 

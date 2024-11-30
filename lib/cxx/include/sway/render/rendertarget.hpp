@@ -3,7 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/render/image.hpp>
+#include <sway/render/img/image.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -17,7 +17,7 @@ public:
 
   RenderTarget() = default;
 
-  ~RenderTarget() = default;
+  DTOR_DEFAULT(RenderTarget);
 
 #pragma endregion
 
@@ -29,13 +29,13 @@ public:
 
   void attachColorBufferObject(RenderSubsystemPtr_t subsys);
 
-  auto getColorBuffer() const -> Image::SharedPtr_t { return colorTex_; }
+  auto getColorBuffer() const -> ImageTypedefs::SharedPtr_t { return colorTex_; }
 
 private:
   gapi::ViewportPtr_t viewport_;
   gapi::FrameBuffer::Ptr_t colorFBO_;
   gapi::RenderBuffer::Ptr_t renderBO_;
-  Image::SharedPtr_t colorTex_;
+  ImageTypedefs::SharedPtr_t colorTex_;
   bool attached_{false};
 };
 

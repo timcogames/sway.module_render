@@ -11,7 +11,7 @@
 #include <sway/render/geom/geomvertexattrib.hpp>
 #include <sway/render/geom/geomvertexattribset.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
-#include <sway/render/image.hpp>
+#include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/mtrl/materialdescriptor.hpp>
 #include <sway/render/mtrl/materialmanager.hpp>

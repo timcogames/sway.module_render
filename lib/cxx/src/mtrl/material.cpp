@@ -17,7 +17,7 @@ Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceMa
     , glslResMngr_(glslResMngr)
     , effect_(nullptr) {}
 
-void Material::addImage(const std::string &alias, Image::SharedPtr_t img) { images_.push_back({alias, img}); }
+void Material::addImage(const std::string &alias, ImageTypedefs::SharedPtr_t img) { images_.push_back({alias, img}); }
 
 auto Material::addImage(const std::string &resname, const std::string &alias) -> bool {
   auto resource = imageResMngr_->findLoadedResource(resname);
@@ -41,7 +41,8 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
   return true;
 }
 
-auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> Image::SharedPtr_t {
+auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias)
+    -> ImageTypedefs::SharedPtr_t {
   auto image = std::make_shared<Image>();
 
 #ifndef EMSCRIPTEN_PLATFORM

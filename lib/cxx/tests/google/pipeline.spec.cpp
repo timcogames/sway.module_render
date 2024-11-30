@@ -37,6 +37,6 @@ TEST(PipelineTest, setup) {
 
   auto ctx = RenderModule::getInternalContext();
 
-  auto tech = std::make_shared<Technique>();
+  auto tech = std::make_shared<Technique>("main");
   auto pass = Pass::get(tech.get(), (struct PassDescriptor){.format = 0});
 }

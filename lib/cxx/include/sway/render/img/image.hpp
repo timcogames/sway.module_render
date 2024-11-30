@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_IMAGE_HPP
-#define SWAY_RENDER_IMAGE_HPP
+#ifndef SWAY_RENDER_IMG_IMAGE_HPP
+#define SWAY_RENDER_IMG_IMAGE_HPP
 
 #include <sway/render/global.hpp>
 #include <sway/render/typedefs.hpp>
@@ -8,16 +8,24 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Image {
-  DECLARE_PTR_ALIASES(Image)
-
 public:
+#pragma region "Ctors/Dtor"
+
   Image();
 
-  ~Image() = default;
+  DTOR_DEFAULT(Image);
+
+#pragma endregion
+
+#pragma region "Creating/Destroying"
 
   void create(gapi::IdGenerator::Ptr_t idgen, const gapi::TextureCreateInfo &createInfo);
 
   void create(gapi::IdGenerator::Ptr_t idgen, const loader::ImageDescriptor &desc);
+
+#pragma endregion
+
+#pragma region "Binding/Unbinding"
 
   /**
    * @brief Привязывает.
@@ -29,14 +37,17 @@ public:
    */
   void unbind() { texture_->unbind(); }
 
+#pragma endregion
+
+#pragma region "Getters/Setters"
+
   auto getTexture() -> gapi::TexturePtr_t { return texture_; }
 
   auto getTextureSampler() -> gapi::TextureSamplerPtr_t { return textureSampler_; }
 
-  [[nodiscard]]
-  auto getSize() const -> math::size2i_t {
-    return textureCreateInfo_.size;
-  }
+  [[nodiscard]] auto getSize() const -> math::size2i_t { return textureCreateInfo_.size; }
+
+#pragma endregion
 
 private:
   global::GapiPluginFunctionSet *pluginFuncSet_;
@@ -48,4 +59,4 @@ private:
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_IMAGE_HPP
+#endif  // SWAY_RENDER_IMG_IMAGE_HPP

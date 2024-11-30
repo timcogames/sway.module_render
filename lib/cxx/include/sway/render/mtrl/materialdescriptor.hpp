@@ -4,9 +4,6 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-#include <memory>
-#include <vector>
-
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 

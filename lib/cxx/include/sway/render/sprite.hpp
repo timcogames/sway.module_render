@@ -47,10 +47,10 @@ public:
     return material_;
   }
 
-  void setTexture(Image::SharedPtr_t texture, bool recomputeUVRequired);
+  void setTexture(ImageTypedefs::SharedPtr_t texture, bool recomputeUVRequired);
 
   [[nodiscard]]
-  auto getTexture() const -> Image::SharedPtr_t;
+  auto getTexture() const -> ImageTypedefs::SharedPtr_t;
 
   void setTextureRect(const math::rect4i_t &rect);
 
@@ -86,7 +86,7 @@ private:
   GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
 
-  Image::SharedPtr_t texture_;
+  ImageTypedefs::SharedPtr_t texture_;
   math::rect4i_t textureRect_;
 
   math::size2i_t subdivs_;

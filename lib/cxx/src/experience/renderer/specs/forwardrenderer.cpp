@@ -19,7 +19,7 @@ ForwardRenderer::ForwardRenderer()
     tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 2});
   });
 
-  auto tech = std::make_shared<Technique>();
+  auto tech = std::make_shared<Technique>("forward");
   ctx->techniqueMngr->get("forward").value()(*tech, (struct TechniqueMetadata){});
   setTechnique(tech);
 }

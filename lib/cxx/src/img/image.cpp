@@ -1,4 +1,4 @@
-#include <sway/render/image.hpp>
+#include <sway/render/img/image.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
 NS_BEGIN_SWAY()

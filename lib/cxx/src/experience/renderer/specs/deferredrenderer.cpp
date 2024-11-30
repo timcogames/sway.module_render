@@ -14,7 +14,7 @@ DeferredRenderer::DeferredRenderer()
   auto ctx = RenderModule::getInternalContext();
   ctx->techniqueMngr->registerTech("deferred", [](Technique &tech, const TechniqueMetadata &meta) {});
 
-  auto tech = std::make_shared<Technique>();
+  auto tech = std::make_shared<Technique>("deferred");
   ctx->techniqueMngr->get("deferred").value()(*tech, (struct TechniqueMetadata){});
   setTechnique(tech);
 }

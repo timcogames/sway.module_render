@@ -19,9 +19,17 @@ public:
 
 #pragma endregion
 
+#pragma region "Adding/Updating/Removing"
+
   auto addMaterial(MaterialTypedefs::SharedPtr_t mtrl) -> bool;
 
+#pragma endregion
+
+#pragma region "Getters/Setters"
+
   auto getByUid(const std::string &name) -> MaterialTypedefs::SharedPtr_t;
+
+#pragma endregion
 
 private:
   MaterialTypedefs::Container_t materials_;
