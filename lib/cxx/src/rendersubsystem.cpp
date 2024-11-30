@@ -8,8 +8,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context)
-    : core::foundation::Subsystem(context) {
+RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t ctx)
+    : core::foundation::Subsystem(ctx) {
   global::pluginInstance_ = plug;
 
   idGenerator_[0] = global::getGapiPluginFunctionSet()->createBufferIdGenerator();

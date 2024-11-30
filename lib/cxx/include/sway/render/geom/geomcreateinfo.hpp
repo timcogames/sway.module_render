@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_GEOMETRYCREATEINFO_HPP
-#define SWAY_RENDER_GEOMETRYCREATEINFO_HPP
+#ifndef SWAY_RENDER_GEOMCREATEINFO_HPP
+#define SWAY_RENDER_GEOMCREATEINFO_HPP
 
 #include <sway/gapi/buffercreateinfo.hpp>
 #include <sway/gapi/topologytypes.hpp>
@@ -19,12 +19,12 @@ struct Constants {
   static constexpr std::size_t MAX_NUM_INSTANCES{120};
 };
 
-struct GeometryCreateInfo {
+struct GeomCreateInfo {
   bool indexed;
   gapi::TopologyType::Enum topology;
   std::array<gapi::BufferCreateInfo, Constants::MAX_IDX_BUFFERS> bo{};
 
-  GeometryCreateInfo()
+  GeomCreateInfo()
       : indexed(false)
       , topology(gapi::TopologyType::Enum::NONE) {
     bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::Enum::ARRAY;
@@ -35,4 +35,4 @@ struct GeometryCreateInfo {
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_GEOMETRYCREATEINFO_HPP
+#endif  // SWAY_RENDER_GEOMCREATEINFO_HPP

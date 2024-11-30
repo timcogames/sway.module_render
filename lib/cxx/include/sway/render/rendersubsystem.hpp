@@ -28,9 +28,9 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    *
-   * @param[in] context Контекст подсистемы.
+   * @param[in] ctx Контекст подсистемы.
    */
-  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context);
+  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t ctx);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.

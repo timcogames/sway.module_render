@@ -1,7 +1,7 @@
 #include <sway/gapi/texturefilters.hpp>
 #include <sway/gapi/texturesampler.hpp>
 #include <sway/gapi/texturewraps.hpp>
-#include <sway/render/material.hpp>
+#include <sway/render/mtrl/material.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
 #include <thread>

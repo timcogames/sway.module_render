@@ -4,7 +4,7 @@
 // #include <sway/cmpt/component.hpp>
 #include <sway/core.hpp>
 #include <sway/math.hpp>
-#include <sway/render/material.hpp>
+#include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/rendercomponent.hpp>
@@ -31,7 +31,8 @@ public:
 #pragma endregion
 
   void initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
-      Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
+      MaterialTypedefs::SharedPtr_t material, const math::size2f_t &size,
+      const math::size2i_t &subdivs = math::size2i_t(1));
 
 #pragma region "Override RenderComponent methods"
 
@@ -42,7 +43,7 @@ public:
   void updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRect);
 
   [[nodiscard]]
-  auto getMaterial() const -> Material::SharedPtr_t {
+  auto getMaterial() const -> MaterialTypedefs::SharedPtr_t {
     return material_;
   }
 
@@ -81,7 +82,7 @@ public:
 private:
   RenderSubqueue::SharedPtr_t subqueue_;
 
-  Material::SharedPtr_t material_;
+  MaterialTypedefs::SharedPtr_t material_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
 

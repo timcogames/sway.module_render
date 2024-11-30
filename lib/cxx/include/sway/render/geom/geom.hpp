@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
+#include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomvertexattribbase.hpp>
-#include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 
@@ -37,8 +37,7 @@ public:
   template <class OBJ>
   void call(std::function<void(OBJ)> callback);
 
-  MTHD_VIRTUAL(void create(
-      const GeometryCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs));
+  MTHD_VIRTUAL(void create(const GeomCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs));
 
   MTHD_VIRTUAL(void bind());
 

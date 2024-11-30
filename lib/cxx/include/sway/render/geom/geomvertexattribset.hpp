@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_GEOMETRYVERTEXATTRIBSET_HPP
-#define SWAY_RENDER_GEOMETRYVERTEXATTRIBSET_HPP
+#ifndef SWAY_RENDER_GEOMVERTEXATTRIBSET_HPP
+#define SWAY_RENDER_GEOMVERTEXATTRIBSET_HPP
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
@@ -19,4 +19,4 @@ struct GeomVertexAttribSet {
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_GEOMETRYVERTEXATTRIBSET_HPP
+#endif  // SWAY_RENDER_GEOMVERTEXATTRIBSET_HPP

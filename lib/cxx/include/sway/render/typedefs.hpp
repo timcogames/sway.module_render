@@ -27,8 +27,6 @@ DECLARE_PTR_TYPES(Geom)
 DECLARE_PTR_TYPES(GeomBuilder)
 DECLARE_PTR_TYPES(Geometry)
 DECLARE_PTR_TYPES(Effect)
-DECLARE_PTR_TYPES(Material)
-DECLARE_PTR_TYPES(MaterialManager)
 DECLARE_PTR_TYPES(RenderQueue)
 DECLARE_PTR_TYPES(RenderQueuePass)
 DECLARE_PTR_TYPES(RenderSubqueue)
@@ -43,7 +41,6 @@ DECLARE_PTR_TYPES(ScreenQuad)
 
 using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
 using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;
-using MaterialSharedPtrMap_t = std::map<std::string, MaterialSharedPtr_t>;
 using GeomVertexAttribSharedPtrMap_t = std::map<gapi::VertexSemantic, GeomVertexAttribBaseSharedPtr_t>;
 
 NS_END()  // namespace render

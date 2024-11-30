@@ -64,7 +64,7 @@ TEST_F(GeometryTestFixture, create_buffer) {
   auto geometries = geomBuilder->getGeometries();
   ASSERT_EQ(geometries.size(), render::Constants::MAX_BUFFER_OBJECTS);
 
-  render::GeometryCreateInfo geomCreateInfo;
+  render::GeomCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
   geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_LIST;
   geomCreateInfo.bo[render::Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::DYNAMIC;
@@ -98,9 +98,9 @@ TEST_F(GeometryTestFixture, create_buffer) {
   EXPECT_TRUE(geomInstance_1->getBuffer(render::Constants::IDX_EBO).has_value());
 
   auto uid_2 = geomBuilder->create<render::procedurals::prims::Quadrilateral<math::VertexColor>>(
-      2, render::GeometryCreateInfo(), geomDataDivisor->getVertexAttribs(), effect);
+      2, render::GeomCreateInfo(), geomDataDivisor->getVertexAttribs(), effect);
 
-  // geomBuilder->getGeometry(2)->create(render::GeometryCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
+  // geomBuilder->getGeometry(2)->create(render::GeomCreateInfo(), effect, geomDataDivisor->getVertexAttribs());
   EXPECT_TRUE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_VBO).has_value());
   EXPECT_FALSE(geomBuilder->getGeometry(2)->getBuffer(render::Constants::IDX_EBO).has_value());
 

@@ -13,7 +13,7 @@ NS_BEGIN(render)
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
 void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
-    Material::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs) {
+    MaterialTypedefs::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs) {
   subqueue_ = subqueue;
   material_ = material;
   subdivs_ = subdivs;
@@ -33,7 +33,7 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::Sha
   quadShape->setColDataAttrib(COL4F_WHITE);
   quadShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
-  GeometryCreateInfo geomCreateInfo;
+  GeomCreateInfo geomCreateInfo;
   geomCreateInfo.indexed = true;
   geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
@@ -114,8 +114,8 @@ void Sprite::setTextureRect(const math::rect4i_t &rect) {
 
 auto Sprite::getTextureRect() const -> math::rect4i_t { return textureRect_; }
 
-auto recomputeUVWithBorder(
-    const math::vec2f_t &pos, const math::sizef_t &size, const math::size2i_t &subdivs) -> std::vector<UVData2> {
+auto recomputeUVWithBorder(const math::vec2f_t &pos, const math::sizef_t &size, const math::size2i_t &subdivs)
+    -> std::vector<UVData2> {
   std::vector<UVData2> out;
   std::vector<math::vec2f_t> uv;
   auto texIdx = 0;

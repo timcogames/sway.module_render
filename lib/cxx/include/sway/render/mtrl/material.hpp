@@ -1,35 +1,26 @@
-#ifndef SWAY_RENDER_MATERIAL_HPP
-#define SWAY_RENDER_MATERIAL_HPP
+#ifndef SWAY_RENDER_MTRL_MATERIAL_HPP
+#define SWAY_RENDER_MTRL_MATERIAL_HPP
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/render/effect.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/image.hpp>
-#include <sway/render/materialdescriptor.hpp>
+#include <sway/render/mtrl/materialdescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/rms.hpp>
-
-#include <memory>
-#include <optional>
-#include <string>
-#include <unordered_map>
-#include <utility>
-#include <vector>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Material : public core::foundation::Uniqueable<std::string> {
-  DECLARE_PTR_ALIASES(Material)
-
 public:
 #pragma region "Ctors/Dtor"
 
   Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
       std::shared_ptr<rms::GLSLResourceManager> glslResMngr);
 
-  ~Material() = default;
+  DTOR_DEFAULT(Material);
 
 #pragma endregion
 
@@ -71,4 +62,4 @@ public:
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_MATERIAL_HPP
+#endif  // SWAY_RENDER_MTRL_MATERIAL_HPP

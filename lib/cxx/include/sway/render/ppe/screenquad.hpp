@@ -6,7 +6,7 @@
 #include <sway/render/flippable.hpp>
 #include <sway/render/flipper.hpp>
 #include <sway/render/geom/geombuilder.hpp>
-#include <sway/render/material.hpp>
+#include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/prims/quad.hpp>
@@ -76,7 +76,7 @@ public:
     shape->setPosDataAttrib();
     shape->setTexDataAttrib();
 
-    GeometryCreateInfo geomCreateInfo;
+    GeomCreateInfo geomCreateInfo;
     geomCreateInfo.indexed = false;
     geomCreateInfo.topology = gapi::TopologyType::Enum::TRIANGLE_STRIP;
     geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;

@@ -5,7 +5,7 @@
 #include <sway/render/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/image.hpp>
-#include <sway/render/material.hpp>
+#include <sway/render/mtrl/_typedefs.hpp>
 #include <sway/render/pipeline/blenddescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
@@ -39,7 +39,7 @@ struct ForwardRenderCommand : public RenderCommand {
 
   Geom::Ptr_t geom;
   gapi::TopologyType::Enum topology;
-  Material::SharedPtr_t mtrl;
+  MaterialTypedefs::SharedPtr_t mtrl;
 
   math::mat4f_t tfrm;
   math::mat4f_t proj;

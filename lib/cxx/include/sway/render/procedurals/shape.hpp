@@ -1,8 +1,8 @@
 #ifndef SWAY_RENDER_PRINS_PRIM_HPP
 #define SWAY_RENDER_PRINS_PRIM_HPP
 
+#include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/geometrycreateinfo.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/typedefs.hpp>
 

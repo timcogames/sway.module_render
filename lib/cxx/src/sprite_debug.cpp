@@ -10,8 +10,8 @@ Sprite_Debug::~Sprite_Debug() {
   //  geomBuilder_->remove(lineGeomIdx_);
 }
 
-void Sprite_Debug::initialize(
-    RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue, Material::SharedPtr_t material) {
+void Sprite_Debug::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+    MaterialTypedefs::SharedPtr_t material) {
   geomBuilder_ = subsystem->getGeomBuilder();
 
   subqueue_ = subqueue;
@@ -22,7 +22,7 @@ void Sprite_Debug::initialize(
   // lineShape->setPosDataAttrib(math::vec3f_zero, math::vec3f_t(1.0F, 1.0F, 0.0F));
   // lineShape->setColDataAttrib(COL4F_WHITE);
 
-  // GeometryCreateInfo lineGeomCreateInfo;
+  // GeomCreateInfo lineGeomCreateInfo;
   // lineGeomCreateInfo.indexed = false;
   // lineGeomCreateInfo.topology = gapi::TopologyType::LINE_LIST;
   // lineGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::STATIC;
@@ -36,7 +36,7 @@ void Sprite_Debug::initialize(
 
   auto axisShape = new procedurals::guides::Axis();
 
-  GeometryCreateInfo axisGeomCreateInfo;
+  GeomCreateInfo axisGeomCreateInfo;
   axisGeomCreateInfo.indexed = true;
   axisGeomCreateInfo.topology = gapi::TopologyType::Enum::LINE_LIST;
   axisGeomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;

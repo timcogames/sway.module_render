@@ -1,7 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
-#include <sway/render/material.hpp>
+#include <sway/render/mtrl/material.hpp>
 
 #include <gtest/gtest.h>
 

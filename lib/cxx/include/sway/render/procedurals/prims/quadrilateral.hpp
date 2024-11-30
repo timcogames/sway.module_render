@@ -2,10 +2,10 @@
 #define SWAY_RENDER_PROCEDURALS_PRIMS_QUADRILATERAL_HPP
 
 #include <sway/math.hpp>
+#include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomindexedvertexdata.hpp>
+#include <sway/render/geom/geomvertexattribset.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
-#include <sway/render/geometrycreateinfo.hpp>
-#include <sway/render/geometryvertexattribset.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
 
