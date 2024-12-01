@@ -11,6 +11,15 @@ namespace EffectTypedefs {
 using Ptr_t = Effect *;
 }  // namespace EffectTypedefs
 
+namespace EffectMacroTypedefs {
+using Container_t = std::vector<std::pair<std::string, std::string>>;
+}  // namespace EffectMacroTypedefs
+
+struct EffectResourceImmutable;
+namespace EffectResourceImmutableTypedefs {
+using SharedPtr_t = std::shared_ptr<EffectResourceImmutable>;
+}  // namespace EffectResourceImmutableTypedefs
+
 NS_END()  // namespace render
 NS_END()  // namespace sway
 

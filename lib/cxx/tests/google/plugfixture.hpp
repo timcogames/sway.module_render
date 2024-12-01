@@ -40,7 +40,20 @@ inline auto createShaderProgStub(render::global::GapiPluginFunctionSet *plug, re
   EXPECT_CALL(*shaderProgStub, isValidated()).WillOnce(testing::Return(true));
   EXPECT_CALL(*shaderProgStub, use());
   EXPECT_CALL(*shaderProgStub, unuse());
+  return shaderProgStub;
+}
 
+inline auto createShaderProgStub2(render::global::GapiPluginFunctionSet *plug, render::global::ShaderStub *shader)
+    -> render::global::ShaderProgramStub * {
+  auto *shaderProgStub = new render::global::ShaderProgramStub();
+  EXPECT_CALL(*plug, createShaderProgram()).WillRepeatedly(testing::Return(shaderProgStub));
+  EXPECT_CALL(*shaderProgStub, attach(shader)).Times(2);
+  EXPECT_CALL(*shaderProgStub, link());
+  EXPECT_CALL(*shaderProgStub, isLinked()).WillOnce(testing::Return(true));
+  EXPECT_CALL(*shaderProgStub, validate());
+  EXPECT_CALL(*shaderProgStub, isValidated()).WillOnce(testing::Return(true));
+  ON_CALL(*shaderProgStub, use()).WillByDefault([]() {});
+  ON_CALL(*shaderProgStub, unuse()).WillByDefault([]() {});
   return shaderProgStub;
 }
 

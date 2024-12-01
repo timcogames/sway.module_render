@@ -30,3 +30,20 @@ TEST_F(EffectTestFixture, create_buffer) {
   SAFE_DELETE_OBJECT(shaderStub);
   SAFE_DELETE_OBJECT(shaderProgStub);
 }
+
+TEST_F(EffectTestFixture, reload) {
+  auto *shaderStub = createShaderStub(globalGapiPlug);
+  auto *shaderProgStub = createShaderProgStub2(globalGapiPlug, shaderStub);
+
+  gapi::ShaderCreateInfoSet infoSet;
+  infoSet.vs.type = gapi::ShaderType::Enum::VERT;
+  infoSet.vs.code = "";
+  infoSet.fs.type = gapi::ShaderType::Enum::FRAG;
+  infoSet.fs.code = "";
+  auto *effect = new render::Effect(globalGapiPlug, infoSet);
+
+  effect->reload("./wwwroot/dist/assets/materials/empty.json");
+
+  SAFE_DELETE_OBJECT(shaderStub);
+  SAFE_DELETE_OBJECT(shaderProgStub);
+}

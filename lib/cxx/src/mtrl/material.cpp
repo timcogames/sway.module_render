@@ -20,6 +20,11 @@ Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceMa
 void Material::addImage(const std::string &alias, ImageTypedefs::SharedPtr_t img) { images_.push_back({alias, img}); }
 
 auto Material::addImage(const std::string &resname, const std::string &alias) -> bool {
+  if (!subsys_) {
+    std::cout << "Material::addImage: subsys is null" << std::endl;
+    return false;
+  }
+
   auto resource = imageResMngr_->findLoadedResource(resname);
   if (!resource) {
     printf("The file %s was not found\n", resname.c_str());
@@ -43,6 +48,11 @@ auto Material::addImage(const std::string &resname, const std::string &alias) ->
 
 auto Material::addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias)
     -> ImageTypedefs::SharedPtr_t {
+  if (!subsys_) {
+    std::cout << "Material::addImage: subsys is null" << std::endl;
+    return nullptr;
+  }
+
   auto image = std::make_shared<Image>();
 
 #ifndef EMSCRIPTEN_PLATFORM
