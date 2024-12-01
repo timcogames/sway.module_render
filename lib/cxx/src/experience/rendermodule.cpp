@@ -33,7 +33,7 @@ void RenderModule::setActiveRenderer(i32_t idx) {
   context_.rendererMngr->restore(state_.activeRendererIdx, std::move(state_.activeRenderer));
 
   // Получаем указатель, но не владеем им после вызова release().
-  auto itm = std::move(*context_.rendererMngr->get(idx));
+  auto itm = std::move(*context_.rendererMngr->find(idx));
   // Освобождаем владение объектом.
   auto raw = itm.release();
 

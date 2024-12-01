@@ -1,6 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/_typedefs.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geominstance.hpp>
@@ -15,14 +16,14 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 template <typename TShape>
-auto GeomBuilder::create(const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect)
-    -> u32_t {
+auto GeomBuilder::create(
+    const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, EffectTypedefs::Ptr_t effect) -> u32_t {
   return create<TShape>(availables_.front(), info, attribs, effect);
 }
 
 template <typename TShape>
-auto GeomBuilder::create(
-    int idx, const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t {
+auto GeomBuilder::create(int idx, const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs,
+    EffectTypedefs::Ptr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
   geometries_[idx]->create(info, effect, attribs);
@@ -34,13 +35,13 @@ auto GeomBuilder::create(
 
 template <typename TShape>
 auto GeomBuilder::createInstance(
-    GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, Effect::Ptr_t effect) -> u32_t {
+    GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect) -> u32_t {
   return createInstance<TShape>(availables_.front(), divisor, info, effect);
 }
 
 template <typename TShape>
-auto GeomBuilder::createInstance(
-    int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, Effect::Ptr_t effect) -> u32_t {
+auto GeomBuilder::createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info,
+    EffectTypedefs::Ptr_t effect) -> u32_t {
   SAFE_DELETE_OBJECT(geometries_[idx]);
   geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
   geometries_[idx]->create(info, effect, divisor->getVertexAttribs());

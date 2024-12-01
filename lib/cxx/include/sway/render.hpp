@@ -1,9 +1,7 @@
 #ifndef SWAY_RENDER_HPP
 #define SWAY_RENDER_HPP
 
-#include <sway/render/effect.hpp>
-#include <sway/render/flippable.hpp>
-#include <sway/render/flipper.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
@@ -33,12 +31,14 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
 #include <sway/render/rendertarget.hpp>
-#include <sway/render/sprite.hpp>
-#include <sway/render/sprite_debug.hpp>
-#include <sway/render/spriteanimation.hpp>
-#include <sway/render/spriteanimationclip.hpp>
-#include <sway/render/spriteanimationmodes.hpp>
-#include <sway/render/spritesheet.hpp>
+#include <sway/render/sprite/flippable.hpp>
+#include <sway/render/sprite/flipper.hpp>
+#include <sway/render/sprite/sprite.hpp>
+#include <sway/render/sprite/sprite_debug.hpp>
+#include <sway/render/sprite/spriteanimation.hpp>
+#include <sway/render/sprite/spriteanimationclip.hpp>
+#include <sway/render/sprite/spriteanimationmodes.hpp>
+#include <sway/render/sprite/spritesheet.hpp>
 #include <sway/render/typedefs.hpp>
 
 #endif  // SWAY_RENDER_HPP

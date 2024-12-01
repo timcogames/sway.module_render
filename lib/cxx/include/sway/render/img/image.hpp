@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_IMG_IMAGE_HPP
-#define SWAY_RENDER_IMG_IMAGE_HPP
+#ifndef SWAY_RENDER_IMAGE_HPP
+#define SWAY_RENDER_IMAGE_HPP
 
 #include <sway/render/global.hpp>
 #include <sway/render/typedefs.hpp>
@@ -28,12 +28,14 @@ public:
 #pragma region "Binding/Unbinding"
 
   /**
-   * @brief Привязывает.
+   * \~english @brief Binds the image to the graphics pipeline.
+   * \~russian @brief Связывает изображение с графическим конвейером.
    */
   void bind() { texture_->bind(); }
 
   /**
-   * @brief Отвязывает.
+   * \~english @brief Unbind.
+   * \~russian @brief Отвязывает.
    */
   void unbind() { texture_->unbind(); }
 
@@ -59,4 +61,4 @@ private:
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_IMG_IMAGE_HPP
+#endif  // SWAY_RENDER_IMAGE_HPP

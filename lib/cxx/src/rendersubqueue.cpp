@@ -1,4 +1,4 @@
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>

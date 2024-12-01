@@ -30,15 +30,15 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] inline auto commands() const -> CommandTypedefs::Queue_t const & { return commands_; }
+  [[nodiscard]] auto commands() const -> CommandTypedefs::Queue_t const & { return commands_; }
 
-  [[nodiscard]] inline auto group() const -> u32_t { return group_; }
+  [[nodiscard]] auto group() const -> u32_t { return group_; }
 
-  [[nodiscard]] inline auto priority() const -> u32_t { return priority_; }
+  [[nodiscard]] auto priority() const -> u32_t { return priority_; }
 
-  [[nodiscard]] inline auto size() const -> std::size_t { return commands_.size(); }
+  [[nodiscard]] auto size() const -> std::size_t { return commands_.size(); }
 
-  [[nodiscard]] inline auto empty() const -> bool { return commands_.empty(); }
+  [[nodiscard]] auto empty() const -> bool { return commands_.empty(); }
 
 #pragma endregion
 

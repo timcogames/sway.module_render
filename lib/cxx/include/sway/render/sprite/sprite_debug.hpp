@@ -2,6 +2,7 @@
 #define SWAY_RENDER_SPRITE_DEBUG_HPP
 
 // #include <sway/cmpt/component.hpp>
+#include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/prereqs.hpp>
@@ -30,7 +31,7 @@ public:
   [[nodiscard]] auto getMaterial() const -> MaterialTypedefs::SharedPtr_t { return material_; }
 
 private:
-  Effect::Ptr_t effect_;
+  EffectTypedefs::Ptr_t effect_;
   RenderSubqueue::SharedPtr_t subqueue_;
   MaterialTypedefs::SharedPtr_t material_;
   GeomBuilder::SharedPtr_t geomBuilder_;

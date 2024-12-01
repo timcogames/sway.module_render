@@ -2,7 +2,7 @@
 #define SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP
 
 #include <sway/core.hpp>
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>

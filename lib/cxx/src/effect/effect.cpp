@@ -1,9 +1,9 @@
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/effect.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> Effect::Ptr_t {
+auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectTypedefs::Ptr_t {
   auto *instance = new Effect(global::getGapiPluginFunctionSet(), infoSet);
   return instance;
 }

@@ -1,4 +1,4 @@
-#include <sway/render/spriteanimation.hpp>
+#include <sway/render/sprite/spriteanimation.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

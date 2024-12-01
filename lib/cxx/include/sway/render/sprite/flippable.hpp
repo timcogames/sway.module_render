@@ -3,14 +3,14 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
-#include <sway/render/flipper.hpp>
+#include <sway/render/sprite/flipper.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 struct Flippable {
-  static auto compute(const math::rect4f_t &origin,
-      core::detail::EnumClassBitset<Flipper> flips) -> std::array<f32_t, math::vec4f_t::DataElementCount_t> {
+  static auto compute(const math::rect4f_t &origin, core::detail::EnumClassBitset<Flipper> flips)
+      -> std::array<f32_t, math::vec4f_t::DataElementCount_t> {
     std::array<f32_t, math::vec4f_t::DataElementCount_t> result;
 
     auto flippedHorz = flips.has(Flipper::HORZ);

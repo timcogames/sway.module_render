@@ -26,7 +26,7 @@ public:
 
   Sprite() = default;
 
-  ~Sprite();
+  DTOR(Sprite);
 
 #pragma endregion
 
@@ -42,22 +42,21 @@ public:
 
   void updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRect);
 
-  [[nodiscard]]
-  auto getMaterial() const -> MaterialTypedefs::SharedPtr_t {
-    return material_;
-  }
+  void recomputeUV();
+
+#pragma region "Getters/Setters"
+
+  [[nodiscard]] auto getMaterial() const -> MaterialTypedefs::SharedPtr_t { return material_; }
 
   void setTexture(ImageTypedefs::SharedPtr_t texture, bool recomputeUVRequired);
 
-  [[nodiscard]]
-  auto getTexture() const -> ImageTypedefs::SharedPtr_t;
+  [[nodiscard]] auto getTexture() const -> ImageTypedefs::SharedPtr_t;
 
   void setTextureRect(const math::rect4i_t &rect);
 
-  [[nodiscard]]
-  auto getTextureRect() const -> math::rect4i_t;
+  [[nodiscard]] auto getTextureRect() const -> math::rect4i_t;
 
-  void recomputeUV();
+#pragma endregion
 
   // void setFlippedX(bool flippedX) {
   //   if (flippedX_ != flippedX) {

@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
-#include <sway/render/flippable.hpp>
-#include <sway/render/flipper.hpp>
+#include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
@@ -117,7 +116,7 @@ public:
 
 private:
   gapi::DrawCallPtr_t drawCall_;
-  Effect::Ptr_t effect_;
+  EffectTypedefs::Ptr_t effect_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   Geom::Ptr_t geom_;
   u32_t geomIdx_;

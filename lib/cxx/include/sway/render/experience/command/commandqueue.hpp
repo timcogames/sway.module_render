@@ -30,7 +30,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] inline auto subqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
+  [[nodiscard]] auto subqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
 
 #pragma endregion
 

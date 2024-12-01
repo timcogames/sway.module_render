@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EFFECT_HPP
 #define SWAY_RENDER_EFFECT_HPP
 
+#include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/render/typedefs.hpp>
@@ -9,20 +10,28 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class Effect {
-  DECLARE_PTR_ALIASES(Effect)
-
 public:
-  static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> Effect::Ptr_t;
+#pragma region "Static methods"
+
+  static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectTypedefs::Ptr_t;
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    *
-   * @param[in] infoSet Первоначальная информация о материале.
+   * @param[in] infoSet Первоначальная информация о шейдере.
    */
   Effect(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet);
 
-  ~Effect();
+  DTOR(Effect);
+
+#pragma endregion
+
+#pragma region "Binding/Unbinding"
 
   /**
    * @brief Привязывает.
@@ -34,7 +43,13 @@ public:
    */
   void unbind();
 
+#pragma endregion
+
+#pragma region "Getters/Setters"
+
   auto getShaderProgram() -> gapi::ShaderProgramPtr_t { return program_; }
+
+#pragma endregion
 
 protected:
   global::GapiPluginFunctionSet *gapiPlugin_;

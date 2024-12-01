@@ -2,9 +2,9 @@
 #define SWAY_RENDER_SPRITEANIMATION_HPP
 
 #include <sway/core.hpp>
-#include <sway/render/sprite.hpp>
-#include <sway/render/spriteanimationclip.hpp>
-#include <sway/render/spriteanimationmodes.hpp>
+#include <sway/render/sprite/sprite.hpp>
+#include <sway/render/sprite/spriteanimationclip.hpp>
+#include <sway/render/sprite/spriteanimationmodes.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -15,13 +15,17 @@ class Animation {
 public:
   inline static i32_t DFLT_NBR_CYCLES = 1;
 
+#pragma region "Ctors/Dtor"
+
   Animation()
       : status_(AnimationStatus::STOPPED)
       , cycles_(DFLT_NBR_CYCLES)
       , reversed_(false)
       , paused_(false) {}
 
-  virtual ~Animation() = default;
+  DTOR_VIRTUAL_DEFAULT(Animation);
+
+#pragma endregion
 
   MTHD_VIRTUAL(void play()) { paused_ = false; }
 
@@ -37,25 +41,13 @@ public:
 
   void setStatus(AnimationStatus status) { status_ = status; }
 
-  [[nodiscard]]
-  auto getStatus() const -> AnimationStatus {
-    return status_;
-  }
+  [[nodiscard]] auto getStatus() const -> AnimationStatus { return status_; }
 
-  [[nodiscard]]
-  auto isRunning() const -> bool {
-    return status_ == AnimationStatus::RUNNING;
-  }
+  [[nodiscard]] auto isRunning() const -> bool { return status_ == AnimationStatus::RUNNING; }
 
-  [[nodiscard]]
-  auto isPaused() const -> bool {
-    return status_ == AnimationStatus::PAUSED;
-  }
+  [[nodiscard]] auto isPaused() const -> bool { return status_ == AnimationStatus::PAUSED; }
 
-  [[nodiscard]]
-  auto isStopped() const -> bool {
-    return status_ == AnimationStatus::STOPPED;
-  }
+  [[nodiscard]] auto isStopped() const -> bool { return status_ == AnimationStatus::STOPPED; }
 
 private:
   AnimationStatus status_;
@@ -68,9 +60,13 @@ class SpriteAnimation : public Sprite, public Animation {
   DECLARE_CLASS_METADATA(SpriteAnimation, Sprite)
 
 public:
+#pragma region "Ctors/Dtor"
+
   SpriteAnimation();
 
-  virtual ~SpriteAnimation() = default;
+  DTOR_VIRTUAL_DEFAULT(SpriteAnimation);
+
+#pragma endregion
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
 

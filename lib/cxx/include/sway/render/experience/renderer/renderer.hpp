@@ -28,9 +28,9 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] inline auto type() const -> u32_t { return type_; }
+  [[nodiscard]] auto type() const -> u32_t { return type_; }
 
-  [[nodiscard]] inline auto technique() const -> TechniqueTypedefs::SharedPtr_t { return technique_; }
+  [[nodiscard]] auto technique() const -> TechniqueTypedefs::SharedPtr_t { return technique_; }
 
   void setTechnique(TechniqueTypedefs::SharedPtr_t technique) { technique_ = technique; }
 

@@ -9,7 +9,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class RendererManager {
+class RendererManager final {
 public:
 #pragma region "Ctors/Dtor"
 
@@ -25,7 +25,7 @@ public:
 
   void erase(i32_t idx);
 
-  auto get(i32_t idx) -> RendererTypedefs::Container_t::iterator;
+  auto find(i32_t type) -> RendererTypedefs::Container_t::iterator;
 
   auto size() const -> std::size_t;
 

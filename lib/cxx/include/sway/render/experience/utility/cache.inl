@@ -18,15 +18,12 @@ NS_BEGIN(experience)
 template <typename TYPE, typename DESC>
 auto Cache::getOrCreate(const DESC &desc) -> TYPE * {
   auto hash = core::misc::hashValue(desc);
-  auto iter = std::find_if(items_.begin(), items_.end(), [hash](auto &item) { return item.hash == hash; });
+  auto iter = std::find_if(items_.begin(), items_.end(), [hash](const auto &item) { return item.hash == hash; });
   if (iter != items_.end()) {
     return static_cast<TYPE *>(iter->data.get());
   }
 
-  CacheItem item;
-  item.hash = hash;
-  item.data = std::make_unique<TYPE>(desc);
-  items_.push_back(std::move(item));
+  items_.emplace_back(CacheItem{hash, std::make_unique<TYPE>(desc)});
   return static_cast<TYPE *>(items_.back().data.get());
 }
 

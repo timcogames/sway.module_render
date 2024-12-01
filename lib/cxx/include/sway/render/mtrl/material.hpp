@@ -3,7 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/_typedefs.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/img/_typedefs.hpp>
 #include <sway/render/img/image.hpp>
@@ -49,7 +50,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  auto getEffect() -> Effect::Ptr_t { return effect_; }
+  auto getEffect() -> EffectTypedefs::Ptr_t { return effect_; }
 
   auto getImages() -> ImageTypedefs::Container_t { return images_; }
 
@@ -65,7 +66,7 @@ public:
   global::GapiPluginFunctionSet *pluginFuncSet_;
   std::shared_ptr<rms::ImageResourceManager> imageResMngr_;
   std::shared_ptr<rms::GLSLResourceManager> glslResMngr_;
-  Effect::Ptr_t effect_;
+  EffectTypedefs::Ptr_t effect_;
   ImageTypedefs::Container_t images_;
   MaterialDescriptor desc_;
 

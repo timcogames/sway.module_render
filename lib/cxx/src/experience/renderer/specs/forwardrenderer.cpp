@@ -1,5 +1,6 @@
 
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
+#include <sway/render/experience/pass/specs/scenegeompass.hpp>
 #include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/renderer/specs/forwardrenderer.hpp>
 #include <sway/render/experience/rendermodule.hpp>
@@ -13,10 +14,10 @@ ForwardRenderer::ForwardRenderer()
     : Renderer(core::detail::toBase(RendererType::Enum::IDX_FWD)) {
   auto ctx = RenderModule::getInternalContext();
   ctx->techniqueMngr->registerTech("forward", [](Technique &tech, const TechniqueMetadata &meta) {
-    // Depth prepass
+    // Pass 1: Depth prepass
     tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
-    // Opaque/Transparent objects
-    tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 2});
+    // Pass 2: Opaque/Transparent objects
+    tech.passes()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2});
   });
 
   auto tech = std::make_shared<Technique>("forward");

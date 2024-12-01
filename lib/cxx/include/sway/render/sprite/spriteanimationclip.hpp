@@ -3,7 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
-#include <sway/render/spriteanimationmodes.hpp>
+#include <sway/render/sprite/spriteanimationmodes.hpp>
 
 #include <nlohmann/json.hpp>
 #include <optional>
@@ -32,11 +32,15 @@ struct SpriteImageFrame : public Frame {
 template <typename FRAME_TYPE>
 class SpriteAnimationClip {
 public:
+#pragma region "Ctors/Dtor"
+
   SpriteAnimationClip(const std::string &name)
       : mode_(SpriteAnimationMode::ONCE)
       , name_(name) {}
 
-  ~SpriteAnimationClip() = default;
+  DTOR_DEFAULT(SpriteAnimationClip);
+
+#pragma endregion
 
   void addFrame(u32_t idx, nlohmann::json::object_t jrect, bool flipped) {
     addFrame(idx, jrect["x"], jrect["y"], jrect["w"], jrect["h"], flipped);
@@ -59,10 +63,7 @@ public:
     return std::nullopt;
   }
 
-  [[nodiscard]]
-  auto size() const -> u32_t {
-    return static_cast<u32_t>(frames_.size());
-  }
+  [[nodiscard]] auto size() const -> u32_t { return static_cast<u32_t>(frames_.size()); }
 
   void setMode(SpriteAnimationMode mode) { mode_ = mode; }
 

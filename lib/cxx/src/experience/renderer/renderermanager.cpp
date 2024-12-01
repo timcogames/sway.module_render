@@ -6,8 +6,8 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 auto RendererManager::add(RendererTypedefs::UniquePtr_t renderer) -> i32_t {
-  renderers_.push_back(std::move(renderer));
-  return renderers_.size() - 1;
+  renderers_.emplace_back(std::move(renderer));
+  return static_cast<i32_t>(renderers_.size() - 1);
 }
 
 void RendererManager::restore(i32_t idx, RendererTypedefs::UniquePtr_t renderer) {
@@ -20,9 +20,13 @@ void RendererManager::restore(i32_t idx, RendererTypedefs::UniquePtr_t renderer)
 
 void RendererManager::erase(i32_t idx) { renderers_.erase(renderers_.begin() + idx); }
 
-auto RendererManager::get(i32_t idx) -> RendererTypedefs::Container_t::iterator {
-  return std::find_if(renderers_.begin(), renderers_.end(),
-      [&](RendererTypedefs::UniquePtr_t &renderer) { return renderer != nullptr && renderer->type() == idx; });
+auto RendererManager::find(i32_t type) -> RendererTypedefs::Container_t::iterator {
+  // clang-format off
+  return std::find_if(renderers_.begin(), renderers_.end(), 
+    [type](const auto &renderer) {
+      return renderer && renderer->type() == type;
+    });
+  // clang-format on
 }
 
 auto RendererManager::size() const -> std::size_t { return renderers_.size(); }

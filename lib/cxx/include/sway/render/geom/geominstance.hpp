@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_GEOMINSTANCE_HPP
 #define SWAY_RENDER_GEOMINSTANCE_HPP
 
+#include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geominstancedatadivisor.hpp>
 #include <sway/render/typedefs.hpp>
@@ -24,7 +25,8 @@ public:
     SAFE_DELETE_OBJECT(dataDivisor_);
   }
 
-  MTHD_OVERRIDE(void create(const GeomCreateInfo &info, Effect::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs)) {
+  MTHD_OVERRIDE(void create(
+      const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs)) {
     vao_ = gapiPlugin_->createVertexArray();
     Geom::create(info, effect, attribs);
   }

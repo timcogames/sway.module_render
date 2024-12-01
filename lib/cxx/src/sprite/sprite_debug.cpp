@@ -1,6 +1,6 @@
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/procedurals/guides/line.hpp>
-#include <sway/render/sprite_debug.hpp>
+#include <sway/render/sprite/sprite_debug.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

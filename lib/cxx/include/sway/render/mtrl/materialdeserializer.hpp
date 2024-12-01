@@ -17,12 +17,12 @@ public:
 
   static auto deserialize(const nlohmann::json &obj) -> MaterialTypedefs::UniquePtr_t {
     auto mtrl = std::make_unique<Material>("name", nullptr, nullptr);
-    auto techniques = obj["techniques"];
+    const auto techniques = obj["techniques"];
     if (!techniques.is_array()) {
       return nullptr;
     }
 
-    for (auto &tech : techniques.get<std::vector<nlohmann::json::object_t>>()) {
+    for (const auto &tech : techniques.get<std::vector<nlohmann::json::object_t>>()) {
     }
 
     return std::move(mtrl);

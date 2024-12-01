@@ -1,9 +1,9 @@
 #include <sway/gapi.hpp>
-#include <sway/render/flippable.hpp>
-#include <sway/render/flipper.hpp>
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
-#include <sway/render/sprite.hpp>
+#include <sway/render/sprite/flippable.hpp>
+#include <sway/render/sprite/flipper.hpp>
+#include <sway/render/sprite/sprite.hpp>
 
 #include <vector>
 
@@ -13,9 +13,9 @@ NS_BEGIN(render)
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
 void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
-    MaterialTypedefs::SharedPtr_t material, const math::size2f_t &size, const math::size2i_t &subdivs) {
+    MaterialTypedefs::SharedPtr_t mtrl, const math::size2f_t &size, const math::size2i_t &subdivs) {
   subqueue_ = subqueue;
-  material_ = material;
+  material_ = mtrl;
   subdivs_ = subdivs;
 
   auto quadTempSize = size;

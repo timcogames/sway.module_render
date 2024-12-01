@@ -3,7 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
-#include <sway/render/effect.hpp>
+#include <sway/render/effect/_typedefs.hpp>
+#include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geominstance.hpp>
@@ -46,19 +47,20 @@ public:
 #pragma endregion
 
   template <typename TShape>
-  auto create(int idx, const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect)
+  auto create(int idx, const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, EffectTypedefs::Ptr_t effect)
       -> u32_t;
 
   template <typename TShape>
-  auto create(const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, Effect::Ptr_t effect) -> u32_t;
+  auto create(const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs, EffectTypedefs::Ptr_t effect)
+      -> u32_t;
+
+  template <typename TShape>
+  auto createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info,
+      EffectTypedefs::Ptr_t effect) -> u32_t;
 
   template <typename TShape>
   auto createInstance(
-      int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, Effect::Ptr_t effect) -> u32_t;
-
-  template <typename TShape>
-  auto createInstance(GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, Effect::Ptr_t effect)
-      -> u32_t;
+      GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect) -> u32_t;
 
   void remove(u32_t idx);
 

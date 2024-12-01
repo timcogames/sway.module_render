@@ -1,4 +1,4 @@
-#include <sway/render/spritesheet.hpp>
+#include <sway/render/sprite/spritesheet.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

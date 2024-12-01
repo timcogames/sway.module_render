@@ -4,8 +4,8 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 auto MaterialManager::addMaterial(MaterialTypedefs::SharedPtr_t mtrl) -> bool {
-  materials_.insert(MaterialTypedefs::Container_t::value_type(mtrl->getUid().value(), mtrl));
-  return true;
+  auto [iter, inserted] = materials_.emplace(mtrl->getUid().value(), mtrl);
+  return inserted;
 }
 
 auto MaterialManager::getByUid(const std::string &name) -> MaterialTypedefs::SharedPtr_t {

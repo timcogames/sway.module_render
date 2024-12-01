@@ -6,18 +6,14 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 auto TechniqueManager::registerTech(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool {
-  auto result = registers_.insert({name, builder});
-  return result.second;
+  auto const [iter, success] = registers_.try_emplace(name, std::move(builder));
+  return success;
 }
 
-auto TechniqueManager::unregister(const std::string &name) -> bool {
-  auto erased = registers_.erase(name);
-  return (erased == 1);
-}
+auto TechniqueManager::unregister(const std::string &name) -> bool { return registers_.erase(name) == 1; }
 
 auto TechniqueManager::get(const std::string &name) -> TechniqueTypedefs::BuilderResult_t {
-  auto iter = registers_.find(name);
-  if (iter != registers_.end()) {
+  if (auto iter = registers_.find(name); iter != registers_.end()) {
     return iter->second;
   }
 
