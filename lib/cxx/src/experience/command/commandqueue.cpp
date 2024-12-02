@@ -5,23 +5,24 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 auto CommandQueue::createBuffer(const CommandBufferDescriptor &desc) -> CommandBufferTypedefs::OptionalRef_t {
-  subqueue(desc.group).push_back(std::make_unique<CommandBuffer>(desc));
-  return *subqueue(desc.group).back();
+  auto &subqueue = getSubqueue(desc.group);
+  subqueue.push_back(std::make_unique<CommandBuffer>(desc));
+  return *subqueue.back();
 }
 
 void CommandQueue::add(CommandBufferTypedefs::Ptr_t buf) {
-  subqueue(buf->group()).push_back(std::unique_ptr<CommandBuffer>(buf));
+  getSubqueue(buf->getGroup()).push_back(std::unique_ptr<CommandBuffer>(buf));
 }
 
 void CommandQueue::remove(const CommandBufferTypedefs::UniquePtr_t &buf) {
-  auto group = buf->group();
-  auto begin = std::remove(subqueue(group).begin(), subqueue(group).end(), std::move(buf));
-  subqueue(group).erase(begin, subqueue(group).end());
+  auto &subqueue = getSubqueue(buf->getGroup());
+  auto iter = std::remove(subqueue.begin(), subqueue.end(), std::move(buf));
+  subqueue.erase(iter, subqueue.end());
 }
 
 void CommandQueue::process(u32_t idx) {
   CommandBufferTypedefs::RefArray_t refs;
-  for (auto &ptr : subqueue(idx)) {
+  for (auto &ptr : getSubqueue(idx)) {
     refs.emplace_back(*ptr);
   }
 

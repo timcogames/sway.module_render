@@ -34,7 +34,7 @@ TEST(CommandBufferTest, submit) {
   buf.enqueue(std::make_unique<DrawCommand>());
   buf.enqueue(std::make_unique<EndPassCommand>());
 
-  ASSERT_EQ(buf.size(), 3);
+  ASSERT_EQ(buf.getSize(), 3);
 
   CommandBufferExecutor executor;
   executor.registerHandler(std::make_unique<experience::BeginPassCommandHandler>());
@@ -53,8 +53,8 @@ TEST(CommandQueueTest, sort) {
   auto pass = passCache->getOrCreate<Pass>((struct PassDescriptor){.format = 0});
 
   auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 0});
-  ASSERT_EQ(buf1->group(), MAIN_GROUP);
-  ASSERT_EQ(buf1->priority(), 0);
+  ASSERT_EQ(buf1->getGroup(), MAIN_GROUP);
+  ASSERT_EQ(buf1->getPriority(), 0);
 
   buf1->enqueue(std::make_unique<BeginPassCommand>(*pass));
   buf1->enqueue(std::make_unique<DrawCommand>());
@@ -67,14 +67,14 @@ TEST(CommandQueueTest, sort) {
   }
 
   auto &buf2 = buf2Opt->get();
-  ASSERT_EQ(buf2.group(), MAIN_GROUP);
-  ASSERT_EQ(buf2.priority(), 1);
+  ASSERT_EQ(buf2.getGroup(), MAIN_GROUP);
+  ASSERT_EQ(buf2.getPriority(), 1);
 
   buf2.enqueue(std::make_unique<BeginPassCommand>(*pass));
   buf2.enqueue(std::make_unique<DrawCommand>());
   buf2.enqueue(std::make_unique<EndPassCommand>());
 
-  CommandQueueSorter::sort(queue.subqueue(MAIN_GROUP), SortOrder::Enum::ASCENDING);
+  CommandQueueSorter::sort(queue.getSubqueue(MAIN_GROUP), SortOrder::Enum::ASCENDING);
 
   queue.process(MAIN_GROUP);
 }

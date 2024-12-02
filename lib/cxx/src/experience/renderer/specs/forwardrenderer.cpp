@@ -1,4 +1,10 @@
 
+#include <sway/render/experience/command/specs/beginpasscommand.hpp>
+#include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
+#include <sway/render/experience/command/specs/drawcommand.hpp>
+#include <sway/render/experience/command/specs/drawcommandhandler.hpp>
+#include <sway/render/experience/command/specs/endpasscommand.hpp>
+#include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 #include <sway/render/experience/pass/specs/scenegeompass.hpp>
 #include <sway/render/experience/rendercontext.hpp>
@@ -13,11 +19,17 @@ NS_BEGIN(experience)
 ForwardRenderer::ForwardRenderer()
     : Renderer(core::detail::toBase(RendererType::Enum::IDX_FWD)) {
   auto ctx = RenderModule::getInternalContext();
-  ctx->techniqueMngr->registerTech("forward", [](Technique &tech, const TechniqueMetadata &meta) {
+  ctx->techniqueMngr->registerTech("forward", [&](Technique &tech, const TechniqueMetadata &meta) {
     // Pass 1: Depth prepass
-    tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
+    {
+      auto pass = tech.passes()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
+    }
     // Pass 2: Opaque/Transparent objects
-    tech.passes()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2});
+    {
+      auto pass = tech.passes()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2});
+      pass->setQueue(std::move(commandQueue_));
+      pass->setup();
+    }
   });
 
   auto tech = std::make_shared<Technique>("forward");
@@ -25,7 +37,9 @@ ForwardRenderer::ForwardRenderer()
   setTechnique(tech);
 }
 
-void ForwardRenderer::render() {}
+void ForwardRenderer::render() {
+  technique_->passes()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2})->render();
+}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

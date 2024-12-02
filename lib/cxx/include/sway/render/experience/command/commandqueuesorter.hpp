@@ -14,14 +14,14 @@ DECLARE_ENUM(SortOrder, ASCENDING, DESCENDING)
 struct SortByPriorityInAscendingOrder {
   constexpr auto operator()(
       const CommandBufferTypedefs::UniquePtr_t &lhs, const CommandBufferTypedefs::UniquePtr_t &rhs) -> bool {
-    return lhs->priority() < rhs->priority();
+    return lhs->getPriority() < rhs->getPriority();
   }
 };
 
 struct SortByPriorityInDescendingOrder {
   constexpr auto operator()(
       const CommandBufferTypedefs::UniquePtr_t &lhs, const CommandBufferTypedefs::UniquePtr_t &rhs) -> bool {
-    return lhs->priority() > rhs->priority();
+    return lhs->getPriority() > rhs->getPriority();
   }
 };
 

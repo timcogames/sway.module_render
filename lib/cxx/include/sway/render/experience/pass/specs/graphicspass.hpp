@@ -27,11 +27,11 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] inline auto queue() -> CommandQueueTypedefs::UniquePtr_t & { return queue_; }
+  [[nodiscard]] auto getQueue() -> CommandQueueTypedefs::UniquePtr_t & { return queue_; }
 
   void setQueue(CommandQueueTypedefs::UniquePtr_t queue) { queue_ = std::move(queue); }
 
-  [[nodiscard]] inline auto state() -> PipelineState { return state_; }
+  [[nodiscard]] auto getState() -> PipelineState { return state_; }
 
   void setState(const PipelineState &state) { state_ = state; }
 

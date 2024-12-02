@@ -30,7 +30,9 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] auto subqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
+  [[nodiscard]] auto getSubqueue(u32_t idx) -> CommandBufferTypedefs::SubContainer_t & { return groups_[idx]; }
+
+  [[nodiscard]] auto getExecutor() -> CommandBufferExecutor & { return executor_; }
 
 #pragma endregion
 

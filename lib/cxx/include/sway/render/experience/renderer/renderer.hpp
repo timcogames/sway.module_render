@@ -1,6 +1,8 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERER_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERER_HPP
 
+#include <sway/render/experience/command/_typedefs.hpp>
+#include <sway/render/experience/command/commandqueue.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/technique/technique.hpp>
 #include <sway/render/prereqs.hpp>
@@ -14,7 +16,9 @@ public:
 #pragma region "Ctors/Dtor"
 
   Renderer(u32_t type)
-      : type_(type) {}
+      : type_(type) {
+    commandQueue_ = std::make_unique<CommandQueue>();
+  }
 
   DTOR_VIRTUAL_DEFAULT(Renderer);
 
@@ -39,6 +43,7 @@ public:
 protected:
   u32_t type_;
   TechniqueTypedefs::SharedPtr_t technique_;
+  CommandQueueTypedefs::UniquePtr_t commandQueue_;
 };
 
 NS_END()  // namespace experience

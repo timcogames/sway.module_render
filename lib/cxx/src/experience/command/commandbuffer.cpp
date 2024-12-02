@@ -7,7 +7,7 @@ NS_BEGIN(experience)
 void CommandBuffer::enqueue(CommandTypedefs::UniquePtr_t &&cmd) { commands_.push(std::move(cmd)); }
 
 void CommandBuffer::dequeue() {
-  if (empty()) {
+  if (isEmpty()) {
     return;
   }
 
@@ -15,7 +15,7 @@ void CommandBuffer::dequeue() {
 }
 
 auto CommandBuffer::peek(CommandType::Enum *type) const -> CommandTypedefs::Ptr_t {
-  if (empty()) {
+  if (isEmpty()) {
     return nullptr;
   }
 

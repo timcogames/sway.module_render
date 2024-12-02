@@ -39,4 +39,6 @@ TEST(PipelineTest, setup) {
 
   auto tech = std::make_shared<Technique>("main");
   auto pass = Pass::get(tech.get(), (struct PassDescriptor){.format = 0});
+
+  mod->state().activeRenderer->render();
 }

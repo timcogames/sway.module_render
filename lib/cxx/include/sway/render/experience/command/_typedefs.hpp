@@ -34,6 +34,7 @@ using SubContainerArray_t = std::array<SubContainer_t, 2 /* OPAQUE/TRANSPARENT *
 
 class CommandQueue;
 namespace CommandQueueTypedefs {
+using SharedPtr_t = std::shared_ptr<CommandQueue>;
 using UniquePtr_t = std::unique_ptr<CommandQueue>;
 }  // namespace CommandQueueTypedefs
 
