@@ -6,7 +6,7 @@
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
-#include <sway/render/experience/pipeline/pipelinestate.hpp>
+#include <sway/render/experience/pipeline/specs/graphicspipelinestate.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -31,15 +31,15 @@ public:
 
   void setQueue(CommandQueueTypedefs::UniquePtr_t queue) { queue_ = std::move(queue); }
 
-  [[nodiscard]] auto getState() -> PipelineState { return state_; }
+  [[nodiscard]] auto getState() -> GraphicsPipelineState { return state_; }
 
-  void setState(const PipelineState &state) { state_ = state; }
+  void setState(const GraphicsPipelineState &state) { state_ = state; }
 
 #pragma endregion
 
 private:
   CommandQueueTypedefs::UniquePtr_t queue_;
-  PipelineState state_;
+  GraphicsPipelineState state_;
 };
 
 NS_END()  // namespace experience

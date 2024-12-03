@@ -3,6 +3,9 @@
 
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
+#include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
+#include <sway/render/experience/command/specs/drawcommandhandler.hpp>
+#include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/technique/technique.hpp>
 #include <sway/render/prereqs.hpp>
@@ -18,6 +21,11 @@ public:
   Renderer(u32_t type)
       : type_(type) {
     commandQueue_ = std::make_unique<CommandQueue>();
+
+    auto &executor = commandQueue_->getExecutor();
+    executor.registerHandler(std::make_unique<BeginPassCommandHandler>());
+    executor.registerHandler(std::make_unique<EndPassCommandHandler>());
+    executor.registerHandler(std::make_unique<DrawCommandHandler>());
   }
 
   DTOR_VIRTUAL_DEFAULT(Renderer);
@@ -34,9 +42,9 @@ public:
 
   [[nodiscard]] auto type() const -> u32_t { return type_; }
 
-  [[nodiscard]] auto technique() const -> TechniqueTypedefs::SharedPtr_t { return technique_; }
+  [[nodiscard]] auto getTechnique() const -> TechniqueTypedefs::SharedPtr_t { return technique_; }
 
-  void setTechnique(TechniqueTypedefs::SharedPtr_t technique) { technique_ = technique; }
+  void setTechnique(TechniqueTypedefs::SharedPtr_t tech) { technique_ = tech; }
 
 #pragma endregion
 

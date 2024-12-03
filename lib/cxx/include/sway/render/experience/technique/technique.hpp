@@ -21,7 +21,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] auto passes() const -> const PassCacheTypedefs::UniquePtr_t & { return passes_; }
+  [[nodiscard]] auto getPasses() const -> const PassCacheTypedefs::UniquePtr_t & { return passes_; }
 
 #pragma endregion
 

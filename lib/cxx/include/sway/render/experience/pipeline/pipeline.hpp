@@ -1,7 +1,6 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 #define SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
 
-#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -12,7 +11,7 @@ class Pipeline {
 public:
 #pragma region "Ctors/Dtor"
 
-  Pipeline(const PipelineDescriptor &desc);
+  Pipeline();
 
   DTOR_DEFAULT(Pipeline);
 

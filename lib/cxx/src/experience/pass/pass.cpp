@@ -9,7 +9,7 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 auto Pass::get(TechniqueTypedefs::Ptr_t tech, const PassDescriptor &desc) -> PassTypedefs::Ptr_t {
-  return tech->passes()->getOrCreate<Pass>(desc);
+  return tech->getPasses()->getOrCreate<Pass>(desc);
 }
 
 Pass::Pass(const PassDescriptor &desc)

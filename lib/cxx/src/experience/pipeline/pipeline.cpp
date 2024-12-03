@@ -5,7 +5,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-Pipeline::Pipeline(const PipelineDescriptor &desc) { initialize(); }
+Pipeline::Pipeline() { initialize(); }
 
 void Pipeline::initialize() {}
 

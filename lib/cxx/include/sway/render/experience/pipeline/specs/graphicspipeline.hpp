@@ -4,19 +4,23 @@
 #include <sway/core.hpp>
 #include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/pipeline/pipeline.hpp>
-#include <sway/render/experience/pipeline/pipelinedescriptor.hpp>
+#include <sway/render/experience/pipeline/specs/graphicspipelinedescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * \~russian @brief Этот неизменяемый объект содержит информацию, необходимую для построения шейдерной программы
+ *                  и установки состояния API для отрисовки.
+ */
 class GraphicsPipeline : public Pipeline {
 public:
 #pragma region "Ctors/Dtor"
 
-  GraphicsPipeline(const PipelineDescriptor &desc)
-      : Pipeline(desc) {}
+  GraphicsPipeline(const GraphicsPipelineDescriptor &desc)
+      : Pipeline() {}
 
   DTOR_VIRTUAL_DEFAULT(GraphicsPipeline);
 

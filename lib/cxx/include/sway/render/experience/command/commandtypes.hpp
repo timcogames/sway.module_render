@@ -11,8 +11,7 @@ NS_BEGIN(experience)
 DECLARE_ENUM(CommandType, 
   BEGIN_PASS,
   DRAW,
-  END_PASS
-)
+  END_PASS)
 // clang-format on
 
 NS_END()  // namespace experience

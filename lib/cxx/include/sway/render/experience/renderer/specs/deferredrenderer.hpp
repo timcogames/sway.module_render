@@ -11,6 +11,12 @@ NS_BEGIN(experience)
 
 class DeferredRenderer final : public Renderer {
 public:
+#pragma region "Static methods"
+
+  static void registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue);
+
+#pragma endregion
+
 #pragma region "Ctors/Dtor"
 
   DeferredRenderer();

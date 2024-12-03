@@ -12,7 +12,7 @@ class TechniqueManager {
 public:
 #pragma region "Registering/Unregistering"
 
-  auto registerTech(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool;
+  auto registerTechnique(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool;
 
   auto unregister(const std::string &name) -> bool;
 

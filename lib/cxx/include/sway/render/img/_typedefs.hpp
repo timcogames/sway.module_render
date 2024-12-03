@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_IMG_TYPEDEFS_HPP
 #define SWAY_RENDER_IMG_TYPEDEFS_HPP
 
+#include <sway/render/img/imagetypes.hpp>
 #include <sway/render/img/pixel.hpp>
 #include <sway/render/prereqs.hpp>
 
@@ -16,6 +17,7 @@ namespace ImageTypedefs {
 using Ptr_t = Image *;
 using SharedPtr_t = std::shared_ptr<Image>;
 using Container_t = std::vector<std::pair<std::string, SharedPtr_t>>;
+// using Container_t = std::array<std::optional<SharedPtr_t>, ImageTypeLatest>;
 }  // namespace ImageTypedefs
 
 struct ImageDataPack;

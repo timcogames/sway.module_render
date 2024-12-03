@@ -5,7 +5,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-auto TechniqueManager::registerTech(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool {
+auto TechniqueManager::registerTechnique(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool {
   auto const [iter, success] = registers_.try_emplace(name, std::move(builder));
   return success;
 }

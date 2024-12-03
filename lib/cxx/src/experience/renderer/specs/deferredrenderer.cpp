@@ -9,13 +9,21 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+void DeferredRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue) {
+  // clang-format off
+  RenderModule::getInternalContext()->techniqueMngr->registerTechnique("deferred", 
+    [&](Technique &tech, const TechniqueMetadata &meta) {
+      // EMPTY
+    });
+  // clang-format on
+}
+
 DeferredRenderer::DeferredRenderer()
     : Renderer(core::detail::toBase(RendererType::Enum::IDX_DEF)) {
-  auto ctx = RenderModule::getInternalContext();
-  ctx->techniqueMngr->registerTech("deferred", [](Technique &tech, const TechniqueMetadata &meta) {});
+  registerTechnique(this->commandQueue_);
 
   auto tech = std::make_shared<Technique>("deferred");
-  ctx->techniqueMngr->get("deferred").value()(*tech, (struct TechniqueMetadata){});
+  RenderModule::getInternalContext()->techniqueMngr->get("deferred").value()(*tech, (struct TechniqueMetadata){});
   setTechnique(tech);
 }
 
