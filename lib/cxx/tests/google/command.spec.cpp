@@ -12,6 +12,7 @@
 #include <sway/render/experience/command/specs/endpasscommand.hpp>
 #include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/pass/pass.hpp>
+#include <sway/render/experience/pass/specs/graphicspass.hpp>
 
 #include <google/plugfixture.hpp>
 
@@ -27,7 +28,7 @@ NS_SHORT(render::experience)
 
 TEST(CommandBufferTest, submit) {
   auto passCache = std::make_unique<Cache>();
-  auto pass = passCache->getOrCreate<Pass>((struct PassDescriptor){.format = 0});
+  auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
 
   CommandBuffer buf((struct CommandBufferDescriptor){});
   buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
@@ -50,7 +51,7 @@ TEST(CommandQueueTest, sort) {
   CommandQueue queue;
 
   auto passCache = std::make_unique<Cache>();
-  auto pass = passCache->getOrCreate<Pass>((struct PassDescriptor){.format = 0});
+  auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
 
   auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 0});
   ASSERT_EQ(buf1->getGroup(), MAIN_GROUP);

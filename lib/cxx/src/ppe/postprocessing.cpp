@@ -9,7 +9,7 @@ PostProcessing::PostProcessing(gapi::ViewportPtr_t viewport) {
 }
 
 // void PostProcessing::addPass(u32_t idx, RenderTarget::SharedPtr_t target) {
-//   passes_[idx] = std::make_shared<Pass>();
+//   passes_[idx] = std::make_shared<GraphicsPass>();
 //   target->setScissorViewport(viewport_);
 //   if (idx == core::detail::toBase(RenderStage::IDX_COLOR)) {
 //     target->attachColorBufferObject();

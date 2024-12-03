@@ -25,6 +25,12 @@ public:
 
   void render();
 
+#pragma region "Override Pass methods"
+
+  MTHD_VIRTUAL_OVERRIDE(auto type() const -> PassType::Enum) { return PassType::Enum::GRAPHICS; }
+
+#pragma endregion
+
 #pragma region "Getters/Setters"
 
   [[nodiscard]] auto getQueue() -> CommandQueueTypedefs::UniquePtr_t & { return queue_; }

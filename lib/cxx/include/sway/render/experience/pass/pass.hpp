@@ -3,6 +3,7 @@
 
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
+#include <sway/render/experience/pass/passtypes.hpp>
 #include <sway/render/experience/stage/stage.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/utility/cacheable.hpp>
@@ -25,6 +26,12 @@ public:
   Pass(const PassDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(Pass);
+
+#pragma endregion
+
+#pragma region "Pure virtual methods"
+
+  PURE_VIRTUAL(auto type() const -> PassType::Enum);
 
 #pragma endregion
 

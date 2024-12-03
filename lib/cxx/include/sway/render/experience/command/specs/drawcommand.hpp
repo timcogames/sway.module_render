@@ -19,7 +19,7 @@ public:
 
 #pragma endregion
 
-#pragma region "Pure virtual methods"
+#pragma region "Override Command methods"
 
   MTHD_VIRTUAL_OVERRIDE(void apply()) { std::cout << "DrawCommand" << std::endl; }
 

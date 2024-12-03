@@ -11,7 +11,7 @@ NS_BEGIN(experience)
 
 class BeginPassCommandHandler final : public CommandHandler {
 public:
-#pragma region "Pure virtual methods"
+#pragma region "Override CommandHandler methods"
 
   MTHD_VIRTUAL_OVERRIDE(void handle(CommandTypedefs::Ptr_t cmd));
 
