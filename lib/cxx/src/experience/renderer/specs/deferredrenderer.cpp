@@ -13,7 +13,7 @@ void DeferredRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queu
   // clang-format off
   RenderModule::getInternalContext()->techniqueMngr->registerTechnique("deferred", 
     [&](Technique &tech, const TechniqueMetadata &meta) {
-      // EMPTY
+      // Empty
     });
   // clang-format on
 }

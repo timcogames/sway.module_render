@@ -1,4 +1,3 @@
-
 #ifndef PLUGTESTFIXTURE_H
 #define PLUGTESTFIXTURE_H
 

@@ -4,6 +4,8 @@
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/mtrl/materialdeserializer.hpp>
 
+#include <google/pass.jdata.hpp>
+
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>
@@ -16,7 +18,7 @@ TEST(Material, add_effect) {
                                      "layout (location = 1) in vec4 vtx_col_attrib;"
                                      "out vec4 vtx_col;"
                                      "void main() {"
-                                     "    gl_Position = vec4(vtx_pos_attrib, 1.0);"
+                                     "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
                                      "    vtx_col = vtx_col_attrib;"
                                      "}"},
       {gapi::ShaderType::Enum::FRAG, "in vec4 vtx_col;"
@@ -29,8 +31,18 @@ TEST(Material, add_effect) {
   // mtrl->addEffect(sources);
 }
 
-TEST(Material, json) {
-  auto data = nlohmann::json::parse(R"({
+auto toRawString(std::string const &in, std::string const marker, std::string const &content) -> std::string {
+  auto ret = in;
+  auto pos = ret.find(marker);
+  if (pos != ret.npos) {
+    ret.replace(pos, marker.length(), content);
+  }
+
+  return ret;
+}
+
+TEST(Material, deserialize) {
+  auto jraw = std::string(R"({
     "techniques": [{
       "name": "main",
       "viewport": {
@@ -38,32 +50,19 @@ TEST(Material, json) {
         "extent": [1.0, 1.0]
       },
       "impl": {
-        "passes": [{
-          "id": 0,
-          "clear_color" : [0.0, 0.0, 0.0, 1.0],
-          "clear_flags" : ["CLEAR_COLOR", "CLEAR_DEPTH"],
-          "shader": {
-            "path": "file_path",
-            "name": "file_name",
-            "test": [".vert", ".frag"],
-            "defs": ["TEST_1", "TEST_2", "TEST_3"],
-            "samplers": [{
-              "path": "file_path",
-              "name": "file_name",
-              "test": ".png"
-            }]
-          },
-          "target_layer" : 0,
-          "target": {}
-        }]
+        "passes": <PASSES_1>
       }
     }, {
       "name": "next",
       "impl": {
-        "passes": []
+        "passes": <PASSES_2>
       }
     }]
   })");
 
-  auto mtrl = render::experience::MaterialDeserializer::deserialize(data);
+  jraw = toRawString(jraw, "<PASSES_1>", PassJsonTest);
+  jraw = toRawString(jraw, "<PASSES_2>", "[]");
+  auto jdata = nlohmann::json::parse(jraw);
+
+  auto mtrl = render::experience::MaterialDeserializer::deserialize(jdata);
 }

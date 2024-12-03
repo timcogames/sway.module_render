@@ -23,6 +23,7 @@ public:
     }
 
     for (const auto &tech : techniques.get<std::vector<nlohmann::json::object_t>>()) {
+      // Empty
     }
 
     return std::move(mtrl);

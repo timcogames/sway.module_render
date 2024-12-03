@@ -8,8 +8,10 @@
 #include <sway/render/experience/command/specs/endpasscommand.hpp>
 #include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/pass/pass.hpp>
+#include <sway/render/experience/pass/passdeserializer.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 
+#include <google/pass.jdata.hpp>
 #include <google/plugfixture.hpp>
 
 #include <gmock/gmock.h>
@@ -39,4 +41,9 @@ TEST(GraphicsPassTest, render) {
   buf.enqueue(std::make_unique<EndPassCommand>());
 
   pass->render();
+}
+
+TEST(GraphicsPassTest, deserializer) {
+  auto pass = PassDeserializer::deserialize_depricated<GraphicsPass>(nlohmann::json::parse(PassJsonTest));
+  ASSERT_NE(nullptr, pass);
 }
