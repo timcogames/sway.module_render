@@ -31,16 +31,6 @@ TEST(Material, add_effect) {
   // mtrl->addEffect(sources);
 }
 
-auto toRawString(std::string const &in, std::string const marker, std::string const &content) -> std::string {
-  auto ret = in;
-  auto pos = ret.find(marker);
-  if (pos != ret.npos) {
-    ret.replace(pos, marker.length(), content);
-  }
-
-  return ret;
-}
-
 TEST(Material, deserialize) {
   auto jraw = std::string(R"({
     "techniques": [{
@@ -50,18 +40,18 @@ TEST(Material, deserialize) {
         "extent": [1.0, 1.0]
       },
       "impl": {
-        "passes": <PASSES_1>
+        "passes": [<PASSES_1>]
       }
     }, {
       "name": "next",
       "impl": {
-        "passes": <PASSES_2>
+        "passes": [<PASSES_2>]
       }
     }]
   })");
 
   jraw = toRawString(jraw, "<PASSES_1>", PassJsonTest);
-  jraw = toRawString(jraw, "<PASSES_2>", "[]");
+  jraw = toRawString(jraw, "<PASSES_2>", "");
   auto jdata = nlohmann::json::parse(jraw);
 
   auto mtrl = render::experience::MaterialDeserializer::deserialize(jdata);

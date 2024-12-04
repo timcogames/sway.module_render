@@ -5,6 +5,16 @@
 
 NS_SHORT_SWAY()
 
+inline auto toRawString(std::string const &in, std::string const marker, std::string const &content) -> std::string {
+  auto ret = in;
+  auto pos = ret.find(marker);
+  if (pos != ret.npos) {
+    ret.replace(pos, marker.length(), content);
+  }
+
+  return ret;
+}
+
 constexpr lpcstr_t PassJsonTest = R"({
     "id": 0,
     "clear_color" : [0.0, 0.0, 0.0, 1.0],

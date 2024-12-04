@@ -39,6 +39,8 @@ auto RenderSubsystem::initialize() -> bool {
   geomBuilder_ = GeomBuilder::create(getIdGenerator(0 /* GEOMETRY */));
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
+  renderModule_ = std::make_unique<experience::RenderModule>();
+
   return true;
 }
 

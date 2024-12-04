@@ -5,6 +5,7 @@
 #include <sway/render/experience/renderer/specs/forwardrenderer.hpp>
 #include <sway/render/experience/rendermodule.hpp>
 #include <sway/render/experience/technique/techniquemanager.hpp>
+#include <sway/render/global.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -15,6 +16,8 @@ RenderContext context_;  ///< Internat context.
 auto RenderModule::getInternalContext() -> RenderContextTypedefs::Ptr_t { return &context_; }
 
 void RenderModule::prepare() {
+  context_.drawCall = global::getGapiPluginFunctionSet()->createDrawCall();
+
   context_.techniqueMngr = std::make_unique<TechniqueManager>();
 
   context_.rendererMngr = std::make_unique<RendererManager>();

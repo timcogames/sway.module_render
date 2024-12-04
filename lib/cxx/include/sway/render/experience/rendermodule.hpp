@@ -34,7 +34,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  auto state() const -> const RenderState & { return state_; }
+  auto getState() const -> const RenderState & { return state_; }
 
 #pragma endregion
 

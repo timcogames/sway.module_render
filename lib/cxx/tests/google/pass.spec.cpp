@@ -37,7 +37,7 @@ TEST(GraphicsPassTest, render) {
 
   auto &buf = bufOpt->get();
   buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
-  buf.enqueue(std::make_unique<DrawCommand>());
+  buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
   pass->render();

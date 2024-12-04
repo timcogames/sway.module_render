@@ -21,7 +21,7 @@ void SceneGeomPass::render() {
 
   auto &buf = bufferOpt_->get();
   buf.enqueue(std::make_unique<BeginPassCommand>(*this));
-  buf.enqueue(std::make_unique<DrawCommand>());
+  buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
   GraphicsPass::render();

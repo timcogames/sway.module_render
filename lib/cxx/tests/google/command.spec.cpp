@@ -49,7 +49,7 @@ TEST_F(CommandBufferTestFixture, submit) {
   CommandBuffer buf((struct CommandBufferDescriptor){});
   buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
   buf.enqueue(std::make_unique<ClearCommand>(math::col4f_t(0.0F, 0.0F, 0.0F, 255.0F), gapi::ClearFlag::COLOR));
-  buf.enqueue(std::make_unique<DrawCommand>());
+  buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
   ASSERT_EQ(buf.getSize(), 4);
 
@@ -71,7 +71,7 @@ TEST(CommandQueueTest, sort) {
   ASSERT_EQ(buf1->getPriority(), 0);
 
   buf1->enqueue(std::make_unique<BeginPassCommand>(*pass));
-  buf1->enqueue(std::make_unique<DrawCommand>());
+  buf1->enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf1->enqueue(std::make_unique<EndPassCommand>());
   queue.add(buf1);
 
@@ -85,7 +85,7 @@ TEST(CommandQueueTest, sort) {
   ASSERT_EQ(buf2.getPriority(), 1);
 
   buf2.enqueue(std::make_unique<BeginPassCommand>(*pass));
-  buf2.enqueue(std::make_unique<DrawCommand>());
+  buf2.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf2.enqueue(std::make_unique<EndPassCommand>());
 
   CommandQueueSorter::sort(queue.getSubqueue(MAIN_GROUP), SortOrder::Enum::ASCENDING);

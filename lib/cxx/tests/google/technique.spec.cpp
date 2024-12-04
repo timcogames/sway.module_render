@@ -6,6 +6,7 @@
 #include <sway/render/experience/rendermodule.hpp>
 #include <sway/render/experience/technique/techniquedeserializer.hpp>
 
+#include <google/pass.jdata.hpp>
 #include <google/plugfixture.hpp>
 #include <google/technique.jdata.hpp>
 
@@ -20,6 +21,7 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(TechniqueTest, deserialize) {
-  auto tech = TechniqueDeserializer::deserialize(nlohmann::json::parse(TechniqueJsonTest));
+  auto jraw = toRawString(TechniqueJsonTest, "<PASSES_1>", PassJsonTest);
+  auto tech = TechniqueDeserializer::deserialize(nlohmann::json::parse(jraw));
   ASSERT_NE(nullptr, tech);
 }

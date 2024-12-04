@@ -3,6 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/experience/_typedefs.hpp>
+#include <sway/render/experience/rendermodule.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/ppe/screenquad.hpp>
@@ -103,6 +105,8 @@ public:
   std::array<gapi::IdGenerator::Ptr_t, 3> idGenerator_;
   GeomBuilder::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
+
+  experience::RenderModuleTypedefs::UniquePtr_t renderModule_;
 };
 
 NS_END()  // namespace render

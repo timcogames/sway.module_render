@@ -13,24 +13,7 @@ constexpr lpcstr_t TechniqueJsonTest = R"({
         "extent": [1.0, 1.0]
       },
       "impl": {
-        "passes": [{
-          "id": 0,
-          "clear_color" : [0.0, 0.0, 0.0, 1.0],
-          "clear_flags" : ["CLEAR_COLOR", "CLEAR_DEPTH"],
-          "shader": {
-            "path": "file_path",
-            "name": "file_name",
-            "test": [".vert", ".frag"],
-            "defs": ["TEST_1", "TEST_2", "TEST_3"],
-            "samplers": [{
-              "path": "file_path",
-              "name": "file_name",
-              "test": ".png"
-            }]
-          },
-          "target_layer" : 0,
-          "target": {}
-        }]
+        "passes": [<PASSES_1>]
       }
     })";
 

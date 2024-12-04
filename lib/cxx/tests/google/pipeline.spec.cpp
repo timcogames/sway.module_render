@@ -24,21 +24,21 @@ TEST(PipelineTest, setup) {
   auto mod = std::make_unique<RenderModule>();
   mod->prepare();
 
-  ASSERT_EQ(mod->state().activeRenderer->type(), fwd);
-  ASSERT_EQ(mod->state().activeRendererIdx, fwd);
+  ASSERT_EQ(mod->getState().activeRenderer->type(), fwd);
+  ASSERT_EQ(mod->getState().activeRendererIdx, fwd);
 
   mod->setActiveRenderer(def);
-  ASSERT_EQ(mod->state().activeRenderer->type(), def);
-  ASSERT_EQ(mod->state().activeRendererIdx, def);
+  ASSERT_EQ(mod->getState().activeRenderer->type(), def);
+  ASSERT_EQ(mod->getState().activeRendererIdx, def);
 
   mod->setActiveRenderer(fwd);
-  ASSERT_EQ(mod->state().activeRenderer->type(), fwd);
-  ASSERT_EQ(mod->state().activeRendererIdx, fwd);
+  ASSERT_EQ(mod->getState().activeRenderer->type(), fwd);
+  ASSERT_EQ(mod->getState().activeRendererIdx, fwd);
 
   auto ctx = RenderModule::getInternalContext();
 
   auto tech = std::make_shared<Technique>("main");
   auto pass = Pass::get(tech.get(), (struct PassDescriptor){.format = 0});
 
-  mod->state().activeRenderer->render();
+  mod->getState().activeRenderer->render();
 }

@@ -15,6 +15,7 @@ using Ptr_t = RenderContext *;
 struct RenderModule;
 namespace RenderModuleTypedefs {
 using Ptr_t = RenderModule *;
+using UniquePtr_t = std::unique_ptr<RenderModule>;
 }  // namespace RenderModuleTypedefs
 
 NS_END()  // namespace experience

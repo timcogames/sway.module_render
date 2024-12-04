@@ -14,8 +14,9 @@ class DrawCommand final : public Command {
 public:
 #pragma region "Ctors/Dtor"
 
-  DrawCommand()
-      : Command(CommandType::Enum::DRAW) {}
+  DrawCommand(gapi::TopologyType::Enum topology)
+      : Command(CommandType::Enum::DRAW)
+      , topology_(topology) {}
 
 #pragma endregion
 
@@ -24,6 +25,15 @@ public:
   MTHD_VIRTUAL_OVERRIDE(void apply()) { std::cout << "DrawCommand" << std::endl; }
 
 #pragma endregion
+
+#pragma region "Getters/Setters"
+
+  [[nodiscard]] auto getTopology() const -> gapi::TopologyType::Enum { return topology_; }
+
+#pragma endregion
+
+private:
+  gapi::TopologyType::Enum topology_;
 };
 
 NS_END()  // namespace experience

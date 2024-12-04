@@ -10,6 +10,10 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 struct RenderContext {
+  // GAPI objects
+  gapi::DrawCallPtr_t drawCall;
+
+  // Managers
   TechniqueManagerTypedefs::UniquePtr_t techniqueMngr;
   RendererManagerTypedefs::UniquePtr_t rendererMngr;
 };
