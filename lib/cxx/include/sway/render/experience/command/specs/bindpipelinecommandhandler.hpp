@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_EXPERIENCE_ENDPASSCOMMANDHANDLER_HPP
-#define SWAY_RENDER_EXPERIENCE_ENDPASSCOMMANDHANDLER_HPP
+#ifndef SWAY_RENDER_EXPERIENCE_BINDPIPELINECOMMANDHANDLER_HPP
+#define SWAY_RENDER_EXPERIENCE_BINDPIPELINECOMMANDHANDLER_HPP
 
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/command/commandhandler.hpp>
@@ -9,7 +9,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class EndPassCommandHandler final : public CommandHandler {
+class BindPipelineCommandHandler final : public CommandHandler {
 public:
 #pragma region "Override CommandHandler methods"
 
@@ -24,4 +24,4 @@ NS_END()  // namespace experience
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_EXPERIENCE_ENDPASSCOMMANDHANDLER_HPP
+#endif  // SWAY_RENDER_EXPERIENCE_BINDPIPELINECOMMANDHANDLER_HPP

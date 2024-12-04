@@ -7,6 +7,10 @@
 #include <sway/render/experience/command/commandqueuesorter.hpp>
 #include <sway/render/experience/command/specs/beginpasscommand.hpp>
 #include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
+#include <sway/render/experience/command/specs/bindpipelinecommand.hpp>
+#include <sway/render/experience/command/specs/bindpipelinecommandhandler.hpp>
+#include <sway/render/experience/command/specs/clearcommand.hpp>
+#include <sway/render/experience/command/specs/clearcommandhandler.hpp>
 #include <sway/render/experience/command/specs/drawcommand.hpp>
 #include <sway/render/experience/command/specs/drawcommandhandler.hpp>
 #include <sway/render/experience/command/specs/endpasscommand.hpp>

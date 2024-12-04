@@ -15,7 +15,7 @@ public:
 
   MTHD_VIRTUAL_OVERRIDE(void handle(CommandTypedefs::Ptr_t cmd));
 
-  MTHD_VIRTUAL_OVERRIDE(auto key() const -> std::string);
+  MTHD_VIRTUAL_OVERRIDE(auto getKey() const -> std::string);
 
 #pragma endregion
 };

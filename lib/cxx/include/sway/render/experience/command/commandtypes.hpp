@@ -9,8 +9,10 @@ NS_BEGIN(experience)
 
 // clang-format off
 DECLARE_ENUM(CommandType, 
-  BEGIN_PASS,
-  DRAW,
+  BEGIN_PASS, 
+  CLEAR, 
+  BIND_PIPELINE, 
+  DRAW, 
   END_PASS)
 // clang-format on
 

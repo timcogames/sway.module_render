@@ -8,7 +8,7 @@ NS_BEGIN(experience)
 
 void EndPassCommandHandler::handle(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling END_PASS" << std::endl; }
 
-auto EndPassCommandHandler::key() const -> std::string {
+auto EndPassCommandHandler::getKey() const -> std::string {
   return core::foundation::ObjectClassname::toStr<EndPassCommand>();
 }
 

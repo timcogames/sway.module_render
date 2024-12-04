@@ -5,7 +5,7 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 void CommandBufferExecutor::registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler) {
-  handlers_.emplace(handler->key(), std::move(handler));
+  handlers_.emplace(handler->getKey(), std::move(handler));
 }
 
 void CommandBufferExecutor::submit(const CommandBufferTypedefs::RefArray_t &refs) {

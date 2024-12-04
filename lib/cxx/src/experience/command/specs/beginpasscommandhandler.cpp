@@ -8,7 +8,7 @@ NS_BEGIN(experience)
 
 void BeginPassCommandHandler::handle(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling BEGIN_PASS" << std::endl; }
 
-auto BeginPassCommandHandler::key() const -> std::string {
+auto BeginPassCommandHandler::getKey() const -> std::string {
   return core::foundation::ObjectClassname::toStr<BeginPassCommand>();
 }
 

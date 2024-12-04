@@ -8,7 +8,9 @@ NS_BEGIN(experience)
 
 void DrawCommandHandler::handle(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling DRAW" << std::endl; }
 
-auto DrawCommandHandler::key() const -> std::string { return core::foundation::ObjectClassname::toStr<DrawCommand>(); }
+auto DrawCommandHandler::getKey() const -> std::string {
+  return core::foundation::ObjectClassname::toStr<DrawCommand>();
+}
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

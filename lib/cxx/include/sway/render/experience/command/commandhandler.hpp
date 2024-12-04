@@ -20,7 +20,7 @@ public:
 
   PURE_VIRTUAL(void handle(CommandTypedefs::Ptr_t cmd));
 
-  PURE_VIRTUAL(auto key() const -> std::string);
+  PURE_VIRTUAL(auto getKey() const -> std::string);
 
 #pragma endregion
 };
