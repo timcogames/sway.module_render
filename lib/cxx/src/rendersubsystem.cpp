@@ -40,6 +40,7 @@ auto RenderSubsystem::initialize() -> bool {
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   renderModule_ = std::make_unique<experience::RenderModule>();
+  renderModule_->prepare();
 
   return true;
 }

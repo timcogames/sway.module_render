@@ -1,4 +1,6 @@
 #include <sway/render/effect/effect.hpp>
+#include <sway/render/experience/rendercontext.hpp>
+#include <sway/render/experience/rendermodule.hpp>
 #include <sway/render/global.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
@@ -10,11 +12,10 @@ NS_BEGIN(render)
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
     : group_(group) {
-  matrixStack_ = std::make_shared<math::MatrixStack>();
   initialize();
 }
 
-void RenderSubqueue::initialize() { drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall(); }
+void RenderSubqueue::initialize() { matrixStack_ = std::make_shared<math::MatrixStack>(); }
 
 void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
 
@@ -58,7 +59,8 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
       bufset.ebo = nullptr;
     }
 
-    drawCall_->execute(cmd.topology, bufset, core::ValueDataType::Enum::UINT);
+    experience::RenderModule::getInternalContext()->drawCall->execute(
+        cmd.topology, bufset, core::ValueDataType::Enum::UINT);
 
     cmd.geom->unbind();
   }
