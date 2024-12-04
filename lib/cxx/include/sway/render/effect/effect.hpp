@@ -68,7 +68,7 @@ protected:
   global::GapiPluginFunctionSet *gapiPlugin_;
 
 private:
-  gapi::ShaderProgramPtr_t program_;  // Указатель на шейдерную программу.
+  gapi::ShaderProgramPtr_t program_;  ///< Указатель на шейдерную программу.
   EffectResourceImmutableTypedefs::SharedPtr_t immutable_;
 };
 

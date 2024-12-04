@@ -61,7 +61,7 @@ private:
   gapi::DrawCallPtr_t drawCall_;
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;
-  RenderSubqueueGroup group_;  // Группа подочереди.
+  RenderSubqueueGroup group_;  ///< Группа подочереди.
 };
 
 NS_END()  // namespace render

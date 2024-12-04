@@ -92,7 +92,7 @@ void Geom::updateUV(std::vector<UVData2> uv) {
 void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto offset = 0;
 
-  auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();  // Количество вершин
+  auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();  ///< Количество вершин
   auto vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
 
   auto texIdx = 0;

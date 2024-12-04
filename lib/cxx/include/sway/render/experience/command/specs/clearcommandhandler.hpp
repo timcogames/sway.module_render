@@ -11,6 +11,13 @@ NS_BEGIN(experience)
 
 class ClearCommandHandler final : public CommandHandler {
 public:
+#pragma region "Ctors/Dtor"
+
+  ClearCommandHandler(gapi::ViewportPtr_t viewport)
+      : viewport_(viewport) {}
+
+#pragma endregion
+
 #pragma region "Override CommandHandler methods"
 
   MTHD_VIRTUAL_OVERRIDE(void handle(CommandTypedefs::Ptr_t cmd));
@@ -18,6 +25,9 @@ public:
   MTHD_VIRTUAL_OVERRIDE(auto getKey() const -> std::string);
 
 #pragma endregion
+
+private:
+  gapi::ViewportPtr_t viewport_;
 };
 
 NS_END()  // namespace experience

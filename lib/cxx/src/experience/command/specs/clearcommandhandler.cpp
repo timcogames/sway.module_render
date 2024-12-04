@@ -6,7 +6,13 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void ClearCommandHandler::handle(CommandTypedefs::Ptr_t cmd) { std::cout << "ClearCommandHandler" << std::endl; }
+void ClearCommandHandler::handle(CommandTypedefs::Ptr_t cmd) {
+  auto concreteCommand = static_cast<ClearCommand *>(cmd);
+  viewport_->setClearColor(concreteCommand->getColor());
+  viewport_->clear(concreteCommand->getFlags());
+
+  std::cout << "Handling CLEAR" << std::endl;
+}
 
 auto ClearCommandHandler::getKey() const -> std::string {
   return core::foundation::ObjectClassname::toStr<ClearCommand>();

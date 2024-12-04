@@ -87,8 +87,8 @@ public:
   };
 
 private:
-  u32_t priority_;  // Приоритет очереди.
-  RenderSubqueue::SharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  // Контейнер подочередей.
+  u32_t priority_;  ///< Приоритет очереди.
+  RenderSubqueue::SharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  //< Контейнер подочередей.
 };
 
 NS_END()  // namespace render

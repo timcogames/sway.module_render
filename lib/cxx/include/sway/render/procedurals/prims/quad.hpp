@@ -44,10 +44,10 @@ public:
   }
 
   void setPosDataAttrib() {
-    dataAttribs_.pos->setData(0, math::vec2f_t(-1.0F, +1.0F).asDataPtr());  // v0 - top left corner
-    dataAttribs_.pos->setData(1, math::vec2f_t(-1.0F, -1.0F).asDataPtr());  // v1 - bottom left corner
-    dataAttribs_.pos->setData(2, math::vec2f_t(+1.0F, +1.0F).asDataPtr());  // v2 - top right corner
-    dataAttribs_.pos->setData(3, math::vec2f_t(+1.0F, -1.0F).asDataPtr());  // v3 - bottom right corner
+    dataAttribs_.pos->setData(0, math::vec2f_t(-1.0F, +1.0F).asDataPtr());  ///< v0 - top left corner
+    dataAttribs_.pos->setData(1, math::vec2f_t(-1.0F, -1.0F).asDataPtr());  ///< v1 - bottom left corner
+    dataAttribs_.pos->setData(2, math::vec2f_t(+1.0F, +1.0F).asDataPtr());  ///< v2 - top right corner
+    dataAttribs_.pos->setData(3, math::vec2f_t(+1.0F, -1.0F).asDataPtr());  ///< v3 - bottom right corner
   }
 
   void setTexDataAttrib() {

@@ -14,13 +14,26 @@ extern render::global::GapiPluginFunctionSet *globalGapiPlug;
 
 class PlugTestFixture : public testing::Test {
 public:
+#pragma region "Override testing::Test methods"
+
   MTHD_OVERRIDE(void SetUp());
 
   MTHD_OVERRIDE(void TearDown());
 
+#pragma endregion
+
 protected:
   render::global::MockPluginFunctionSet mockedGapiPlug;
 };
+
+inline auto createViewportStub(render::global::GapiPluginFunctionSet *plug) -> render::global::ViewportStub * {
+  auto *viewportStub = new render::global::ViewportStub();
+  EXPECT_CALL(*plug, createViewport()).WillRepeatedly(testing::Return(viewportStub));
+  EXPECT_CALL(*viewportStub, setClearColor(testing::_));
+  EXPECT_CALL(*viewportStub, clear(testing::_));
+
+  return viewportStub;
+}
 
 inline auto createShaderStub(render::global::GapiPluginFunctionSet *plug) -> render::global::ShaderStub * {
   auto *shaderStub = new render::global::ShaderStub(gapi::ShaderType::Enum::NONE);

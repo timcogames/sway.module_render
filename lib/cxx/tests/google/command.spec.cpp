@@ -1,6 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
+#include <sway/render.hpp>
 #include <sway/render/experience/command/commandbuffer.hpp>
 #include <sway/render/experience/command/commandbufferexecutor.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
@@ -17,6 +18,7 @@
 #include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
+#include <sway/render/global.hpp>
 
 #include <google/plugfixture.hpp>
 
@@ -30,24 +32,31 @@ NS_SHORT_SWAY()
 NS_SHORT(render)
 NS_SHORT(render::experience)
 
-TEST(CommandBufferTest, submit) {
+class CommandBufferTestFixture : public PlugTestFixture {};
+
+TEST_F(CommandBufferTestFixture, submit) {
+  auto *viewportStub = createViewportStub(globalGapiPlug);
+
   auto passCache = std::make_unique<Cache>();
   auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
-
-  CommandBuffer buf((struct CommandBufferDescriptor){});
-  buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
-  buf.enqueue(std::make_unique<DrawCommand>());
-  buf.enqueue(std::make_unique<EndPassCommand>());
-
-  ASSERT_EQ(buf.getSize(), 3);
 
   CommandBufferExecutor executor;
   executor.registerHandler(std::make_unique<experience::BeginPassCommandHandler>());
   executor.registerHandler(std::make_unique<experience::EndPassCommandHandler>());
   executor.registerHandler(std::make_unique<experience::DrawCommandHandler>());
+  executor.registerHandler(std::make_unique<experience::ClearCommandHandler>(viewportStub));
+
+  CommandBuffer buf((struct CommandBufferDescriptor){});
+  buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
+  buf.enqueue(std::make_unique<ClearCommand>(math::col4f_t(0.0F, 0.0F, 0.0F, 255.0F), gapi::ClearFlag::COLOR));
+  buf.enqueue(std::make_unique<DrawCommand>());
+  buf.enqueue(std::make_unique<EndPassCommand>());
+  ASSERT_EQ(buf.getSize(), 4);
 
   CommandBufferTypedefs::RefArray_t refs = {buf};
   executor.submit(refs);
+
+  SAFE_DELETE_OBJECT(viewportStub);
 }
 
 TEST(CommandQueueTest, sort) {

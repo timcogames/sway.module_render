@@ -7,7 +7,7 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 void BindPipelineCommandHandler::handle(CommandTypedefs::Ptr_t cmd) {
-  std::cout << "BindPipelineCommandHandler" << std::endl;
+  std::cout << "Handling BIND_PIPELINE" << std::endl;
 }
 
 auto BindPipelineCommandHandler::getKey() const -> std::string {

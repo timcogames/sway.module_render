@@ -7,8 +7,8 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 enum class RenderSubqueueGroup : u32_t {
-  OPAQUE,  // Отрисовывать только непрозрачные части.
-  TRANSPARENT,  // Отрисовывать только прозрачные части.
+  OPAQUE,  ///< Отрисовывать только непрозрачные части.
+  TRANSPARENT,  ///< Отрисовывать только прозрачные части.
   Latest
 };
 

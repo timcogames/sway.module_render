@@ -19,6 +19,26 @@ NS_BEGIN(render)
 
 #define QUAD_TEXCOORD_SIZE2 4
 
+class VertexBuffer {
+private:
+  u32_t vboUid_;  ///< Unique id of the vertex buffer object
+};
+
+class VertexArray {
+public:
+  void create() { vbo_ = std::make_unique<VertexBuffer>(); }
+
+private:
+  std::unique_ptr<VertexBuffer> vbo_;
+  u32_t vaoUid_;  ///< Unique id of the vertex array object
+};
+
+class IndexBuffer {
+private:
+  u32_t iaoUid_;  ///< Unique id of the index array object
+  std::vector<u32_t> indices_;
+};
+
 struct UVData2 {
   std::vector<math::vec2f_t> uv;
 };
