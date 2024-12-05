@@ -5,6 +5,12 @@
 #include <sway/render/global.hpp>
 
 #include <google/plugfixture.hpp>
+#include <google/stubs/bufferstub.hpp>
+#include <google/stubs/idgeneratorstub.hpp>
+#include <google/stubs/shaderprogramstubcreator.hpp>
+#include <google/stubs/shaderstubcreator.hpp>
+#include <google/stubs/vertexarraystub.hpp>
+#include <google/stubs/vertexattriblayoutstub.hpp>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -14,8 +20,8 @@ NS_SHORT_SWAY()
 class GeometryTestFixture : public PlugTestFixture {};
 
 TEST_F(GeometryTestFixture, create_buffer) {
-  auto *shaderStub = createShaderStub(globalGapiPlug);
-  auto *shaderProgStub = createShaderProgStub(globalGapiPlug, shaderStub);
+  auto *shaderStub = render::ShaderStubCreator::create(globalGapiPlug);
+  auto *shaderProgStub = render::ShaderProgramStubCreator::create1(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
   infoSet.vs.type = gapi::ShaderType::Enum::VERT;
@@ -24,14 +30,14 @@ TEST_F(GeometryTestFixture, create_buffer) {
   infoSet.fs.code = "";
   auto *effect = new render::Effect(globalGapiPlug, infoSet);
 
-  auto *idGeneratorStub = new render::global::IdGeneratorStub();
+  auto *idGeneratorStub = new render::IdGeneratorStub();
   ON_CALL(*idGeneratorStub, getNextUid()).WillByDefault(testing::Return(1));
 
-  auto *vertexArrayStub = new render::global::VertexArrayStub();
+  auto *vertexArrayStub = new render::VertexArrayStub();
   ON_CALL(*vertexArrayStub, bind()).WillByDefault([&] {});
   ON_CALL(*vertexArrayStub, unbind()).WillByDefault([&] {});
 
-  auto *bufferStub = new render::global::BufferStub();
+  auto *bufferStub = new render::BufferStub();
   EXPECT_CALL(*bufferStub, mapRange(testing::_, testing::_, testing::_))
       .WillRepeatedly(testing::WithArg<1>(testing::Invoke([](u32_t size) {
         auto *data = malloc(size);
@@ -42,7 +48,7 @@ TEST_F(GeometryTestFixture, create_buffer) {
     // free(data);
   });
 
-  auto *vertexAttribLayoutStub = new render::global::VertexAttribLayoutStub();
+  auto *vertexAttribLayoutStub = new render::VertexAttribLayoutStub();
   EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::Exactly(6 /* кол.-во вызовов */));
 
   EXPECT_CALL(*globalGapiPlug, createBufferIdGenerator()).WillRepeatedly(testing::Return(idGeneratorStub));

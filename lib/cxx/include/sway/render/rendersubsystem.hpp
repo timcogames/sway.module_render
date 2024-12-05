@@ -96,7 +96,6 @@ public:
   void renderSubqueues_(
       RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
 
-  gapi::CapabilityPtr_t capability_;
   gapi::StateEnableable<gapi::RasterizerDescriptor> *rasterizer_;
   RenderState::SharedPtr_t renderState_;
   gapi::ViewportPtr_t viewport_;

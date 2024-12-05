@@ -7,6 +7,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pipeline
+ * @{
+ */
+
 class Pipeline;
 namespace PipelineTypedefs {
 using Ptr_t = Pipeline *;
@@ -18,6 +23,11 @@ class GraphicsPipeline;
 namespace GraphicsPipelineTypedefs {
 using UniquePtr_t = std::unique_ptr<GraphicsPipeline>;
 }  // namespace GraphicsPipelineTypedefs
+
+/**
+ * end of pipeline group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

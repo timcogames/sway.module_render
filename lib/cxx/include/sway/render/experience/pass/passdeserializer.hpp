@@ -11,6 +11,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pass
+ * @{
+ */
+
 class PassDeserializer {
 public:
 #pragma region "Static methods"
@@ -34,6 +39,11 @@ public:
 
 #pragma endregion
 };
+
+/**
+ * end of pass group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

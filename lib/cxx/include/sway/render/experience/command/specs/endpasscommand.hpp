@@ -8,6 +8,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class EndPassCommand final : public Command {
   DECLARE_CLASS_METADATA(EndPassCommand, Command)
 
@@ -25,6 +30,11 @@ public:
 
 #pragma endregion
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

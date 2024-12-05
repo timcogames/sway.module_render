@@ -15,20 +15,23 @@ RenderContext context_;  ///< Internat context.
 
 auto RenderModule::getInternalContext() -> RenderContextTypedefs::Ptr_t { return &context_; }
 
-void RenderModule::prepare() {
+void RenderModule::initialGapiContext() {
+  context_.capability = global::getGapiPluginFunctionSet()->createCapability();
   context_.drawCall = global::getGapiPluginFunctionSet()->createDrawCall();
+}
 
+void RenderModule::prepare() {
   context_.techniqueMngr = std::make_unique<TechniqueManager>();
 
   context_.rendererMngr = std::make_unique<RendererManager>();
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new ForwardRenderer()));
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new DeferredRenderer()));
 
-  initial();
+  setActiveRenderer(core::detail::toBase(RendererType::Enum::IDX_FWD));
 }
 
 void RenderModule::setActiveRenderer(i32_t idx) {
-  if (idx < 0 || idx >= context_.rendererMngr->size() || idx == state_.activeRendererIdx) {
+  if (idx < 0 || idx >= context_.rendererMngr->getSize() || idx == state_.activeRendererIdx) {
     return;
   }
 
@@ -43,8 +46,6 @@ void RenderModule::setActiveRenderer(i32_t idx) {
   state_.activeRenderer.reset(raw);
   state_.activeRendererIdx = idx;
 }
-
-void RenderModule::initial() { setActiveRenderer(core::detail::toBase(RendererType::Enum::IDX_FWD)); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

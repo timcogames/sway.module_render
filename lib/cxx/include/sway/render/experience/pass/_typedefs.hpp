@@ -8,6 +8,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pass
+ * @{
+ */
+
 class Pass;
 namespace PassTypedefs {
 using Ptr_t = Pass *;
@@ -18,6 +23,11 @@ using SharedPtr_t = std::shared_ptr<Pass>;
 namespace PassCacheTypedefs {
 using UniquePtr_t = std::unique_ptr<Cache>;
 }  // namespace PassCacheTypedefs
+
+/**
+ * end of pass group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

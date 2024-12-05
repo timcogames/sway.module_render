@@ -13,11 +13,26 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pass
+ * @{
+ */
+
 class Pass : public core::misc::Enableable, public Cacheable {
 public:
 #pragma region "Static methods"
 
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto get(TechniqueTypedefs::Ptr_t tech, const PassDescriptor &desc) -> PassTypedefs::Ptr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
 
 #pragma endregion
 
@@ -39,6 +54,11 @@ private:
   StageTypedefs::Container_t stages_;
   bool dirty_;
 };
+
+/**
+ * end of pass group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

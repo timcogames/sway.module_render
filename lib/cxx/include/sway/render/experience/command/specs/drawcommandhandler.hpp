@@ -9,6 +9,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class DrawCommandHandler final : public CommandHandler {
 public:
 #pragma region "Override CommandHandler methods"
@@ -19,6 +24,11 @@ public:
 
 #pragma endregion
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

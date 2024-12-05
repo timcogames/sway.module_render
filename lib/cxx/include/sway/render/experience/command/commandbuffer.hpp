@@ -10,6 +10,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class CommandBuffer {
 public:
 #pragma region "Ctors/Dtor"
@@ -47,6 +52,11 @@ private:
   u32_t group_;
   u32_t priority_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

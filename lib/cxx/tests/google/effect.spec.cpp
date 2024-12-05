@@ -5,6 +5,8 @@
 #include <sway/render/global.hpp>
 
 #include <google/plugfixture.hpp>
+#include <google/stubs/shaderprogramstubcreator.hpp>
+#include <google/stubs/shaderstubcreator.hpp>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -14,8 +16,8 @@ NS_SHORT_SWAY()
 class EffectTestFixture : public PlugTestFixture {};
 
 TEST_F(EffectTestFixture, create_buffer) {
-  auto *shaderStub = createShaderStub(globalGapiPlug);
-  auto *shaderProgStub = createShaderProgStub(globalGapiPlug, shaderStub);
+  auto *shaderStub = render::ShaderStubCreator::create(globalGapiPlug);
+  auto *shaderProgStub = render::ShaderProgramStubCreator::create1(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
   infoSet.vs.type = gapi::ShaderType::Enum::VERT;
@@ -32,8 +34,8 @@ TEST_F(EffectTestFixture, create_buffer) {
 }
 
 TEST_F(EffectTestFixture, reload) {
-  auto *shaderStub = createShaderStub(globalGapiPlug);
-  auto *shaderProgStub = createShaderProgStub2(globalGapiPlug, shaderStub);
+  auto *shaderStub = render::ShaderStubCreator::create(globalGapiPlug);
+  auto *shaderProgStub = render::ShaderProgramStubCreator::create2(globalGapiPlug, shaderStub);
 
   gapi::ShaderCreateInfoSet infoSet;
   infoSet.vs.type = gapi::ShaderType::Enum::VERT;

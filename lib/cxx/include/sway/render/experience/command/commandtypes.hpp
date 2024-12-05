@@ -7,6 +7,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 // clang-format off
 DECLARE_ENUM(CommandType, 
   BEGIN_PASS, 
@@ -15,6 +20,11 @@ DECLARE_ENUM(CommandType,
   DRAW, 
   END_PASS)
 // clang-format on
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

@@ -12,6 +12,11 @@ NS_BEGIN(render)
 NS_BEGIN(experience)
 
 /**
+ * @addtogroup pipeline
+ * @{
+ */
+
+/**
  * \~russian @brief Этот неизменяемый объект содержит информацию, необходимую для построения шейдерной программы
  *                  и установки состояния API для отрисовки.
  */
@@ -26,6 +31,11 @@ public:
 
 #pragma endregion
 };
+
+/**
+ * end of pipeline group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

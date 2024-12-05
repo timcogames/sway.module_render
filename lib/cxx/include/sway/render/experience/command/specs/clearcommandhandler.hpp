@@ -9,6 +9,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class ClearCommandHandler final : public CommandHandler {
 public:
 #pragma region "Ctors/Dtor"
@@ -29,6 +34,11 @@ public:
 private:
   gapi::ViewportPtr_t viewport_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

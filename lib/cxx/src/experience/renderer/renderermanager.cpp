@@ -29,7 +29,7 @@ auto RendererManager::find(i32_t type) -> RendererTypedefs::Container_t::iterato
   // clang-format on
 }
 
-auto RendererManager::size() const -> std::size_t { return renderers_.size(); }
+auto RendererManager::getSize() const -> std::size_t { return renderers_.size(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

@@ -9,6 +9,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class BeginPassCommand final : public Command {
   DECLARE_CLASS_METADATA(BeginPassCommand, Command)
 
@@ -30,6 +35,11 @@ public:
 private:
   Pass const &pass_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

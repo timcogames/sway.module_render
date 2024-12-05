@@ -27,7 +27,7 @@ public:
 
   auto find(i32_t type) -> RendererTypedefs::Container_t::iterator;
 
-  auto size() const -> std::size_t;
+  [[nodiscard]] auto getSize() const -> std::size_t;
 
 private:
   RendererTypedefs::Container_t renderers_;

@@ -10,6 +10,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class CommandQueue {
 public:
 #pragma region "Ctors/Dtor"
@@ -40,6 +45,11 @@ private:
   CommandBufferTypedefs::SubContainerArray_t groups_;
   CommandBufferExecutor executor_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

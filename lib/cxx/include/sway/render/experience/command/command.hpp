@@ -9,6 +9,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class Command {
   DECLARE_SUPERCLASS()
 
@@ -39,6 +44,11 @@ private:
   CommandType::Enum type_;
   void *data_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

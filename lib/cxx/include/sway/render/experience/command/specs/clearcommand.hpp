@@ -9,6 +9,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class ClearCommand final : public Command {
   DECLARE_CLASS_METADATA(ClearCommand, Command)
 
@@ -40,6 +45,11 @@ private:
   math::col4f_t color_;
   gapi::ClearFlag flags_;
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

@@ -7,7 +7,17 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pipeline
+ * @{
+ */
+
 struct ComputePipelineState {};
+
+/**
+ * end of pipeline group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

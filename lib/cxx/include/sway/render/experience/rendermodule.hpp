@@ -26,11 +26,11 @@ public:
 
 #pragma endregion
 
+  void initialGapiContext();
+
   void prepare();
 
   void setActiveRenderer(i32_t idx);
-
-  void initial();
 
 #pragma region "Getters/Setters"
 

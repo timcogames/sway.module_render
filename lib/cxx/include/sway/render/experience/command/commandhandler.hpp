@@ -8,6 +8,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup command
+ * @{
+ */
+
 class CommandHandler {
 public:
 #pragma region "Ctors/Dtor"
@@ -24,6 +29,11 @@ public:
 
 #pragma endregion
 };
+
+/**
+ * end of command group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

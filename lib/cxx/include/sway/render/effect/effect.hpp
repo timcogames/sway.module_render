@@ -14,15 +14,25 @@ class Effect {
 public:
 #pragma region "Static methods"
 
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectTypedefs::Ptr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
 
 #pragma endregion
 
 #pragma region "Ctors/Dtor"
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] infoSet Первоначальная информация о шейдере.
    */
@@ -45,12 +55,12 @@ public:
 #pragma region "Binding/Unbinding"
 
   /**
-   * @brief Привязывает.
+   * \~russian @brief Привязывает.
    */
   void bind();
 
   /**
-   * @brief Отвязывает.
+   * \~russian @brief Отвязывает.
    */
   void unbind();
 

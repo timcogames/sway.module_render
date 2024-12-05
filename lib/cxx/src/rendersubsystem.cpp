@@ -24,14 +24,11 @@ RenderSubsystem::~RenderSubsystem() {
   SAFE_DELETE_OBJECT(idGenerator_[1]);
   SAFE_DELETE_OBJECT(idGenerator_[0]);
 
-  SAFE_DELETE_OBJECT(capability_);
-
   SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
   SAFE_DELETE_OBJECT(global::pluginInstance_);
 }
 
 auto RenderSubsystem::initialize() -> bool {
-  capability_ = global::getGapiPluginFunctionSet()->createCapability();
   rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
   viewport_->set(800, 600);
@@ -40,6 +37,7 @@ auto RenderSubsystem::initialize() -> bool {
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   renderModule_ = std::make_unique<experience::RenderModule>();
+  renderModule_->initialGapiContext();
   renderModule_->prepare();
 
   return true;

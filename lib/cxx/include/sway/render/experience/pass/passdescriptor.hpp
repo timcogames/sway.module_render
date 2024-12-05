@@ -7,6 +7,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+/**
+ * @addtogroup pass
+ * @{
+ */
+
 struct PassDescriptor {
   u32_t format;
 
@@ -16,6 +21,11 @@ struct PassDescriptor {
     return hash;
   }
 };
+
+/**
+ * end of pass group
+ * @}
+ */
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

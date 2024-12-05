@@ -21,6 +21,7 @@
 #include <sway/render/global.hpp>
 
 #include <google/plugfixture.hpp>
+#include <google/stubs/viewportstubcreator.hpp>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -35,7 +36,7 @@ NS_SHORT(render::experience)
 class CommandBufferTestFixture : public PlugTestFixture {};
 
 TEST_F(CommandBufferTestFixture, submit) {
-  auto *viewportStub = createViewportStub(globalGapiPlug);
+  auto *viewportStub = ViewportStubCreator::create(globalGapiPlug);
 
   auto passCache = std::make_unique<Cache>();
   auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});

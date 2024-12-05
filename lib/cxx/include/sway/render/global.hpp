@@ -15,133 +15,6 @@ NS_BEGIN(global)
 
 #ifdef RENDER_USE_GMOCK
 
-class CapabilityMock {
-public:
-  MOCK_METHOD(core::Version, getVersion, (), (const));
-};
-
-class ViewportStub : public gapi::Viewport {
-public:
-#  pragma region "Ctors/Dtor"
-
-  DTOR_VIRTUAL_DEFAULT(ViewportStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(void, set, (i32_t, i32_t, i32_t, i32_t), (override));
-  MOCK_METHOD(void, set, (i32_t, i32_t), (override));
-  MOCK_METHOD(math::rect4i_t, get, (), (const override));
-  MOCK_METHOD(f32_t, aspect, (), (const override));
-  MOCK_METHOD(void, setClearColor, (const math::col4f_t &), (override));
-  MOCK_METHOD(void, clear, (gapi::ClearFlag), (override));
-};
-
-class ShaderProgramStub : public gapi::ShaderProgram {
-public:
-#  pragma region "Ctors/Dtor"
-
-  DTOR_VIRTUAL_DEFAULT(ShaderProgramStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(void, attach, (gapi::ShaderPtr_t), (override));
-  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType::Enum, gapi::ShaderPtr_t>), bool), (override));
-  MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType::Enum), (override));
-  MOCK_METHOD(void, link, (), (override));
-  MOCK_METHOD(bool, isLinked, (), (const, override));
-  MOCK_METHOD(void, validate, (), (override));
-  MOCK_METHOD(bool, isValidated, (), (const, override));
-  MOCK_METHOD(void, use, (), (override));
-  MOCK_METHOD(void, unuse, (), (override));
-  MOCK_METHOD(bool, isUsed, (), (const, override));
-  MOCK_METHOD(void, setUniformVec4f, (const std::string &, const math::vec4f_t &), (override));
-  MOCK_METHOD(void, setUniformCol4f, (const std::string &, const math::col4f_t &), (override));
-  MOCK_METHOD(void, setUniformMat4f, (const std::string &, const math::mat4f_t &), (override));
-  MOCK_METHOD(void, setUniform1i, (const std::string &, i32_t), (override));
-  MOCK_METHOD(void, setUniform1f, (const std::string &, f32_t), (override));
-};
-
-class ShaderStub : public gapi::Shader {
-public:
-#  pragma region "Ctors/Dtor"
-
-  ShaderStub(gapi::ShaderType::Enum type)
-      : gapi::Shader(type) {}
-
-  DTOR_VIRTUAL_DEFAULT(ShaderStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(void, compile, (lpcstr_t), (override));
-  MOCK_METHOD(bool, isCompiled, (), (const, override));
-  MOCK_METHOD(i32_t, getAttribLocation, (std::optional<u32_t>, lpcstr_t), (override));
-  MOCK_METHOD(gapi::ShaderType::Enum, getType, (), (const, override));
-};
-
-class IdGeneratorStub : public gapi::IdGenerator {
-public:
-#  pragma region "Ctors/Dtor"
-
-  DTOR_VIRTUAL_DEFAULT(IdGeneratorStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(u32_t, getNextUid, (), (override));
-};
-
-class VertexArrayStub : public gapi::VertexArray {
-public:
-#  pragma region "Ctors/Dtor"
-
-  DTOR_VIRTUAL_DEFAULT(VertexArrayStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(void, bind, (), (override));
-  MOCK_METHOD(void, unbind, (), (override));
-};
-
-class BufferStub : public gapi::Buffer {
-public:
-#  pragma region "Ctors/Dtor"
-
-  BufferStub()
-      : gapi::Buffer(gapi::BufferDescriptor()) {}
-
-  DTOR_VIRTUAL_DEFAULT(BufferStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(bool, allocate, (const void *), (override));
-  MOCK_METHOD(void, updateSubdata, (gapi::BufferSubdataDescriptor), (override));
-  MOCK_METHOD(void, updateSubdata, (const void *), (override));
-  MOCK_METHOD(void, flush, (i32_t, i32_t), (override));
-  MOCK_METHOD(void *, map, (gapi::BufferMapAccess::Enum), (override));
-  MOCK_METHOD(
-      void *, mapRange, (i32_t, i32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum>), (override));
-  MOCK_METHOD(void, unmap, (), (override));
-  MOCK_METHOD(void, bindRange, (u32_t, ptrdiff_t, ptrdiff_t), (override));
-  MOCK_METHOD(void, bind, (), (override));
-  MOCK_METHOD(void, unbind, (), (override));
-  MOCK_METHOD(gapi::BufferTarget::Enum, getTarget, (), (const, override));
-  MOCK_METHOD(gapi::BufferUsage::Enum, getUsage, (), (const, override));
-  MOCK_METHOD(i32_t, getCapacity, (), (const, override));
-  MOCK_METHOD(i32_t, getByteStride, (), (const, override));
-};
-
-class VertexAttribLayoutStub : public gapi::VertexAttribLayout {
-public:
-#  pragma region "Ctors/Dtor"
-
-  DTOR_VIRTUAL_DEFAULT(VertexAttribLayoutStub);
-
-#  pragma endregion
-
-  MOCK_METHOD(void, addAttribute, (gapi::VertexAttribDescriptor), (override));
-  MOCK_METHOD(void, enable, (), (override));
-  MOCK_METHOD(void, disable, (), (override));
-};
-
 struct MockPluginFunctionSetInterface : public core::PluginFunctionSet {
 #  pragma region "Ctors/Dtor"
 
@@ -204,7 +77,7 @@ using GapiPluginFunctionSet = MockPluginFunctionSet;
 
 using GapiPluginFunctionSet = gapi::ConcreatePluginFunctionSet;
 
-#endif
+#endif  // RENDER_USE_GMOCK
 
 extern core::Plugin *pluginInstance_;
 extern GapiPluginFunctionSet *pluginFunctionSet_;
