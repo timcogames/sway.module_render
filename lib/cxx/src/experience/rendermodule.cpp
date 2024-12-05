@@ -17,6 +17,7 @@ auto RenderModule::getInternalContext() -> RenderContextTypedefs::Ptr_t { return
 
 void RenderModule::initialGapiContext() {
   context_.capability = global::getGapiPluginFunctionSet()->createCapability();
+  context_.viewport = global::getGapiPluginFunctionSet()->createViewport();
   context_.drawCall = global::getGapiPluginFunctionSet()->createDrawCall();
 }
 

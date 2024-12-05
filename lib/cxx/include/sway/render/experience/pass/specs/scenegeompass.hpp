@@ -22,7 +22,7 @@ public:
 
 #pragma region "Override GraphicsPass methods"
 
-  MTHD_VIRTUAL_OVERRIDE(void execute());
+  MTHD_VIRTUAL_OVERRIDE(void execute(OperationContext *ctx));
 
 #pragma endregion
 

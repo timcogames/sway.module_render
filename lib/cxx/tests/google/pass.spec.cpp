@@ -25,6 +25,7 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(GraphicsPassTest, render) {
+  auto context = std::make_shared<OperationContext>();
   auto queue = std::make_unique<CommandQueue>();
 
   auto bufOpt = CommandBuffer::create(queue, (struct CommandBufferDescriptor){.priority = 0});
@@ -41,7 +42,7 @@ TEST(GraphicsPassTest, render) {
   buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
-  pass->execute();
+  pass->execute(context.get());
 }
 
 TEST(GraphicsPassTest, deserializer) {

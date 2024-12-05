@@ -27,10 +27,10 @@ public:
 
   void registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler);
 
-  void submit(const CommandBufferTypedefs::RefArray_t &refs);
+  void submit(OperationContext *ctx, const CommandBufferTypedefs::RefArray_t &refs);
 
 protected:
-  void run_(CommandTypedefs::Ptr_t cmd);
+  void run_(OperationContext *ctx, CommandTypedefs::Ptr_t cmd);
 
 private:
   CommandHandlerTypedefs::Container_t handlers_;

@@ -36,7 +36,8 @@ NS_SHORT(render::experience)
 class CommandBufferTestFixture : public PlugTestFixture {};
 
 TEST_F(CommandBufferTestFixture, submit) {
-  auto *viewportStub = ViewportStubCreator::create(globalGapiPlug);
+  auto context = std::make_shared<OperationContext>();
+  context->viewport = ViewportStubCreator::create(globalGapiPlug);
 
   auto passCache = std::make_unique<Cache>();
   auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
@@ -45,7 +46,7 @@ TEST_F(CommandBufferTestFixture, submit) {
   executor.registerHandler(std::make_unique<experience::BeginPassCommandHandler>());
   executor.registerHandler(std::make_unique<experience::EndPassCommandHandler>());
   executor.registerHandler(std::make_unique<experience::DrawCommandHandler>());
-  executor.registerHandler(std::make_unique<experience::ClearCommandHandler>(viewportStub));
+  executor.registerHandler(std::make_unique<experience::ClearCommandHandler>());
 
   CommandBuffer buf((struct CommandBufferDescriptor){});
   buf.enqueue(std::make_unique<BeginPassCommand>(*pass));
@@ -55,12 +56,14 @@ TEST_F(CommandBufferTestFixture, submit) {
   ASSERT_EQ(buf.getSize(), 4);
 
   CommandBufferTypedefs::RefArray_t refs = {buf};
-  executor.submit(refs);
+  executor.submit(context.get(), refs);
 
-  SAFE_DELETE_OBJECT(viewportStub);
+  context->disponse();
 }
 
 TEST(CommandQueueTest, sort) {
+  auto context = std::make_shared<OperationContext>();
+
   auto queue = std::make_unique<CommandQueue>();
 
   auto passCache = std::make_unique<Cache>();
@@ -88,5 +91,5 @@ TEST(CommandQueueTest, sort) {
 
   CommandQueueSorter::sort(queue->getCommandBuffers(), SortOrder::Enum::ASCENDING);
 
-  queue->process();
+  queue->process(context.get());
 }

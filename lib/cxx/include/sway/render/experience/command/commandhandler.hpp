@@ -2,6 +2,7 @@
 #define SWAY_RENDER_EXPERIENCE_COMMANDHANDLER_HPP
 
 #include <sway/render/experience/command/_typedefs.hpp>
+#include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -23,7 +24,7 @@ public:
 
 #pragma region "Pure virtual methods"
 
-  PURE_VIRTUAL(void handle(CommandTypedefs::Ptr_t cmd));
+  PURE_VIRTUAL(void handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd));
 
   PURE_VIRTUAL(auto getKey() const -> std::string);
 

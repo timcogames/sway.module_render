@@ -6,8 +6,9 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void DrawCommandHandler::handle(CommandTypedefs::Ptr_t cmd) {
-  auto concreteCommand = static_cast<DrawCommand *>(cmd);
+void DrawCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
+  auto *concreteCommand = static_cast<DrawCommandTypedefs::Ptr_t>(cmd);
+
   std::cout << "Handling DRAW " << core::detail::toBase(concreteCommand->getTopology()) << std::endl;
 }
 

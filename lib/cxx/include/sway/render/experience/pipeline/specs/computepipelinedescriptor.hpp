@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
-#define SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
+#ifndef SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINEDESCRIPTOR_HPP
+#define SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINEDESCRIPTOR_HPP
 
 #include <sway/render/prereqs.hpp>
 
@@ -12,16 +12,7 @@ NS_BEGIN(experience)
  * @{
  */
 
-class Pipeline {
-public:
-#pragma region "Ctors/Dtor"
-
-  Pipeline();
-
-  DTOR_DEFAULT(Pipeline);
-
-#pragma endregion
-};
+struct ComputePipelineDescriptor {};
 
 /**
  * end of pipeline group
@@ -32,4 +23,4 @@ NS_END()  // namespace experience
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_EXPERIENCE_PIPELINE_HPP
+#endif  // SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINEDESCRIPTOR_HPP

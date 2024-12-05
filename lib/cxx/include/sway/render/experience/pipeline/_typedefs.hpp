@@ -24,6 +24,11 @@ namespace GraphicsPipelineTypedefs {
 using UniquePtr_t = std::unique_ptr<GraphicsPipeline>;
 }  // namespace GraphicsPipelineTypedefs
 
+class ComputePipeline;
+namespace ComputePipelineTypedefs {
+using UniquePtr_t = std::unique_ptr<ComputePipeline>;
+}  // namespace ComputePipelineTypedefs
+
 /**
  * end of pipeline group
  * @}

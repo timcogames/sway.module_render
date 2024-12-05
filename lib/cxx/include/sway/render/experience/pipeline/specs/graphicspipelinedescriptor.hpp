@@ -13,6 +13,9 @@ NS_BEGIN(experience)
  */
 
 struct GraphicsPipelineDescriptor {
+  u32_t vso;  ///< Vertex shader
+  u32_t gso;  ///< Geometry shader
+  u32_t fso;  ///< Fragment shader
   u32_t topology;
 };
 

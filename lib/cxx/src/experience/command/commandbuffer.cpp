@@ -27,7 +27,7 @@ auto CommandBuffer::peek(CommandType::Enum *type) const -> CommandTypedefs::Ptr_
   }
 
   auto *cmd = commands_.front().get();
-  *type = cmd->type();
+  *type = cmd->getType();
   return cmd;
 }
 

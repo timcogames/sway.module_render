@@ -6,7 +6,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void BeginPassCommandHandler::handle(CommandTypedefs::Ptr_t cmd) { std::cout << "Handling BEGIN_PASS" << std::endl; }
+void BeginPassCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
+  auto *concreteCommand = static_cast<BeginPassCommandTypedefs::Ptr_t>(cmd);
+
+  std::cout << "Handling BEGIN_PASS" << std::endl;
+}
 
 auto BeginPassCommandHandler::getKey() const -> std::string {
   return core::foundation::ObjectClassname::toStr<BeginPassCommand>();

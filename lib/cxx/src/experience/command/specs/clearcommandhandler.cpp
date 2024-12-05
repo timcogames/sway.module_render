@@ -1,15 +1,18 @@
 #include <sway/render/experience/command/commandbuffer.hpp>
 #include <sway/render/experience/command/specs/clearcommand.hpp>
 #include <sway/render/experience/command/specs/clearcommandhandler.hpp>
+#include <sway/render/experience/rendercontext.hpp>
+#include <sway/render/experience/rendermodule.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void ClearCommandHandler::handle(CommandTypedefs::Ptr_t cmd) {
-  auto concreteCommand = static_cast<ClearCommand *>(cmd);
-  viewport_->setClearColor(concreteCommand->getColor());
-  viewport_->clear(concreteCommand->getFlags());
+void ClearCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
+  auto *concreteCommand = static_cast<ClearCommandTypedefs::Ptr_t>(cmd);
+
+  ctx->viewport->setClearColor(concreteCommand->getColor());
+  ctx->viewport->clear(concreteCommand->getFlags());
 
   std::cout << "Handling CLEAR" << std::endl;
 }

@@ -4,6 +4,7 @@
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/experience/pass/passtypes.hpp>
+#include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/stage/stage.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/utility/cacheable.hpp>
@@ -46,7 +47,7 @@ public:
 
 #pragma region "Pure virtual methods"
 
-  PURE_VIRTUAL(void execute());
+  PURE_VIRTUAL(void execute(OperationContext *ctx));
 
   PURE_VIRTUAL(auto getType() const -> PassType::Enum);
 

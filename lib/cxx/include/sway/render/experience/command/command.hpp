@@ -36,7 +36,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  [[nodiscard]] auto type() const -> CommandType::Enum { return type_; }
+  [[nodiscard]] auto getType() const -> CommandType::Enum { return type_; }
 
 #pragma endregion
 

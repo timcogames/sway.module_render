@@ -40,8 +40,8 @@ ForwardRenderer::ForwardRenderer()
 
 void ForwardRenderer::render() {
   const auto &passes = technique_->getPasses()->getItems();
-  std::for_each(
-      passes.begin(), passes.end(), [](const auto &item) { static_cast<Pass *>(item.data.get())->execute(); });
+  std::for_each(passes.begin(), passes.end(),
+      [](const auto &item) { static_cast<Pass *>(item.data.get())->execute(RenderModule::getInternalContext()); });
 }
 
 NS_END()  // namespace experience

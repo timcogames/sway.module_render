@@ -8,20 +8,20 @@ void CommandBufferExecutor::registerHandler(CommandHandlerTypedefs::UniquePtr_t 
   handlers_.emplace(handler->getKey(), std::move(handler));
 }
 
-void CommandBufferExecutor::submit(const CommandBufferTypedefs::RefArray_t &refs) {
+void CommandBufferExecutor::submit(OperationContext *ctx, const CommandBufferTypedefs::RefArray_t &refs) {
   for (const auto &ref : refs) {
     CommandType::Enum type;
     while (auto *cmd = ref.get().peek(&type)) {
-      run_(cmd);
+      run_(ctx, cmd);
       ref.get().dequeue();
     }
   }
 }
 
-void CommandBufferExecutor::run_(CommandTypedefs::Ptr_t cmd) {
+void CommandBufferExecutor::run_(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
   for (const auto &[key, handler] : handlers_) {
     if (key == cmd->getClassname()) {
-      handler->handle(cmd);
+      handler->handle(ctx, cmd);
     }
   }
 }

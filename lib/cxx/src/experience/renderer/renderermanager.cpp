@@ -15,7 +15,7 @@ void RendererManager::restore(i32_t idx, RendererTypedefs::UniquePtr_t renderer)
     return;
   }
 
-  renderers_.insert(renderers_.begin() + renderer->type(), std::move(renderer));
+  renderers_.insert(renderers_.begin() + renderer->getType(), std::move(renderer));
 }
 
 void RendererManager::erase(i32_t idx) { renderers_.erase(renderers_.begin() + idx); }
@@ -24,7 +24,7 @@ auto RendererManager::find(i32_t type) -> RendererTypedefs::Container_t::iterato
   // clang-format off
   return std::find_if(renderers_.begin(), renderers_.end(), 
     [type](const auto &renderer) {
-      return renderer && renderer->type() == type;
+      return renderer && renderer->getType() == type;
     });
   // clang-format on
 }

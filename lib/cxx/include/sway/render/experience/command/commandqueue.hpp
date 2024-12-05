@@ -35,7 +35,7 @@ public:
 
 #pragma region "Processing"
 
-  void process();
+  void process(OperationContext *ctx);
 
 #pragma endregion
 

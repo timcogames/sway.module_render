@@ -7,7 +7,7 @@ NS_BEGIN(experience)
 GraphicsPass::GraphicsPass(const PassDescriptor &desc)
     : Pass(desc) {}
 
-void GraphicsPass::execute() { queue_->process(); }
+void GraphicsPass::execute(OperationContext *ctx) { queue_->process(ctx); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render
