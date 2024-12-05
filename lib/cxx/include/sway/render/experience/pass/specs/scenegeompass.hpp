@@ -20,7 +20,11 @@ public:
 
   void setup();
 
-  void render();
+#pragma region "Override GraphicsPass methods"
+
+  MTHD_VIRTUAL_OVERRIDE(void execute());
+
+#pragma endregion
 
 private:
   CommandBufferTypedefs::OptionalRef_t bufferOpt_;

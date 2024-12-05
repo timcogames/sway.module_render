@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP
-#define SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP
+#ifndef SWAY_RENDER_EXPERIENCE_COMMANDQUEUETYPES_HPP
+#define SWAY_RENDER_EXPERIENCE_COMMANDQUEUETYPES_HPP
 
 #include <sway/render/prereqs.hpp>
 
@@ -12,9 +12,7 @@ NS_BEGIN(experience)
  * @{
  */
 
-struct CommandBufferDescriptor {
-  u32_t priority;
-};
+DECLARE_ENUM(CommandQueueType, GRAPHICS, COMPUTE, COPY)
 
 /**
  * end of command group
@@ -25,4 +23,4 @@ NS_END()  // namespace experience
 NS_END()  // namespace render
 NS_END()  // namespace sway
 
-#endif  // SWAY_RENDER_EXPERIENCE_COMMANDBUFFERDESCRIPTOR_HPP
+#endif  // SWAY_RENDER_EXPERIENCE_COMMANDQUEUETYPES_HPP

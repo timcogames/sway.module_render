@@ -33,8 +33,7 @@ using RefArray_t = std::vector<Ref_t>;
 using OptionalRef_t = std::optional<Ref_t>;
 using Ptr_t = CommandBuffer *;
 using UniquePtr_t = std::unique_ptr<CommandBuffer>;
-using SubContainer_t = std::vector<UniquePtr_t>;
-using SubContainerArray_t = std::array<SubContainer_t, 2 /* OPAQUE/TRANSPARENT */>;
+using Container_t = std::vector<UniquePtr_t>;
 }  // namespace CommandBufferTypedefs
 
 class CommandQueue;

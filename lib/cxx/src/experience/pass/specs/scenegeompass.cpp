@@ -11,10 +11,10 @@ SceneGeomPass::SceneGeomPass(const PassDescriptor &desc)
     : GraphicsPass(desc) {}
 
 void SceneGeomPass::setup() {
-  bufferOpt_ = this->getQueue()->createBuffer((struct CommandBufferDescriptor){.group = 0, .priority = 0});
+  bufferOpt_ = CommandBuffer::create(this->getQueue(), (struct CommandBufferDescriptor){.priority = 0});
 }
 
-void SceneGeomPass::render() {
+void SceneGeomPass::execute() {
   if (!bufferOpt_.has_value()) {
     return;
   }
@@ -24,7 +24,7 @@ void SceneGeomPass::render() {
   buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
-  GraphicsPass::render();
+  GraphicsPass::execute();
 }
 
 NS_END()  // namespace experience

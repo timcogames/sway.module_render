@@ -17,11 +17,27 @@ NS_BEGIN(experience)
 
 class CommandBuffer {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
+  static auto create(CommandQueueTypedefs::UniquePtr_t &owner, const CommandBufferDescriptor &desc)
+      -> CommandBufferTypedefs::OptionalRef_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
 #pragma region "Ctors/Dtor"
 
   CommandBuffer(const CommandBufferDescriptor &desc)
-      : group_(desc.group)
-      , priority_(desc.priority) {}
+      : priority_(desc.priority) {}
 
   DTOR_DEFAULT(CommandBuffer);
 
@@ -37,8 +53,6 @@ public:
 
   [[nodiscard]] auto getCommands() const -> CommandTypedefs::Queue_t const & { return commands_; }
 
-  [[nodiscard]] auto getGroup() const -> u32_t { return group_; }
-
   [[nodiscard]] auto getPriority() const -> u32_t { return priority_; }
 
   [[nodiscard]] auto getSize() const -> std::size_t { return commands_.size(); }
@@ -49,7 +63,6 @@ public:
 
 private:
   CommandTypedefs::Queue_t commands_;
-  u32_t group_;
   u32_t priority_;
 };
 

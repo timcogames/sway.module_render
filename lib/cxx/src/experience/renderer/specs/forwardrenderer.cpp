@@ -15,7 +15,9 @@ void ForwardRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue
     [&](Technique &tech, const TechniqueMetadata &meta) {
         // Pass 1: Depth prepass
         {
-          auto pass = tech.getPasses()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
+          // auto pass = tech.getPasses()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
+          // pass->setQueue(std::move(queue));
+          // pass->setup();
         }
         // Pass 2: Opaque/Transparent objects
         {
@@ -37,7 +39,9 @@ ForwardRenderer::ForwardRenderer()
 }
 
 void ForwardRenderer::render() {
-  technique_->getPasses()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2})->render();
+  const auto &passes = technique_->getPasses()->getItems();
+  std::for_each(
+      passes.begin(), passes.end(), [](const auto &item) { static_cast<Pass *>(item.data.get())->execute(); });
 }
 
 NS_END()  // namespace experience

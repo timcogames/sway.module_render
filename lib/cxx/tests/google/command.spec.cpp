@@ -61,35 +61,32 @@ TEST_F(CommandBufferTestFixture, submit) {
 }
 
 TEST(CommandQueueTest, sort) {
-  const u32_t MAIN_GROUP = 0;
-  CommandQueue queue;
+  auto queue = std::make_unique<CommandQueue>();
 
   auto passCache = std::make_unique<Cache>();
   auto pass = passCache->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 0});
 
-  auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 0});
-  ASSERT_EQ(buf1->getGroup(), MAIN_GROUP);
+  auto buf1 = new CommandBuffer((struct CommandBufferDescriptor){.priority = 0});
   ASSERT_EQ(buf1->getPriority(), 0);
 
   buf1->enqueue(std::make_unique<BeginPassCommand>(*pass));
   buf1->enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf1->enqueue(std::make_unique<EndPassCommand>());
-  queue.add(buf1);
+  queue->add(buf1);
 
-  auto buf2Opt = queue.createBuffer((struct CommandBufferDescriptor){.group = MAIN_GROUP, .priority = 1});
+  auto buf2Opt = CommandBuffer::create(queue, (struct CommandBufferDescriptor){.priority = 1});
   if (!buf2Opt.has_value()) {
     // ERR
   }
 
   auto &buf2 = buf2Opt->get();
-  ASSERT_EQ(buf2.getGroup(), MAIN_GROUP);
   ASSERT_EQ(buf2.getPriority(), 1);
 
   buf2.enqueue(std::make_unique<BeginPassCommand>(*pass));
   buf2.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf2.enqueue(std::make_unique<EndPassCommand>());
 
-  CommandQueueSorter::sort(queue.getSubqueue(MAIN_GROUP), SortOrder::Enum::ASCENDING);
+  CommandQueueSorter::sort(queue->getCommandBuffers(), SortOrder::Enum::ASCENDING);
 
-  queue.process(MAIN_GROUP);
+  queue->process();
 }

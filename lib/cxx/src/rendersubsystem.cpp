@@ -30,6 +30,7 @@ RenderSubsystem::~RenderSubsystem() {
 
 auto RenderSubsystem::initialize() -> bool {
   rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
+
   viewport_ = global::getGapiPluginFunctionSet()->createViewport();
   viewport_->set(800, 600);
 

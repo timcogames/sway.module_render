@@ -22,6 +22,8 @@ public:
   template <typename TYPE, typename DESC>
   auto getOrCreate(const DESC &desc) -> TYPE *;
 
+  auto getItems() -> CacheItemTypedefs::Container_t & { return items_; }
+
 private:
   CacheItemTypedefs::Container_t items_;
 };

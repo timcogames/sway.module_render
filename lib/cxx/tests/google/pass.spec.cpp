@@ -26,7 +26,8 @@ NS_SHORT(render::experience)
 
 TEST(GraphicsPassTest, render) {
   auto queue = std::make_unique<CommandQueue>();
-  auto bufOpt = queue->createBuffer((struct CommandBufferDescriptor){.group = 0, .priority = 0});
+
+  auto bufOpt = CommandBuffer::create(queue, (struct CommandBufferDescriptor){.priority = 0});
   if (!bufOpt.has_value()) {
     // ERR
   }
@@ -40,7 +41,7 @@ TEST(GraphicsPassTest, render) {
   buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
-  pass->render();
+  pass->execute();
 }
 
 TEST(GraphicsPassTest, deserializer) {

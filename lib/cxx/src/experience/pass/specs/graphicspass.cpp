@@ -7,12 +7,7 @@ NS_BEGIN(experience)
 GraphicsPass::GraphicsPass(const PassDescriptor &desc)
     : Pass(desc) {}
 
-void GraphicsPass::render() {
-  // Render opaques first
-  queue_->process(0);
-  // Render transparent next
-  queue_->process(1);
-}
+void GraphicsPass::execute() { queue_->process(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

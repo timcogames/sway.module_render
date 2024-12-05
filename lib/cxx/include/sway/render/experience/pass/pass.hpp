@@ -46,7 +46,9 @@ public:
 
 #pragma region "Pure virtual methods"
 
-  PURE_VIRTUAL(auto type() const -> PassType::Enum);
+  PURE_VIRTUAL(void execute());
+
+  PURE_VIRTUAL(auto getType() const -> PassType::Enum);
 
 #pragma endregion
 

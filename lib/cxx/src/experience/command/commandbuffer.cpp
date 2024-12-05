@@ -1,8 +1,15 @@
 #include <sway/render/experience/command/commandbuffer.hpp>
+#include <sway/render/experience/command/commandqueue.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
+
+auto CommandBuffer::create(CommandQueueTypedefs::UniquePtr_t &owner, const CommandBufferDescriptor &desc)
+    -> CommandBufferTypedefs::OptionalRef_t {
+  owner->getCommandBuffers().push_back(std::make_unique<CommandBuffer>(desc));
+  return *owner->getCommandBuffers().back();
+}
 
 void CommandBuffer::enqueue(CommandTypedefs::UniquePtr_t &&cmd) { commands_.push(std::move(cmd)); }
 

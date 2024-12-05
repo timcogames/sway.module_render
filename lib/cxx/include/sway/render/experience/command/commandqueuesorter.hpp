@@ -31,13 +31,13 @@ struct SortByPriorityInDescendingOrder {
 };
 
 struct CommandQueueSorter {
-  static void sort(CommandBufferTypedefs::SubContainer_t &subqueue, SortOrder::Enum order) {
+  static void sort(CommandBufferTypedefs::Container_t &bufs, SortOrder::Enum order) {
     switch (order) {
       case SortOrder::Enum::ASCENDING:
-        std::stable_sort(subqueue.begin(), subqueue.end(), SortByPriorityInAscendingOrder());
+        std::stable_sort(bufs.begin(), bufs.end(), SortByPriorityInAscendingOrder());
         break;
       case SortOrder::Enum::DESCENDING:
-        std::stable_sort(subqueue.begin(), subqueue.end(), SortByPriorityInDescendingOrder());
+        std::stable_sort(bufs.begin(), bufs.end(), SortByPriorityInDescendingOrder());
         break;
       case SortOrder::Enum::NONE:
       default:

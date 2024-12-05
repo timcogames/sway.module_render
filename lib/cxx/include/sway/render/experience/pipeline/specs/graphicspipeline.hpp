@@ -5,6 +5,7 @@
 #include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/pipeline/pipeline.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipelinedescriptor.hpp>
+#include <sway/render/experience/pipeline/specs/graphicspipelinestate.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -25,11 +26,15 @@ public:
 #pragma region "Ctors/Dtor"
 
   GraphicsPipeline(const GraphicsPipelineDescriptor &desc)
-      : Pipeline() {}
+      : descriptor_(desc) {}
 
   DTOR_VIRTUAL_DEFAULT(GraphicsPipeline);
 
 #pragma endregion
+
+private:
+  GraphicsPipelineDescriptor descriptor_;
+  GraphicsPipelineState state_;
 };
 
 /**
