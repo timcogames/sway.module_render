@@ -16,7 +16,8 @@ class Pipeline;
 namespace PipelineTypedefs {
 using Ptr_t = Pipeline *;
 using UniquePtr_t = std::unique_ptr<Pipeline>;
-using Container_t = std::unordered_map<u32_t, UniquePtr_t>;
+// using Container_t = std::unordered_map<u32_t, UniquePtr_t>;
+using Container_t = std::vector<UniquePtr_t>;
 }  // namespace PipelineTypedefs
 
 class GraphicsPipeline;
@@ -28,6 +29,11 @@ class ComputePipeline;
 namespace ComputePipelineTypedefs {
 using UniquePtr_t = std::unique_ptr<ComputePipeline>;
 }  // namespace ComputePipelineTypedefs
+
+class PipelineManager;
+namespace PipelineManagerTypedefs {
+using UniquePtr_t = std::unique_ptr<PipelineManager>;
+}  // namespace PipelineManagerTypedefs
 
 /**
  * end of pipeline group

@@ -10,6 +10,12 @@ NS_BEGIN(experience)
 
 class SceneGeomPass : public GraphicsPass {
 public:
+#pragma region "Static methods"
+
+  static auto create(const PassDescriptor &desc) -> PassTypedefs::SharedPtr_t;
+
+#pragma endregion
+
 #pragma region "Ctors/Dtor"
 
   SceneGeomPass(const PassDescriptor &desc);
@@ -18,7 +24,9 @@ public:
 
 #pragma endregion
 
-  void setup();
+  void prepare();
+
+  void restore();
 
 #pragma region "Override GraphicsPass methods"
 

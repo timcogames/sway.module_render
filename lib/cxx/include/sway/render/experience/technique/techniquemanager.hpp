@@ -25,7 +25,7 @@ public:
 #pragma endregion
 
 private:
-  TechniqueTypedefs::RegistryContainer_t registers_;
+  TechniqueTypedefs::RegistryContainer_t techniques_;
 };
 
 NS_END()  // namespace experience

@@ -23,19 +23,7 @@ class Renderer {
 public:
 #pragma region "Ctors/Dtor"
 
-  Renderer(u32_t type)
-      : type_(type) {
-    graphicsPipeline_ = std::make_unique<GraphicsPipeline>((struct GraphicsPipelineDescriptor){.topology = 0});
-    computePipeline_ = std::make_unique<ComputePipeline>((struct ComputePipelineDescriptor){});
-    commandQueue_ = std::make_unique<CommandQueue>();
-
-    auto &executor = commandQueue_->getExecutor();
-    executor.registerHandler(std::make_unique<BindPipelineCommandHandler>());
-    executor.registerHandler(std::make_unique<BeginPassCommandHandler>());
-    executor.registerHandler(std::make_unique<ClearCommandHandler>());
-    executor.registerHandler(std::make_unique<DrawCommandHandler>());
-    executor.registerHandler(std::make_unique<EndPassCommandHandler>());
-  }
+  Renderer(u32_t type);
 
   DTOR_VIRTUAL_DEFAULT(Renderer);
 
@@ -57,10 +45,11 @@ public:
 
 #pragma endregion
 
+private:
+  void registerCommandHandlers_();
+
 protected:
   u32_t type_;
-  GraphicsPipelineTypedefs::UniquePtr_t graphicsPipeline_;
-  ComputePipelineTypedefs::UniquePtr_t computePipeline_;
   CommandQueueTypedefs::UniquePtr_t commandQueue_;
   TechniqueTypedefs::SharedPtr_t technique_;
 };

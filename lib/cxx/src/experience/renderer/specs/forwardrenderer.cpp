@@ -17,13 +17,13 @@ void ForwardRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue
         {
           // auto pass = tech.getPasses()->getOrCreate<GraphicsPass>((struct PassDescriptor){.format = 1});
           // pass->setQueue(std::move(queue));
-          // pass->setup();
+          // pass->prepare();
         }
         // Pass 2: Opaque/Transparent objects
         {
           auto pass = tech.getPasses()->getOrCreate<SceneGeomPass>((struct PassDescriptor){.format = 2});
           pass->setQueue(std::move(queue));
-          pass->setup();
+          pass->prepare();
         }
     });
   // clang-format on

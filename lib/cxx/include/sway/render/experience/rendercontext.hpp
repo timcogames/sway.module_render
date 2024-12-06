@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 
+#include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/renderer/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/prereqs.hpp>
@@ -28,6 +29,9 @@ struct GraphicsContext {
 struct RenderContext final : public GraphicsContext, public OperationContext {
   TechniqueManagerTypedefs::UniquePtr_t techniqueMngr;
   RendererManagerTypedefs::UniquePtr_t rendererMngr;
+  // PipelineManagerTypedefs::UniquePtr_t pipelineMngr;
+  GraphicsPipelineTypedefs::UniquePtr_t graphicsPipeline;
+  ComputePipelineTypedefs::UniquePtr_t computePipeline;
 
   void disponse() {
     GraphicsContext::disponse();

@@ -97,6 +97,8 @@ void RenderSubsystem::sortQueues() {
 }
 
 void RenderSubsystem::render() {
+  renderModule_->getState().activeRenderer->render();
+
   // ppe_->preRender();
 
   // renderState_->getContext()->setCapabilityEnable(gapi::StateCapability::Enum::CULL_FACE, true);

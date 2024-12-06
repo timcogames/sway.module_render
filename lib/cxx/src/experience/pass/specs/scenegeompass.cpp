@@ -8,12 +8,18 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+auto SceneGeomPass::create(const PassDescriptor &desc) -> PassTypedefs::SharedPtr_t {
+  return dynamic_pointer_cast<Pass>(std::shared_ptr<SceneGeomPass>(new SceneGeomPass(desc)));
+}
+
 SceneGeomPass::SceneGeomPass(const PassDescriptor &desc)
     : GraphicsPass(desc) {}
 
-void SceneGeomPass::setup() {
+void SceneGeomPass::prepare() {
   bufferOpt_ = CommandBuffer::create(this->getQueue(), (struct CommandBufferDescriptor){.priority = 0});
 }
+
+void SceneGeomPass::restore() {}
 
 void SceneGeomPass::execute(OperationContext *ctx) {
   if (!bufferOpt_.has_value()) {
