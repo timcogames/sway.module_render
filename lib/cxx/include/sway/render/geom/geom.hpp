@@ -51,7 +51,7 @@ public:
 
   Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder);
 
-  virtual ~Geom();
+  DTOR_VIRTUAL(Geom);
 
 #pragma endregion
 

@@ -19,7 +19,7 @@ public:
 
   GraphicsPass(const PassDescriptor &desc);
 
-  DTOR_VIRTUAL_DEFAULT(GraphicsPass);
+  DTOR_VIRTUAL(GraphicsPass);
 
 #pragma endregion
 

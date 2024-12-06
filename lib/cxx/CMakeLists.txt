@@ -60,6 +60,9 @@ if(MODULE_RENDER_ENABLE_TESTS OR MODULE_RENDER_USE_GMOCK)
   target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PUBLIC -DRENDER_USE_GMOCK)
 endif()
 
+# target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PRIVATE -DTRACE_CTORS_DTOR)
+# target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PRIVATE -DTRACE_PARAMETERS)
+
 #---------------------------------------------------------------------------------
 # Create interfaces
 #---------------------------------------------------------------------------------
