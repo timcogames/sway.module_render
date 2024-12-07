@@ -23,7 +23,7 @@ public:
 
 #pragma endregion
 
-#pragma region "Override Pass methods"
+#pragma region "Overridden Pass methods"
 
   MTHD_VIRTUAL_OVERRIDE(void execute(OperationContext *ctx));
 

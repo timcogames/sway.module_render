@@ -16,7 +16,7 @@ NS_BEGIN(experience)
 
 class DrawCommandHandler final : public CommandHandler {
 public:
-#pragma region "Override CommandHandler methods"
+#pragma region "Overridden CommandHandler methods"
 
   MTHD_VIRTUAL_OVERRIDE(void handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd));
 

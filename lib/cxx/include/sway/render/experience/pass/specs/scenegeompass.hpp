@@ -28,7 +28,7 @@ public:
 
   void restore();
 
-#pragma region "Override GraphicsPass methods"
+#pragma region "Overridden GraphicsPass methods"
 
   MTHD_VIRTUAL_OVERRIDE(void execute(OperationContext *ctx));
 

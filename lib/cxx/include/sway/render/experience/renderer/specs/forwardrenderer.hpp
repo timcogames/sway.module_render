@@ -25,7 +25,7 @@ public:
 
 #pragma endregion
 
-#pragma region "Override Renderer methods"
+#pragma region "Overridden Renderer methods"
 
   MTHD_VIRTUAL_OVERRIDE(void render());
 

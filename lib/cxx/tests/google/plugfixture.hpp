@@ -14,7 +14,7 @@ extern render::global::GapiPluginFunctionSet *globalGapiPlug;
 
 class PlugTestFixture : public testing::Test {
 public:
-#pragma region "Override testing::Test methods"
+#pragma region "Overridden testing::Test methods"
 
   MTHD_OVERRIDE(void SetUp());
 

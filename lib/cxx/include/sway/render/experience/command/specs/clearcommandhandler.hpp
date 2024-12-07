@@ -22,7 +22,7 @@ public:
 
 #pragma endregion
 
-#pragma region "Override CommandHandler methods"
+#pragma region "Overridden CommandHandler methods"
 
   MTHD_VIRTUAL_OVERRIDE(void handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd));
 

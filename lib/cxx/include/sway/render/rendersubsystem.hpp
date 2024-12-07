@@ -78,7 +78,7 @@ public:
    */
   void render();
 
-#pragma region "Override Subsystem methods"
+#pragma region "Overridden Subsystem methods"
 
   MTHD_OVERRIDE(auto initialize() -> bool);
 

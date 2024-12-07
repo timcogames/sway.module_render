@@ -26,7 +26,7 @@ public:
 
 #pragma endregion
 
-#pragma region "Override Command methods"
+#pragma region "Overridden Command methods"
 
   MTHD_VIRTUAL_OVERRIDE(void apply()) { std::cout << "BeginPassCommand" << std::endl; }
 
