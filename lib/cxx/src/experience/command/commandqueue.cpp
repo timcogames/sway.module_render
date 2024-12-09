@@ -11,13 +11,13 @@ void CommandQueue::remove(const CommandBufferTypedefs::UniquePtr_t &buf) {
   buffers_.erase(iter, buffers_.end());
 }
 
-void CommandQueue::process(OperationContext *ctx) {
+void CommandQueue::process(DeviceContextTypedefs::Ptr_t context) {
   CommandBufferTypedefs::RefArray_t refs;
   for (auto &ptr : buffers_) {
     refs.emplace_back(*ptr);
   }
 
-  executor_.submit(ctx, refs);
+  executor_.submit(context, refs);
 }
 
 NS_END()  // namespace experience

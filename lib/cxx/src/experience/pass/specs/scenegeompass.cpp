@@ -21,7 +21,7 @@ void SceneGeomPass::prepare() {
 
 void SceneGeomPass::restore() {}
 
-void SceneGeomPass::execute(OperationContext *ctx) {
+void SceneGeomPass::execute(DeviceContextTypedefs::Ptr_t context) {
   if (!bufferOpt_.has_value()) {
     return;
   }
@@ -32,7 +32,7 @@ void SceneGeomPass::execute(OperationContext *ctx) {
   buf.enqueue(std::make_unique<DrawCommand>(gapi::TopologyType::Enum::TRIANGLE_STRIP));
   buf.enqueue(std::make_unique<EndPassCommand>());
 
-  GraphicsPass::execute(ctx);
+  GraphicsPass::execute(context);
 }
 
 NS_END()  // namespace experience

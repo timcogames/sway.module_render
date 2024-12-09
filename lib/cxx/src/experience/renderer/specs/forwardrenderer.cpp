@@ -3,6 +3,7 @@
 #include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/renderer/specs/forwardrenderer.hpp>
 #include <sway/render/experience/rendermodule.hpp>
+#include <sway/render/experience/technique/delegates/defer.hpp>
 #include <sway/render/experience/technique/techniquemanager.hpp>
 
 NS_BEGIN_SWAY()

@@ -30,7 +30,7 @@ public:
 
 #pragma region "Overridden GraphicsPass methods"
 
-  MTHD_VIRTUAL_OVERRIDE(void execute(OperationContext *ctx));
+  MTHD_VIRTUAL_OVERRIDE(void execute(DeviceContextTypedefs::Ptr_t context));
 
 #pragma endregion
 

@@ -6,10 +6,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void DrawCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
-  auto *concreteCommand = static_cast<DrawCommandTypedefs::Ptr_t>(cmd);
+void DrawCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
+  auto *concreteCmd = static_cast<DrawCommandTypedefs::Ptr_t>(cmd);
 
-  std::cout << "Handling DRAW " << core::detail::toBase(concreteCommand->getTopology()) << std::endl;
+  gapi::BufferSet bufset;
+  context->drawCall->execute(concreteCmd->getTopology(), bufset, core::ValueDataType::Enum::UINT);
 }
 
 auto DrawCommandHandler::getKey() const -> std::string {

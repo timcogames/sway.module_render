@@ -6,7 +6,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void BindPipelineCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
+void BindPipelineCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
   auto *concreteCommand = static_cast<BindPipelineCommandTypedefs::Ptr_t>(cmd);
 
   std::cout << "Handling BIND_PIPELINE" << std::endl;

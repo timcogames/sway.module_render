@@ -6,7 +6,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void BeginPassCommandHandler::handle(OperationContext *context, CommandTypedefs::Ptr_t command) {
+void BeginPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t command) {
   auto *beginPassCommand = static_cast<BeginPassCommandTypedefs::Ptr_t>(command);
 }
 

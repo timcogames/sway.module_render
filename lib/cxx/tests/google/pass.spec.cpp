@@ -25,7 +25,7 @@ NS_SHORT(render)
 NS_SHORT(render::experience)
 
 TEST(GraphicsPassTest, render) {
-  auto context = std::make_shared<OperationContext>();
+  auto context = std::make_shared<DeviceContext>();
   auto queue = std::make_unique<CommandQueue>();
 
   auto bufOpt = CommandBuffer::create(queue, (struct CommandBufferDescriptor){.priority = 0});

@@ -25,7 +25,7 @@ public:
 
 #pragma region "Overridden Pass methods"
 
-  MTHD_VIRTUAL_OVERRIDE(void execute(OperationContext *ctx));
+  MTHD_VIRTUAL_OVERRIDE(void execute(DeviceContextTypedefs::Ptr_t context));
 
   MTHD_VIRTUAL_OVERRIDE(auto getType() const -> PassType::Enum) { return PassType::Enum::GRAPHICS; }
 

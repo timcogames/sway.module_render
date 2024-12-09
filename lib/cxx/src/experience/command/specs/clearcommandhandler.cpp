@@ -8,13 +8,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void ClearCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
-  auto *concreteCommand = static_cast<ClearCommandTypedefs::Ptr_t>(cmd);
+void ClearCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
+  auto *concreteCmd = static_cast<ClearCommandTypedefs::Ptr_t>(cmd);
 
-  ctx->viewport->setClearColor(concreteCommand->getColor());
-  ctx->viewport->clear(concreteCommand->getFlags());
-
-  std::cout << "Handling CLEAR" << std::endl;
+  context->viewport->setClearColor(concreteCmd->getColor());
+  context->viewport->clear(concreteCmd->getFlags());
 }
 
 auto ClearCommandHandler::getKey() const -> std::string {

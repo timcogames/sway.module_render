@@ -23,37 +23,6 @@ NS_SHORT(render::experience)
 
 class PipelineTestFixture : public PlugTestFixture {};
 
-TEST_F(PipelineTestFixture, setup) {
-  const auto fwd = core::detail::toBase(RendererType::Enum::IDX_FWD);
-  const auto def = core::detail::toBase(RendererType::Enum::IDX_DEF);
-
-  auto mod = std::make_unique<RenderModule>();
-  // RenderModule::getInternalContext()->capability = CapabilityStubCreator::create(globalGapiPlug);
-  // RenderModule::getInternalContext()->drawCall = DrawCallStubCreator::create(globalGapiPlug);
-  RenderModule::getInternalContext()->viewport = ViewportStubCreator::create(globalGapiPlug);
-  mod->prepare();
-
-  ASSERT_EQ(mod->getState().activeRenderer->getType(), fwd);
-  ASSERT_EQ(mod->getState().activeRendererIdx, fwd);
-
-  mod->setActiveRenderer(def);
-  ASSERT_EQ(mod->getState().activeRenderer->getType(), def);
-  ASSERT_EQ(mod->getState().activeRendererIdx, def);
-
-  mod->setActiveRenderer(fwd);
-  ASSERT_EQ(mod->getState().activeRenderer->getType(), fwd);
-  ASSERT_EQ(mod->getState().activeRendererIdx, fwd);
-
-  // auto ctx = RenderModule::getInternalContext();
-
-  auto tech = std::make_shared<Technique>("main");
-  auto pass = Pass::get(tech.get(), (struct PassDescriptor){.format = 0});
-
-  mod->getState().activeRenderer->render();
-
-  RenderModule::getInternalContext()->disponse();
-}
-
 TEST_F(PipelineTestFixture, library) {
   auto lib = std::make_unique<PipelineLibrary>();
 

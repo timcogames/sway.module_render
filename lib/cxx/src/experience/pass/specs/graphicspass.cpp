@@ -21,7 +21,7 @@ GraphicsPass::~GraphicsPass() {
 #endif
 }
 
-void GraphicsPass::execute(OperationContext *ctx) { queue_->process(ctx); }
+void GraphicsPass::execute(DeviceContextTypedefs::Ptr_t context) { queue_->process(context); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

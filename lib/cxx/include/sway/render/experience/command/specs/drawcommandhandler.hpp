@@ -18,7 +18,7 @@ class DrawCommandHandler final : public CommandHandler {
 public:
 #pragma region "Overridden CommandHandler methods"
 
-  MTHD_VIRTUAL_OVERRIDE(void handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd));
+  MTHD_VIRTUAL_OVERRIDE(void handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd));
 
   MTHD_VIRTUAL_OVERRIDE(auto getKey() const -> std::string);
 

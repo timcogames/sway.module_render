@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PASS_HPP
 #define SWAY_RENDER_EXPERIENCE_PASS_HPP
 
+#include <sway/render/experience/_typedefs.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/experience/pass/passtypes.hpp>
@@ -47,7 +48,7 @@ public:
 
 #pragma region "Pure virtual methods"
 
-  PURE_VIRTUAL(void execute(OperationContext *ctx));
+  PURE_VIRTUAL(void execute(DeviceContextTypedefs::Ptr_t context));
 
   PURE_VIRTUAL(auto getType() const -> PassType::Enum);
 

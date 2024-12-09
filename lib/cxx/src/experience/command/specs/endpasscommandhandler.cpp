@@ -6,7 +6,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-void EndPassCommandHandler::handle(OperationContext *ctx, CommandTypedefs::Ptr_t cmd) {
+void EndPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
   auto *concreteCommand = static_cast<EndPassCommandTypedefs::Ptr_t>(cmd);
 
   std::cout << "Handling END_PASS" << std::endl;

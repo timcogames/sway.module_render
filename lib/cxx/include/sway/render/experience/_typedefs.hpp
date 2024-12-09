@@ -7,6 +7,11 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
+struct DeviceContext;
+namespace DeviceContextTypedefs {
+using Ptr_t = DeviceContext *;
+}  // namespace DeviceContextTypedefs
+
 struct RenderContext;
 namespace RenderContextTypedefs {
 using Ptr_t = RenderContext *;

@@ -1,3 +1,4 @@
+#include <sway/render/experience/pipeline/pipelinelibrary.hpp>
 #include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/renderer/renderermanager.hpp>
 #include <sway/render/experience/renderer/renderertypes.hpp>
@@ -22,11 +23,8 @@ void RenderModule::initialGapiContext() {
 }
 
 void RenderModule::prepare() {
-  context_.graphicsPipeline = std::make_unique<GraphicsPipeline>(GraphicsPipelineDescriptor());
-  context_.computePipeline = std::make_unique<ComputePipeline>((struct ComputePipelineDescriptor){});
-
+  context_.pipelineLibrary = std::make_unique<PipelineLibrary>();
   context_.techniqueMngr = std::make_unique<TechniqueManager>();
-
   context_.rendererMngr = std::make_unique<RendererManager>();
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new ForwardRenderer()));
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new DeferredRenderer()));

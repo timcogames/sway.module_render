@@ -35,7 +35,7 @@ public:
 
 #pragma region "Processing"
 
-  void process(OperationContext *ctx);
+  void process(DeviceContextTypedefs::Ptr_t context);
 
 #pragma endregion
 

@@ -21,6 +21,7 @@
 #include <sway/render/global.hpp>
 
 #include <google/plugfixture.hpp>
+#include <google/stubs/drawcallstubcreator.hpp>
 #include <google/stubs/viewportstubcreator.hpp>
 
 #include <gmock/gmock.h>
@@ -36,7 +37,8 @@ NS_SHORT(render::experience)
 class CommandBufferTestFixture : public PlugTestFixture {};
 
 TEST_F(CommandBufferTestFixture, submit) {
-  auto context = std::make_shared<OperationContext>();
+  auto context = std::make_shared<DeviceContext>();
+  context->drawCall = DrawCallStubCreator::create(globalGapiPlug);
   context->viewport = ViewportStubCreator::create(globalGapiPlug);
 
   auto passCache = std::make_unique<Cache>();
@@ -62,7 +64,7 @@ TEST_F(CommandBufferTestFixture, submit) {
 }
 
 TEST(CommandQueueTest, sort) {
-  auto context = std::make_shared<OperationContext>();
+  auto context = std::make_shared<DeviceContext>();
 
   auto queue = std::make_unique<CommandQueue>();
 
