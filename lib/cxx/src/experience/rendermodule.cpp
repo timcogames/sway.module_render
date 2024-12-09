@@ -22,7 +22,7 @@ void RenderModule::initialGapiContext() {
 }
 
 void RenderModule::prepare() {
-  context_.graphicsPipeline = std::make_unique<GraphicsPipeline>((struct GraphicsPipelineDescriptor){.topology = 0});
+  context_.graphicsPipeline = std::make_unique<GraphicsPipeline>(GraphicsPipelineDescriptor());
   context_.computePipeline = std::make_unique<ComputePipeline>((struct ComputePipelineDescriptor){});
 
   context_.techniqueMngr = std::make_unique<TechniqueManager>();

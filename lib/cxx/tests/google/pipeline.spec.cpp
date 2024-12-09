@@ -3,6 +3,7 @@
 #include <sway/math.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 #include <sway/render/experience/pipeline/pipeline.hpp>
+#include <sway/render/experience/pipeline/pipelinelibrary.hpp>
 #include <sway/render/experience/rendercontext.hpp>
 #include <sway/render/experience/rendermodule.hpp>
 
@@ -51,4 +52,15 @@ TEST_F(PipelineTestFixture, setup) {
   mod->getState().activeRenderer->render();
 
   RenderModule::getInternalContext()->disponse();
+}
+
+TEST_F(PipelineTestFixture, library) {
+  auto lib = std::make_unique<PipelineLibrary>();
+
+  GraphicsPipelineDescriptor pipelineDesc;
+  pipelineDesc.shaders[0] = "vert";
+  pipelineDesc.shaders[1] = "frag";
+
+  auto pipelineFuture = lib->getGraphicsPipeline(pipelineDesc);
+  ASSERT_NO_THROW(pipelineFuture.get());
 }

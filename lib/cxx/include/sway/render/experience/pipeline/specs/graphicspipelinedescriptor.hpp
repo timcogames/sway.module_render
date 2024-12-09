@@ -12,11 +12,25 @@ NS_BEGIN(experience)
  * @{
  */
 
-struct GraphicsPipelineDescriptor {
-  u32_t vso;  ///< Vertex shader
-  u32_t gso;  ///< Geometry shader
-  u32_t fso;  ///< Fragment shader
+class CacheableBase {
+public:
+  PURE_VIRTUAL(auto getHash() const -> std::size_t);
+};
+
+struct GraphicsPipelineDescriptor : public CacheableBase {
+  std::array<std::optional<std::string>, 3> shaders;  ///< VERT, FRAG, GEOM
   u32_t topology;
+
+  MTHD_OVERRIDE(auto getHash() const -> std::size_t) {
+    std::size_t hash{0};
+    for (const auto &shader : shaders) {
+      core::misc::hashCombine(hash, shader.value_or("(null)"));
+    }
+
+    core::misc::hashCombine(hash, topology);
+
+    return hash;
+  }
 };
 
 /**

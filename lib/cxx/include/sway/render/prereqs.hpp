@@ -7,7 +7,9 @@
 #include <sway/rms.hpp>
 
 #include <cstddef>  // size_t
+#include <exception>  // current_exception
 #include <functional>  // bind
+#include <future>  // shared_future, promise
 #include <iostream>  // cout
 #include <memory>  // unique_ptr, shared_ptr
 #include <optional>

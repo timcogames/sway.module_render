@@ -16,13 +16,16 @@ class Pipeline;
 namespace PipelineTypedefs {
 using Ptr_t = Pipeline *;
 using UniquePtr_t = std::unique_ptr<Pipeline>;
-// using Container_t = std::unordered_map<u32_t, UniquePtr_t>;
-using Container_t = std::vector<UniquePtr_t>;
 }  // namespace PipelineTypedefs
 
 class GraphicsPipeline;
 namespace GraphicsPipelineTypedefs {
+using Ptr_t = GraphicsPipeline *;
 using UniquePtr_t = std::unique_ptr<GraphicsPipeline>;
+using SharedPtr_t = std::shared_ptr<GraphicsPipeline>;
+using SharedFuture_t = std::shared_future<SharedPtr_t>;
+using Promise_t = std::promise<SharedPtr_t>;
+using Container_t = std::unordered_map<u32_t, SharedFuture_t>;
 }  // namespace GraphicsPipelineTypedefs
 
 class ComputePipeline;
@@ -30,10 +33,10 @@ namespace ComputePipelineTypedefs {
 using UniquePtr_t = std::unique_ptr<ComputePipeline>;
 }  // namespace ComputePipelineTypedefs
 
-class PipelineManager;
-namespace PipelineManagerTypedefs {
-using UniquePtr_t = std::unique_ptr<PipelineManager>;
-}  // namespace PipelineManagerTypedefs
+class PipelineLibrary;
+namespace PipelineLibraryTypedefs {
+using UniquePtr_t = std::unique_ptr<PipelineLibrary>;
+}  // namespace PipelineLibraryTypedefs
 
 /**
  * end of pipeline group
