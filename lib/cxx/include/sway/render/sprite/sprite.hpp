@@ -19,7 +19,6 @@ NS_BEGIN(render)
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
-  DECLARE_PTR_ALIASES(Sprite)
 
 public:
 #pragma region "Ctors/Dtor"
@@ -30,9 +29,8 @@ public:
 
 #pragma endregion
 
-  void initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
-      MaterialTypedefs::SharedPtr_t material, const math::size2f_t &size,
-      const math::size2i_t &subdivs = math::size2i_t(1));
+  void initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material,
+      const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
 
 #pragma region "Overridden RenderComponent methods"
 
@@ -46,6 +44,8 @@ public:
 
 #pragma region "Getters/Setters"
 
+  void setRenderSubqueue(RenderSubqueue::SharedPtr_t subqueue) { subqueue_ = subqueue; }
+
   [[nodiscard]] auto getMaterial() const -> MaterialTypedefs::SharedPtr_t { return material_; }
 
   void setTexture(ImageTypedefs::SharedPtr_t texture, bool recomputeUVRequired);
@@ -55,6 +55,8 @@ public:
   void setTextureRect(const math::rect4i_t &rect);
 
   [[nodiscard]] auto getTextureRect() const -> math::rect4i_t;
+
+  void setZOrder(f32_t zorder) { zorder_ = zorder; }
 
 #pragma endregion
 
@@ -89,6 +91,8 @@ private:
   math::rect4i_t textureRect_;
 
   math::size2i_t subdivs_;
+
+  i32_t zorder_{0};
 
   // math::BoundingBox<2> boundingBox_;
   // std::vector<SpriteAnimation> animations_;

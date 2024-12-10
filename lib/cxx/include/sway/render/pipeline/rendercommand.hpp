@@ -28,7 +28,9 @@ struct RenderCommand {};
 // };
 
 struct ForwardRenderCommand : public RenderCommand {
+  i32_t index;
   u32_t stage;
+  i32_t zorder{0};
 
   BlendDescriptor blendDesc;
   // std::array<ForwardRenderPass, 4> passes{};

@@ -12,9 +12,8 @@ NS_BEGIN(render)
 
 Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
 
-void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::SharedPtr_t subqueue,
-    MaterialTypedefs::SharedPtr_t mtrl, const math::size2f_t &size, const math::size2i_t &subdivs) {
-  subqueue_ = subqueue;
+void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
+    const math::size2f_t &size, const math::size2i_t &subdivs) {
   material_ = mtrl;
   subdivs_ = subdivs;
 
@@ -28,8 +27,11 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, RenderSubqueue::Sha
   // flips.set(Flipper::HORZ);
   // flips.set(Flipper::VERT);
 
-  quadShape->setPosDataAttrib(Flippable::asRect(
-      math::rect4f_t(0, 0, size.getW(), size.getH()).offset(-quadHalfSize.getW(), -quadHalfSize.getH()), flips));
+  quadShape->setPosDataAttrib(
+      Flippable::asRect(
+          math::rect4f_t(0, 0, size.getW(), size.getH()).offset(-quadHalfSize.getW(), -quadHalfSize.getH()), flips),
+      0.0F);
+
   quadShape->setColDataAttrib(COL4F_WHITE);
   quadShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
@@ -64,6 +66,8 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
 
   pipeline::ForwardRenderCommand cmd;
   cmd.stage = 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/;
+  // cmd.zindex = zindex_ + std::numeric_limits<f32_t>::epsilon();
+  cmd.zorder = zorder_;
   cmd.blendDesc.enabled = false;
   cmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
   cmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;

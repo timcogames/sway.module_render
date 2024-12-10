@@ -21,7 +21,7 @@ class Sprite_Debug : public RenderComponent {
 public:
   Sprite_Debug() = default;
 
-  ~Sprite_Debug();
+  DTOR(Sprite_Debug);
 
   void initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
       MaterialTypedefs::SharedPtr_t material);

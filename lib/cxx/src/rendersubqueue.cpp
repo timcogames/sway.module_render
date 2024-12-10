@@ -5,7 +5,7 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-#include <algorithm>  // std::reverse
+#include <algorithm>  // reverse
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -17,7 +17,10 @@ RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
 
 void RenderSubqueue::initialize() { matrixStack_ = std::make_shared<math::MatrixStack>(); }
 
-void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) { commands_.emplace_back(cmd); }
+void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) {
+  cmd.index = commands_.size();
+  commands_.emplace_back(cmd);
+}
 
 void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state) {
   // state->setBlendEnable(cmd.blendDesc.enabled);
@@ -78,8 +81,16 @@ void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::State
   // state->setBlendEnable(false);
 }
 
+auto sorted(const pipeline::ForwardRenderCommand &lhs, const pipeline::ForwardRenderCommand &rhs) -> bool {
+  return lhs.zorder == rhs.zorder ? std::less<std::size_t>()(lhs.index, rhs.index)
+                                  : std::less<i32_t>()(lhs.zorder, rhs.zorder);
+}
+
 void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
+  std::sort(commands_.begin(), commands_.end(), sorted);
+
   // std::reverse(commands_.begin(), commands_.end());
+
   for (const auto &cmd : commands_) {
     if (cmd.stage != stage) {
       break;
