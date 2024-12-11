@@ -31,7 +31,7 @@ public:
 
   ScreenQuad() { drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall(); }
 
-  ~ScreenQuad() { geomBuilder_->remove(geomIdx_); }
+  DTOR(ScreenQuad) { geomBuilder_->remove(geomIdx_); }
 
 #pragma endregion
 
@@ -53,15 +53,17 @@ public:
                                        //  "    frag_color = scene_texel;"
                                        "}"}};
 
+    auto *plug = global::getGapiPluginFunctionSet();
+
     gapi::ShaderCreateInfoSet createInfoSet;
     createInfoSet.vs.type = gapi::ShaderType::Enum::VERT;
     createInfoSet.vs.code = sources[gapi::ShaderType::Enum::VERT];
-    createInfoSet.vs.preprocessor = global::getGapiPluginFunctionSet()->createShaderPreprocessor(300, "es");
+    createInfoSet.vs.preprocessor = plug->createShaderPreprocessor(300, "es");
 
     createInfoSet.fs.type = gapi::ShaderType::Enum::FRAG;
     createInfoSet.fs.code = sources[gapi::ShaderType::Enum::FRAG];
-    createInfoSet.fs.preprocessor = global::getGapiPluginFunctionSet()->createShaderPreprocessor(300, "es");
-    effect_ = Effect::create(createInfoSet);
+    createInfoSet.fs.preprocessor = plug->createShaderPreprocessor(300, "es");
+    effect_ = Effect::create(plug, createInfoSet);
   }
 
   void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder) {

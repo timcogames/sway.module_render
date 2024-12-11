@@ -18,29 +18,25 @@ public:
 #pragma region "Ctors/Dtor"
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   RenderQueue();
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] priority Приоритет очереди.
    */
   RenderQueue(u32_t priority);
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  ~RenderQueue();
+  DTOR(RenderQueue);
 
 #pragma endregion
 
   /**
-   * @brief Добавляет подочередь @ref RenderSubqueue в группу.
+   * \~russian @brief Добавляет подочередь @ref RenderSubqueue в группу.
    *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
    * @sa removeSubqueue(const RenderSubqueue::SharedPtr_t &)
@@ -48,7 +44,7 @@ public:
   void addSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
 
   /**
-   * @brief Удаляет подочередь @ref RenderSubqueue из группы.
+   * \~russian @brief Удаляет подочередь @ref RenderSubqueue из группы.
    *
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
    * @sa addSubqueue(const RenderSubqueue::SharedPtr_t &)
@@ -56,14 +52,14 @@ public:
   void removeSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
 
   /**
-   * @brief Получает коллекцию подочередей.
+   * \~russian @brief Получает коллекцию подочередей.
    *
    * @param[in] group Группа подочереди.
    */
   auto getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueSharedPtrVec_t &;
 
   /**
-   * @brief Устанавливает значение приоритета.
+   * \~russian @brief Устанавливает значение приоритета.
    *
    * @sa getPriority() const
    */

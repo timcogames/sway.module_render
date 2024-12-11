@@ -4,6 +4,7 @@
 #include <sway/render/experience/_typedefs.hpp>
 #include <sway/render/experience/renderer/renderertypes.hpp>
 #include <sway/render/experience/renderstate.hpp>
+#include <sway/render/global.hpp>
 #include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
@@ -26,7 +27,7 @@ public:
 
 #pragma endregion
 
-  void initialGapiContext();
+  void initialGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs);
 
   void prepare();
 

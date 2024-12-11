@@ -6,6 +6,12 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
+namespace ShaderTypedefs {
+// using SourcePair_t = std::unordered_map<gapi::ShaderType::Enum, std::string>;
+using SourcePair_t = std::array<std::string, 2>;
+using NamePair_t = std::array<std::string, 2>;
+}  // namespace ShaderTypedefs
+
 class Material;
 namespace MaterialTypedefs {
 using Ptr_t = Material *;

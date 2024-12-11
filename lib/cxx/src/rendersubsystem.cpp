@@ -11,10 +11,6 @@ NS_BEGIN(render)
 RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t ctx)
     : core::foundation::Subsystem(ctx) {
   global::pluginInstance_ = plug;
-
-  idGenerator_[0] = global::getGapiPluginFunctionSet()->createBufferIdGenerator();
-  idGenerator_[1] = global::getGapiPluginFunctionSet()->createFrameBufferIdGenerator();
-  idGenerator_[2] = global::getGapiPluginFunctionSet()->createTextureIdGenerator();
 }
 
 RenderSubsystem::~RenderSubsystem() {
@@ -28,17 +24,25 @@ RenderSubsystem::~RenderSubsystem() {
   SAFE_DELETE_OBJECT(global::pluginInstance_);
 }
 
-auto RenderSubsystem::initialize() -> bool {
-  rasterizer_ = global::getGapiPluginFunctionSet()->createRasterizerState();
+void RenderSubsystem::setGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs) {
+  deviceContext_ = pluginFuncs;
+}
 
-  viewport_ = global::getGapiPluginFunctionSet()->createViewport();
+auto RenderSubsystem::initialize() -> bool {
+  idGenerator_[0] = deviceContext_->createBufferIdGenerator();
+  idGenerator_[1] = deviceContext_->createFrameBufferIdGenerator();
+  idGenerator_[2] = deviceContext_->createTextureIdGenerator();
+
+  rasterizer_ = deviceContext_->createRasterizerState();
+
+  viewport_ = deviceContext_->createViewport();
   viewport_->set(800, 600);
 
   geomBuilder_ = GeomBuilder::create(getIdGenerator(0 /* GEOMETRY */));
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   renderModule_ = std::make_unique<experience::RenderModule>();
-  renderModule_->initialGapiContext();
+  renderModule_->initialGraphicsApiContext(deviceContext_);
   renderModule_->prepare();
 
   return true;

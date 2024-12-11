@@ -8,6 +8,7 @@
 #include <sway/render/global.hpp>
 #include <sway/render/img/_typedefs.hpp>
 #include <sway/render/img/image.hpp>
+#include <sway/render/mtrl/_typedefs.hpp>
 #include <sway/render/mtrl/materialdescriptor.hpp>
 #include <sway/render/prereqs.hpp>
 #include <sway/rms.hpp>
@@ -18,6 +19,8 @@ NS_BEGIN(render)
 class Material : public core::foundation::Uniqueable<std::string> {
 public:
 #pragma region "Ctors/Dtor"
+
+  Material(global::GapiPluginFunctionSet *plug, const std::string &name);
 
   Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
       std::shared_ptr<rms::GLSLResourceManager> glslResMngr);
@@ -34,9 +37,9 @@ public:
 
   auto addImage(const gapi::TextureCreateInfo &createInfo, const std::string &alias) -> ImageTypedefs::SharedPtr_t;
 
-  void addEffect(std::unordered_map<gapi::ShaderType::Enum, std::string> sources);
+  void addEffectSource(const ShaderTypedefs::SourcePair_t &sources);
 
-  void addEffect(const std::array<std::string, 2> &names);
+  void addEffect(const ShaderTypedefs::NamePair_t &names);
 
 #pragma endregion
 
@@ -49,6 +52,10 @@ public:
 #pragma endregion
 
 #pragma region "Getters/Setters"
+
+  void setImageManager(std::shared_ptr<rms::ImageResourceManager> mngr) { imageResMngr_ = mngr; }
+
+  void setShaderManager(std::shared_ptr<rms::GLSLResourceManager> mngr) { glslResMngr_ = mngr; }
 
   auto getEffect() -> EffectTypedefs::Ptr_t { return effect_; }
 

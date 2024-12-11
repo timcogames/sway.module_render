@@ -27,24 +27,23 @@ public:
 #pragma region "Ctors/Dtor"
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] ctx Контекст подсистемы.
    */
-  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t ctx);
+  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context);
 
-  /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
-   */
-  virtual ~RenderSubsystem();
+  DTOR_VIRTUAL(RenderSubsystem);
 
 #pragma endregion
+
+  void setGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs);
 
   void createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, core::misc::Dictionary glob);
 
   /**
-   * @brief Получает очередь по индексу.
+   * \~russian @brief Получает очередь по индексу.
    *
    * @param[in] idx Индекс очереди.
    * @return Умный указатель на объект класса очереди.
@@ -54,7 +53,7 @@ public:
   auto getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t;
 
   /**
-   * @brief Создает новую очередь и добавляет её в контейнер.
+   * \~russian @brief Создает новую очередь и добавляет её в контейнер.
    *
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
@@ -64,17 +63,17 @@ public:
   void createQueuePass(const std::string &name, i32_t idx);
 
   /**
-   * @brief Получает все очереди.
+   * \~russian @brief Получает все очереди.
    */
   auto getQueues() -> RenderQueueSharedPtrVec_t { return queues_; }
 
   /**
-   * @brief Сортирует очереди по приоритету.
+   * \~russian @brief Сортирует очереди по приоритету.
    */
   void sortQueues();
 
   /**
-   * @brief Метод отрисовки.
+   * \~russian @brief Метод отрисовки.
    */
   void render();
 
@@ -95,6 +94,8 @@ public:
 public:
   void renderSubqueues_(
       RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
+
+  global::GapiPluginFunctionSet *deviceContext_;
 
   gapi::StateEnableable<gapi::RasterizerDescriptor> *rasterizer_;
   RenderState::SharedPtr_t renderState_;

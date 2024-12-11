@@ -9,6 +9,11 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
+Material::Material(global::GapiPluginFunctionSet *plug, const std::string &name)
+    : core::foundation::Uniqueable<std::string>(name)
+    , pluginFuncSet_(plug)
+    , effect_(nullptr) {}
+
 Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
     std::shared_ptr<rms::GLSLResourceManager> glslResMngr)
     : core::foundation::Uniqueable<std::string>(name)
@@ -87,25 +92,25 @@ void Material::addShader_(const std::string &name, gapi::ShaderCreateInfo &info,
   info.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 }
 
-void Material::addEffect(std::unordered_map<gapi::ShaderType::Enum, std::string> sources) {
+void Material::addEffectSource(const ShaderTypedefs::SourcePair_t &sources) {
   gapi::ShaderCreateInfoSet createInfoSet;
   createInfoSet.vs.type = gapi::ShaderType::Enum::VERT;
-  createInfoSet.vs.code = sources[gapi::ShaderType::Enum::VERT];
+  createInfoSet.vs.code = std::get<0 /* gapi::ShaderType::Enum::VERT */>(sources);
   createInfoSet.vs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 
   createInfoSet.fs.type = gapi::ShaderType::Enum::FRAG;
-  createInfoSet.fs.code = sources[gapi::ShaderType::Enum::FRAG];
+  createInfoSet.fs.code = std::get<1 /* gapi::ShaderType::Enum::FRAG */>(sources);
   createInfoSet.fs.preprocessor = pluginFuncSet_->createShaderPreprocessor(300, "es");
 
-  effect_ = Effect::create(createInfoSet);
+  effect_ = Effect::create(pluginFuncSet_, createInfoSet);
 }
 
-void Material::addEffect(const std::array<std::string, 2> &names) {
+void Material::addEffect(const ShaderTypedefs::NamePair_t &names) {
   gapi::ShaderCreateInfoSet createInfoSet;
   addShader_(std::get<0>(names), createInfoSet.vs, gapi::ShaderType::Enum::VERT);
   addShader_(std::get<1>(names), createInfoSet.fs, gapi::ShaderType::Enum::FRAG);
 
-  effect_ = Effect::create(createInfoSet);
+  effect_ = Effect::create(pluginFuncSet_, createInfoSet);
 }
 
 void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {

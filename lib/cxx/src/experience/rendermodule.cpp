@@ -16,10 +16,10 @@ RenderContext context_;  ///< Internat context.
 
 auto RenderModule::getInternalContext() -> RenderContextTypedefs::Ptr_t { return &context_; }
 
-void RenderModule::initialGapiContext() {
-  context_.capability = global::getGapiPluginFunctionSet()->createCapability();
-  context_.viewport = global::getGapiPluginFunctionSet()->createViewport();
-  context_.drawCall = global::getGapiPluginFunctionSet()->createDrawCall();
+void RenderModule::initialGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs) {
+  context_.capability = pluginFuncs->createCapability();
+  context_.viewport = pluginFuncs->createViewport();
+  context_.drawCall = pluginFuncs->createDrawCall();
 }
 
 void RenderModule::prepare() {

@@ -21,14 +21,14 @@ public:
 #pragma region "Ctors/Dtor"
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] group Группа подочереди.
    */
   RenderSubqueue(RenderSubqueueGroup group = RenderSubqueueGroup::OPAQUE);
 
-  ~RenderSubqueue() = default;
+  DTOR_DEFAULT(RenderSubqueue);
 
 #pragma endregion
 
@@ -37,19 +37,19 @@ public:
   void post(pipeline::ForwardRenderCommand cmd);
 
   /**
-   * @brief Метод отрисовки.
+   * \~russian @brief Метод отрисовки.
    */
   void render(u32_t stage, gapi::StateContextPtr_t state);
 
   /**
-   * @brief Устанавливает группу подочереди.
+   * \~russian @brief Устанавливает группу подочереди.
    *
    * @param[in] group Группа подочереди.
    */
   void setGroup(RenderSubqueueGroup group) { group_ = group; }
 
   /**
-   * @brief Получает группу подочереди.
+   * \~russian @brief Получает группу подочереди.
    */
   [[nodiscard]] auto getGroup() const -> RenderSubqueueGroup { return group_; }
 

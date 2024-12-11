@@ -14,7 +14,7 @@ public:
 
   RenderState();
 
-  ~RenderState() = default;
+  DTOR_DEFAULT(RenderState);
 
 #pragma endregion
 

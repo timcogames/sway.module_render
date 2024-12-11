@@ -19,7 +19,8 @@ public:
    * @{
    */
 
-  static auto create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectTypedefs::Ptr_t;
+  static auto create(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet)
+      -> EffectTypedefs::Ptr_t;
 
   /**
    * end of creators group

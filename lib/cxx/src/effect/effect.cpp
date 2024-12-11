@@ -3,8 +3,9 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-auto Effect::create(const gapi::ShaderCreateInfoSet &infoSet) -> EffectTypedefs::Ptr_t {
-  auto *instance = new Effect(global::getGapiPluginFunctionSet(), infoSet);
+auto Effect::create(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet)
+    -> EffectTypedefs::Ptr_t {
+  auto *instance = new Effect(plug, infoSet);
   return instance;
 }
 

@@ -10,7 +10,11 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-Sprite::~Sprite() { geomBuilder_->remove(geomIdx_); }
+Sprite::~Sprite() {
+  if (geomBuilder_) {
+    geomBuilder_->remove(geomIdx_);
+  }
+}
 
 void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
     const math::size2f_t &size, const math::size2i_t &subdivs) {
