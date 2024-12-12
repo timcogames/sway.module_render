@@ -3,8 +3,9 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-auto GeomBuilder::create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t {
-  return std::make_shared<GeomBuilder>(global::getGapiPluginFunctionSet(), gen);
+auto GeomBuilder::create(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen)
+    -> GeomBuilderTypedefs::SharedPtr_t {
+  return std::make_shared<GeomBuilder>(plug, gen);
 }
 
 GeomBuilder::GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen)
@@ -28,11 +29,11 @@ void GeomBuilder::remove(u32_t idx) {
   availables_.push_back(idx);
 }
 
-auto GeomBuilder::find(const std::string &uid) -> Geom::Ptr_t {
-  for (auto item : geometries_) {
-    if (item->getUid().value() == uid) {
-      return item;
-    }
+auto GeomBuilder::find(const std::string &uid) -> GeomTypedefs::Ptr_t {
+  auto iter = std::find_if(geometries_.begin(), geometries_.end(),
+      [&uid](const auto &geom) { return geom && geom->getUid().value() == uid; });
+  if (iter != geometries_.end()) {
+    return *iter;
   }
 
   return nullptr;
@@ -53,7 +54,7 @@ void GeomBuilder::reserve(std::size_t size) {
   }
 }
 
-auto GeomBuilder::getGeometry(int idx) -> Geom::Ptr_t {
+auto GeomBuilder::getGeometry(u32_t idx) -> GeomTypedefs::Ptr_t {
   if (idx >= geometries_.size()) {
     return nullptr;
   }

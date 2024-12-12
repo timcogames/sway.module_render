@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/render/effect/effect.hpp>
+#include <sway/render/geom/_typedefs.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>
@@ -39,7 +40,7 @@ struct ForwardRenderCommand : public RenderCommand {
   gapi::DepthDescriptor depthDesc;
   gapi::StencilDescriptor stencilDesc;
 
-  Geom::Ptr_t geom;
+  GeomTypedefs::Ptr_t geom;
   gapi::TopologyType::Enum topology;
   MaterialTypedefs::SharedPtr_t mtrl;
 

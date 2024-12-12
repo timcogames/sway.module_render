@@ -25,12 +25,14 @@ public:
 
   Sprite() = default;
 
-  DTOR(Sprite);
+  DTOR_DEFAULT(Sprite);
 
 #pragma endregion
 
   void initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material,
       const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
+
+  void destroy();
 
 #pragma region "Overridden RenderComponent methods"
 
@@ -84,7 +86,7 @@ private:
   RenderSubqueue::SharedPtr_t subqueue_;
 
   MaterialTypedefs::SharedPtr_t material_;
-  GeomBuilder::SharedPtr_t geomBuilder_;
+  GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   u32_t geomIdx_;
 
   ImageTypedefs::SharedPtr_t texture_;

@@ -44,8 +44,6 @@ struct UVData2 {
 };
 
 class Geom : public core::foundation::Uniqueable<std::string> {
-  DECLARE_PTR_ALIASES(Geom)
-
 public:
 #pragma region "Ctors/Dtor"
 
@@ -61,9 +59,13 @@ public:
   MTHD_VIRTUAL(void create(
       const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs));
 
+#pragma region "Binding/Unbinding"
+
   MTHD_VIRTUAL(void bind());
 
   MTHD_VIRTUAL(void unbind());
+
+#pragma endregion
 
   auto getBuffer(int idx) -> std::optional<gapi::BufferPtr_t> { return buffers_[idx]; }
 

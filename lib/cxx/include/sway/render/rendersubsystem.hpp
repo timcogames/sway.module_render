@@ -28,7 +28,7 @@ public:
 
   /**
    * \~russian @brief Конструктор класса.
-   *                  Выполняет инициализацию нового экземпляра класса.
+   *   Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] ctx Контекст подсистемы.
    */
@@ -89,7 +89,7 @@ public:
 
   auto getIdGenerator(i32_t idx) const { return idGenerator_[idx]; }
 
-  auto getGeomBuilder() -> GeomBuilder::SharedPtr_t { return geomBuilder_; }
+  auto getGeomBuilder() -> GeomBuilderTypedefs::SharedPtr_t { return geomBuilder_; }
 
 public:
   void renderSubqueues_(
@@ -103,7 +103,7 @@ public:
   PostProcessing::SharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
   std::array<gapi::IdGenerator::Ptr_t, 3> idGenerator_;
-  GeomBuilder::SharedPtr_t geomBuilder_;
+  GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   ScreenQuad::SharedPtr_t fullscreenQuad_;
 
   experience::RenderModuleTypedefs::UniquePtr_t renderModule_;

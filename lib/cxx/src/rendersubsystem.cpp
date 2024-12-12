@@ -38,7 +38,7 @@ auto RenderSubsystem::initialize() -> bool {
   viewport_ = deviceContext_->createViewport();
   viewport_->set(800, 600);
 
-  geomBuilder_ = GeomBuilder::create(getIdGenerator(0 /* GEOMETRY */));
+  geomBuilder_ = GeomBuilder::create(deviceContext_, getIdGenerator(0 /* GEOMETRY */));
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);
 
   renderModule_ = std::make_unique<experience::RenderModule>();

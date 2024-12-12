@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/render/effect/_typedefs.hpp>
+#include <sway/render/geom/_typedefs.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
@@ -66,7 +67,7 @@ public:
     effect_ = Effect::create(plug, createInfoSet);
   }
 
-  void initialize(core::misc::Dictionary glob, GeomBuilder::SharedPtr_t geomBuilder) {
+  void initialize(core::misc::Dictionary glob, GeomBuilderTypedefs::SharedPtr_t geomBuilder) {
     geomBuilder_ = geomBuilder;
 
     createEffect();
@@ -119,8 +120,8 @@ public:
 private:
   gapi::DrawCallPtr_t drawCall_;
   EffectTypedefs::Ptr_t effect_;
-  GeomBuilder::SharedPtr_t geomBuilder_;
-  Geom::Ptr_t geom_;
+  GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
+  GeomTypedefs::Ptr_t geom_;
   u32_t geomIdx_;
 
   f32_t screenWdt_;

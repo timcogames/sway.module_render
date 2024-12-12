@@ -4,12 +4,18 @@
 #include <sway/render.hpp>
 
 #include <google/plugfixture.hpp>
+#include <google/stubs/bufferstub.hpp>
 #include <google/stubs/capabilitystub.hpp>
 #include <google/stubs/drawcallstub.hpp>
 #include <google/stubs/framebufferidgeneratorstub.hpp>
 #include <google/stubs/idgeneratorstub.hpp>
 #include <google/stubs/rasterizerstatestub.hpp>
+#include <google/stubs/shaderpreprocessorstubcreator.hpp>
+#include <google/stubs/shaderprogramstubcreator.hpp>
+#include <google/stubs/shaderstubcreator.hpp>
 #include <google/stubs/textureidgeneratorstub.hpp>
+#include <google/stubs/vertexarraystub.hpp>
+#include <google/stubs/vertexattriblayoutstub.hpp>
 #include <google/stubs/viewportstub.hpp>
 
 #include <gmock/gmock.h>
@@ -32,6 +38,13 @@ public:
 };
 
 TEST_F(SpriteTestFixture, test) {
+  auto *shaderStub = render::ShaderStubCreator::create(globalGapiPlug);
+  auto *shaderProgStub = render::ShaderProgramStubCreator::create2(globalGapiPlug, shaderStub);
+
+  auto *preprocessorStub = render::ShaderPreprocessorStubCreator::create(globalGapiPlug);
+  EXPECT_CALL(*globalGapiPlug, createShaderPreprocessor(testing::_, testing::_))
+      .WillRepeatedly(testing::Return(preprocessorStub));
+
   auto *geometryIdGeneratorStub = new render::IdGeneratorStub();
   EXPECT_CALL(*globalGapiPlug, createBufferIdGenerator()).WillRepeatedly(testing::Return(geometryIdGeneratorStub));
 
@@ -55,17 +68,56 @@ TEST_F(SpriteTestFixture, test) {
   auto *drawCallStub = new render::DrawCallStub();
   EXPECT_CALL(*globalGapiPlug, createDrawCall()).WillRepeatedly(testing::Return(drawCallStub));
 
+  auto *vertexAttribLayoutStub = new render::VertexAttribLayoutStub();
+  EXPECT_CALL(*globalGapiPlug, createVertexAttribLayout(shaderProgStub))
+      .WillRepeatedly(testing::Return(vertexAttribLayoutStub));
+  EXPECT_CALL(*vertexAttribLayoutStub, addAttribute(testing::_)).Times(testing::AnyNumber());
+
+  auto *vertexArrayStub = new render::VertexArrayStub();
+  EXPECT_CALL(*globalGapiPlug, createVertexArray()).WillRepeatedly(testing::Return(vertexArrayStub));
+
+  auto *bufferStub = new render::BufferStub();
+  EXPECT_CALL(*globalGapiPlug, createBuffer(geometryIdGeneratorStub, testing::_))
+      .WillRepeatedly(testing::Return(bufferStub));
+
   RenderSubsystemContext context;
 
-  render::Sprite sprite;
-  // sprite.initialize(context.subsys, nullptr, math::size2f_t(32, 32), math::size2i_one);
+  render::ShaderTypedefs::SourcePair_t sources;
+  sources[core::detail::toBase(gapi::ShaderType::Enum::VERT)] = "layout (location = 0) in vec3 vtx_pos_attrib;"
+                                                                "layout (location = 1) in vec4 vtx_col_attrib;"
+                                                                "out vec4 vtx_col;"
+                                                                "void main() {"
+                                                                "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
+                                                                "    vtx_col = vtx_col_attrib;"
+                                                                "}";
+  sources[core::detail::toBase(gapi::ShaderType::Enum::FRAG)] = "in vec4 vtx_col;"
+                                                                "out vec4 out_col;"
+                                                                "void main() {"
+                                                                "    out_col = vtx_col;"
+                                                                "}";
+
+  auto mtrl = std::make_shared<render::Material>(globalGapiPlug, "test_1");
+  mtrl->addEffectSource(sources);
+
+  auto sprite = std::make_unique<render::Sprite>();
+  sprite->initialize(context.subsys, mtrl, math::size2f_t(32, 32), math::size2i_one);
   // sprite.setRenderQueue(nullptr);
 
   // SAFE_DELETE_OBJECT(drawCallStub);
   // SAFE_DELETE_OBJECT(capabilityStub);
+
+  SAFE_DELETE_OBJECT(vertexArrayStub);
+  SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
+  SAFE_DELETE_OBJECT(bufferStub);
+  SAFE_DELETE_OBJECT(geometryIdGeneratorStub);
+
+  sprite->destroy();
+
+  SAFE_DELETE_OBJECT(preprocessorStub);
+  SAFE_DELETE_OBJECT(shaderProgStub);
+  SAFE_DELETE_OBJECT(shaderStub);
   SAFE_DELETE_OBJECT(viewportStub);
   // SAFE_DELETE_OBJECT(rasterizerStateStub);
   // SAFE_DELETE_OBJECT(textureIdGeneratorStub);
   // SAFE_DELETE_OBJECT(frameBufferIdGeneratorStub);
-  // SAFE_DELETE_OBJECT(geometryIdGeneratorStub);
 }

@@ -10,12 +10,6 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-Sprite::~Sprite() {
-  if (geomBuilder_) {
-    geomBuilder_->remove(geomIdx_);
-  }
-}
-
 void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
     const math::size2f_t &size, const math::size2i_t &subdivs) {
   material_ = mtrl;
@@ -45,9 +39,11 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
   geomCreateInfo.bo[Constants::IDX_VBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
   geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = quadShape->getReserveVerts();
+
   auto data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
   quadShape->data()->getVertices(data, 0, quadShape->getReserveVerts());
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
+  SAFE_DELETE_ARRAY(data);
 
   geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
@@ -62,9 +58,15 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
   this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }
 
+void Sprite::destroy() {
+  if (geomBuilder_) {
+    geomBuilder_->remove(geomIdx_);
+  }
+}
+
 void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, [[maybe_unused]] f32_t dtm) {
-  auto geom = geomBuilder_->getGeometry(geomIdx_);
-  if (!geom) {
+  auto *geom = geomBuilder_->getGeometry(geomIdx_);
+  if (geom == nullptr) {
     return;
   }
 

@@ -5,6 +5,7 @@
 #include <sway/gapi.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/effect/effect.hpp>
+#include <sway/render/geom/_typedefs.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geominstance.hpp>
@@ -29,12 +30,11 @@ struct GeomPoolStats {
 
 // BufferPool
 class GeomBuilder {
-  DECLARE_PTR_ALIASES(GeomBuilder)
-
 public:
 #pragma region "Static methods"
 
-  static auto create(gapi::IdGeneratorPtr_t gen) -> GeomBuilder::SharedPtr_t;
+  static auto create(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen)
+      -> GeomBuilderTypedefs::SharedPtr_t;
 
 #pragma endregion
 
@@ -42,7 +42,7 @@ public:
 
   GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen);
 
-  ~GeomBuilder();
+  DTOR(GeomBuilder);
 
 #pragma endregion
 
@@ -64,15 +64,15 @@ public:
 
   void remove(u32_t idx);
 
-  auto find(const std::string &uid) -> Geom::Ptr_t;
+  auto find(const std::string &uid) -> GeomTypedefs::Ptr_t;
 
   auto canResize(std::size_t size) const -> bool;
 
   void reserve(std::size_t size);
 
-  auto getGeometries() -> std::vector<Geom::Ptr_t> { return geometries_; }
+  auto getGeometries() -> GeomTypedefs::Container_t { return geometries_; }
 
-  auto getGeometry(int idx) -> Geom::Ptr_t;
+  auto getGeometry(u32_t idx) -> GeomTypedefs::Ptr_t;
 
   auto getIdGenerator() -> gapi::IdGeneratorPtr_t { return idGenerator_; }
 
@@ -81,7 +81,7 @@ public:
 private:
   global::GapiPluginFunctionSet *gapiPlugin_;
   gapi::IdGeneratorPtr_t idGenerator_;
-  std::vector<Geom::Ptr_t> geometries_;
+  GeomTypedefs::Container_t geometries_;
   std::list<u32_t> availables_;
 };
 

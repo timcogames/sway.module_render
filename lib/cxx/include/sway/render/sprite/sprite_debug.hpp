@@ -34,7 +34,7 @@ private:
   EffectTypedefs::Ptr_t effect_;
   RenderSubqueue::SharedPtr_t subqueue_;
   MaterialTypedefs::SharedPtr_t material_;
-  GeomBuilder::SharedPtr_t geomBuilder_;
+  GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   u32_t axisGeomIdx_;
   u32_t lineGeomIdx_;
 };

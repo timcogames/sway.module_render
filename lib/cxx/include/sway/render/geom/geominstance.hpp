@@ -14,22 +14,28 @@ class GeomInstance : public Geom {
 public:
   using ShapeVtxDataType_t = typename TShape::VtxDataType_t;
 
+#pragma region "Ctors/Dtor"
+
   GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
       : Geom(plug, builder)
       , dataDivisor_(divisor)
       , data_(nullptr) {}
 
-  virtual ~GeomInstance() {
+  DTOR_VIRTUAL(GeomInstance) {
     SAFE_DELETE_OBJECT(data_);
     SAFE_DELETE_OBJECT(vao_);
     SAFE_DELETE_OBJECT(dataDivisor_);
   }
+
+#pragma endregion
 
   MTHD_OVERRIDE(void create(
       const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect, GeomVertexAttribSharedPtrMap_t attribs)) {
     vao_ = gapiPlugin_->createVertexArray();
     Geom::create(info, effect, attribs);
   }
+
+#pragma region "Binding/Unbinding"
 
   MTHD_OVERRIDE(void bind()) {
     vao_->bind();
@@ -40,6 +46,8 @@ public:
     Geom::unbind();
     vao_->unbind();
   }
+
+#pragma endregion
 
   template <typename TDataType, typename TMemFn = std::function<void *(void *, TDataType, std::size_t)>>
   void updateData(TMemFn callback, int offset, TDataType vertices, gapi::BufferPtr_t vbo,

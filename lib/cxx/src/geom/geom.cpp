@@ -60,7 +60,7 @@ void Geom::updateUV(std::vector<UVData2> uv) {
   auto offset = 0;
 
   auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();
-  auto vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
 
   auto texIdx = 0;
   auto currRile = 0;
@@ -87,13 +87,14 @@ void Geom::updateUV(std::vector<UVData2> uv) {
   }
 
   buffers_[Constants::IDX_VBO].value()->updateSubdata(vtxdata);
+  free(vtxdata);
 }
 
 void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   auto offset = 0;
 
   auto vboCapacity = buffers_[Constants::IDX_VBO].value()->getCapacity();  ///< Количество вершин
-  auto vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
+  auto *vtxdata = (void *)malloc(sizeof(math::VertexTexCoord) * vboCapacity);
 
   auto texIdx = 0;
   auto curTile = 0;
@@ -133,6 +134,7 @@ void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   }
 
   buffers_[Constants::IDX_VBO].value()->updateSubdata(vtxdata);
+  free(vtxdata);
 }
 
 NS_END()  // namespace render
