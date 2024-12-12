@@ -9,6 +9,7 @@ NS_BEGIN(render)
 class Effect;
 namespace EffectTypedefs {
 using Ptr_t = Effect *;
+using SharedPtr_t = std::shared_ptr<Effect>;
 }  // namespace EffectTypedefs
 
 namespace EffectMacroTypedefs {

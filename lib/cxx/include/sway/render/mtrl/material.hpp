@@ -61,7 +61,9 @@ public:
 
   auto getImages() -> ImageTypedefs::Container_t { return images_; }
 
-  auto getImage(u32_t idx) -> ImageTypedefs::SharedPtr_t { return images_[idx].second; }
+  auto getImage(u32_t idx) -> ImageTypedefs::SharedPtr_t {
+    return (idx < images_.size()) ? images_[idx].second : nullptr;
+  }
 
   void setSubsys(RenderSubsystemPtr_t subsys);
 

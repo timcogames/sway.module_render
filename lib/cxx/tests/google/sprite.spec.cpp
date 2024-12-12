@@ -101,23 +101,12 @@ TEST_F(SpriteTestFixture, test) {
 
   auto sprite = std::make_unique<render::Sprite>();
   sprite->initialize(context.subsys, mtrl, math::size2f_t(32, 32), math::size2i_one);
-  // sprite.setRenderQueue(nullptr);
-
-  // SAFE_DELETE_OBJECT(drawCallStub);
-  // SAFE_DELETE_OBJECT(capabilityStub);
-
-  SAFE_DELETE_OBJECT(vertexArrayStub);
-  SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
-  SAFE_DELETE_OBJECT(bufferStub);
-  SAFE_DELETE_OBJECT(geometryIdGeneratorStub);
+  // sprite->setTexture(mtrl->getImage(0 /* ALBEDO */), false);
+  // sprite->setRenderQueue(nullptr);
 
   sprite->destroy();
 
   SAFE_DELETE_OBJECT(preprocessorStub);
   SAFE_DELETE_OBJECT(shaderProgStub);
   SAFE_DELETE_OBJECT(shaderStub);
-  SAFE_DELETE_OBJECT(viewportStub);
-  // SAFE_DELETE_OBJECT(rasterizerStateStub);
-  // SAFE_DELETE_OBJECT(textureIdGeneratorStub);
-  // SAFE_DELETE_OBJECT(frameBufferIdGeneratorStub);
 }

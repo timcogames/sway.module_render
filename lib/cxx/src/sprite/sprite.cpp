@@ -18,8 +18,10 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
   auto quadTempSize = size;
   auto quadHalfSize = math::size2f_t(quadTempSize / 2);
 
-  auto quadShape = new procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>(
-      {gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0}, subdivs_);
+  auto quadShape = std::make_unique<procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>>(
+      std::initializer_list<gapi::VertexSemantic>{
+          gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0},
+      subdivs_);
 
   core::detail::EnumClassBitset<Flipper> flips;
   // flips.set(Flipper::HORZ);
@@ -40,7 +42,7 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
   geomCreateInfo.bo[Constants::IDX_VBO].desc.byteStride = sizeof(math::VertexTexCoord);
   geomCreateInfo.bo[Constants::IDX_VBO].desc.capacity = quadShape->getReserveVerts();
 
-  auto data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
+  auto *data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
   quadShape->data()->getVertices(data, 0, quadShape->getReserveVerts());
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
   SAFE_DELETE_ARRAY(data);
@@ -54,8 +56,6 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
 
   geomIdx_ = geomBuilder_->create<procedurals::prims::QuadrilateralStrip<math::VertexTexCoord>>(
       geomCreateInfo, quadShape->getVertexAttribs(), material_->getEffect());
-
-  this->setTexture(material_->getImage(0 /* ALBEDO */), false);
 }
 
 void Sprite::destroy() {

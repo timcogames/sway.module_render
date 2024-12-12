@@ -12,7 +12,7 @@ Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
 
 Geom::~Geom() {
   std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
-  // SAFE_DELETE_OBJECT(attribLayout_);
+  SAFE_DELETE_OBJECT(attribLayout_);
   builder_->stats_.numGeoms -= 1;
 }
 

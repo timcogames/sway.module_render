@@ -20,6 +20,9 @@ RenderSubsystem::~RenderSubsystem() {
   SAFE_DELETE_OBJECT(idGenerator_[1]);
   SAFE_DELETE_OBJECT(idGenerator_[0]);
 
+  SAFE_DELETE_OBJECT(rasterizer_);
+  SAFE_DELETE_OBJECT(viewport_);
+
   SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
   SAFE_DELETE_OBJECT(global::pluginInstance_);
 }
@@ -29,14 +32,14 @@ void RenderSubsystem::setGraphicsApiContext(global::GapiPluginFunctionSet *plugi
 }
 
 auto RenderSubsystem::initialize() -> bool {
-  idGenerator_[0] = deviceContext_->createBufferIdGenerator();
-  idGenerator_[1] = deviceContext_->createFrameBufferIdGenerator();
-  idGenerator_[2] = deviceContext_->createTextureIdGenerator();
+  viewport_ = deviceContext_->createViewport();
+  viewport_->set(800, 600);
 
   rasterizer_ = deviceContext_->createRasterizerState();
 
-  viewport_ = deviceContext_->createViewport();
-  viewport_->set(800, 600);
+  idGenerator_[0] = deviceContext_->createBufferIdGenerator();
+  idGenerator_[1] = deviceContext_->createFrameBufferIdGenerator();
+  idGenerator_[2] = deviceContext_->createTextureIdGenerator();
 
   geomBuilder_ = GeomBuilder::create(deviceContext_, getIdGenerator(0 /* GEOMETRY */));
   geomBuilder_->reserve(Constants::MAX_BUFFER_OBJECTS);

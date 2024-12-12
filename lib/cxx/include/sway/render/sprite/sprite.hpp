@@ -54,8 +54,24 @@ public:
 
   [[nodiscard]] auto getTexture() const -> ImageTypedefs::SharedPtr_t;
 
+  /**
+   * \~russian @brief Обновляет координаты текстуры спрайта,
+   *   устанавливая новую прямоугольную область текстуры, которая будет использоваться.
+   *
+   * @param[in] rect Новая прямоугольная область.
+   *
+   * @sa getTextureRect() const
+   */
   void setTextureRect(const math::rect4i_t &rect);
 
+  /**
+   * \~russian @brief Получает координаты прямоугольника, которые спрайт использует
+   *   для отображения текстуры.
+   *
+   * @return Текущая прямоугольная область текстурных координат.
+   *
+   * @sa setTextureRect(const math::rect4i_t &)
+   */
   [[nodiscard]] auto getTextureRect() const -> math::rect4i_t;
 
   void setZOrder(f32_t zorder) { zorder_ = zorder; }
