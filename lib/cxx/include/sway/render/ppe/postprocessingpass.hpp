@@ -3,8 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/ppe/screenquad.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
 
@@ -14,8 +14,6 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 // class PostProcessingPass : public IRenderPass {
-//   DECLARE_PTR_ALIASES(PostProcessingPass)
-
 // public:
 //   PostProcessingPass(const std::string &name, const core::misc::Dictionary &glob)
 //       : IRenderPass(name)
@@ -38,12 +36,10 @@ NS_BEGIN(render)
 class PostProcessingEffect {};
 
 class PostProcessingPass {
-  DECLARE_PTR_ALIASES(PostProcessingPass)
-
 public:
 #pragma region "Ctors/Dtor"
 
-  PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad);
+  PostProcessingPass(const std::string &name, typedefs::ScreenQuadSharedPtr_t quad);
 
   DTOR_VIRTUAL_DEFAULT(PostProcessingPass);
 
@@ -53,26 +49,26 @@ public:
 
   void dispose() {}
 
-  void apply(gapi::FrameBuffer::Ptr_t framebuf);
+  void apply(gapi::typedefs::FrameBufferPtr_t framebuf);
 
   void execute();
 
-  void setRenderTarget(RenderTarget::SharedPtr_t target) { target_ = target; }
+  void setRenderTarget(typedefs::RenderTargetSharedPtr_t target) { target_ = target; }
 
-  auto getRenderTarget() -> RenderTarget::SharedPtr_t { return target_; }
+  auto getRenderTarget() -> typedefs::RenderTargetSharedPtr_t { return target_; }
 
-  void setRenderState(RenderState::SharedPtr_t state) { state_ = state; }
+  void setRenderState(typedefs::RenderStateSharedPtr_t state) { state_ = state; }
 
-  auto getRenderState() -> RenderState::SharedPtr_t { return state_; }
+  auto getRenderState() -> typedefs::RenderStateSharedPtr_t { return state_; }
 
   auto isEnabled() -> bool { return enabled_; }
 
   void setEnabled(bool val) { enabled_ = val; }
 
 private:
-  RenderTarget::SharedPtr_t target_;
-  RenderState::SharedPtr_t state_;
-  ScreenQuad::SharedPtr_t quad_;
+  typedefs::RenderTargetSharedPtr_t target_;
+  typedefs::RenderStateSharedPtr_t state_;
+  typedefs::ScreenQuadSharedPtr_t quad_;
   bool enabled_;
 
   math::mat4f_t vp_;

@@ -1,6 +1,7 @@
 #include <sway/gapi.hpp>
 #include <sway/render/procedurals/prims/quadrilateral.hpp>
 #include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
+#include <sway/render/rendersubsystem.hpp>
 #include <sway/render/sprite/flippable.hpp>
 #include <sway/render/sprite/flipper.hpp>
 #include <sway/render/sprite/sprite.hpp>
@@ -10,7 +11,7 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
+void Sprite::initialize(typedefs::RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
     const math::size2f_t &size, const math::size2i_t &subdivs) {
   material_ = mtrl;
   subdivs_ = subdivs;
@@ -23,7 +24,7 @@ void Sprite::initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::S
           gapi::VertexSemantic::POS, gapi::VertexSemantic::COL, gapi::VertexSemantic::TEXCOORD_0},
       subdivs_);
 
-  core::detail::EnumClassBitset<Flipper> flips;
+  core::EnumClassBitset<Flipper> flips;
   // flips.set(Flipper::HORZ);
   // flips.set(Flipper::VERT);
 
@@ -71,7 +72,7 @@ void Sprite::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view
   }
 
   pipeline::ForwardRenderCommand cmd;
-  cmd.stage = 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/;
+  cmd.stage = 0 /*core::toBase(RenderStage::IDX_COLOR)*/;
   // cmd.zindex = zindex_ + std::numeric_limits<f32_t>::epsilon();
   cmd.zorder = zorder_;
   cmd.blendDesc.enabled = false;

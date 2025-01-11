@@ -3,12 +3,12 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-auto GeomBuilder::create(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen)
+auto GeomBuilder::create(global::GapiPluginFunctionSet *plug, gapi::typedefs::IdGeneratorPtr_t gen)
     -> GeomBuilderTypedefs::SharedPtr_t {
   return std::make_shared<GeomBuilder>(plug, gen);
 }
 
-GeomBuilder::GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::IdGeneratorPtr_t gen)
+GeomBuilder::GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::typedefs::IdGeneratorPtr_t gen)
     : gapiPlugin_(plug)
     , idGenerator_(gen) {}
 
@@ -31,7 +31,7 @@ void GeomBuilder::remove(u32_t idx) {
 
 auto GeomBuilder::find(const std::string &uid) -> GeomTypedefs::Ptr_t {
   auto iter = std::find_if(geometries_.begin(), geometries_.end(),
-      [&uid](const auto &geom) { return geom && geom->getUid().value() == uid; });
+      [&uid](const auto &geom) { return geom && geom->getUniqueId().value() == uid; });
   if (iter != geometries_.end()) {
     return *iter;
   }
@@ -43,7 +43,7 @@ auto GeomBuilder::canResize(std::size_t size) const -> bool { return size > geom
 
 void GeomBuilder::reserve(std::size_t size) {
   auto prevSize = geometries_.size();
-  auto nextSize = math::util::clamp(size, Constants::MAX_BUFFER_OBJECTS, prevSize);
+  auto nextSize = math::clamp(size, Constants::MAX_BUFFER_OBJECTS, prevSize);
   if (!canResize(nextSize)) {
     return;
   }

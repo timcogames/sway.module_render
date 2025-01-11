@@ -2,11 +2,11 @@
 #define SWAY_RENDER_PROCEDURALS_PRIMS_QUADRILATERAL_HPP
 
 #include <sway/math.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomindexedvertexdata.hpp>
 #include <sway/render/geom/geomvertexattribset.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
 
 #include <memory>
@@ -77,17 +77,17 @@ public:
   }
 
   void setPosDataAttrib(const std::array<f32_t, math::vec4f_t::DataElementCount_t> &coords, f32_t zindex = 0.0F) {
-    dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_B)], zindex)
+    dataAttribs_.pos->setData(0, math::vec3f_t(coords[core::toBase(math::RectEdge::Enum::IDX_L)],
+                                     coords[core::toBase(math::RectEdge::Enum::IDX_B)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_B)], zindex)
+    dataAttribs_.pos->setData(1, math::vec3f_t(coords[core::toBase(math::RectEdge::Enum::IDX_R)],
+                                     coords[core::toBase(math::RectEdge::Enum::IDX_B)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_L)],
-                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_T)], zindex)
+    dataAttribs_.pos->setData(2, math::vec3f_t(coords[core::toBase(math::RectEdge::Enum::IDX_L)],
+                                     coords[core::toBase(math::RectEdge::Enum::IDX_T)], zindex)
                                      .asDataPtr());
-    dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::detail::toBase(math::RectEdge::Enum::IDX_R)],
-                                     coords[core::detail::toBase(math::RectEdge::Enum::IDX_T)], zindex)
+    dataAttribs_.pos->setData(3, math::vec3f_t(coords[core::toBase(math::RectEdge::Enum::IDX_R)],
+                                     coords[core::toBase(math::RectEdge::Enum::IDX_T)], zindex)
                                      .asDataPtr());
   }
 

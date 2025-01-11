@@ -15,9 +15,7 @@ void ClearCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTy
   context->viewport->clear(concreteCmd->getFlags());
 }
 
-auto ClearCommandHandler::getKey() const -> std::string {
-  return core::foundation::ObjectClassname::toStr<ClearCommand>();
-}
+auto ClearCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<ClearCommand>(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

@@ -31,7 +31,7 @@ void ForwardRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue
 }
 
 ForwardRenderer::ForwardRenderer()
-    : Renderer(core::detail::toBase(RendererType::Enum::IDX_FWD)) {
+    : Renderer(core::toBase(RendererType::Enum::IDX_FWD)) {
   registerTechnique(this->commandQueue_);
 
   auto tech = std::make_shared<Technique>("forward");

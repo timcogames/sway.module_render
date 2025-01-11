@@ -1,9 +1,9 @@
 #ifndef SWAY_RENDER_IMG_TYPEDEFS_HPP
 #define SWAY_RENDER_IMG_TYPEDEFS_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/img/imagetypes.hpp>
 #include <sway/render/img/pixel.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

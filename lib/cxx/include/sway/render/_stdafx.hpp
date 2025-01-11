@@ -1,5 +1,5 @@
-#ifndef SWAY_RENDER_PREREQS_HPP
-#define SWAY_RENDER_PREREQS_HPP
+#ifndef SWAY_RENDER_STDAFX_HPP
+#define SWAY_RENDER_STDAFX_HPP
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
@@ -28,4 +28,4 @@
 // algorithms
 #include <algorithm>  // sort, find_if
 
-#endif  // SWAY_RENDER_PREREQS_HPP
+#endif  // SWAY_RENDER_STDAFX_HPP

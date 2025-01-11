@@ -13,7 +13,7 @@ void BindPipelineCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, Co
 }
 
 auto BindPipelineCommandHandler::getKey() const -> std::string {
-  return core::foundation::ObjectClassname::toStr<BindPipelineCommand>();
+  return core::ObjectClassName::toStr<BindPipelineCommand>();
 }
 
 NS_END()  // namespace experience

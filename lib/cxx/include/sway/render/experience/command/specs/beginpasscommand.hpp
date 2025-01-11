@@ -1,9 +1,9 @@
 #ifndef SWAY_RENDER_EXPERIENCE_BEGINPASSCOMMAND_HPP
 #define SWAY_RENDER_EXPERIENCE_BEGINPASSCOMMAND_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/pass/pass.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

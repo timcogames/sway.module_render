@@ -2,31 +2,31 @@
 #define SWAY_RENDER_RENDERQUEUE_HPP
 
 #include <sway/core/intrusive/priorities.hpp>
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderQueue {
-  DECLARE_PTR_ALIASES(RenderQueue)
-
 public:
 #pragma region "Ctors/Dtor"
 
   /**
-   * \~russian @brief Конструктор класса.
-   *                  Выполняет инициализацию нового экземпляра класса.
+   * @brief \~english Constructor class. Performs initialization of a new instance of the class. \~russian Конструктор
+   * класса. Выполняет инициализацию нового экземпляра класса.
    */
   RenderQueue();
 
   /**
-   * \~russian @brief Конструктор класса.
-   *                  Выполняет инициализацию нового экземпляра класса.
+   * \~english
+   * @brief Constructor class. Performs initialization of a new instance of the class.
+   * @param[in] priority Queue priority.
    *
+   * \~russian
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
    * @param[in] priority Приоритет очереди.
    */
   RenderQueue(u32_t priority);
@@ -36,38 +36,53 @@ public:
 #pragma endregion
 
   /**
-   * \~russian @brief Добавляет подочередь @ref RenderSubqueue в группу.
+   * \~english
+   * @brief Adds a @ref RenderSubqueue to the group.
+   * @param[in] subqueue Pointer to the object of the subqueue, which should be added to the container.
    *
+   * \~russian
+   * @brief Добавляет подочередь @ref RenderSubqueue в группу.
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
-   * @sa removeSubqueue(const RenderSubqueue::SharedPtr_t &)
+   *
+   * \~
+   * @sa removeSubqueue(const typedefs::RenderSubqueueSharedPtr_t &)
    */
-  void addSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
+  void addSubqueue(const typedefs::RenderSubqueueSharedPtr_t &subqueue);
 
   /**
-   * \~russian @brief Удаляет подочередь @ref RenderSubqueue из группы.
+   * \~english
+   * @brief Removes a @ref RenderSubqueue from the group.
+   * @param[in] subqueue Pointer to the object of the subqueue, which should be removed from the container.
    *
+   * \~russian
+   * @brief Удаляет подочередь @ref RenderSubqueue из группы.
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
-   * @sa addSubqueue(const RenderSubqueue::SharedPtr_t &)
+   *
+   * \~
+   * @sa addSubqueue(const typedefs::RenderSubqueueSharedPtr_t &)
    */
-  void removeSubqueue(const RenderSubqueue::SharedPtr_t &subqueue);
+  void removeSubqueue(const typedefs::RenderSubqueueSharedPtr_t &subqueue);
 
   /**
-   * \~russian @brief Получает коллекцию подочередей.
+   * \~english
+   * @brief Gets the collection of subqueues.
+   * @param[in] group Group of subqueues.
    *
+   * \~russian
+   * @brief Получает коллекцию подочередей.
    * @param[in] group Группа подочереди.
    */
   auto getSubqueues(RenderSubqueueGroup group) -> RenderSubqueueSharedPtrVec_t &;
 
   /**
-   * \~russian @brief Устанавливает значение приоритета.
+   * @brief \~english Sets the priority value. \~russian Устанавливает значение приоритета.
    *
    * @sa getPriority() const
    */
   void setPriority(u32_t priority) { priority_ = priority; }
 
   /**
-   * \~english @brief Get the priority value.
-   * \~russian @brief Получает значение приоритета.
+   * \~english @brief \~english Get the priority value. \~russian Получает значение приоритета.
    *
    * @sa setPriority(u32_t)
    */
@@ -77,17 +92,17 @@ public:
   }
 
   struct PriorityInDescendingOrder {
-    bool operator()(const RenderQueue::SharedPtr_t &lhs, const RenderQueue::SharedPtr_t &rhs) const {
+    bool operator()(const typedefs::RenderQueueSharedPtr_t &lhs, const typedefs::RenderQueueSharedPtr_t &rhs) const {
       return lhs->getPriority() > rhs->getPriority();
     }
   };
 
 private:
-  u32_t priority_;  ///< Приоритет очереди.
-  RenderSubqueue::SharedPtrVec_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT];  //< Контейнер подочередей.
+  u32_t priority_;  //!< \~english Priority value. \~russian Приоритет очереди.
+  typedefs::RenderSubqueueContainer_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< \~english Container of subqueues.
+    \~russian Контейнер подочередей. */
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERQUEUE_HPP

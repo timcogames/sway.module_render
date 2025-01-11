@@ -3,15 +3,15 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-PostProcessing::PostProcessing(gapi::ViewportPtr_t viewport) {
+PostProcessing::PostProcessing(gapi::typedefs::ViewportPtr_t viewport) {
   viewport_ = viewport;
   state_ = std::make_shared<RenderState>();
 }
 
-// void PostProcessing::addPass(u32_t idx, RenderTarget::SharedPtr_t target) {
+// void PostProcessing::addPass(u32_t idx, typedefs::RenderTargetSharedPtr_t target) {
 //   passes_[idx] = std::make_shared<GraphicsPass>();
 //   target->setScissorViewport(viewport_);
-//   if (idx == core::detail::toBase(RenderStage::IDX_COLOR)) {
+//   if (idx == core::toBase(RenderStage::IDX_COLOR)) {
 //     target->attachColorBufferObject();
 //   }
 
@@ -28,7 +28,7 @@ void PostProcessing::add(std::shared_ptr<PostProcessingPass> pass, i32_t idx) {
   }
 }
 
-void PostProcessing::apply(gapi::FrameBuffer::Ptr_t framebuf) {
+void PostProcessing::apply(gapi::typedefs::FrameBufferPtr_t framebuf) {
   for (auto &pass : passes_) {
     pass->apply(framebuf);
   }

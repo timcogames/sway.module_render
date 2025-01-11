@@ -9,12 +9,12 @@ Image::Image()
     , texture_(nullptr)
     , textureSampler_(nullptr) {}
 
-void Image::create(gapi::IdGenerator::Ptr_t idgen, const gapi::TextureCreateInfo &createInfo) {
+void Image::create(gapi::typedefs::IdGeneratorPtr_t idgen, const gapi::TextureCreateInfo &createInfo) {
   texture_ = pluginFuncSet_->createTexture(idgen, createInfo);
   textureSampler_ = pluginFuncSet_->createTextureSampler(texture_);
 }
 
-void Image::create(gapi::IdGenerator::Ptr_t idgen, const loader::ImageDescriptor &desc) {
+void Image::create(gapi::typedefs::IdGeneratorPtr_t idgen, const loader::ImageDescriptor &desc) {
   textureCreateInfo_.target = gapi::TextureTarget::Enum::TEX_2D;
   textureCreateInfo_.size = desc.size;
   // textureCreateInfo_.arraySize

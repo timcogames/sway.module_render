@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_TYPEDEFS_HPP
 #define SWAY_RENDER_TYPEDEFS_HPP
 
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -21,26 +21,40 @@ NS_BEGIN(render)
     using CONTAINER_TYPE_(TYPE, Vec) = std::vector<OBJ::TYPE##_t>;
 // clang-format on
 
-DECLARE_PTR_TYPES(VertexChannel)
-DECLARE_PTR_TYPES(GeomVertexAttribBase)
-DECLARE_PTR_TYPES(Geom)
-DECLARE_PTR_TYPES(GeomBuilder)
-DECLARE_PTR_TYPES(Geometry)
-DECLARE_PTR_TYPES(Effect)
-DECLARE_PTR_TYPES(RenderQueue)
-DECLARE_PTR_TYPES(RenderQueuePass)
-DECLARE_PTR_TYPES(RenderSubqueue)
-DECLARE_PTR_TYPES(RenderSubsystem)
-DECLARE_PTR_TYPES(PostProcessingPass)
-DECLARE_PTR_TYPES(RenderTarget)
-DECLARE_PTR_TYPES(RenderState)
-DECLARE_PTR_TYPES(PostProcessing)
-DECLARE_PTR_TYPES(Sprite)
-DECLARE_PTR_TYPES(ScreenQuad)
+class VertexChannel;
+class GeomVertexAttribBase;
+class Geom;
+class GeomBuilder;
+class Geometry;
+class Effect;
+class RenderQueue;
+class RenderQueuePass;
+class RenderSubqueue;
+class RenderSubsystem;
+class PostProcessingPass;
+class RenderTarget;
+class RenderState;
+class PostProcessing;
+class Sprite;
+class ScreenQuad;
 
-using RenderSubqueueSharedPtrVec_t = std::vector<RenderSubqueueSharedPtr_t>;
-using RenderQueueSharedPtrVec_t = std::vector<RenderQueueSharedPtr_t>;
-using GeomVertexAttribSharedPtrMap_t = std::map<gapi::VertexSemantic, GeomVertexAttribBaseSharedPtr_t>;
+namespace typedefs {
+using GeomVertexAttribBaseSharedPtr_t = std::shared_ptr<GeomVertexAttribBase>;
+using GeomBuilderPtr_t = GeomBuilder *;
+using RenderQueueSharedPtr_t = std::shared_ptr<RenderQueue>;
+using RenderSubqueueSharedPtr_t = std::shared_ptr<RenderSubqueue>;
+using RenderSubqueueContainer_t = std::vector<RenderSubqueueSharedPtr_t>;
+using RenderSubsystemPtr_t = RenderSubsystem *;
+using RenderSubsystemSharedPtr_t = std::shared_ptr<RenderSubsystem>;
+using RenderTargetSharedPtr_t = std::shared_ptr<RenderTarget>;
+using RenderStateSharedPtr_t = std::shared_ptr<RenderState>;
+using PostProcessingSharedPtr_t = std::shared_ptr<PostProcessing>;
+using ScreenQuadSharedPtr_t = std::shared_ptr<ScreenQuad>;
+}  // namespace typedefs
+
+using RenderSubqueueSharedPtrVec_t = std::vector<typedefs::RenderSubqueueSharedPtr_t>;
+using RenderQueueSharedPtrVec_t = std::vector<typedefs::RenderQueueSharedPtr_t>;
+using GeomVertexAttribSharedPtrMap_t = std::map<gapi::VertexSemantic, typedefs::GeomVertexAttribBaseSharedPtr_t>;
 
 NS_END()  // namespace render
 NS_END()  // namespace sway

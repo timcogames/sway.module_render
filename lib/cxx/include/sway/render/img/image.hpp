@@ -19,9 +19,9 @@ public:
 
 #pragma region "Creating/Destroying"
 
-  void create(gapi::IdGenerator::Ptr_t idgen, const gapi::TextureCreateInfo &createInfo);
+  void create(gapi::typedefs::IdGeneratorPtr_t idgen, const gapi::TextureCreateInfo &createInfo);
 
-  void create(gapi::IdGenerator::Ptr_t idgen, const loader::ImageDescriptor &desc);
+  void create(gapi::typedefs::IdGeneratorPtr_t idgen, const loader::ImageDescriptor &desc);
 
 #pragma endregion
 
@@ -43,9 +43,9 @@ public:
 
 #pragma region "Getters/Setters"
 
-  auto getTexture() -> gapi::TexturePtr_t { return texture_; }
+  auto getTexture() -> gapi::typedefs::TexturePtr_t { return texture_; }
 
-  auto getTextureSampler() -> gapi::TextureSamplerPtr_t { return textureSampler_; }
+  auto getTextureSampler() -> gapi::typedefs::TextureSamplerPtr_t { return textureSampler_; }
 
   [[nodiscard]] auto getSize() const -> math::size2i_t { return textureCreateInfo_.size; }
 
@@ -54,8 +54,8 @@ public:
 private:
   global::GapiPluginFunctionSet *pluginFuncSet_;
   gapi::TextureCreateInfo textureCreateInfo_;
-  gapi::TexturePtr_t texture_;
-  gapi::TextureSamplerPtr_t textureSampler_;
+  gapi::typedefs::TexturePtr_t texture_;
+  gapi::typedefs::TextureSamplerPtr_t textureSampler_;
 };
 
 NS_END()  // namespace render

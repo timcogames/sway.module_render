@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERER_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERER_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
 #include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
@@ -13,7 +14,6 @@
 #include <sway/render/experience/pipeline/specs/graphicspipeline.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/technique/technique.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

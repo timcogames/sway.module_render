@@ -2,10 +2,10 @@
 #define SWAY_RENDER_EXPERIENCE_TECHNIQUEDESERIALIZER_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pass/passdeserializer.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <nlohmann/json.hpp>
 

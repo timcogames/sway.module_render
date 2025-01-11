@@ -7,8 +7,6 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderState {
-  DECLARE_PTR_ALIASES(RenderState)
-
 public:
 #pragma region "Ctors/Dtor"
 
@@ -20,10 +18,10 @@ public:
 
   void restore();
 
-  auto getContext() -> gapi::StateContextPtr_t { return state_; }
+  auto getContext() -> gapi::typedefs::StateContextPtr_t { return state_; }
 
 private:
-  gapi::StateContextPtr_t state_;
+  gapi::typedefs::StateContextPtr_t state_;
 };
 
 NS_END()  // namespace render

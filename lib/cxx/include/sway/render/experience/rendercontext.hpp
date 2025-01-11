@@ -1,19 +1,19 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/renderer/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
 struct DeviceContext {
-  gapi::CapabilityPtr_t capability;
-  gapi::DrawCallPtr_t drawCall;
-  gapi::ViewportPtr_t viewport;
+  gapi::typedefs::CapabilityPtr_t capability;
+  gapi::typedefs::DrawCallPtr_t drawCall;
+  gapi::typedefs::ViewportPtr_t viewport;
 
   void disponse() {
     SAFE_DELETE_OBJECT(drawCall);

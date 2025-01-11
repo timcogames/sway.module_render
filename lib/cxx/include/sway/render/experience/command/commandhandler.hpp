@@ -1,10 +1,10 @@
 #ifndef SWAY_RENDER_EXPERIENCE_COMMANDHANDLER_HPP
 #define SWAY_RENDER_EXPERIENCE_COMMANDHANDLER_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/_typedefs.hpp>
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/rendercontext.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

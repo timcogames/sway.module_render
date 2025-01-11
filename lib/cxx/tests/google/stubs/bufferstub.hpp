@@ -30,8 +30,7 @@ public:
 
   MOCK_METHOD(void *, map, (gapi::BufferMapAccess::Enum), (override));
 
-  MOCK_METHOD(
-      void *, mapRange, (i32_t, i32_t, core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum>), (override));
+  MOCK_METHOD(void *, mapRange, (i32_t, i32_t, core::EnumClassBitset<gapi::BufferMapRangeAccess::Enum>), (override));
 
   MOCK_METHOD(void, unmap, (), (override));
 

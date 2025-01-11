@@ -3,12 +3,12 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomvertexattribbase.hpp>
 #include <sway/render/global.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <algorithm>
 #include <array>
@@ -43,11 +43,11 @@ struct UVData2 {
   std::vector<math::vec2f_t> uv;
 };
 
-class Geom : public core::foundation::Uniqueable<std::string> {
+class Geom : public core::Uniqueable<std::string> {
 public:
 #pragma region "Ctors/Dtor"
 
-  Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder);
+  Geom(global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder);
 
   DTOR_VIRTUAL(Geom);
 
@@ -67,7 +67,7 @@ public:
 
 #pragma endregion
 
-  auto getBuffer(int idx) -> std::optional<gapi::BufferPtr_t> { return buffers_[idx]; }
+  auto getBuffer(int idx) -> std::optional<gapi::typedefs::BufferPtr_t> { return buffers_[idx]; }
 
   void updateUV(std::vector<UVData2> uvdata);
 
@@ -75,13 +75,13 @@ public:
 
 protected:
   global::GapiPluginFunctionSet *gapiPlugin_;
-  GeomBuilderPtr_t builder_;
+  typedefs::GeomBuilderPtr_t builder_;
 
 private:
-  gapi::VertexArrayPtr_t vao_;
-  gapi::VertexAttribLayoutPtr_t attribLayout_;
+  gapi::typedefs::VertexArrayPtr_t vao_;
+  gapi::typedefs::VertexAttribLayoutPtr_t attribLayout_;
   GeomVertexAttribSharedPtrMap_t attribs_;
-  std::array<std::optional<gapi::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};
+  std::array<std::optional<gapi::typedefs::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};
 };
 
 NS_END()  // namespace render

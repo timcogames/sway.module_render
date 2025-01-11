@@ -4,13 +4,13 @@
 // #include <sway/cmpt/component.hpp>
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
-#include <sway/render/rendersubsystem.hpp>
+#include <sway/render/typedefs.hpp>
 
 #include <memory>
 
@@ -29,7 +29,7 @@ public:
 
 #pragma endregion
 
-  void initialize(RenderSubsystem::SharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material,
+  void initialize(typedefs::RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material,
       const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
 
   void destroy();
@@ -46,7 +46,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  void setRenderSubqueue(RenderSubqueue::SharedPtr_t subqueue) { subqueue_ = subqueue; }
+  void setRenderSubqueue(typedefs::RenderSubqueueSharedPtr_t subqueue) { subqueue_ = subqueue; }
 
   [[nodiscard]] auto getMaterial() const -> MaterialTypedefs::SharedPtr_t { return material_; }
 
@@ -99,7 +99,7 @@ public:
   // }
 
 private:
-  RenderSubqueue::SharedPtr_t subqueue_;
+  typedefs::RenderSubqueueSharedPtr_t subqueue_;
 
   MaterialTypedefs::SharedPtr_t material_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;

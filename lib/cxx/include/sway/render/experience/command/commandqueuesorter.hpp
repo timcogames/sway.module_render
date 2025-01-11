@@ -1,9 +1,9 @@
 #ifndef SWAY_RENDER_EXPERIENCE_COMMANDQUEUESORTER_HPP
 #define SWAY_RENDER_EXPERIENCE_COMMANDQUEUESORTER_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandbuffer.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

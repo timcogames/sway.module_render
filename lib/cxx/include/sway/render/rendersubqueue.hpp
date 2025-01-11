@@ -3,8 +3,8 @@
 
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -14,9 +14,6 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class RenderSubqueue {
-  DECLARE_PTR_ALIASES(RenderSubqueue)
-  DECLARE_PTR_VECTOR(RenderSubqueue, SharedPtr)
-
 public:
 #pragma region "Ctors/Dtor"
 
@@ -39,7 +36,7 @@ public:
   /**
    * \~russian @brief Метод отрисовки.
    */
-  void render(u32_t stage, gapi::StateContextPtr_t state);
+  void render(u32_t stage, gapi::typedefs::StateContextPtr_t state);
 
   /**
    * \~russian @brief Устанавливает группу подочереди.
@@ -56,7 +53,7 @@ public:
   [[nodiscard]] auto getCommands() -> std::vector<pipeline::ForwardRenderCommand> { return commands_; }
 
 private:
-  void renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state);
+  void renderItem_(pipeline::ForwardRenderCommand cmd, gapi::typedefs::StateContextPtr_t state);
 
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;

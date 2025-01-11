@@ -10,7 +10,7 @@ NS_BEGIN(render)
 
 class SilhouettePostProcessing : public PostProcessing {
 public:
-  SilhouettePostProcessing(gapi::ViewportPtr_t viewport)
+  SilhouettePostProcessing(gapi::typedefs::ViewportPtr_t viewport)
       : PostProcessing(viewport) {}
 
   ~SilhouettePostProcessing() = default;

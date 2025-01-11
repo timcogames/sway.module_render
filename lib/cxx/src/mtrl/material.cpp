@@ -10,13 +10,13 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 Material::Material(global::GapiPluginFunctionSet *plug, const std::string &name)
-    : core::foundation::Uniqueable<std::string>(name)
+    : core::Uniqueable<std::string>(name)
     , pluginFuncSet_(plug)
     , effect_(nullptr) {}
 
 Material::Material(const std::string &name, std::shared_ptr<rms::ImageResourceManager> imageResMngr,
     std::shared_ptr<rms::GLSLResourceManager> glslResMngr)
-    : core::foundation::Uniqueable<std::string>(name)
+    : core::Uniqueable<std::string>(name)
     , pluginFuncSet_(global::getGapiPluginFunctionSet())
     , imageResMngr_(imageResMngr)
     , glslResMngr_(glslResMngr)
@@ -127,12 +127,12 @@ void Material::bind(const std::shared_ptr<math::MatrixStack> &mtxs) {
   // effect_->getShaderProgram()->setUniform1f("mat_shininess", desc.shininess);
 
   for (const auto &imagePair : images_) {
-    auto textureUid = imagePair.second->getTexture()->getUid();
+    auto textureUid = imagePair.second->getTexture()->getUniqueId();
     if (!textureUid.has_value()) {
       return;
     }
 
-    // std::cout << getUid().value().c_str() << " " << textureUid.value() << std::endl;
+    // std::cout << getUniqueId().value().c_str() << " " << textureUid.value() << std::endl;
 
     imagePair.second->getTexture()->setActive(textureUid.value());
     imagePair.second->bind();
@@ -156,7 +156,7 @@ void Material::unbind() {
   effect_->unbind();
 }
 
-void Material::setSubsys(RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
+void Material::setSubsys(typedefs::RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
 
 NS_END()  // namespace render
 NS_END()  // namespace sway

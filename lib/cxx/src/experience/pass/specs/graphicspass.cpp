@@ -1,4 +1,4 @@
-#include <sway/core/runtime/log.hpp>
+// #include <sway/core/runtime/log.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 
 #define TRACE_CTORS_DTOR 0
@@ -11,13 +11,13 @@ NS_BEGIN(experience)
 GraphicsPass::GraphicsPass(const PassDescriptor &desc)
     : Pass(desc) {
 #if TRACE_CTORS_DTOR
-  core::runtime::LOG("GraphicsPass::Ctor");
+  // core::runtime::LOG("GraphicsPass::Ctor");
 #endif
 }
 
 GraphicsPass::~GraphicsPass() {
 #if TRACE_CTORS_DTOR
-  core::runtime::LOG("GraphicsPass::Dtor");
+  // core::runtime::LOG("GraphicsPass::Dtor");
 #endif
 }
 

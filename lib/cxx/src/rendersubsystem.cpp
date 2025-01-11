@@ -8,8 +8,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t ctx)
-    : core::foundation::Subsystem(ctx) {
+RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::typedefs::ContextPtr_t ctx)
+    : core::Subsystem(ctx) {
   global::pluginInstance_ = plug;
 }
 
@@ -51,7 +51,7 @@ auto RenderSubsystem::initialize() -> bool {
   return true;
 }
 
-void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, core::misc::Dictionary glob) {
+void RenderSubsystem::createPostProcessing(typedefs::RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob) {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
 
   renderState_ = std::make_shared<RenderState>();
@@ -67,7 +67,7 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   frstTarget->attachColorBufferObject(this);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderTarget(frstTarget);
   std::static_pointer_cast<PostProcessingPass>(frstPass)->setRenderState(renderState_);
-  ppe_->add(frstPass, 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/);
+  ppe_->add(frstPass, 0 /*core::toBase(RenderStage::IDX_COLOR)*/);
 
   // auto scndPass = std::make_shared<PostProcessingPass>("scnd", fullscreenQuad_);
   // scndPass->setEnabled(true);
@@ -75,10 +75,10 @@ void RenderSubsystem::createPostProcessing(RenderSubqueue::SharedPtr_t subqueue,
   // scndTarget->setScissorViewport(viewport_);
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderTarget(scndTarget);
   // std::static_pointer_cast<PostProcessingPass>(scndPass)->setRenderState(std::make_shared<RenderState>());
-  // ppe_->add(scndPass, core::detail::toBase(RenderStage::IDX_DEPTH));
+  // ppe_->add(scndPass, core::toBase(RenderStage::IDX_DEPTH));
 }
 
-auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t {
+auto RenderSubsystem::getQueueByPriority(u32_t priority) -> typedefs::RenderQueueSharedPtr_t {
   for (auto queue : queues_) {
     if (queue->getPriority() == priority) {
       return queue;
@@ -88,7 +88,7 @@ auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueue::SharedP
   return nullptr;
 }
 
-auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueue::SharedPtr_t {
+auto RenderSubsystem::createQueue(u32_t priority) -> typedefs::RenderQueueSharedPtr_t {
   if (this->getQueueByPriority(priority)) {
     return nullptr;
   }
@@ -141,8 +141,8 @@ void RenderSubsystem::render() {
   ppe_->postRender();
 }
 
-void RenderSubsystem::renderSubqueues_(
-    RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state) {
+void RenderSubsystem::renderSubqueues_(typedefs::RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage,
+    typedefs::RenderStateSharedPtr_t state) {
   const auto &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;

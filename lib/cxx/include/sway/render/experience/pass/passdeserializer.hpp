@@ -2,8 +2,8 @@
 #define SWAY_RENDER_EXPERIENCE_PASSDESERIALIZER_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <nlohmann/json.hpp>
 

@@ -17,7 +17,7 @@ NS_BEGIN(experience)
 
 template <typename TYPE, typename DESC>
 auto Cache::getOrCreate(const DESC &desc) -> TYPE * {
-  auto hash = core::misc::hashValue(desc);
+  auto hash = core::hashValue(desc);
   auto iter = std::find_if(items_.begin(), items_.end(), [hash](const auto &item) { return item.hash == hash; });
   if (iter != items_.end()) {
     return static_cast<TYPE *>(iter->data.get());

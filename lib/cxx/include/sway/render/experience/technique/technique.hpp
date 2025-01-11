@@ -1,9 +1,9 @@
 #ifndef SWAY_RENDER_EXPERIENCE_TECHNIQUE_HPP
 #define SWAY_RENDER_EXPERIENCE_TECHNIQUE_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

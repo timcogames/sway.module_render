@@ -5,9 +5,9 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-void RenderTarget::setScissorViewport(gapi::ViewportPtr_t viewport) { viewport_ = viewport; }
+void RenderTarget::setScissorViewport(gapi::typedefs::ViewportPtr_t viewport) { viewport_ = viewport; }
 
-void RenderTarget::attachColorBufferObject(RenderSubsystemPtr_t subsys) {
+void RenderTarget::attachColorBufferObject(typedefs::RenderSubsystemPtr_t subsys) {
   attached_ = true;
 
   auto texSize = math::sizei_t(800, 600);
@@ -38,7 +38,7 @@ void RenderTarget::attachColorBufferObject(RenderSubsystemPtr_t subsys) {
   colorFBO_->attach(gapi::FrameBufferAttachment::Enum::DEPTH_STENCIL, renderBO_);
 }
 
-void RenderTarget::activate(gapi::StateContextPtr_t ctx) {
+void RenderTarget::activate(gapi::typedefs::StateContextPtr_t ctx) {
   // if (attached_) {
   colorFBO_->bind();
 
@@ -49,25 +49,25 @@ void RenderTarget::activate(gapi::StateContextPtr_t ctx) {
   // colorFBO_->drawBuffers(1, buffers.data());
   // }
 
-  // auto clearFlags = core::detail::toBase(gapi::ClearFlag::COLOR) | core::detail::toBase(gapi::ClearFlag::DEPTH);
+  // auto clearFlags = core::toBase(gapi::ClearFlag::COLOR) | core::toBase(gapi::ClearFlag::DEPTH);
 
-  // if (clearFlags & core::detail::toBase(gapi::ClearFlag::COLOR)) {
+  // if (clearFlags & core::toBase(gapi::ClearFlag::COLOR)) {
   // viewport_->setClearColor(math::col4f_t(50.0F, 50.0F, 50.0F, 1.0F));
   // }
 
   // auto clearDepth = 0;
-  // if (clearFlags & core::detail::toBase(gapi::ClearFlag::DEPTH)) {
+  // if (clearFlags & core::toBase(gapi::ClearFlag::DEPTH)) {
   //   ctx->setClearDepth(clearDepth);
   //   ctx->setDepthMask(true);
   // }
 
   // auto clearStencil = 0;
-  // if (clearFlags & core::detail::toBase(gapi::ClearFlag::STENCIL)) {
+  // if (clearFlags & core::toBase(gapi::ClearFlag::STENCIL)) {
   //   ctx->setClearStencil(clearStencil);
   //   ctx->setStencilMask(0x0);
   // }
 
-  // viewport_->clear(core::detail::toEnum<gapi::ClearFlag>(clearFlags));
+  // viewport_->clear(core::toEnum<gapi::ClearFlag>(clearFlags));
 }
 
 void RenderTarget::deactivate() {

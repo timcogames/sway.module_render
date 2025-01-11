@@ -1,14 +1,14 @@
 #ifndef SWAY_RENDER_EXPERIENCE_STAGE_HPP
 #define SWAY_RENDER_EXPERIENCE_STAGE_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/stage/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 NS_BEGIN(experience)
 
-class Stage : public core::misc::Enableable {
+class Stage : public core::Enableable {
 public:
 #pragma region "Ctors/Dtor"
 

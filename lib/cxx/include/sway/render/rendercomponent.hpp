@@ -7,8 +7,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-class RenderComponent : public core::foundation::Object {
-  DECLARE_CLASS_METADATA(RenderComponent, core::foundation::Object)
+class RenderComponent : public core::Object {
+  DECLARE_CLASS_METADATA(RenderComponent, core::Object)
 
 public:
   // PURE_VIRTUAL(void onAwake());

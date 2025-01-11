@@ -27,18 +27,18 @@ TEST_F(MaterialTestFixture, add_effect) {
       .WillRepeatedly(testing::Return(preprocessorStub));
 
   render::ShaderTypedefs::SourcePair_t sources;
-  sources[core::detail::toBase(gapi::ShaderType::Enum::VERT)] = "layout (location = 0) in vec3 vtx_pos_attrib;"
-                                                                "layout (location = 1) in vec4 vtx_col_attrib;"
-                                                                "out vec4 vtx_col;"
-                                                                "void main() {"
-                                                                "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
-                                                                "    vtx_col = vtx_col_attrib;"
-                                                                "}";
-  sources[core::detail::toBase(gapi::ShaderType::Enum::FRAG)] = "in vec4 vtx_col;"
-                                                                "out vec4 out_col;"
-                                                                "void main() {"
-                                                                "    out_col = vtx_col;"
-                                                                "}";
+  sources[core::toBase(gapi::ShaderType::Enum::VERT)] = "layout (location = 0) in vec3 vtx_pos_attrib;"
+                                                        "layout (location = 1) in vec4 vtx_col_attrib;"
+                                                        "out vec4 vtx_col;"
+                                                        "void main() {"
+                                                        "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
+                                                        "    vtx_col = vtx_col_attrib;"
+                                                        "}";
+  sources[core::toBase(gapi::ShaderType::Enum::FRAG)] = "in vec4 vtx_col;"
+                                                        "out vec4 out_col;"
+                                                        "void main() {"
+                                                        "    out_col = vtx_col;"
+                                                        "}";
 
   auto mtrl = std::make_shared<render::Material>(globalGapiPlug, "test_1");
   mtrl->addEffectSource(sources);

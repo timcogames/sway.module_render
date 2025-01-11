@@ -2,9 +2,9 @@
 #define SWAY_RENDER_GEOMVERTEXDATA_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
 #include <sway/render/geom/geomvertexdatabase.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <stdlib.h>
 
@@ -20,9 +20,9 @@ public:
   virtual ~GeomVertexData() = default;
 
   template <typename TAttribFormat>
-  auto createAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBase::SharedPtr_t;
+  auto createAttrib(gapi::VertexSemantic semantic) -> typedefs::GeomVertexAttribBaseSharedPtr_t;
 
-  auto getAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBase::SharedPtr_t {
+  auto getAttrib(gapi::VertexSemantic semantic) -> typedefs::GeomVertexAttribBaseSharedPtr_t {
     auto iter = attribs_.find(semantic);
     if (iter != attribs_.end()) {
       return iter->second;

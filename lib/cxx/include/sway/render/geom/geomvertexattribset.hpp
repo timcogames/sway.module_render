@@ -4,19 +4,18 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
+#include <sway/render/typedefs.hpp>
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct GeomVertexAttribSet {
-  GeomVertexAttribBase::SharedPtr_t pos;
-  GeomVertexAttribBase::SharedPtr_t col;
-  GeomVertexAttribBase::SharedPtr_t tex;
+  typedefs::GeomVertexAttribBaseSharedPtr_t pos;
+  typedefs::GeomVertexAttribBaseSharedPtr_t col;
+  typedefs::GeomVertexAttribBaseSharedPtr_t tex;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMVERTEXATTRIBSET_HPP

@@ -10,8 +10,8 @@ Sprite_Debug::~Sprite_Debug() {
   //  geomBuilder_->remove(lineGeomIdx_);
 }
 
-void Sprite_Debug::initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
-    MaterialTypedefs::SharedPtr_t material) {
+void Sprite_Debug::initialize(typedefs::RenderSubsystemSharedPtr_t subsystem,
+    typedefs::RenderSubqueueSharedPtr_t subqueue, MaterialTypedefs::SharedPtr_t material) {
   geomBuilder_ = subsystem->getGeomBuilder();
 
   subqueue_ = subqueue;
@@ -96,7 +96,7 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   }
 
   pipeline::ForwardRenderCommand axisCmd;
-  axisCmd.stage = 0 /*core::detail::toBase(RenderStage::IDX_COLOR)*/;
+  axisCmd.stage = 0 /*core::toBase(RenderStage::IDX_COLOR)*/;
   axisCmd.blendDesc.enabled = false;
   axisCmd.blendDesc.src = gapi::BlendFn::Enum::SRC_ALPHA;
   axisCmd.blendDesc.dst = gapi::BlendFn::Enum::ONE_MINUS_SRC_ALPHA;

@@ -2,10 +2,10 @@
 #define SWAY_RENDER_SPRITE_DEBUG_HPP
 
 // #include <sway/cmpt/component.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/guides/axis.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
@@ -23,7 +23,7 @@ public:
 
   DTOR(Sprite_Debug);
 
-  void initialize(RenderSubsystem::SharedPtr_t subsystem, RenderSubqueue::SharedPtr_t subqueue,
+  void initialize(typedefs::RenderSubsystemSharedPtr_t subsystem, typedefs::RenderSubqueueSharedPtr_t subqueue,
       MaterialTypedefs::SharedPtr_t material);
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
@@ -32,7 +32,7 @@ public:
 
 private:
   EffectTypedefs::Ptr_t effect_;
-  RenderSubqueue::SharedPtr_t subqueue_;
+  typedefs::RenderSubqueueSharedPtr_t subqueue_;
   MaterialTypedefs::SharedPtr_t material_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   u32_t axisGeomIdx_;

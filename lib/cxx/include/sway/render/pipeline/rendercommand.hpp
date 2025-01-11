@@ -2,13 +2,13 @@
 #define SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/_typedefs.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>
 #include <sway/render/pipeline/blenddescriptor.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
 #include <memory>

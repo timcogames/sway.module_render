@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_EFFECT_TYPEDEFS_HPP
 #define SWAY_RENDER_EFFECT_TYPEDEFS_HPP
 
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

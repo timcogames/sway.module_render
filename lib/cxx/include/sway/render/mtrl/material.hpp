@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/effect/effect.hpp>
 #include <sway/render/global.hpp>
@@ -10,13 +11,12 @@
 #include <sway/render/img/image.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>
 #include <sway/render/mtrl/materialdescriptor.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/rms.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-class Material : public core::foundation::Uniqueable<std::string> {
+class Material : public core::Uniqueable<std::string> {
 public:
 #pragma region "Ctors/Dtor"
 
@@ -65,7 +65,7 @@ public:
     return (idx < images_.size()) ? images_[idx].second : nullptr;
   }
 
-  void setSubsys(RenderSubsystemPtr_t subsys);
+  void setSubsys(typedefs::RenderSubsystemPtr_t subsys);
 
 #pragma endregion
 
@@ -79,7 +79,7 @@ public:
   ImageTypedefs::Container_t images_;
   MaterialDescriptor desc_;
 
-  RenderSubsystemPtr_t subsys_;
+  typedefs::RenderSubsystemPtr_t subsys_;
 };
 
 NS_END()  // namespace render

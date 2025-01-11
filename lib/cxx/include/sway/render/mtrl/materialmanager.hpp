@@ -2,9 +2,9 @@
 #define SWAY_RENDER_MTRL_MATERIALMANAGER_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>
 #include <sway/render/mtrl/material.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

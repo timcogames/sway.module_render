@@ -22,7 +22,7 @@ void RenderSubqueue::post(pipeline::ForwardRenderCommand cmd) {
   commands_.emplace_back(cmd);
 }
 
-void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::StateContextPtr_t state) {
+void RenderSubqueue::renderItem_(pipeline::ForwardRenderCommand cmd, gapi::typedefs::StateContextPtr_t state) {
   // state->setBlendEnable(cmd.blendDesc.enabled);
   // if (cmd.blendDesc.enabled) {
   //   state->setBlendFn(cmd.blendDesc.src, cmd.blendDesc.dst);
@@ -86,7 +86,7 @@ auto sorted(const pipeline::ForwardRenderCommand &lhs, const pipeline::ForwardRe
                                   : std::less<i32_t>()(lhs.zorder, rhs.zorder);
 }
 
-void RenderSubqueue::render(u32_t stage, gapi::StateContextPtr_t state) {
+void RenderSubqueue::render(u32_t stage, gapi::typedefs::StateContextPtr_t state) {
   std::sort(commands_.begin(), commands_.end(), sorted);
 
   // std::reverse(commands_.begin(), commands_.end());

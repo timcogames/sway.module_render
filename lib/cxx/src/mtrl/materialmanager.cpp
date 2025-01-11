@@ -4,7 +4,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 auto MaterialManager::addMaterial(MaterialTypedefs::SharedPtr_t mtrl) -> bool {
-  auto [iter, inserted] = materials_.emplace(mtrl->getUid().value(), mtrl);
+  auto [iter, inserted] = materials_.emplace(mtrl->getUniqueId().value(), mtrl);
   return inserted;
 }
 

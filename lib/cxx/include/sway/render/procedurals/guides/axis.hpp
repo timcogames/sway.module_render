@@ -2,10 +2,10 @@
 #define SWAY_RENDER_PROCEDURALS_GUIDES_AXIS_HPP
 
 #include <sway/math.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomindexedvertexdata.hpp>
 #include <sway/render/geom/geomvertexattribset.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/shape.hpp>
 
 #include <memory>
@@ -37,7 +37,7 @@ public:
     };
     // clang-format on
 
-    core::detail::EnumClassBitset<math::Axis::Enum> axises;
+    core::EnumClassBitset<math::Axis::Enum> axises;
     axises.set(math::Axis::Enum::RIGHT);
     axises.set(math::Axis::Enum::UP);
 

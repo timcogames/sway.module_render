@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PASSDESCRIPTOR_HPP
 #define SWAY_RENDER_EXPERIENCE_PASSDESCRIPTOR_HPP
 
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -17,7 +17,7 @@ struct PassDescriptor {
 
   auto hashValue() const -> std::size_t {
     std::size_t hash{0};
-    core::misc::hashCombine(hash, format);
+    core::hashCombine(hash, format);
     return hash;
   }
 };

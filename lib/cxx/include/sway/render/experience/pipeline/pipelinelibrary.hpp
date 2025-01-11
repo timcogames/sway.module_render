@@ -1,10 +1,10 @@
 #ifndef SWAY_RENDER_EXPERIENCE_PIPELINELIBRARY_HPP
 #define SWAY_RENDER_EXPERIENCE_PIPELINELIBRARY_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pipeline/_typedefs.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipeline.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipelinedescriptor.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

@@ -3,12 +3,12 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/geom/_typedefs.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/procedurals/prims/quad.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
@@ -25,8 +25,6 @@ struct VertexPosition2D {
 };
 
 class ScreenQuad {
-  DECLARE_PTR_ALIASES(ScreenQuad)
-
 public:
 #pragma region "Ctors/Dtor"
 
@@ -67,7 +65,7 @@ public:
     effect_ = Effect::create(plug, createInfoSet);
   }
 
-  void initialize(core::misc::Dictionary glob, GeomBuilderTypedefs::SharedPtr_t geomBuilder) {
+  void initialize(core::Dictionary glob, GeomBuilderTypedefs::SharedPtr_t geomBuilder) {
     geomBuilder_ = geomBuilder;
 
     createEffect();
@@ -115,10 +113,10 @@ public:
     effect_->unbind();
   }
 
-  auto getShader() -> gapi::ShaderProgram::Ptr_t { return effect_->getShaderProgram(); }
+  auto getShader() -> gapi::typedefs::ShaderProgramPtr_t { return effect_->getShaderProgram(); }
 
 private:
-  gapi::DrawCallPtr_t drawCall_;
+  gapi::typedefs::DrawCallPtr_t drawCall_;
   EffectTypedefs::Ptr_t effect_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   GeomTypedefs::Ptr_t geom_;

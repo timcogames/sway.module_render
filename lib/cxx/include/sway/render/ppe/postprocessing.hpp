@@ -3,8 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/ppe/postprocessingpass.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/renderstate.hpp>
 #include <sway/render/rendertarget.hpp>
 
@@ -15,22 +15,20 @@ NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
 class PostProcessing {
-  DECLARE_PTR_ALIASES(PostProcessing)
-
 public:
 #pragma region "Ctors/Dtor"
 
-  PostProcessing(gapi::ViewportPtr_t viewport);
+  PostProcessing(gapi::typedefs::ViewportPtr_t viewport);
 
   ~PostProcessing() = default;
 
 #pragma endregion
 
-  // void addPass(u32_t idx, RenderTarget::SharedPtr_t target);
+  // void addPass(u32_t idx, typedefs::RenderTargetSharedPtr_t target);
 
   void add(std::shared_ptr<PostProcessingPass> pass, i32_t idx);
 
-  void apply(gapi::FrameBuffer::Ptr_t framebuf);
+  void apply(gapi::typedefs::FrameBufferPtr_t framebuf);
 
   auto getPass(u32_t idx) -> std::shared_ptr<PostProcessingPass>;
 
@@ -41,8 +39,8 @@ public:
   void postRender();
 
 public:
-  gapi::ViewportPtr_t viewport_;
-  RenderState::SharedPtr_t state_;
+  gapi::typedefs::ViewportPtr_t viewport_;
+  typedefs::RenderStateSharedPtr_t state_;
   std::vector<std::shared_ptr<PostProcessingPass>> passes_{};
 };
 

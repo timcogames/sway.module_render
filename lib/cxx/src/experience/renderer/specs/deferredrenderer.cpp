@@ -19,7 +19,7 @@ void DeferredRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queu
 }
 
 DeferredRenderer::DeferredRenderer()
-    : Renderer(core::detail::toBase(RendererType::Enum::IDX_DEF)) {
+    : Renderer(core::toBase(RendererType::Enum::IDX_DEF)) {
   registerTechnique(this->commandQueue_);
 
   auto tech = std::make_shared<Technique>("deferred");

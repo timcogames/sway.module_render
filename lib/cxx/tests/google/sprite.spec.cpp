@@ -2,6 +2,7 @@
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
 #include <sway/render.hpp>
+#include <sway/render/typedefs.hpp>
 
 #include <google/plugfixture.hpp>
 #include <google/stubs/bufferstub.hpp>
@@ -25,7 +26,7 @@ NS_SHORT_SWAY()
 
 class SpriteTestFixture : public PlugTestFixture {};
 
-class RenderSubsystemContext : public core::foundation::Context {
+class RenderSubsystemContext : public core::Context {
 public:
   RenderSubsystemContext() {
     subsys = std::make_shared<render::RenderSubsystem>(nullptr, this);
@@ -34,7 +35,7 @@ public:
   }
 
 public:
-  render::RenderSubsystem::SharedPtr_t subsys;
+  render::typedefs::RenderSubsystemSharedPtr_t subsys;
 };
 
 TEST_F(SpriteTestFixture, test) {
@@ -83,18 +84,18 @@ TEST_F(SpriteTestFixture, test) {
   RenderSubsystemContext context;
 
   render::ShaderTypedefs::SourcePair_t sources;
-  sources[core::detail::toBase(gapi::ShaderType::Enum::VERT)] = "layout (location = 0) in vec3 vtx_pos_attrib;"
-                                                                "layout (location = 1) in vec4 vtx_col_attrib;"
-                                                                "out vec4 vtx_col;"
-                                                                "void main() {"
-                                                                "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
-                                                                "    vtx_col = vtx_col_attrib;"
-                                                                "}";
-  sources[core::detail::toBase(gapi::ShaderType::Enum::FRAG)] = "in vec4 vtx_col;"
-                                                                "out vec4 out_col;"
-                                                                "void main() {"
-                                                                "    out_col = vtx_col;"
-                                                                "}";
+  sources[core::toBase(gapi::ShaderType::Enum::VERT)] = "layout (location = 0) in vec3 vtx_pos_attrib;"
+                                                        "layout (location = 1) in vec4 vtx_col_attrib;"
+                                                        "out vec4 vtx_col;"
+                                                        "void main() {"
+                                                        "    gl_Pos = vec4(vtx_pos_attrib, 1.0);"
+                                                        "    vtx_col = vtx_col_attrib;"
+                                                        "}";
+  sources[core::toBase(gapi::ShaderType::Enum::FRAG)] = "in vec4 vtx_col;"
+                                                        "out vec4 out_col;"
+                                                        "void main() {"
+                                                        "    out_col = vtx_col;"
+                                                        "}";
 
   auto mtrl = std::make_shared<render::Material>(globalGapiPlug, "test_1");
   mtrl->addEffectSource(sources);

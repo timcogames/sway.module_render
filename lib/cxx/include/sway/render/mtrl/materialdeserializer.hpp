@@ -2,8 +2,8 @@
 #define SWAY_RENDER_MTRL_MATERIALDESERIALIZER_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/mtrl/_typedefs.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <nlohmann/json.hpp>
 

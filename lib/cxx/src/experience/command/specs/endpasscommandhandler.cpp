@@ -12,9 +12,7 @@ void EndPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, Command
   std::cout << "Handling END_PASS" << std::endl;
 }
 
-auto EndPassCommandHandler::getKey() const -> std::string {
-  return core::foundation::ObjectClassname::toStr<EndPassCommand>();
-}
+auto EndPassCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<EndPassCommand>(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

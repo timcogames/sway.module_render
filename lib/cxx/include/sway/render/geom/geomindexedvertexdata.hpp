@@ -2,8 +2,8 @@
 #define SWAY_RENDER_GEOMINDEXEDVERTEXDATA_HPP
 
 #include <sway/core.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
-#include <sway/render/prereqs.hpp>
 
 #include <vector>
 

@@ -16,7 +16,8 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
+  GeomInstance(
+      global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
       : Geom(plug, builder)
       , dataDivisor_(divisor)
       , data_(nullptr) {}
@@ -50,8 +51,8 @@ public:
 #pragma endregion
 
   template <typename TDataType, typename TMemFn = std::function<void *(void *, TDataType, std::size_t)>>
-  void updateData(TMemFn callback, int offset, TDataType vertices, gapi::BufferPtr_t vbo,
-      core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset) {
+  void updateData(TMemFn callback, int offset, TDataType vertices, gapi::typedefs::BufferPtr_t vbo,
+      core::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset) {
     data_ = (ShapeVtxDataType_t *)vbo->mapRange(
         offset, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t), bitset);
     callback(data_, vertices, TShape::MAX_QUAD_RESERVE_VERTICES * sizeof(ShapeVtxDataType_t));
@@ -66,7 +67,7 @@ public:
       return;
     }
 
-    core::detail::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset;
+    core::EnumClassBitset<gapi::BufferMapRangeAccess::Enum> bitset;
     bitset.set(gapi::BufferMapRangeAccess::Enum::WRITE);
     bitset.set(gapi::BufferMapRangeAccess::Enum::INVALIDATE_BUFFER);
     // bitset.flip(gapi::BufferMapRangeAccess::FLUSH_EXPLICIT);
@@ -95,7 +96,7 @@ public:
   auto getDivisor() -> GeomInstanceDataDivisor<TShape> * { return dataDivisor_; }
 
 private:
-  gapi::VertexArrayPtr_t vao_;
+  gapi::typedefs::VertexArrayPtr_t vao_;
   GeomInstanceDataDivisor<TShape> *dataDivisor_;
   ShapeVtxDataType_t *data_;
 };

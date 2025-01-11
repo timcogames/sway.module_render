@@ -3,13 +3,13 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-PostProcessingPass::PostProcessingPass(const std::string &name, ScreenQuad::SharedPtr_t quad)
+PostProcessingPass::PostProcessingPass(const std::string &name, typedefs::ScreenQuadSharedPtr_t quad)
     : target_(nullptr)
     , state_(nullptr)
     , quad_(quad)
     , enabled_(true) {}
 
-void PostProcessingPass::apply(gapi::FrameBuffer::Ptr_t framebuf) {
+void PostProcessingPass::apply(gapi::typedefs::FrameBufferPtr_t framebuf) {
   if (!enabled_) {
     return;
   }
@@ -21,7 +21,7 @@ void PostProcessingPass::execute() {
   }
 
   auto sceneTex = target_->getColorBuffer()->getTexture();
-  auto sceneTexUid = sceneTex->getUid();
+  auto sceneTexUid = sceneTex->getUniqueId();
 
   sceneTex->setActive(sceneTexUid.value());
   sceneTex->bind();

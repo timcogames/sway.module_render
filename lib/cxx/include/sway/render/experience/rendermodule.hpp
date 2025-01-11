@@ -1,11 +1,11 @@
 #ifndef SWAY_RENDER_EXPERIENCE_RENDERMODULE_HPP
 #define SWAY_RENDER_EXPERIENCE_RENDERMODULE_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/_typedefs.hpp>
 #include <sway/render/experience/renderer/renderertypes.hpp>
 #include <sway/render/experience/renderstate.hpp>
 #include <sway/render/global.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

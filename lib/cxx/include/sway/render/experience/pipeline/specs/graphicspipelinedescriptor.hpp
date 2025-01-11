@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_GRAPHICSPIPELINEDESCRIPTOR_HPP
 #define SWAY_RENDER_EXPERIENCE_GRAPHICSPIPELINEDESCRIPTOR_HPP
 
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
@@ -24,10 +24,10 @@ struct GraphicsPipelineDescriptor : public CacheableBase {
   MTHD_OVERRIDE(auto getHash() const -> std::size_t) {
     std::size_t hash{0};
     for (const auto &shader : shaders) {
-      core::misc::hashCombine(hash, shader.value_or("(null)"));
+      core::hashCombine(hash, shader.value_or("(null)"));
     }
 
-    core::misc::hashCombine(hash, topology);
+    core::hashCombine(hash, topology);
 
     return hash;
   }

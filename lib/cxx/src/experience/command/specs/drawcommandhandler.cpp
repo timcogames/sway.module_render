@@ -17,9 +17,7 @@ void DrawCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTyp
 #endif
 }
 
-auto DrawCommandHandler::getKey() const -> std::string {
-  return core::foundation::ObjectClassname::toStr<DrawCommand>();
-}
+auto DrawCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<DrawCommand>(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

@@ -25,8 +25,8 @@ NS_SHORT(render::experience)
 class RendererTestFixture : public PlugTestFixture {};
 
 TEST_F(RendererTestFixture, setup) {
-  const auto fwd = core::detail::toBase(RendererType::Enum::IDX_FWD);
-  const auto def = core::detail::toBase(RendererType::Enum::IDX_DEF);
+  const auto fwd = core::toBase(RendererType::Enum::IDX_FWD);
+  const auto def = core::toBase(RendererType::Enum::IDX_DEF);
 
   auto mod = std::make_unique<RenderModule>();
   // RenderModule::getInternalContext()->capability = CapabilityStubCreator::create(globalGapiPlug);

@@ -4,8 +4,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
-    : core::foundation::Uniqueable<std::string>(core::misc::newGuid<UUID_NBR_OF_GROUPS>(UUID_MAGIC))
+Geom::Geom(global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder)
+    : core::Uniqueable<std::string>(core::newGuid<core::constans::UUID_MAGIC_SIZE>(core::constans::UUID_MAGIC))
     , gapiPlugin_(plug)
     , builder_(builder)
     , attribLayout_(nullptr) {}
@@ -29,12 +29,13 @@ void Geom::create(const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect, Geom
     attribLayout_->addAttribute(attribDesc);
   }
 
-  auto createBuffers = [&, next = 0](std::optional<gapi::BufferPtr_t> &buf) mutable {
+  auto createBuffers = [&, next = 0](std::optional<gapi::typedefs::BufferPtr_t> &buf) mutable {
     if (next == Constants::IDX_EBO && !info.indexed) {
       return;
     }
 
-    buf = std::make_optional<gapi::BufferPtr_t>(gapiPlugin_->createBuffer(builder_->getIdGenerator(), info.bo[next]));
+    buf = std::make_optional<gapi::typedefs::BufferPtr_t>(
+        gapiPlugin_->createBuffer(builder_->getIdGenerator(), info.bo[next]));
     ++next;
   };
 
@@ -46,13 +47,13 @@ void Geom::create(const GeomCreateInfo &info, EffectTypedefs::Ptr_t effect, Geom
 
 void Geom::bind() {
   vao_->bind();
-  this->call<gapi::BufferPtr_t>(gapi::Buffer::BindFunctor());
+  this->call<gapi::typedefs::BufferPtr_t>(gapi::Buffer::BindFunctor());
   attribLayout_->enable();
 }
 
 void Geom::unbind() {
   attribLayout_->disable();
-  this->call<gapi::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
+  this->call<gapi::typedefs::BufferPtr_t>(gapi::Buffer::UnbindFunctor());
   vao_->unbind();
 }
 

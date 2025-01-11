@@ -1,13 +1,13 @@
 #ifndef SWAY_RENDER_EXPERIENCE_GRAPHICSPASS_HPP
 #define SWAY_RENDER_EXPERIENCE_GRAPHICSPASS_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipelinestate.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

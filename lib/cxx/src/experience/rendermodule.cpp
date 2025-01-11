@@ -29,7 +29,7 @@ void RenderModule::prepare() {
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new ForwardRenderer()));
   context_.rendererMngr->add(std::unique_ptr<Renderer>(new DeferredRenderer()));
 
-  setActiveRenderer(core::detail::toBase(RendererType::Enum::IDX_FWD));
+  setActiveRenderer(core::toBase(RendererType::Enum::IDX_FWD));
 }
 
 void RenderModule::setActiveRenderer(i32_t idx) {

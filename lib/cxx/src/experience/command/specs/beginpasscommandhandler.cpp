@@ -10,9 +10,7 @@ void BeginPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, Comma
   auto *beginPassCommand = static_cast<BeginPassCommandTypedefs::Ptr_t>(command);
 }
 
-auto BeginPassCommandHandler::getKey() const -> std::string {
-  return core::foundation::ObjectClassname::toStr<BeginPassCommand>();
-}
+auto BeginPassCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<BeginPassCommand>(); }
 
 NS_END()  // namespace experience
 NS_END()  // namespace render

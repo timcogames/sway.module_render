@@ -3,12 +3,12 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/_typedefs.hpp>
 #include <sway/render/experience/rendermodule.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 #include <sway/render/ppe/postprocessing.hpp>
 #include <sway/render/ppe/screenquad.hpp>
-#include <sway/render/prereqs.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
@@ -19,9 +19,8 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
 
-class RenderSubsystem : public core::foundation::Subsystem {
-  DECLARE_CLASS_METADATA(RenderSubsystem, core::foundation::Subsystem);
-  DECLARE_PTR_ALIASES(RenderSubsystem)
+class RenderSubsystem : public core::Subsystem {
+  DECLARE_CLASS_METADATA(RenderSubsystem, core::Subsystem);
 
 public:
 #pragma region "Ctors/Dtor"
@@ -32,7 +31,7 @@ public:
    *
    * @param[in] ctx Контекст подсистемы.
    */
-  RenderSubsystem(core::Plugin *plug, core::foundation::Context::Ptr_t context);
+  RenderSubsystem(core::Plugin *plug, core::typedefs::ContextPtr_t context);
 
   DTOR_VIRTUAL(RenderSubsystem);
 
@@ -40,7 +39,7 @@ public:
 
   void setGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs);
 
-  void createPostProcessing(RenderSubqueue::SharedPtr_t subqueue, core::misc::Dictionary glob);
+  void createPostProcessing(typedefs::RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob);
 
   /**
    * \~russian @brief Получает очередь по индексу.
@@ -48,9 +47,9 @@ public:
    * @param[in] idx Индекс очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto getQueueByIdx(u32_t idx) -> RenderQueue::SharedPtr_t { return queues_[idx]; }
+  auto getQueueByIdx(u32_t idx) -> typedefs::RenderQueueSharedPtr_t { return queues_[idx]; }
 
-  auto getQueueByPriority(u32_t priority) -> RenderQueue::SharedPtr_t;
+  auto getQueueByPriority(u32_t priority) -> typedefs::RenderQueueSharedPtr_t;
 
   /**
    * \~russian @brief Создает новую очередь и добавляет её в контейнер.
@@ -58,7 +57,7 @@ public:
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto createQueue(u32_t priority) -> RenderQueue::SharedPtr_t;
+  auto createQueue(u32_t priority) -> typedefs::RenderQueueSharedPtr_t;
 
   void createQueuePass(const std::string &name, i32_t idx);
 
@@ -92,19 +91,19 @@ public:
   auto getGeomBuilder() -> GeomBuilderTypedefs::SharedPtr_t { return geomBuilder_; }
 
 public:
-  void renderSubqueues_(
-      RenderQueue::SharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderState::SharedPtr_t state);
+  void renderSubqueues_(typedefs::RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage,
+      typedefs::RenderStateSharedPtr_t state);
 
   global::GapiPluginFunctionSet *deviceContext_;
 
   gapi::StateEnableable<gapi::RasterizerDescriptor> *rasterizer_;
-  RenderState::SharedPtr_t renderState_;
-  gapi::ViewportPtr_t viewport_;
-  PostProcessing::SharedPtr_t ppe_;
+  typedefs::RenderStateSharedPtr_t renderState_;
+  gapi::typedefs::ViewportPtr_t viewport_;
+  typedefs::PostProcessingSharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
-  std::array<gapi::IdGenerator::Ptr_t, 3> idGenerator_;
+  std::array<gapi::typedefs::IdGeneratorPtr_t, 3> idGenerator_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
-  ScreenQuad::SharedPtr_t fullscreenQuad_;
+  typedefs::ScreenQuadSharedPtr_t fullscreenQuad_;
 
   experience::RenderModuleTypedefs::UniquePtr_t renderModule_;
 };

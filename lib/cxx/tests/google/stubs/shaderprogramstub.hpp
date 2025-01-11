@@ -17,11 +17,11 @@ public:
 
 #pragma endregion
 
-  MOCK_METHOD(void, attach, (gapi::ShaderPtr_t), (override));
+  MOCK_METHOD(void, attach, (gapi::typedefs::ShaderPtr_t), (override));
 
-  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType::Enum, gapi::ShaderPtr_t>), bool), (override));
+  MOCK_METHOD(void, detach, ((std::pair<gapi::ShaderType::Enum, gapi::typedefs::ShaderPtr_t>), bool), (override));
 
-  MOCK_METHOD(gapi::ShaderPtr_t, getShader, (gapi::ShaderType::Enum), (override));
+  MOCK_METHOD(gapi::typedefs::ShaderPtr_t, getShader, (gapi::ShaderType::Enum), (override));
 
   MOCK_METHOD(void, link, (), (override));
 

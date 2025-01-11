@@ -1,7 +1,7 @@
 #ifndef SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINESTATE_HPP
 #define SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINESTATE_HPP
 
-#include <sway/render/prereqs.hpp>
+#include <sway/render/_stdafx.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)

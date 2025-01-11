@@ -1,9 +1,9 @@
 #ifndef SWAY_RENDER_EXPERIENCE_CLEARCOMMAND_HPP
 #define SWAY_RENDER_EXPERIENCE_CLEARCOMMAND_HPP
 
+#include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/command/commandtypes.hpp>
-#include <sway/render/prereqs.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(render)
