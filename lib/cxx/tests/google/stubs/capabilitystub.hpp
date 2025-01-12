@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class CapabilityStub : public gapi::Capability {
 public:
@@ -20,7 +19,6 @@ public:
   MOCK_METHOD(core::Version, getVersion, (), (const override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_CAPABILITYSTUB_HPP

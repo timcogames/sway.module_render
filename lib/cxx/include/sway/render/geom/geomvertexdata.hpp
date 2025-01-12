@@ -8,21 +8,27 @@
 
 #include <stdlib.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TVertexDataType>
 class GeomVertexData : public GeomVertexDataBase {
 public:
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   GeomVertexData(u32_t numVerts)
       : numVerts_(numVerts) {}
 
   virtual ~GeomVertexData() = default;
 
-  template <typename TAttribFormat>
-  auto createAttrib(gapi::VertexSemantic semantic) -> typedefs::GeomVertexAttribBaseSharedPtr_t;
+  /** @} */
+#pragma endregion
 
-  auto getAttrib(gapi::VertexSemantic semantic) -> typedefs::GeomVertexAttribBaseSharedPtr_t {
+  template <typename TAttribFormat>
+  auto createAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBaseSharedPtr_t;
+
+  auto getAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBaseSharedPtr_t {
     auto iter = attribs_.find(semantic);
     if (iter != attribs_.end()) {
       return iter->second;
@@ -77,8 +83,7 @@ private:
   u32_t numVerts_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/geom/geomvertexdata.inl>
 

@@ -5,8 +5,7 @@
 #include <sway/gapi.hpp>
 #include <sway/render/geom/geomvertexattribbase.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class GeomVertexDataBase;
 
@@ -15,9 +14,16 @@ class GeomVertexAttrib : public GeomVertexAttribBase {
 public:
   using VertexAttribType_t = typename TAttribFormat::DataElementType_t;
 
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   GeomVertexAttrib(GeomVertexDataBase *owner, gapi::VertexSemantic semantic, bool normalized);
 
   virtual ~GeomVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
+
+  /** @} */
+#pragma endregion
 
   MTHD_OVERRIDE(void setData(u32_t idx, void *val));
 
@@ -41,8 +47,7 @@ private:
   VertexAttribType_t *vertices_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/geom/geomvertexattrib.inl>
 

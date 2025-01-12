@@ -4,8 +4,7 @@
 #define TRACE_CTORS_DTOR 0
 #define TRACE_PARAMETERS 0
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 GraphicsPass::GraphicsPass(const PassDescriptor &desc)
@@ -24,5 +23,4 @@ GraphicsPass::~GraphicsPass() {
 void GraphicsPass::execute(DeviceContextTypedefs::Ptr_t context) { queue_->process(context); }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

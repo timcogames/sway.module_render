@@ -5,18 +5,20 @@
 #include <sway/render/experience/utility/_typedefs.hpp>
 #include <sway/render/experience/utility/cacheitem.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class Cache {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Cache();
 
   DTOR(Cache);
 
+  /** @} */
 #pragma endregion
 
   template <typename TYPE, typename DESC>
@@ -29,8 +31,7 @@ private:
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/experience/utility/cache.inl>
 

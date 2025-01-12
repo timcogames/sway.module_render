@@ -1,23 +1,23 @@
 #ifndef SWAY_RENDER_GEOMINSTANCE_HPP
 #define SWAY_RENDER_GEOMINSTANCE_HPP
 
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geominstancedatadivisor.hpp>
-#include <sway/render/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TShape>
 class GeomInstance : public Geom {
 public:
   using ShapeVtxDataType_t = typename TShape::VtxDataType_t;
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
-  GeomInstance(
-      global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
+  GeomInstance(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder, GeomInstanceDataDivisor<TShape> *divisor)
       : Geom(plug, builder)
       , dataDivisor_(divisor)
       , data_(nullptr) {}
@@ -28,6 +28,7 @@ public:
     SAFE_DELETE_OBJECT(dataDivisor_);
   }
 
+  /** @} */
 #pragma endregion
 
   MTHD_OVERRIDE(void create(
@@ -101,7 +102,6 @@ private:
   ShapeVtxDataType_t *data_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMINSTANCE_HPP

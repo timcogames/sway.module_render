@@ -4,8 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(pipeline)
 
 struct BlendDescriptor {
@@ -16,7 +15,6 @@ struct BlendDescriptor {
 };
 
 NS_END()  // namespace pipeline
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PIPELINE_BLENDDESCRIPTOR_HPP

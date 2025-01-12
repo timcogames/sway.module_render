@@ -12,8 +12,7 @@
 #include <memory>
 #include <optional>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TShape>
 auto GeomBuilder::create(
@@ -51,5 +50,4 @@ auto GeomBuilder::createInstance(int idx, GeomInstanceDataDivisor<TShape> *divis
   return idx;
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

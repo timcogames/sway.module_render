@@ -9,17 +9,19 @@
 #  include <gmock/gmock.h>
 #endif
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(global)
 
 #ifdef RENDER_USE_GMOCK
 
 struct MockPluginFunctionSet : public gapi::PluginFunctionSetInterface {
-#  pragma region "Ctors/Dtor"
+#  pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   DTOR_VIRTUAL_DEFAULT(MockPluginFunctionSet);
 
+  /** @} */
 #  pragma endregion
 
   MOCK_METHOD(gapi::typedefs::CapabilityPtr_t, createCapability, (), (override));
@@ -59,7 +61,6 @@ extern GapiPluginFunctionSet *pluginFunctionSet_;
 auto getGapiPluginFunctionSet() -> GapiPluginFunctionSet *;
 
 NS_END()  // namespace global
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GLOBAL_HPP

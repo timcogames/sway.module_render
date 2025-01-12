@@ -11,8 +11,7 @@
 #include <sway/render/experience/technique/_typedefs.hpp>
 #include <sway/render/experience/utility/cacheable.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -38,12 +37,15 @@ public:
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Pass(const PassDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(Pass);
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Pure virtual methods"
@@ -65,7 +67,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_PASS_HPP

@@ -9,18 +9,20 @@
 #include <sway/render/experience/pass/passdescriptor.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipelinestate.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class GraphicsPass : public Pass {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   GraphicsPass(const PassDescriptor &desc);
 
   DTOR_VIRTUAL(GraphicsPass);
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Overridden Pass methods"
@@ -49,7 +51,6 @@ private:
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_GRAPHICSPASS_HPP

@@ -11,8 +11,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 NS_BEGIN(prims)
 
@@ -25,12 +24,15 @@ public:
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   QuadrilateralStrip(const std::initializer_list<gapi::VertexSemantic> &semantics, const math::size2i_t &subdivs);
 
   DTOR_VIRTUAL_DEFAULT(QuadrilateralStrip);
 
+  /** @} */
 #pragma endregion
 
   auto getReserveVerts() const;
@@ -69,8 +71,7 @@ private:
 
 NS_END()  // namespace prims
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/procedurals/prims/quadrilateralstrip.inl>
 

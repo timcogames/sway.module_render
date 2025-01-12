@@ -2,8 +2,7 @@
 #include <sway/render/experience/command/specs/beginpasscommand.hpp>
 #include <sway/render/experience/command/specs/beginpasscommandhandler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void BeginPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t command) {
@@ -13,5 +12,4 @@ void BeginPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, Comma
 auto BeginPassCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<BeginPassCommand>(); }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

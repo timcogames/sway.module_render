@@ -3,8 +3,7 @@
 
 #include <sway/render/_stdafx.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class Cacheable;
@@ -18,7 +17,6 @@ using Container_t = std::vector<CacheItem>;
 }  // namespace CacheItemTypedefs
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_BASE_TYPEDEFS_HPP

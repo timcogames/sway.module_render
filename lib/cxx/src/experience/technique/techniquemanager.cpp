@@ -1,8 +1,7 @@
 
 #include <sway/render/experience/technique/techniquemanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 auto TechniqueManager::registerTechnique(const std::string &name, TechniqueTypedefs::Builder_t builder) -> bool {
@@ -22,5 +21,4 @@ auto TechniqueManager::get(const std::string &name) -> TechniqueTypedefs::Builde
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

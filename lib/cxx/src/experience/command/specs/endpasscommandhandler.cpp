@@ -2,8 +2,7 @@
 #include <sway/render/experience/command/specs/endpasscommand.hpp>
 #include <sway/render/experience/command/specs/endpasscommandhandler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void EndPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
@@ -15,5 +14,4 @@ void EndPassCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, Command
 auto EndPassCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<EndPassCommand>(); }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

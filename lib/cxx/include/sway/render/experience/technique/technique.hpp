@@ -5,18 +5,20 @@
 #include <sway/render/experience/pass/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class Technique {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Technique(const std::string &name);
 
   DTOR_DEFAULT(Technique);
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Getters/Setters"
@@ -30,7 +32,6 @@ private:
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_TECHNIQUE_HPP

@@ -6,8 +6,7 @@
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/rendercontext.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -17,10 +16,13 @@ NS_BEGIN(experience)
 
 class CommandHandler {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   DTOR_VIRTUAL(CommandHandler) noexcept {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Pure virtual methods"
@@ -38,7 +40,6 @@ public:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_COMMANDHANDLER_HPP

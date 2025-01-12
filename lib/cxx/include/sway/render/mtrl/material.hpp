@@ -13,12 +13,13 @@
 #include <sway/render/mtrl/materialdescriptor.hpp>
 #include <sway/rms.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Material : public core::Uniqueable<std::string> {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Material(global::GapiPluginFunctionSet *plug, const std::string &name);
 
@@ -27,6 +28,7 @@ public:
 
   DTOR_DEFAULT(Material);
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Adding/Updating/Removing"
@@ -65,7 +67,7 @@ public:
     return (idx < images_.size()) ? images_[idx].second : nullptr;
   }
 
-  void setSubsys(typedefs::RenderSubsystemPtr_t subsys);
+  void setSubsys(RenderSubsystemPtr_t subsys);
 
 #pragma endregion
 
@@ -79,10 +81,9 @@ public:
   ImageTypedefs::Container_t images_;
   MaterialDescriptor desc_;
 
-  typedefs::RenderSubsystemPtr_t subsys_;
+  RenderSubsystemPtr_t subsys_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_MTRL_MATERIAL_HPP

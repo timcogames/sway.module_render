@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class BufferStub : public gapi::Buffer {
 public:
@@ -49,7 +48,6 @@ public:
   MOCK_METHOD(i32_t, getByteStride, (), (const, override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_BUFFERSTUB_HPP

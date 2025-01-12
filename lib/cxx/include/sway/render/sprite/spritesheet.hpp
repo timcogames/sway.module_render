@@ -8,17 +8,19 @@
 #include <optional>
 #include <unordered_map>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class SpriteSheet {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   SpriteSheet(nlohmann::json jobject);
 
   DTOR_DEFAULT(SpriteSheet);
 
+  /** @} */
 #pragma endregion
 
   void parseAnimations(nlohmann::json jobject);
@@ -32,7 +34,6 @@ public:
   std::unordered_map<std::string, SpriteAnimation> animations_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_SPRITESHEET_HPP

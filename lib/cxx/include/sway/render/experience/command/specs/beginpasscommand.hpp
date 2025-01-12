@@ -5,8 +5,7 @@
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/pass/pass.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -18,12 +17,15 @@ class BeginPassCommand final : public Command {
   DECLARE_CLASS_METADATA(BeginPassCommand, Command)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   BeginPassCommand(Pass const &pass)
       : Command(CommandType::Enum::BEGIN_PASS)
       , pass_(pass) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Overridden Command methods"
@@ -42,7 +44,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_BEGINPASSCOMMAND_HPP

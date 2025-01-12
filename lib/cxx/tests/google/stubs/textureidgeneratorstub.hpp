@@ -7,8 +7,7 @@
 
 #include <gmock/gmock.h>  // MOCK_METHOD
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class TextureIdGeneratorStub : public gapi::IdGenerator {
 public:
@@ -21,7 +20,6 @@ public:
   MOCK_METHOD(u32_t, getNextUid, (), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_TEXTUREIDGENERATORSTUB_HPP

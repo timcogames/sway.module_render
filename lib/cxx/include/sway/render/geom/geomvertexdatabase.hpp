@@ -6,8 +6,7 @@
 
 #include <initializer_list>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class GeomVertexDataBase {
 public:
@@ -16,7 +15,6 @@ public:
   PURE_VIRTUAL(void useSemanticSet(const std::initializer_list<gapi::VertexSemantic> &semantics));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMVERTEXDATABASE_HPP

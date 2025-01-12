@@ -1,8 +1,7 @@
 #include <sway/render/img/image.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 Image::Image()
     : pluginFuncSet_(global::getGapiPluginFunctionSet())
@@ -28,5 +27,4 @@ void Image::create(gapi::typedefs::IdGeneratorPtr_t idgen, const loader::ImageDe
   create(idgen, textureCreateInfo_);
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

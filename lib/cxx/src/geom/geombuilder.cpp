@@ -1,7 +1,6 @@
 #include <sway/render/geom/geombuilder.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 auto GeomBuilder::create(global::GapiPluginFunctionSet *plug, gapi::typedefs::IdGeneratorPtr_t gen)
     -> GeomBuilderTypedefs::SharedPtr_t {
@@ -62,5 +61,4 @@ auto GeomBuilder::getGeometry(u32_t idx) -> GeomTypedefs::Ptr_t {
   return geometries_[idx];
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -3,8 +3,7 @@
 
 #include <sway/render/_stdafx.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class Stage;
@@ -14,7 +13,6 @@ using Container_t = std::vector<UniquePtr_t>;
 }  // namespace StageTypedefs
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_STAGE_TYPEDEFS_HPP

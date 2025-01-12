@@ -5,8 +5,7 @@
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/pipeline/pipeline.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -18,12 +17,15 @@ class BindPipelineCommand final : public Command {
   DECLARE_CLASS_METADATA(BindPipelineCommand, Command)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   BindPipelineCommand(Pipeline const &pipe)
       : Command(CommandType::Enum::BIND_PIPELINE)
       , pipeline_(pipe) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Overridden Command methods"
@@ -42,7 +44,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_BINDPIPELINECOMMAND_HPP

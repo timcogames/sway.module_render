@@ -1,7 +1,6 @@
 #include <sway/render/experience/command/commandqueue.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void CommandQueue::add(CommandBufferTypedefs::Ptr_t buf) { buffers_.push_back(std::unique_ptr<CommandBuffer>(buf)); }
@@ -21,5 +20,4 @@ void CommandQueue::process(DeviceContextTypedefs::Ptr_t context) {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

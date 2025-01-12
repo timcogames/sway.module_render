@@ -11,8 +11,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct ShaderProgramStubCreator {
   static auto create1(render::global::GapiPluginFunctionSet *plug, render::ShaderStub *shader)
@@ -46,7 +45,6 @@ struct ShaderProgramStubCreator {
   }
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_SHADERPROGRAMSTUBCREATOR_H

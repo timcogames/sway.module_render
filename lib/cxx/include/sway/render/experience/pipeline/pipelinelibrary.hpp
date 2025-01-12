@@ -6,8 +6,7 @@
 #include <sway/render/experience/pipeline/specs/graphicspipeline.hpp>
 #include <sway/render/experience/pipeline/specs/graphicspipelinedescriptor.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -17,12 +16,15 @@ NS_BEGIN(experience)
 
 class PipelineLibrary {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   PipelineLibrary();
 
   DTOR_DEFAULT(PipelineLibrary);
 
+  /** @} */
 #pragma endregion
 
   auto getGraphicsPipeline(const GraphicsPipelineDescriptor &desc) -> GraphicsPipelineTypedefs::SharedFuture_t;
@@ -37,8 +39,7 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/experience/pipeline/pipelinelibrary.inl>
 

@@ -1,8 +1,7 @@
 #include <sway/render/experience/command/commandbuffer.hpp>
 #include <sway/render/experience/command/commandqueue.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 auto CommandBuffer::create(CommandQueueTypedefs::UniquePtr_t &owner, const CommandBufferDescriptor &desc)
@@ -32,5 +31,4 @@ auto CommandBuffer::peek(CommandType::Enum *type) const -> CommandTypedefs::Ptr_
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

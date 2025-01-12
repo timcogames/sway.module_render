@@ -2,8 +2,7 @@
 #include <sway/render/experience/command/specs/drawcommand.hpp>
 #include <sway/render/experience/command/specs/drawcommandhandler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void DrawCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
@@ -20,5 +19,4 @@ void DrawCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTyp
 auto DrawCommandHandler::getKey() const -> std::string { return core::ObjectClassName::toStr<DrawCommand>(); }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class ShaderStub : public gapi::Shader {
 public:
@@ -29,7 +28,6 @@ public:
   MOCK_METHOD(gapi::ShaderType::Enum, getType, (), (const, override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_SHADERSTUB_HPP

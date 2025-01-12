@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class DrawCallStub : public gapi::DrawCall {
 public:
@@ -20,7 +19,6 @@ public:
   MOCK_METHOD(void, execute, (gapi::TopologyType::Enum, gapi::BufferSet, core::ValueDataType::Enum), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_DRAWCALLSTUB_HPP

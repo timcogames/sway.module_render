@@ -10,8 +10,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct CapabilityStubCreator {
   static auto create(render::global::GapiPluginFunctionSet *plug) -> render::CapabilityStub * {
@@ -23,7 +22,6 @@ struct CapabilityStubCreator {
   }
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_CAPABILITYSTUBCREATOR_H

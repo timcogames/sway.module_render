@@ -6,8 +6,7 @@
 #include <sway/render/experience/technique/delegates/defer.hpp>
 #include <sway/render/experience/technique/techniquemanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void ForwardRenderer::registerTechnique(CommandQueueTypedefs::UniquePtr_t &queue) {
@@ -46,5 +45,4 @@ void ForwardRenderer::render() {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -11,8 +11,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 NS_BEGIN(guides)
 
@@ -24,6 +23,10 @@ public:
   static constexpr std::size_t MAX_LINE_RESERVE_VERTICES{2};
   static constexpr std::size_t MAX_LINE_RESERVE_ELEMENTS{0};
 
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   Line()
       : remapping_(false) {
     initialVtxData();
@@ -32,6 +35,9 @@ public:
   }
 
   virtual ~Line() = default;
+
+  /** @} */
+#pragma endregion
 
   void initialVtxData() {
     data_ = std::make_shared<GeomVertexData<VtxDataType_t>>(MAX_LINE_RESERVE_VERTICES);
@@ -78,7 +84,6 @@ private:
 
 NS_END()  // namespace guides
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PROCEDURALS_GUIDES_LINE_HPP

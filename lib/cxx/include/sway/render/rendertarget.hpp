@@ -6,17 +6,19 @@
 #include <sway/render/_stdafx.hpp>
 #include <sway/render/img/image.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderTarget {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   RenderTarget() = default;
 
-  DTOR_DEFAULT(RenderTarget);
+  ~RenderTarget() = default;
 
+  /** @} */
 #pragma endregion
 
   void setScissorViewport(gapi::typedefs::ViewportPtr_t viewport);
@@ -25,7 +27,7 @@ public:
 
   void deactivate();
 
-  void attachColorBufferObject(typedefs::RenderSubsystemPtr_t subsys);
+  void attachColorBufferObject(RenderSubsystemPtr_t subsys);
 
   auto getColorBuffer() const -> ImageTypedefs::SharedPtr_t { return colorTex_; }
 
@@ -37,7 +39,6 @@ private:
   bool attached_{false};
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERTARGET_HPP

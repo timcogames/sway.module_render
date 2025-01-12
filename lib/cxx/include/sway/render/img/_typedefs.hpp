@@ -5,8 +5,7 @@
 #include <sway/render/img/imagetypes.hpp>
 #include <sway/render/img/pixel.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 namespace PixelTypedefs {
 using Ptr_t = Pixel_t *;
@@ -25,7 +24,6 @@ namespace ImageDataPackTypedefs {
 using Container_t = std::vector<ImageDataPack>;
 }  // namespace ImageDataPackTypedefs
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_IMG_TYPEDEFS_HPP

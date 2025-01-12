@@ -18,8 +18,7 @@
 #include <optional>
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct GeomPoolStats {
   u32_t numGeoms;
@@ -38,12 +37,15 @@ public:
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::typedefs::IdGeneratorPtr_t gen);
 
   DTOR(GeomBuilder);
 
+  /** @} */
 #pragma endregion
 
   template <typename TShape>
@@ -85,8 +87,7 @@ private:
   std::list<u32_t> availables_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/geom/geombuilder.inl>
 

@@ -3,8 +3,7 @@
 
 #include <sway/render/_stdafx.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Effect;
 namespace EffectTypedefs {
@@ -21,7 +20,6 @@ namespace EffectResourceImmutableTypedefs {
 using SharedPtr_t = std::shared_ptr<EffectResourceImmutable>;
 }  // namespace EffectResourceImmutableTypedefs
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EFFECT_TYPEDEFS_HPP

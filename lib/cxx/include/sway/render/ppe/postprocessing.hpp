@@ -11,20 +11,22 @@
 #include <array>
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class PostProcessing {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   PostProcessing(gapi::typedefs::ViewportPtr_t viewport);
 
   ~PostProcessing() = default;
 
+  /** @} */
 #pragma endregion
 
-  // void addPass(u32_t idx, typedefs::RenderTargetSharedPtr_t target);
+  // void addPass(u32_t idx, RenderTargetSharedPtr_t target);
 
   void add(std::shared_ptr<PostProcessingPass> pass, i32_t idx);
 
@@ -40,11 +42,10 @@ public:
 
 public:
   gapi::typedefs::ViewportPtr_t viewport_;
-  typedefs::RenderStateSharedPtr_t state_;
+  RenderStateSharedPtr_t state_;
   std::vector<std::shared_ptr<PostProcessingPass>> passes_{};
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PPE_POSTPROCESSING_HPP

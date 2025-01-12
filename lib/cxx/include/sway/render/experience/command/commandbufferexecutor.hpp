@@ -6,8 +6,7 @@
 #include <sway/render/experience/command/commandbuffer.hpp>
 #include <sway/render/experience/command/commandhandler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -17,12 +16,15 @@ NS_BEGIN(experience)
 
 class CommandBufferExecutor {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   CommandBufferExecutor() = default;
 
   DTOR_DEFAULT(CommandBufferExecutor);
 
+  /** @} */
 #pragma endregion
 
   void registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler);
@@ -42,7 +44,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_COMMANDBUFFEREXECUTOR_HPP

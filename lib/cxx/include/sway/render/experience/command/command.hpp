@@ -5,8 +5,7 @@
 #include <sway/render/experience/command/_typedefs.hpp>
 #include <sway/render/experience/command/commandtypes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -18,7 +17,9 @@ class Command {
   DECLARE_SUPERCLASS()
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Command(CommandType::Enum type)
       : type_(type)
@@ -26,6 +27,7 @@ public:
 
   DTOR_VIRTUAL(Command) noexcept {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Pure virtual methods"
@@ -51,7 +53,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_COMMAND_HPP

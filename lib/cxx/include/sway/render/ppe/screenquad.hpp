@@ -16,8 +16,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct VertexPosition2D {
   f32_t x, y;
@@ -26,12 +25,15 @@ struct VertexPosition2D {
 
 class ScreenQuad {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ScreenQuad() { drawCall_ = global::getGapiPluginFunctionSet()->createDrawCall(); }
 
   DTOR(ScreenQuad) { geomBuilder_->remove(geomIdx_); }
 
+  /** @} */
 #pragma endregion
 
   void createEffect() {
@@ -126,7 +128,6 @@ private:
   f32_t screenHgt_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PPE_SCREENQUAD_HPP

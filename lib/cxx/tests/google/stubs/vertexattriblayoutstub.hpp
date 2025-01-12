@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class VertexAttribLayoutStub : public gapi::VertexAttribLayout {
 public:
@@ -24,7 +23,6 @@ public:
   MOCK_METHOD(void, disable, (), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_VERTEXATTRIBLAYOUTSTUB_HPP

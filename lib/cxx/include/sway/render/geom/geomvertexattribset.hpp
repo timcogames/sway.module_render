@@ -3,17 +3,17 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/typedefs.hpp>
 
 #include <memory>
 
 namespace sway::render {
 
 struct GeomVertexAttribSet {
-  typedefs::GeomVertexAttribBaseSharedPtr_t pos;
-  typedefs::GeomVertexAttribBaseSharedPtr_t col;
-  typedefs::GeomVertexAttribBaseSharedPtr_t tex;
+  GeomVertexAttribBaseSharedPtr_t pos;
+  GeomVertexAttribBaseSharedPtr_t col;
+  GeomVertexAttribBaseSharedPtr_t tex;
 };
 
 }  // namespace sway::render

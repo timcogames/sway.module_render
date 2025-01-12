@@ -10,12 +10,11 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 // class PostProcessingPass : public IRenderPass {
 // public:
-//   PostProcessingPass(const std::string &name, const core::misc::Dictionary &glob)
+//   PostProcessingPass(const std::string &name, const core::Dictionary &glob)
 //       : IRenderPass(name)
 //       , screenWdt_((f32_t)glob.getIntegerOrDefault("screen_wdt", 800))
 //       , screenHgt_((f32_t)glob.getIntegerOrDefault("screen_hgt", 600)) {}
@@ -37,12 +36,15 @@ class PostProcessingEffect {};
 
 class PostProcessingPass {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
-  PostProcessingPass(const std::string &name, typedefs::ScreenQuadSharedPtr_t quad);
+  PostProcessingPass(const std::string &name, ScreenQuadSharedPtr_t quad);
 
   DTOR_VIRTUAL_DEFAULT(PostProcessingPass);
 
+  /** @} */
 #pragma endregion
 
   void setup() {}
@@ -53,29 +55,28 @@ public:
 
   void execute();
 
-  void setRenderTarget(typedefs::RenderTargetSharedPtr_t target) { target_ = target; }
+  void setRenderTarget(RenderTargetSharedPtr_t target) { target_ = target; }
 
-  auto getRenderTarget() -> typedefs::RenderTargetSharedPtr_t { return target_; }
+  auto getRenderTarget() -> RenderTargetSharedPtr_t { return target_; }
 
-  void setRenderState(typedefs::RenderStateSharedPtr_t state) { state_ = state; }
+  void setRenderState(RenderStateSharedPtr_t state) { state_ = state; }
 
-  auto getRenderState() -> typedefs::RenderStateSharedPtr_t { return state_; }
+  auto getRenderState() -> RenderStateSharedPtr_t { return state_; }
 
   auto isEnabled() -> bool { return enabled_; }
 
   void setEnabled(bool val) { enabled_ = val; }
 
 private:
-  typedefs::RenderTargetSharedPtr_t target_;
-  typedefs::RenderStateSharedPtr_t state_;
-  typedefs::ScreenQuadSharedPtr_t quad_;
+  RenderTargetSharedPtr_t target_;
+  RenderStateSharedPtr_t state_;
+  ScreenQuadSharedPtr_t quad_;
   bool enabled_;
 
   math::mat4f_t vp_;
   math::mat4f_t tfrm_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PPE_POSTPROCESSINGPASS_HPP

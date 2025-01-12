@@ -5,8 +5,7 @@
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/effect/effectresource.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct EffectResourceImmutable final {
   EffectResource resource;
@@ -14,7 +13,6 @@ struct EffectResourceImmutable final {
   u64_t timestamp;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EFFECTRESOURCEIMMUTABLE_HPP

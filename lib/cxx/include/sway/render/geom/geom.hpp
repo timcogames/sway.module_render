@@ -14,8 +14,7 @@
 #include <array>
 #include <optional>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 #define QUAD_TEXCOORD_SIZE2 4
 
@@ -45,12 +44,15 @@ struct UVData2 {
 
 class Geom : public core::Uniqueable<std::string> {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
-  Geom(global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder);
+  Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder);
 
   DTOR_VIRTUAL(Geom);
 
+  /** @} */
 #pragma endregion
 
   template <class OBJ>
@@ -75,7 +77,7 @@ public:
 
 protected:
   global::GapiPluginFunctionSet *gapiPlugin_;
-  typedefs::GeomBuilderPtr_t builder_;
+  GeomBuilderPtr_t builder_;
 
 private:
   gapi::typedefs::VertexArrayPtr_t vao_;
@@ -84,8 +86,7 @@ private:
   std::array<std::optional<gapi::typedefs::BufferPtr_t>, Constants::MAX_IDX_BUFFERS> buffers_{};
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #include <sway/render/geom/geom.inl>
 

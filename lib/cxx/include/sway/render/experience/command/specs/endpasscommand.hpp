@@ -4,8 +4,7 @@
 #include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/command/command.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -17,11 +16,14 @@ class EndPassCommand final : public Command {
   DECLARE_CLASS_METADATA(EndPassCommand, Command)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   EndPassCommand()
       : Command(CommandType::Enum::END_PASS) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Overridden Command methods"
@@ -37,7 +39,6 @@ public:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_ENDPASSCOMMAND_HPP

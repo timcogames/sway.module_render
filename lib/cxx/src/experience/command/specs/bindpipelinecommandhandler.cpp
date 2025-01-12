@@ -2,8 +2,7 @@
 #include <sway/render/experience/command/specs/bindpipelinecommand.hpp>
 #include <sway/render/experience/command/specs/bindpipelinecommandhandler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void BindPipelineCommandHandler::handle(DeviceContextTypedefs::Ptr_t context, CommandTypedefs::Ptr_t cmd) {
@@ -17,5 +16,4 @@ auto BindPipelineCommandHandler::getKey() const -> std::string {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

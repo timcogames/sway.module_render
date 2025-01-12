@@ -11,8 +11,7 @@ struct hash<sway::render::experience::PassDescriptor> {
 };
 }  // namespace std
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 template <typename TYPE, typename DESC>
@@ -28,5 +27,4 @@ auto Cache::getOrCreate(const DESC &desc) -> TYPE * {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -1,14 +1,13 @@
 #include <sway/render/ppe/postprocessing.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 PostProcessing::PostProcessing(gapi::typedefs::ViewportPtr_t viewport) {
   viewport_ = viewport;
   state_ = std::make_shared<RenderState>();
 }
 
-// void PostProcessing::addPass(u32_t idx, typedefs::RenderTargetSharedPtr_t target) {
+// void PostProcessing::addPass(u32_t idx, RenderTargetSharedPtr_t target) {
 //   passes_[idx] = std::make_shared<GraphicsPass>();
 //   target->setScissorViewport(viewport_);
 //   if (idx == core::toBase(RenderStage::IDX_COLOR)) {
@@ -44,5 +43,4 @@ void PostProcessing::postRender() {
   }
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

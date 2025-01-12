@@ -10,23 +10,28 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderSubqueue {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   /**
-   * \~russian @brief Конструктор класса.
-   *                  Выполняет инициализацию нового экземпляра класса.
+   * \~english
+   * @brief Constructor class. Initializes a new instance of the class.
+   * @param[in] group Subqueue group.
    *
+   * \~russian
+   * @brief Конструктор класса.Выполняет инициализацию нового экземпляра класса.
    * @param[in] group Группа подочереди.
    */
   RenderSubqueue(RenderSubqueueGroup group = RenderSubqueueGroup::OPAQUE);
 
   DTOR_DEFAULT(RenderSubqueue);
 
+  /** @} */
 #pragma endregion
 
   void initialize();
@@ -34,19 +39,23 @@ public:
   void post(pipeline::ForwardRenderCommand cmd);
 
   /**
-   * \~russian @brief Метод отрисовки.
+   * @brief \~english Method for rendering. \~russian Метод отрисовки.
    */
   void render(u32_t stage, gapi::typedefs::StateContextPtr_t state);
 
   /**
-   * \~russian @brief Устанавливает группу подочереди.
+   * \~english
+   * @brief Sets the group of the subqueue.
+   * @param[in] group Subqueue group.
    *
+   * \~russian
+   * @brief Устанавливает группу подочереди.
    * @param[in] group Группа подочереди.
    */
   void setGroup(RenderSubqueueGroup group) { group_ = group; }
 
   /**
-   * \~russian @brief Получает группу подочереди.
+   * @brief \~english Gets the group of the subqueue. \~russian Получает группу подочереди.
    */
   [[nodiscard]] auto getGroup() const -> RenderSubqueueGroup { return group_; }
 
@@ -57,10 +66,9 @@ private:
 
   std::vector<pipeline::ForwardRenderCommand> commands_;
   std::shared_ptr<math::MatrixStack> matrixStack_;
-  RenderSubqueueGroup group_;  ///< Группа подочереди.
+  RenderSubqueueGroup group_;  //!< \~english Subqueue group. \~russian Группа подочереди.
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERSUBQUEUE_HPP

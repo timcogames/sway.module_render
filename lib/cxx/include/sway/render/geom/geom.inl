@@ -1,8 +1,7 @@
 #include <sway/core.hpp>
 #include <sway/render/geom/geom.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <class OBJ>
 void Geom::call(std::function<void(OBJ)> callback) {
@@ -13,5 +12,4 @@ void Geom::call(std::function<void(OBJ)> callback) {
   }
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

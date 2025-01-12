@@ -3,22 +3,24 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/img/_typedefs.hpp>
 #include <sway/render/img/imagedatapack.hpp>
 #include <sway/render/img/pixel.hpp>
-#include <sway/render/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class AtlasBuilder {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   AtlasBuilder() = default;
 
   DTOR_DEFAULT(AtlasBuilder);
 
+  /** @} */
 #pragma endregion
 
   void addImage(const PixelTypedefs::Ptr_t src, math::size2i_t dims) {
@@ -34,7 +36,6 @@ private:
   ImageDataPackTypedefs::Container_t packages_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_ATLAS_HPP

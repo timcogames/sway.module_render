@@ -12,7 +12,9 @@ namespace sway::render {
 
 class RenderQueue {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   /**
    * @brief \~english Constructor class. Performs initialization of a new instance of the class. \~russian Конструктор
@@ -33,6 +35,7 @@ public:
 
   DTOR(RenderQueue);
 
+  /** @} */
 #pragma endregion
 
   /**
@@ -45,9 +48,9 @@ public:
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует добавить в контейнер.
    *
    * \~
-   * @sa removeSubqueue(const typedefs::RenderSubqueueSharedPtr_t &)
+   * @sa removeSubqueue(const RenderSubqueueSharedPtr_t &)
    */
-  void addSubqueue(const typedefs::RenderSubqueueSharedPtr_t &subqueue);
+  void addSubqueue(const RenderSubqueueSharedPtr_t &subqueue);
 
   /**
    * \~english
@@ -59,9 +62,9 @@ public:
    * @param[in] subqueue Указатель на обьект класса подочереди, которой следует удалить из контейнера.
    *
    * \~
-   * @sa addSubqueue(const typedefs::RenderSubqueueSharedPtr_t &)
+   * @sa addSubqueue(const RenderSubqueueSharedPtr_t &)
    */
-  void removeSubqueue(const typedefs::RenderSubqueueSharedPtr_t &subqueue);
+  void removeSubqueue(const RenderSubqueueSharedPtr_t &subqueue);
 
   /**
    * \~english
@@ -92,14 +95,14 @@ public:
   }
 
   struct PriorityInDescendingOrder {
-    bool operator()(const typedefs::RenderQueueSharedPtr_t &lhs, const typedefs::RenderQueueSharedPtr_t &rhs) const {
+    bool operator()(const RenderQueueSharedPtr_t &lhs, const RenderQueueSharedPtr_t &rhs) const {
       return lhs->getPriority() > rhs->getPriority();
     }
   };
 
 private:
   u32_t priority_;  //!< \~english Priority value. \~russian Приоритет очереди.
-  typedefs::RenderSubqueueContainer_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< \~english Container of subqueues.
+  RenderSubqueueContainer_t subqueues_[RENDER_SUBQUEUE_GROUP_COUNT]; /*!< \~english Container of subqueues.
     \~russian Контейнер подочередей. */
 };
 

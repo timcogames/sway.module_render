@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class VertexArrayStub : public gapi::VertexArray {
 public:
@@ -22,7 +21,6 @@ public:
   MOCK_METHOD(void, unbind, (), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_VERTEXARRAYSTUB_HPP

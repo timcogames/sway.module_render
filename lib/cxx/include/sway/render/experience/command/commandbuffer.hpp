@@ -6,8 +6,7 @@
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/command/commandbufferdescriptor.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -34,13 +33,16 @@ public:
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   CommandBuffer(const CommandBufferDescriptor &desc)
       : priority_(desc.priority) {}
 
   DTOR_DEFAULT(CommandBuffer);
 
+  /** @} */
 #pragma endregion
 
   void enqueue(CommandTypedefs::UniquePtr_t &&cmd);
@@ -72,7 +74,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_COMMANDBUFFER_HPP

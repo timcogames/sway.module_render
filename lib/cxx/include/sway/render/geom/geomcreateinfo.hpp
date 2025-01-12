@@ -5,8 +5,7 @@
 #include <sway/gapi/topologytypes.hpp>
 #include <sway/namespacemacros.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct Constants {
   static constexpr std::size_t MAX_VERTEX_ATTRIBS{16};
@@ -32,7 +31,6 @@ struct GeomCreateInfo {
   }
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMCREATEINFO_HPP

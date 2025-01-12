@@ -12,67 +12,78 @@
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueuegroups.hpp>
 
-#include <array>  // std::array
-#include <stack>  // std::stack
-#include <vector>  // std::vector
-
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderSubsystem : public core::Subsystem {
   DECLARE_CLASS_METADATA(RenderSubsystem, core::Subsystem);
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   /**
-   * \~russian @brief Конструктор класса.
-   *   Выполняет инициализацию нового экземпляра класса.
+   * \~english
+   * @brief Constructor class. Performs initialization of a new instance of the class.
+   * @param[in] ctx Context of the subsystem.
    *
+   * \~russian
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
    * @param[in] ctx Контекст подсистемы.
    */
   RenderSubsystem(core::Plugin *plug, core::typedefs::ContextPtr_t context);
 
   DTOR_VIRTUAL(RenderSubsystem);
 
+  /** @} */
 #pragma endregion
 
   void setGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs);
 
-  void createPostProcessing(typedefs::RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob);
+  void createPostProcessing(RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob);
 
   /**
-   * \~russian @brief Получает очередь по индексу.
+   * \~english
+   * @brief Gets the queue by index.
+   * @param[in] idx Queue index.
+   * @return Smart pointer to the queue object.
    *
+   * \~russian
+   * @brief Получает очередь по индексу.
    * @param[in] idx Индекс очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto getQueueByIdx(u32_t idx) -> typedefs::RenderQueueSharedPtr_t { return queues_[idx]; }
+  auto getQueueByIdx(u32_t idx) -> RenderQueueSharedPtr_t { return queues_[idx]; }
 
-  auto getQueueByPriority(u32_t priority) -> typedefs::RenderQueueSharedPtr_t;
+  auto getQueueByPriority(u32_t priority) -> RenderQueueSharedPtr_t;
 
   /**
-   * \~russian @brief Создает новую очередь и добавляет её в контейнер.
+   * \~english
+   * @brief Creates a new queue and adds it to the container.
+   * @param[in] priority Queue priority.
+   * @return Smart pointer to the queue object.
    *
+   * \~russian
+   * @brief Создает новую очередь и добавляет её в контейнер.
    * @param[in] priority Приоритет очереди.
    * @return Умный указатель на объект класса очереди.
    */
-  auto createQueue(u32_t priority) -> typedefs::RenderQueueSharedPtr_t;
+  auto createQueue(u32_t priority) -> RenderQueueSharedPtr_t;
 
   void createQueuePass(const std::string &name, i32_t idx);
 
   /**
-   * \~russian @brief Получает все очереди.
+   * @brief \~english Gets all queues. \~russian Получает все очереди.
    */
   auto getQueues() -> RenderQueueSharedPtrVec_t { return queues_; }
 
   /**
-   * \~russian @brief Сортирует очереди по приоритету.
+   * @brief \~english Sorts queues by priority. \~russian Сортирует очереди по приоритету.
    */
   void sortQueues();
 
   /**
-   * \~russian @brief Метод отрисовки.
+   * @brief \~english Method for rendering. \~russian Метод отрисовки.
    */
   void render();
 
@@ -91,24 +102,23 @@ public:
   auto getGeomBuilder() -> GeomBuilderTypedefs::SharedPtr_t { return geomBuilder_; }
 
 public:
-  void renderSubqueues_(typedefs::RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage,
-      typedefs::RenderStateSharedPtr_t state);
+  void renderSubqueues_(
+      RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderStateSharedPtr_t state);
 
   global::GapiPluginFunctionSet *deviceContext_;
 
   gapi::StateEnableable<gapi::RasterizerDescriptor> *rasterizer_;
-  typedefs::RenderStateSharedPtr_t renderState_;
+  RenderStateSharedPtr_t renderState_;
   gapi::typedefs::ViewportPtr_t viewport_;
-  typedefs::PostProcessingSharedPtr_t ppe_;
+  PostProcessingSharedPtr_t ppe_;
   RenderQueueSharedPtrVec_t queues_;
   std::array<gapi::typedefs::IdGeneratorPtr_t, 3> idGenerator_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
-  typedefs::ScreenQuadSharedPtr_t fullscreenQuad_;
+  ScreenQuadSharedPtr_t fullscreenQuad_;
 
   experience::RenderModuleTypedefs::UniquePtr_t renderModule_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERSUBSYSTEM_HPP

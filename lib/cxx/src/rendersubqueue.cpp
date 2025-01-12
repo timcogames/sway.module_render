@@ -7,8 +7,7 @@
 
 #include <algorithm>  // reverse
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 RenderSubqueue::RenderSubqueue(RenderSubqueueGroup group)
     : group_(group) {
@@ -102,5 +101,4 @@ void RenderSubqueue::render(u32_t stage, gapi::typedefs::StateContextPtr_t state
   commands_.clear();
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

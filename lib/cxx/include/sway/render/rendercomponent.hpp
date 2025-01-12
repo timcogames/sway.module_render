@@ -4,8 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderComponent : public core::Object {
   DECLARE_CLASS_METADATA(RenderComponent, core::Object)
@@ -22,7 +21,6 @@ public:
   // PURE_VIRTUAL(void onDestroy());
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_COMPONENT_HPP

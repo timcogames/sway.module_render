@@ -2,12 +2,11 @@
 #include <sway/render/rendersubsystem.hpp>
 #include <sway/render/rendertarget.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 void RenderTarget::setScissorViewport(gapi::typedefs::ViewportPtr_t viewport) { viewport_ = viewport; }
 
-void RenderTarget::attachColorBufferObject(typedefs::RenderSubsystemPtr_t subsys) {
+void RenderTarget::attachColorBufferObject(RenderSubsystemPtr_t subsys) {
   attached_ = true;
 
   auto texSize = math::sizei_t(800, 600);
@@ -76,5 +75,4 @@ void RenderTarget::deactivate() {
   // }
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

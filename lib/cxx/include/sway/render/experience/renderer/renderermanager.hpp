@@ -5,18 +5,20 @@
 #include <sway/render/experience/renderer/_typedefs.hpp>
 #include <sway/render/experience/renderer/renderer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class RendererManager final {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   RendererManager() = default;
 
   DTOR_DEFAULT(RendererManager);
 
+  /** @} */
 #pragma endregion
 
   auto add(RendererTypedefs::UniquePtr_t renderer) -> i32_t;
@@ -34,7 +36,6 @@ private:
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_RENDERERMANAGER_HPP

@@ -2,16 +2,15 @@
 #include <sway/render/procedurals/guides/line.hpp>
 #include <sway/render/sprite/sprite_debug.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 Sprite_Debug::~Sprite_Debug() {
   geomBuilder_->remove(axisGeomIdx_);
   //  geomBuilder_->remove(lineGeomIdx_);
 }
 
-void Sprite_Debug::initialize(typedefs::RenderSubsystemSharedPtr_t subsystem,
-    typedefs::RenderSubqueueSharedPtr_t subqueue, MaterialTypedefs::SharedPtr_t material) {
+void Sprite_Debug::initialize(
+    RenderSubsystemSharedPtr_t subsystem, RenderSubqueueSharedPtr_t subqueue, MaterialTypedefs::SharedPtr_t material) {
   geomBuilder_ = subsystem->getGeomBuilder();
 
   subqueue_ = subqueue;
@@ -126,5 +125,4 @@ void Sprite_Debug::onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_
   subqueue_->post(axisCmd);
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

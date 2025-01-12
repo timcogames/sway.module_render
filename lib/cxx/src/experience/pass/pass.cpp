@@ -5,8 +5,7 @@
 #include <sway/render/experience/technique/technique.hpp>
 #include <sway/render/experience/utility/cache.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 auto Pass::get(TechniqueTypedefs::Ptr_t tech, const PassDescriptor &desc) -> PassTypedefs::Ptr_t {
@@ -17,5 +16,4 @@ Pass::Pass(const PassDescriptor &desc)
     : dirty_(true) {}
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

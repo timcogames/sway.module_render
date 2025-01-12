@@ -1,7 +1,6 @@
 #include <sway/render/procedurals/prims/quadrilateralstrip.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 NS_BEGIN(prims)
 
@@ -131,5 +130,4 @@ void QuadrilateralStrip<TVertexDataType>::getVertices(void *dst, u32_t start, u3
 
 NS_END()  // namespace prims
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

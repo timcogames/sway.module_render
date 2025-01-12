@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 using Pixel_t = u32_t;
 // struct Pixel {
@@ -14,7 +13,6 @@ using Pixel_t = u32_t;
 //   u8_t a;
 // };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PIXEL_HPP

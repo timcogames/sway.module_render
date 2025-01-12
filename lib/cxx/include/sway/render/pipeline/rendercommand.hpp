@@ -15,8 +15,7 @@
 #include <string>
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(pipeline)
 
 struct RenderCommand {};
@@ -65,7 +64,6 @@ struct CameraRenderCommand : public RenderCommand {
 };
 
 NS_END()  // namespace pipeline
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PIPELINE_RENDERCOMMAND_HPP

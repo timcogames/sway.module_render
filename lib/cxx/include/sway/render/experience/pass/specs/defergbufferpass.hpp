@@ -4,24 +4,25 @@
 #include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pass/specs/scenegeompass.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class DeferGBufferPass : public SceneGeomPass {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   DeferGBufferPass(const PassDescriptor &desc)
       : SceneGeomPass(desc) {}
 
   DTOR_VIRTUAL_DEFAULT(DeferGBufferPass);
 
+  /** @} */
 #pragma endregion
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_DEFERGBUFFERPASS_HPP

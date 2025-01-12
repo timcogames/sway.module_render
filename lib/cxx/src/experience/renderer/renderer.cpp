@@ -1,8 +1,7 @@
 
 #include <sway/render/experience/renderer/renderer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 Renderer::Renderer(u32_t type)
@@ -21,5 +20,4 @@ void Renderer::registerCommandHandlers_() {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

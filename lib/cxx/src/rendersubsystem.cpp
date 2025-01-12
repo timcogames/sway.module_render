@@ -5,8 +5,7 @@
 #include <sway/render/rendersubqueuegroups.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::typedefs::ContextPtr_t ctx)
     : core::Subsystem(ctx) {
@@ -51,7 +50,7 @@ auto RenderSubsystem::initialize() -> bool {
   return true;
 }
 
-void RenderSubsystem::createPostProcessing(typedefs::RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob) {
+void RenderSubsystem::createPostProcessing(RenderSubqueueSharedPtr_t subqueue, core::Dictionary glob) {
   ppe_ = std::make_shared<PostProcessing>(viewport_);
 
   renderState_ = std::make_shared<RenderState>();
@@ -78,7 +77,7 @@ void RenderSubsystem::createPostProcessing(typedefs::RenderSubqueueSharedPtr_t s
   // ppe_->add(scndPass, core::toBase(RenderStage::IDX_DEPTH));
 }
 
-auto RenderSubsystem::getQueueByPriority(u32_t priority) -> typedefs::RenderQueueSharedPtr_t {
+auto RenderSubsystem::getQueueByPriority(u32_t priority) -> RenderQueueSharedPtr_t {
   for (auto queue : queues_) {
     if (queue->getPriority() == priority) {
       return queue;
@@ -88,7 +87,7 @@ auto RenderSubsystem::getQueueByPriority(u32_t priority) -> typedefs::RenderQueu
   return nullptr;
 }
 
-auto RenderSubsystem::createQueue(u32_t priority) -> typedefs::RenderQueueSharedPtr_t {
+auto RenderSubsystem::createQueue(u32_t priority) -> RenderQueueSharedPtr_t {
   if (this->getQueueByPriority(priority)) {
     return nullptr;
   }
@@ -141,8 +140,8 @@ void RenderSubsystem::render() {
   ppe_->postRender();
 }
 
-void RenderSubsystem::renderSubqueues_(typedefs::RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage,
-    typedefs::RenderStateSharedPtr_t state) {
+void RenderSubsystem::renderSubqueues_(
+    RenderQueueSharedPtr_t queue, RenderSubqueueGroup group, u32_t stage, RenderStateSharedPtr_t state) {
   const auto &subqueues = queue->getSubqueues(group);
   if (subqueues.empty()) {
     return;
@@ -153,5 +152,4 @@ void RenderSubsystem::renderSubqueues_(typedefs::RenderQueueSharedPtr_t queue, R
   }
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

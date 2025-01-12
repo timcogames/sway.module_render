@@ -1,19 +1,21 @@
 #ifndef SWAY_RENDER_RENDERSTATE_HPP
 #define SWAY_RENDER_RENDERSTATE_HPP
 
-#include <sway/render/typedefs.hpp>
+#include <sway/render/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RenderState {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   RenderState();
 
   DTOR_DEFAULT(RenderState);
 
+  /** @} */
 #pragma endregion
 
   void restore();
@@ -24,7 +26,6 @@ private:
   gapi::typedefs::StateContextPtr_t state_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERSTATE_HPP

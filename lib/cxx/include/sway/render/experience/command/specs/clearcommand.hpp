@@ -5,8 +5,7 @@
 #include <sway/render/experience/command/command.hpp>
 #include <sway/render/experience/command/commandtypes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -18,13 +17,16 @@ class ClearCommand final : public Command {
   DECLARE_CLASS_METADATA(ClearCommand, Command)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ClearCommand(const math::col4f_t &color, gapi::ClearFlag flags)
       : Command(CommandType::Enum::CLEAR)
       , color_(color)
       , flags_(flags) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Overridden Command methods"
@@ -52,7 +54,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_CLEARCOMMAND_HPP

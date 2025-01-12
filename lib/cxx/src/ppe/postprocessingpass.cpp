@@ -1,9 +1,8 @@
 #include <sway/render/ppe/postprocessingpass.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
-PostProcessingPass::PostProcessingPass(const std::string &name, typedefs::ScreenQuadSharedPtr_t quad)
+PostProcessingPass::PostProcessingPass(const std::string &name, ScreenQuadSharedPtr_t quad)
     : target_(nullptr)
     , state_(nullptr)
     , quad_(quad)
@@ -33,5 +32,4 @@ void PostProcessingPass::execute() {
   sceneTex->unbind();
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

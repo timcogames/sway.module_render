@@ -1,7 +1,6 @@
 #include <sway/render/effect/effect.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 auto Effect::create(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet)
     -> EffectTypedefs::Ptr_t {
@@ -33,5 +32,4 @@ void Effect::bind() { program_->use(); }
 
 void Effect::unbind() { program_->unuse(); }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -4,8 +4,7 @@
 #include <sway/render/experience/command/specs/endpasscommand.hpp>
 #include <sway/render/experience/pass/specs/scenegeompass.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 auto SceneGeomPass::create(const PassDescriptor &desc) -> PassTypedefs::SharedPtr_t {
@@ -36,5 +35,4 @@ void SceneGeomPass::execute(DeviceContextTypedefs::Ptr_t context) {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -1,32 +1,28 @@
 #ifndef SWAY_RENDER_UPDATABLE_HPP
 #define SWAY_RENDER_UPDATABLE_HPP
 
-#include <sway/core.hpp>
-
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Updatable {
 public:
-  PURE_VIRTUAL(void update());
+  virtual void update() = 0;
 };
 
 class BeforeUpdatable {
 public:
-  PURE_VIRTUAL(void beforeUpdate());
+  virtual void beforeUpdate() = 0;
 };
 
 class AfterUpdatable {
 public:
-  PURE_VIRTUAL(void afterUpdate());
+  virtual void afterUpdate() = 0;
 };
 
 class FinalUpdatable {
 public:
-  PURE_VIRTUAL(void finalUpdate());
+  virtual void finalUpdate() = 0;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_UPDATABLE_HPP

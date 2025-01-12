@@ -7,12 +7,15 @@
 
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TVertexDataType, typename TElementDataType>
 class GeomIndexedVertexData : public GeomVertexData<TVertexDataType> {
 public:
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   GeomIndexedVertexData(u32_t numVerts, u32_t numElems)
       : GeomVertexData<TVertexDataType>(numVerts)
       , numElems_(numElems) {
@@ -20,6 +23,9 @@ public:
   }
 
   virtual ~GeomIndexedVertexData() { SAFE_DELETE_ARRAY(elements_); }
+
+  /** @} */
+#pragma endregion
 
   void setData(u32_t idx, u32_t elm) {
     if (idx > this->getElmSize()) {
@@ -29,10 +35,7 @@ public:
     elements_[idx] = elm;
   }
 
-  [[nodiscard]]
-  auto at(u32_t idx) const -> u32_t {
-    return elements_[idx];
-  }
+  [[nodiscard]] auto at(u32_t idx) const -> u32_t { return elements_[idx]; }
 
   void setTriElements(u32_t offset, u32_t a, u32_t b, u32_t c) {
     setData(0 + offset, a);
@@ -42,17 +45,13 @@ public:
 
   auto getElements() -> TElementDataType * { return elements_; }
 
-  [[nodiscard]]
-  auto getElmSize() const -> u32_t {
-    return numElems_;
-  }
+  [[nodiscard]] auto getElmSize() const -> u32_t { return numElems_; }
 
 private:
   TElementDataType *elements_;
   u32_t numElems_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMINDEXEDVERTEXDATA_HPP

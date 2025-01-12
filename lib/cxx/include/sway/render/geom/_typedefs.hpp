@@ -3,8 +3,7 @@
 
 #include <sway/render/_stdafx.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Geom;
 namespace GeomTypedefs {
@@ -18,7 +17,6 @@ using SharedPtr_t = std::shared_ptr<GeomBuilder>;
 using Container_t = std::vector<SharedPtr_t>;
 }  // namespace GeomBuilderTypedefs
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOM_TYPEDEFS_HPP

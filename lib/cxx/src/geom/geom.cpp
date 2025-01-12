@@ -1,10 +1,9 @@
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
-Geom::Geom(global::GapiPluginFunctionSet *plug, typedefs::GeomBuilderPtr_t builder)
+Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
     : core::Uniqueable<std::string>(core::newGuid<core::constans::UUID_MAGIC_SIZE>(core::constans::UUID_MAGIC))
     , gapiPlugin_(plug)
     , builder_(builder)
@@ -138,5 +137,4 @@ void Geom::setUV(int index, std::array<math::vec2f_t, 4> coords) {
   free(vtxdata);
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

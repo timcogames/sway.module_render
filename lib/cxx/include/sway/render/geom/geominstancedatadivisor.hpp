@@ -10,12 +10,15 @@
 #include <memory>
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TShape>
 class GeomInstanceDataDivisor {
 public:
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   GeomInstanceDataDivisor(const std::initializer_list<gapi::VertexSemantic> &semantics, std::size_t numInsts)
       : semantics_(semantics)
       , offsetIndex_(0) {
@@ -28,6 +31,9 @@ public:
   }
 
   ~GeomInstanceDataDivisor() { instances_.clear(); }
+
+  /** @} */
+#pragma endregion
 
   template <typename TResult = GeomIndexedVertexData<typename TShape::VtxDataType_t, typename TShape::IdxDataType_t>>
   auto toIndexedVertexData(TShape *shape) -> std::shared_ptr<TResult> {
@@ -88,7 +94,6 @@ private:
   u32_t offsetIndex_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMINSTANCEDATADIVISOR_HPP

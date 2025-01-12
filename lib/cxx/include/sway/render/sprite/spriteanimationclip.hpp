@@ -9,8 +9,7 @@
 #include <optional>
 #include <unordered_map>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct FrameMetadata {
   math::point2f_t anchor;
@@ -32,7 +31,9 @@ struct SpriteImageFrame : public Frame {
 template <typename FRAME_TYPE>
 class SpriteAnimationClip {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   SpriteAnimationClip(const std::string &name)
       : mode_(SpriteAnimationMode::ONCE)
@@ -40,6 +41,7 @@ public:
 
   DTOR_DEFAULT(SpriteAnimationClip);
 
+  /** @} */
 #pragma endregion
 
   void addFrame(u32_t idx, nlohmann::json::object_t jrect, bool flipped) {
@@ -73,7 +75,6 @@ private:
   std::string name_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_SPRITEANIMATIONCLIP_HPP

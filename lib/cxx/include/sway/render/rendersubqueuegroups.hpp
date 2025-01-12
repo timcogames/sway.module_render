@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 enum class RenderSubqueueGroup : u32_t {
   OPAQUE,  ///< Отрисовывать только непрозрачные части.
@@ -14,7 +13,6 @@ enum class RenderSubqueueGroup : u32_t {
 
 #define RENDER_SUBQUEUE_GROUP_COUNT (core::toBase(RenderSubqueueGroup::Latest))
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_RENDERSUBQUEUEGROUPS_HPP

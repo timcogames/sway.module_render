@@ -7,8 +7,7 @@
 
 #include <gmock/gmock.h>  // MOCK_METHOD
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class RasterizerStateStub : public gapi::StateEnableable<gapi::RasterizerDescriptor> {
 public:
@@ -23,7 +22,6 @@ public:
   MOCK_METHOD(void, apply, (gapi::StateContext *, const gapi::RasterizerDescriptor &), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_RASTERIZERSTATESTUB_HPP

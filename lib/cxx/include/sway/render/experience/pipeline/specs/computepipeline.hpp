@@ -8,8 +8,7 @@
 #include <sway/render/experience/pipeline/specs/computepipelinedescriptor.hpp>
 #include <sway/render/experience/pipeline/specs/computepipelinestate.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 /**
@@ -19,13 +18,16 @@ NS_BEGIN(experience)
 
 class ComputePipeline : public Pipeline {
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ComputePipeline(const ComputePipelineDescriptor &desc)
       : descriptor_(desc) {}
 
   DTOR_VIRTUAL_DEFAULT(ComputePipeline);
 
+  /** @} */
 #pragma endregion
 
 private:
@@ -39,7 +41,6 @@ private:
  */
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_COMPUTEPIPELINE_HPP

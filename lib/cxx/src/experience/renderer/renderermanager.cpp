@@ -1,8 +1,7 @@
 
 #include <sway/render/experience/renderer/renderermanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 auto RendererManager::add(RendererTypedefs::UniquePtr_t renderer) -> i32_t {
@@ -32,5 +31,4 @@ auto RendererManager::find(i32_t type) -> RendererTypedefs::Container_t::iterato
 auto RendererManager::getSize() const -> std::size_t { return renderers_.size(); }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

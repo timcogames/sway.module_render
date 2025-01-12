@@ -1,17 +1,14 @@
 #include <sway/core.hpp>
 #include <sway/render/geom/geomvertexdata.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 template <typename TVertexDataType>
 template <typename TAttribFormat>
-auto GeomVertexData<TVertexDataType>::createAttrib(gapi::VertexSemantic semantic)
-    -> typedefs::GeomVertexAttribBaseSharedPtr_t {
+auto GeomVertexData<TVertexDataType>::createAttrib(gapi::VertexSemantic semantic) -> GeomVertexAttribBaseSharedPtr_t {
   auto attrib = std::make_shared<GeomVertexAttrib<TAttribFormat>>(this, semantic, false);
   attribs_[semantic] = attrib;
   return attrib;
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

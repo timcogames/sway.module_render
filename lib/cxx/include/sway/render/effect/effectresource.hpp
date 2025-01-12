@@ -4,8 +4,7 @@
 #include <sway/render/_stdafx.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct EffectResource final {
   std::string name;
@@ -13,7 +12,6 @@ struct EffectResource final {
   std::atomic_bool ready{false};
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EFFECTRESOURCE_HPP

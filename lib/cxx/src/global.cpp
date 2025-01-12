@@ -1,7 +1,6 @@
 #include <sway/render/global.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(global)
 
 #ifdef RENDER_USE_GMOCK
@@ -33,5 +32,4 @@ auto getGapiPluginFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
 #endif
 
 NS_END()  // namespace global
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

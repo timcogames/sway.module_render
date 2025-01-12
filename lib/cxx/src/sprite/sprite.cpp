@@ -8,10 +8,9 @@
 
 #include <vector>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
-void Sprite::initialize(typedefs::RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
+void Sprite::initialize(RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t mtrl,
     const math::size2f_t &size, const math::size2i_t &subdivs) {
   material_ = mtrl;
   subdivs_ = subdivs;
@@ -219,5 +218,4 @@ void Sprite::updateGeometryUV(math::size2i_t textureSize, math::rect4f_t frameRe
   });
 }  // clang-format on
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

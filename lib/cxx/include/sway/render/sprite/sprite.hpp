@@ -5,32 +5,34 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/render/_stdafx.hpp>
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/mtrl/material.hpp>
 #include <sway/render/pipeline/rendercommand.hpp>
 #include <sway/render/rendercomponent.hpp>
 #include <sway/render/renderqueue.hpp>
 #include <sway/render/rendersubqueue.hpp>
-#include <sway/render/typedefs.hpp>
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Sprite : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite, RenderComponent)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Sprite() = default;
 
   DTOR_DEFAULT(Sprite);
 
+  /** @} */
 #pragma endregion
 
-  void initialize(typedefs::RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material,
-      const math::size2f_t &size, const math::size2i_t &subdivs = math::size2i_t(1));
+  void initialize(RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::SharedPtr_t material, const math::size2f_t &size,
+      const math::size2i_t &subdivs = math::size2i_t(1));
 
   void destroy();
 
@@ -46,7 +48,7 @@ public:
 
 #pragma region "Getters/Setters"
 
-  void setRenderSubqueue(typedefs::RenderSubqueueSharedPtr_t subqueue) { subqueue_ = subqueue; }
+  void setRenderSubqueue(RenderSubqueueSharedPtr_t subqueue) { subqueue_ = subqueue; }
 
   [[nodiscard]] auto getMaterial() const -> MaterialTypedefs::SharedPtr_t { return material_; }
 
@@ -99,7 +101,7 @@ public:
   // }
 
 private:
-  typedefs::RenderSubqueueSharedPtr_t subqueue_;
+  RenderSubqueueSharedPtr_t subqueue_;
 
   MaterialTypedefs::SharedPtr_t material_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
@@ -118,7 +120,6 @@ private:
   // math::size2f_t panelDims_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_SPRITE_HPP

@@ -12,19 +12,25 @@
 #include <sway/render/rendersubqueue.hpp>
 #include <sway/render/rendersubsystem.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Sprite_Debug : public RenderComponent {
   DECLARE_CLASS_METADATA(Sprite_Debug, RenderComponent)
 
 public:
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   Sprite_Debug() = default;
 
   DTOR(Sprite_Debug);
 
-  void initialize(typedefs::RenderSubsystemSharedPtr_t subsystem, typedefs::RenderSubqueueSharedPtr_t subqueue,
-      MaterialTypedefs::SharedPtr_t material);
+  /** @} */
+#pragma endregion
+
+  void initialize(
+      RenderSubsystemSharedPtr_t subsystem, RenderSubqueueSharedPtr_t subqueue, MaterialTypedefs::SharedPtr_t material);
 
   MTHD_OVERRIDE(void onUpdate(math::mat4f_t tfrm, math::mat4f_t proj, math::mat4f_t view, f32_t dtm));
 
@@ -32,14 +38,13 @@ public:
 
 private:
   EffectTypedefs::Ptr_t effect_;
-  typedefs::RenderSubqueueSharedPtr_t subqueue_;
+  RenderSubqueueSharedPtr_t subqueue_;
   MaterialTypedefs::SharedPtr_t material_;
   GeomBuilderTypedefs::SharedPtr_t geomBuilder_;
   u32_t axisGeomIdx_;
   u32_t lineGeomIdx_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_SPRITE_DEBUG_HPP

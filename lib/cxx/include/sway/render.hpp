@@ -1,6 +1,7 @@
 #ifndef SWAY_RENDER_HPP
 #define SWAY_RENDER_HPP
 
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/effect/effect.hpp>
 #include <sway/render/geom/geom.hpp>
 #include <sway/render/geom/geombuilder.hpp>
@@ -39,6 +40,5 @@
 #include <sway/render/sprite/spriteanimationclip.hpp>
 #include <sway/render/sprite/spriteanimationmodes.hpp>
 #include <sway/render/sprite/spritesheet.hpp>
-#include <sway/render/typedefs.hpp>
 
 #endif  // SWAY_RENDER_HPP

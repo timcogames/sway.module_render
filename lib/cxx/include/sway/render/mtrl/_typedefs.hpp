@@ -3,8 +3,7 @@
 
 #include <sway/render/_stdafx.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 namespace ShaderTypedefs {
 // using SourcePair_t = std::unordered_map<gapi::ShaderType::Enum, std::string>;
@@ -25,7 +24,6 @@ namespace MaterialManagerTypedefs {
 using SharedPtr_t = std::shared_ptr<MaterialManager>;
 }  // namespace MaterialManagerTypedefs
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_MTRL_TYPEDEFS_HPP

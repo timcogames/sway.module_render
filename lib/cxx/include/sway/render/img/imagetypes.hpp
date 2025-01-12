@@ -1,10 +1,9 @@
 #ifndef SWAY_RENDER_IMAGETYPES_HPP
 #define SWAY_RENDER_IMAGETYPES_HPP
 
-#include <sway/render/typedefs.hpp>
+#include <sway/render/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 // clang-format off
 DECLARE_ENUM_IDX(ImageType, 
@@ -16,7 +15,6 @@ DECLARE_ENUM_IDX(ImageType,
   IDX_EMISSIVE)
 // clang-format on
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_IMAGETYPES_HPP

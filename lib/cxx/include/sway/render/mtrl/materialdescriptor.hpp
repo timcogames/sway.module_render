@@ -4,8 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct MaterialDescriptor {
   math::col4f_t ambient;
@@ -20,7 +19,6 @@ struct MaterialDescriptor {
   }
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_MTRL_MATERIALDESCRIPTOR_HPP

@@ -1,7 +1,6 @@
 #include <sway/render/mtrl/materialmanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 auto MaterialManager::addMaterial(MaterialTypedefs::SharedPtr_t mtrl) -> bool {
   auto [iter, inserted] = materials_.emplace(mtrl->getUniqueId().value(), mtrl);
@@ -17,5 +16,4 @@ auto MaterialManager::getByUid(const std::string &name) -> MaterialTypedefs::Sha
   return nullptr;
 }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

@@ -11,8 +11,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 NS_BEGIN(prims)
 
@@ -25,6 +24,10 @@ public:
   static constexpr std::size_t MAX_QUAD_RESERVE_VERTICES{4};
   static constexpr std::size_t MAX_QUAD_RESERVE_ELEMENTS{6};
 
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   Quadrilateral(const std::initializer_list<gapi::VertexSemantic> &semantics)
       : remapping_(false) {
     initialVtxData();
@@ -34,6 +37,9 @@ public:
   }
 
   virtual ~Quadrilateral() = default;
+
+  /** @} */
+#pragma endregion
 
   void initialVtxData() {
     data_ = std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(
@@ -135,7 +141,6 @@ private:
 
 NS_END()  // namespace prims
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PROCEDURALS_PRIMS_QUADRILATERAL_HPP

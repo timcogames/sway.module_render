@@ -8,8 +8,7 @@
 #include <sway/render/experience/technique/techniquemanager.hpp>
 #include <sway/render/global.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 RenderContext context_;  ///< Internat context.
@@ -50,5 +49,4 @@ void RenderModule::setActiveRenderer(i32_t idx) {
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

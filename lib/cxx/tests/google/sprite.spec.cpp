@@ -2,7 +2,7 @@
 #include <sway/gapi.hpp>
 #include <sway/math.hpp>
 #include <sway/render.hpp>
-#include <sway/render/typedefs.hpp>
+#include <sway/render/_typedefs.hpp>
 
 #include <google/plugfixture.hpp>
 #include <google/stubs/bufferstub.hpp>
@@ -35,7 +35,7 @@ public:
   }
 
 public:
-  render::typedefs::RenderSubsystemSharedPtr_t subsys;
+  render::RenderSubsystemSharedPtr_t subsys;
 };
 
 TEST_F(SpriteTestFixture, test) {

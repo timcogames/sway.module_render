@@ -2,14 +2,13 @@
 #define SWAY_RENDER_PRINS_PRIM_HPP
 
 #include <sway/render/_stdafx.hpp>
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/geom/geomcreateinfo.hpp>
 #include <sway/render/geom/geomvertexattrib.hpp>
-#include <sway/render/typedefs.hpp>
 
 #include <map>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 
 class ShapeBase {
@@ -26,7 +25,6 @@ public:
 };
 
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PRINS_PRIM_HPP

@@ -6,8 +6,7 @@
 #include <sway/render/experience/renderer/_typedefs.hpp>
 #include <sway/render/experience/technique/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 struct DeviceContext {
@@ -34,7 +33,6 @@ struct RenderContext final : public DeviceContext, public TechniqueContext {
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_RENDERCONTEXT_HPP

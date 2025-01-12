@@ -6,8 +6,7 @@
 #include <sway/render/sprite/spriteanimationclip.hpp>
 #include <sway/render/sprite/spriteanimationmodes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 enum class AnimationStatus : s8_t { RUNNING, PAUSED, STOPPED };
 
@@ -15,7 +14,9 @@ class Animation {
 public:
   inline static i32_t DFLT_NBR_CYCLES = 1;
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Animation()
       : status_(AnimationStatus::STOPPED)
@@ -25,6 +26,7 @@ public:
 
   DTOR_VIRTUAL_DEFAULT(Animation);
 
+  /** @} */
 #pragma endregion
 
   MTHD_VIRTUAL(void play()) { paused_ = false; }
@@ -95,7 +97,6 @@ public:
   f32_t timeCounter_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_SPRITEANIMATION_HPP

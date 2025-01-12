@@ -5,8 +5,7 @@
 #include <sway/math.hpp>
 #include <sway/render/sprite/flipper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 struct Flippable {
   static auto compute(const math::rect4f_t &origin, core::EnumClassBitset<Flipper> flips)
@@ -29,7 +28,6 @@ struct Flippable {
   }
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_FLIPPABLE_HPP

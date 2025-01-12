@@ -2,13 +2,12 @@
 #define SWAY_RENDER_EFFECT_HPP
 
 #include <sway/render/_stdafx.hpp>
+#include <sway/render/_typedefs.hpp>
 #include <sway/render/effect/_typedefs.hpp>
 #include <sway/render/effect/effectresourceimmutable.hpp>
 #include <sway/render/global.hpp>
-#include <sway/render/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class Effect {
 public:
@@ -22,25 +21,28 @@ public:
   static auto create(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet)
       -> EffectTypedefs::Ptr_t;
 
-  /**
-   * end of creators group
-   * @}
-   */
+  /** @} */
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   /**
-   * \~russian @brief Конструктор класса.
-   *   Выполняет инициализацию нового экземпляра класса.
+   * \~english
+   * @brief Constructor class. Performs initialization of a new instance of the class.
+   * @param[in] plug Pointer to the plugin function set.
    *
+   * \~russian
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
    * @param[in] infoSet Первоначальная информация о шейдере.
    */
   Effect(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfoSet &infoSet);
 
-  DTOR(Effect);
+  ~Effect();
 
+  /** @} */
 #pragma endregion
 
   void reload(const std::string &name) {
@@ -56,18 +58,23 @@ public:
 #pragma region "Binding/Unbinding"
 
   /**
-   * \~russian @brief Выполняет привязку ресурсов шейдера к соответствующим слотам.
+   * @brief \~english Performs binding of shader resources to corresponding slots. \~russian Выполняет привязку ресурсов
+   * шейдера к соответствующим слотам.
    *
    * @sa unbind()
    */
   void bind();
 
   /**
-   * \~russian @brief Выполняет отвязку ресурсов шейдера.
+   * \~english
+   * @brief Performs unbinding of shader resources.
+   * @note If the shader resource is already unbound, then this method has no effect.
    *
-   * @note
-   *   Если ресурс шейдера уже отвязан, то данный метод не имеет эффекта.
+   * \~russian
+   * @brief Выполняет отвязку ресурсов шейдера.
+   * @note Если ресурс шейдера уже отвязан, то данный метод не имеет эффекта.
    *
+   * \~
    * @sa bind()
    */
   void unbind();
@@ -86,11 +93,11 @@ protected:
   global::GapiPluginFunctionSet *gapiPlugin_;
 
 private:
-  gapi::typedefs::ShaderProgramPtr_t program_;  ///< Указатель на шейдерную программу.
+  gapi::typedefs::ShaderProgramPtr_t program_; /*!< \~english Pointer to shader program.
+    \~russian Указатель на шейдерную программу. */
   EffectResourceImmutableTypedefs::SharedPtr_t immutable_;
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EFFECT_HPP

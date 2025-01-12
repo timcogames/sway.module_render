@@ -5,8 +5,7 @@
 #include <sway/render/experience/technique/delegates/defer.hpp>
 #include <sway/render/experience/technique/techniquemanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void DeferTechniqueDelegate::create(Technique &tech, const TechniqueMetadata &meta) {
@@ -25,5 +24,4 @@ void DeferTechniqueDelegate::create(Technique &tech, const TechniqueMetadata &me
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

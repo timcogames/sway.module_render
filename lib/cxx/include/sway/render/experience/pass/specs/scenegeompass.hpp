@@ -4,8 +4,7 @@
 #include <sway/render/_stdafx.hpp>
 #include <sway/render/experience/pass/specs/graphicspass.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 class SceneGeomPass : public GraphicsPass {
@@ -16,12 +15,15 @@ public:
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   SceneGeomPass(const PassDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(SceneGeomPass);
 
+  /** @} */
 #pragma endregion
 
   void prepare();
@@ -39,7 +41,6 @@ private:
 };
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_EXPERIENCE_SCENEGEOMPASS_HPP

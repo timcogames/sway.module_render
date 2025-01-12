@@ -6,8 +6,7 @@
 
 #include <thread>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 Material::Material(global::GapiPluginFunctionSet *plug, const std::string &name)
     : core::Uniqueable<std::string>(name)
@@ -156,7 +155,6 @@ void Material::unbind() {
   effect_->unbind();
 }
 
-void Material::setSubsys(typedefs::RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
+void Material::setSubsys(RenderSubsystemPtr_t subsys) { subsys_ = subsys; }
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

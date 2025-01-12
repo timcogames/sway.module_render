@@ -1,7 +1,6 @@
 #include <sway/render/experience/command/commandbufferexecutor.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(experience)
 
 void CommandBufferExecutor::registerHandler(CommandHandlerTypedefs::UniquePtr_t &&handler) {
@@ -28,5 +27,4 @@ void CommandBufferExecutor::run_(DeviceContextTypedefs::Ptr_t context, CommandTy
 }
 
 NS_END()  // namespace experience
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render

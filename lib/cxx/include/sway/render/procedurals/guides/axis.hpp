@@ -10,8 +10,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 NS_BEGIN(procedurals)
 NS_BEGIN(guides)
 
@@ -24,6 +23,10 @@ public:
   static constexpr std::size_t MAX_AXIS_RESERVE_VERTICES{8};
   // static constexpr std::size_t MAX_AXIS_RESERVE_ELEMENTS{18};
   static constexpr std::size_t MAX_AXIS_RESERVE_ELEMENTS{12};
+
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   Axis()
       : data_(std::make_shared<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>>(
@@ -117,6 +120,9 @@ public:
 
   ~Axis() = default;
 
+  /** @} */
+#pragma endregion
+
   [[nodiscard]]
   auto data() const -> std::shared_ptr<GeomIndexedVertexData<VtxDataType_t, IdxDataType_t>> {
     return data_;
@@ -140,7 +146,6 @@ private:
 
 NS_END()  // namespace guides
 NS_END()  // namespace procedurals
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_PROCEDURALS_GUIDES_AXIS_HPP

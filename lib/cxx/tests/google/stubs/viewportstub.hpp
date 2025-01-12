@@ -6,8 +6,7 @@
 
 #include <gmock/gmock.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class ViewportStub : public gapi::Viewport {
 public:
@@ -30,7 +29,6 @@ public:
   MOCK_METHOD(void, clear, (gapi::ClearFlag), (override));
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_TEST_VIEWPORTSTUB_H

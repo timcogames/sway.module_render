@@ -1,10 +1,9 @@
 #ifndef SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP
 #define SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP
 
-#include <sway/render/typedefs.hpp>
+#include <sway/render/_typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(render)
+namespace sway::render {
 
 class GeomVertexAttribBase {
 public:
@@ -21,7 +20,6 @@ public:
   PURE_VIRTUAL(auto enabled() const -> bool);
 };
 
-NS_END()  // namespace render
-NS_END()  // namespace sway
+}  // namespace sway::render
 
 #endif  // SWAY_RENDER_GEOMVERTEXATTRIBBASE_HPP
