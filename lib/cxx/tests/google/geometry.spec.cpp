@@ -119,12 +119,12 @@ TEST_F(GeometryTestFixture, create_buffer) {
   // ---------------------
 
   // SAFE_DELETE_OBJECT(geomDataDivisor);
-  SAFE_DELETE_OBJECT(vertexArrayStub);
-  SAFE_DELETE_OBJECT(vertexAttribLayoutStub);
-  SAFE_DELETE_OBJECT(bufferStub);
-  SAFE_DELETE_OBJECT(idGeneratorStub);
+  core::safeDelete<render::VertexArrayStub>(vertexArrayStub);
+  core::safeDelete<render::VertexAttribLayoutStub>(vertexAttribLayoutStub);
+  core::safeDelete<render::BufferStub>(bufferStub);
+  core::safeDelete<render::IdGeneratorStub>(idGeneratorStub);
   // SAFE_DELETE_OBJECT(geomBuilder);
-  SAFE_DELETE_OBJECT(shaderStub);
-  SAFE_DELETE_OBJECT(shaderProgStub);
+  core::safeDelete<render::ShaderStub>(shaderStub);
+  core::safeDelete<render::ShaderProgramStub>(shaderProgStub);
   // SAFE_DELETE_OBJECT(effect);
 }

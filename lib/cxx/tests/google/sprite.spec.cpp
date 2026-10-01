@@ -107,7 +107,7 @@ TEST_F(SpriteTestFixture, test) {
 
   sprite->destroy();
 
-  SAFE_DELETE_OBJECT(preprocessorStub);
-  SAFE_DELETE_OBJECT(shaderProgStub);
-  SAFE_DELETE_OBJECT(shaderStub);
+  core::safeDelete<render::ShaderPreprocessorStub>(preprocessorStub);
+  core::safeDelete<render::ShaderProgramStub>(shaderProgStub);
+  core::safeDelete<render::ShaderStub>(shaderStub);
 }

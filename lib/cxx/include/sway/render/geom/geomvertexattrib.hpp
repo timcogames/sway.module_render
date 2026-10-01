@@ -20,7 +20,7 @@ public:
 
   GeomVertexAttrib(GeomVertexDataBase *owner, gapi::VertexSemantic semantic, bool normalized);
 
-  virtual ~GeomVertexAttrib() { SAFE_DELETE_ARRAY(vertices_); }
+  virtual ~GeomVertexAttrib() { core::safeDeleteArray<VertexAttribType_t>(vertices_); }
 
   /** @} */
 #pragma endregion

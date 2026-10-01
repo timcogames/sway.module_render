@@ -11,7 +11,7 @@ Geom::Geom(global::GapiPluginFunctionSet *plug, GeomBuilderPtr_t builder)
 
 Geom::~Geom() {
   std::fill(buffers_.begin(), buffers_.end(), std::nullopt);
-  SAFE_DELETE_OBJECT(attribLayout_);
+  core::safeDelete<gapi::VertexAttribLayout>(attribLayout_);
   builder_->stats_.numGeoms -= 1;
 }
 

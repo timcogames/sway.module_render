@@ -23,9 +23,9 @@ public:
       , data_(nullptr) {}
 
   DTOR_VIRTUAL(GeomInstance) {
-    SAFE_DELETE_OBJECT(data_);
-    SAFE_DELETE_OBJECT(vao_);
-    SAFE_DELETE_OBJECT(dataDivisor_);
+    core::safeDelete<ShapeVtxDataType_t>(data_);
+    core::safeDelete<gapi::VertexArray>(vao_);
+    core::safeDelete<GeomInstanceDataDivisor<TShape>>(dataDivisor_);
   }
 
   /** @} */

@@ -29,8 +29,8 @@ TEST_F(EffectTestFixture, create_buffer) {
   effect->bind();
   effect->unbind();
 
-  SAFE_DELETE_OBJECT(shaderStub);
-  SAFE_DELETE_OBJECT(shaderProgStub);
+  core::safeDelete<render::ShaderStub>(shaderStub);
+  core::safeDelete<render::ShaderProgramStub>(shaderProgStub);
 }
 
 TEST_F(EffectTestFixture, reload) {
@@ -46,6 +46,6 @@ TEST_F(EffectTestFixture, reload) {
 
   effect->reload("./wwwroot/dist/assets/materials/empty.json");
 
-  SAFE_DELETE_OBJECT(shaderStub);
-  SAFE_DELETE_OBJECT(shaderProgStub);
+  core::safeDelete<render::ShaderStub>(shaderStub);
+  core::safeDelete<render::ShaderProgramStub>(shaderProgStub);
 }

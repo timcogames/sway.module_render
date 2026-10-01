@@ -15,15 +15,15 @@ RenderSubsystem::RenderSubsystem(core::Plugin *plug, core::typedefs::ContextPtr_
 RenderSubsystem::~RenderSubsystem() {
   queues_.clear();
 
-  SAFE_DELETE_OBJECT(idGenerator_[2]);
-  SAFE_DELETE_OBJECT(idGenerator_[1]);
-  SAFE_DELETE_OBJECT(idGenerator_[0]);
+  core::safeDelete<gapi::IdGenerator>(idGenerator_[2]);
+  core::safeDelete<gapi::IdGenerator>(idGenerator_[1]);
+  core::safeDelete<gapi::IdGenerator>(idGenerator_[0]);
 
-  SAFE_DELETE_OBJECT(rasterizer_);
-  SAFE_DELETE_OBJECT(viewport_);
+  core::safeDelete<gapi::StateEnableable<gapi::RasterizerDescriptor>>(rasterizer_);
+  core::safeDelete<gapi::Viewport>(viewport_);
 
-  SAFE_DELETE_OBJECT(global::pluginFunctionSet_);
-  SAFE_DELETE_OBJECT(global::pluginInstance_);
+  core::safeDelete<global::GapiPluginFunctionSet>(global::pluginFunctionSet_);
+  core::safeDelete<core::Plugin>(global::pluginInstance_);
 }
 
 void RenderSubsystem::setGraphicsApiContext(global::GapiPluginFunctionSet *pluginFuncs) {

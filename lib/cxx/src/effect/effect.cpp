@@ -26,7 +26,7 @@ Effect::Effect(global::GapiPluginFunctionSet *plug, const gapi::ShaderCreateInfo
   }
 }
 
-Effect::~Effect() { SAFE_DELETE_OBJECT(program_); }
+Effect::~Effect() { core::safeDelete<gapi::ShaderProgram>(program_); }
 
 void Effect::bind() { program_->use(); }
 

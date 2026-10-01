@@ -22,7 +22,7 @@ public:
     elements_ = new TElementDataType[numElems_ * sizeof(TElementDataType)];
   }
 
-  virtual ~GeomIndexedVertexData() { SAFE_DELETE_ARRAY(elements_); }
+  virtual ~GeomIndexedVertexData() { core::safeDeleteArray<TElementDataType>(elements_); }
 
   /** @} */
 #pragma endregion

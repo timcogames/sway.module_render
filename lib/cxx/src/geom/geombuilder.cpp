@@ -14,14 +14,14 @@ GeomBuilder::GeomBuilder(global::GapiPluginFunctionSet *plug, gapi::typedefs::Id
 GeomBuilder::~GeomBuilder() {
   auto iter = geometries_.begin();
   while (iter != geometries_.end()) {
-    SAFE_DELETE_OBJECT(*iter);
+    core::safeDelete<Geom>(*iter);
     iter = geometries_.erase(iter);
   }
 }
 
 void GeomBuilder::remove(u32_t idx) {
   auto iter = geometries_.begin() + idx;
-  SAFE_DELETE_OBJECT(*iter);
+  core::safeDelete<Geom>(*iter);
   // geometries_.erase(iter);
   geometries_[idx] = nullptr;
 

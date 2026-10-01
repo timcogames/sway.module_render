@@ -15,9 +15,9 @@ struct DeviceContext {
   gapi::typedefs::ViewportPtr_t viewport;
 
   void disponse() {
-    SAFE_DELETE_OBJECT(drawCall);
-    SAFE_DELETE_OBJECT(capability);
-    SAFE_DELETE_OBJECT(viewport);
+    core::safeDelete<gapi::DrawCall>(drawCall);
+    core::safeDelete<gapi::Capability>(capability);
+    core::safeDelete<gapi::Viewport>(viewport);
   }
 };
 

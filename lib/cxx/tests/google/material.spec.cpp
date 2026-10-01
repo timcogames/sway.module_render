@@ -43,9 +43,9 @@ TEST_F(MaterialTestFixture, add_effect) {
   auto mtrl = std::make_shared<render::Material>(globalGapiPlug, "test_1");
   mtrl->addEffectSource(sources);
 
-  SAFE_DELETE_OBJECT(preprocessorStub);
-  SAFE_DELETE_OBJECT(shaderProgStub);
-  SAFE_DELETE_OBJECT(shaderStub);
+  core::safeDelete<render::ShaderPreprocessorStub>(preprocessorStub);
+  core::safeDelete<render::ShaderProgramStub>(shaderProgStub);
+  core::safeDelete<render::ShaderStub>(shaderStub);
 }
 
 TEST(Material, deserialize) {

@@ -23,7 +23,7 @@ auto GeomBuilder::create(
 template <typename TShape>
 auto GeomBuilder::create(int idx, const GeomCreateInfo &info, GeomVertexAttribSharedPtrMap_t attribs,
     EffectTypedefs::Ptr_t effect) -> u32_t {
-  SAFE_DELETE_OBJECT(geometries_[idx]);
+  core::safeDelete<Geom>(geometries_[idx]);
   geometries_[idx] = new Geom(gapiPlugin_, this);
   geometries_[idx]->create(info, effect, attribs);
 
@@ -41,7 +41,7 @@ auto GeomBuilder::createInstance(
 template <typename TShape>
 auto GeomBuilder::createInstance(int idx, GeomInstanceDataDivisor<TShape> *divisor, const GeomCreateInfo &info,
     EffectTypedefs::Ptr_t effect) -> u32_t {
-  SAFE_DELETE_OBJECT(geometries_[idx]);
+  core::safeDelete<Geom>(geometries_[idx]);
   geometries_[idx] = new GeomInstance<TShape>(gapiPlugin_, this, divisor);
   geometries_[idx]->create(info, effect, divisor->getVertexAttribs());
 

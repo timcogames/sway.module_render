@@ -45,7 +45,7 @@ void Sprite::initialize(RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::Sha
   auto *data = new f32_t[quadShape->getReserveVerts() * sizeof(math::VertexTexCoord)];
   quadShape->data()->getVertices(data, 0, quadShape->getReserveVerts());
   geomCreateInfo.bo[Constants::IDX_VBO].data = data;
-  SAFE_DELETE_ARRAY(data);
+  core::safeDeleteArray<f32_t>(data);
 
   geomCreateInfo.bo[Constants::IDX_EBO].desc.usage = gapi::BufferUsage::Enum::STATIC;
   geomCreateInfo.bo[Constants::IDX_EBO].desc.byteStride = sizeof(u32_t);
