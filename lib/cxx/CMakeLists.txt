@@ -57,7 +57,7 @@ if(NOT TARGET ${MODULE_RENDER_OBJ_TARGET})
 endif()
 
 if(MODULE_RENDER_ENABLE_TESTS OR MODULE_RENDER_USE_GMOCK)
-  target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PUBLIC -DRENDER_USE_GMOCK)
+  target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PUBLIC RENDER_USE_GMOCK)
 endif()
 
 # target_compile_definitions(${MODULE_RENDER_OBJ_TARGET} PRIVATE -DTRACE_CTORS_DTOR)
@@ -87,6 +87,10 @@ if(NOT TARGET module_render_dependences)
   endif()
 
   create_interface(${MODULE_RENDER_DEPENDENCY_LIST} ${TARGET_OBJECT_LIST})
+
+  if(MODULE_RENDER_ENABLE_TESTS OR MODULE_RENDER_USE_GMOCK)
+    target_compile_definitions(${MODULE_RENDER_DEPENDENCY_LIST} INTERFACE RENDER_USE_GMOCK)
+  endif()
 endif()
 
 #---------------------------------------------------------------------------------
