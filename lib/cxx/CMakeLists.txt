@@ -29,7 +29,7 @@ include_directories("${MODULE_RENDER_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_loader/api/cxx/include")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
+include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_math/lib/cpp/inc")
 include_directories("${MODULE_RENDER_LIST_DIR}/submodules/sway.module_rms/lib/cxx/include")
 
 # find_package(OpenGL REQUIRED)
