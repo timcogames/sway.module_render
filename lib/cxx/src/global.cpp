@@ -19,11 +19,11 @@ auto getGapiPluginFunctionSet() -> MockPluginFunctionSet * {
 #else
 
 core::Plugin *pluginInstance_ = nullptr;
-gapi::ConcreatePluginFunctionSet *pluginFunctionSet_ = nullptr;
+gapi::ConcretePluginFunctionSet *pluginFunctionSet_ = nullptr;
 
-auto getGapiPluginFunctionSet() -> gapi::ConcreatePluginFunctionSet * {
+auto getGapiPluginFunctionSet() -> gapi::ConcretePluginFunctionSet * {
   if (pluginFunctionSet_ == nullptr) {
-    pluginInstance_->initialize(pluginFunctionSet_ = new gapi::ConcreatePluginFunctionSet());
+    pluginInstance_->initialize(pluginFunctionSet_ = new gapi::ConcretePluginFunctionSet());
   }
 
   return pluginFunctionSet_;

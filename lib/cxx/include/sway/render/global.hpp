@@ -52,7 +52,7 @@ using GapiPluginFunctionSet = MockPluginFunctionSet;
 
 #else
 
-using GapiPluginFunctionSet = gapi::ConcreatePluginFunctionSet;
+using GapiPluginFunctionSet = gapi::ConcretePluginFunctionSet;
 
 #endif  // RENDER_USE_GMOCK
 
