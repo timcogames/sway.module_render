@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/idgenerator.hpp>
+#include <sway/gapiplugin.hpp>
 
 #ifdef RENDER_USE_GMOCK
 #  include <gmock/gmock.h>
