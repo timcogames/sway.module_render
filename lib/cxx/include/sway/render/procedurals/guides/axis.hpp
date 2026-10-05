@@ -52,10 +52,10 @@ public:
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.9F, +0.1F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(3 + offsetVtxes, math::vec3f_t(+0.9F, -0.1F, +0.0F).asDataPtr());
 
-      dataAttribs_.col->setData(0 + offsetVtxes, COL4F_RED.asVec4().asDataPtr());
-      dataAttribs_.col->setData(1 + offsetVtxes, COL4F_RED.asVec4().asDataPtr());
-      dataAttribs_.col->setData(2 + offsetVtxes, COL4F_RED.asVec4().asDataPtr());
-      dataAttribs_.col->setData(3 + offsetVtxes, COL4F_RED.asVec4().asDataPtr());
+      dataAttribs_.col->setData(0 + offsetVtxes, math::COL4F_RED.asVec4().asDataPtr());
+      dataAttribs_.col->setData(1 + offsetVtxes, math::COL4F_RED.asVec4().asDataPtr());
+      dataAttribs_.col->setData(2 + offsetVtxes, math::COL4F_RED.asVec4().asDataPtr());
+      dataAttribs_.col->setData(3 + offsetVtxes, math::COL4F_RED.asVec4().asDataPtr());
 
       offsetVtxes += 4;
 
@@ -75,10 +75,10 @@ public:
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.1F, +0.9F, +0.0F).asDataPtr());
       dataAttribs_.pos->setData(3 + offsetVtxes, math::vec3f_t(-0.1F, +0.9F, +0.0F).asDataPtr());
 
-      dataAttribs_.col->setData(0 + offsetVtxes, COL4F_GREEN.asVec4().asDataPtr());
-      dataAttribs_.col->setData(1 + offsetVtxes, COL4F_GREEN.asVec4().asDataPtr());
-      dataAttribs_.col->setData(2 + offsetVtxes, COL4F_GREEN.asVec4().asDataPtr());
-      dataAttribs_.col->setData(3 + offsetVtxes, COL4F_GREEN.asVec4().asDataPtr());
+      dataAttribs_.col->setData(0 + offsetVtxes, math::COL4F_GREEN.asVec4().asDataPtr());
+      dataAttribs_.col->setData(1 + offsetVtxes, math::COL4F_GREEN.asVec4().asDataPtr());
+      dataAttribs_.col->setData(2 + offsetVtxes, math::COL4F_GREEN.asVec4().asDataPtr());
+      dataAttribs_.col->setData(3 + offsetVtxes, math::COL4F_GREEN.asVec4().asDataPtr());
 
       offsetVtxes += 4;
 
@@ -98,10 +98,10 @@ public:
       dataAttribs_.pos->setData(2 + offsetVtxes, math::vec3f_t(+0.1F, +0.0F, +0.9F).asDataPtr());
       dataAttribs_.pos->setData(3 + offsetVtxes, math::vec3f_t(-0.1F, +0.0F, +0.9F).asDataPtr());
 
-      dataAttribs_.col->setData(0 + offsetVtxes, COL4F_BLUE.asVec4().asDataPtr());
-      dataAttribs_.col->setData(1 + offsetVtxes, COL4F_BLUE.asVec4().asDataPtr());
-      dataAttribs_.col->setData(2 + offsetVtxes, COL4F_BLUE.asVec4().asDataPtr());
-      dataAttribs_.col->setData(3 + offsetVtxes, COL4F_BLUE.asVec4().asDataPtr());
+      dataAttribs_.col->setData(0 + offsetVtxes, math::COL4F_BLUE.asVec4().asDataPtr());
+      dataAttribs_.col->setData(1 + offsetVtxes, math::COL4F_BLUE.asVec4().asDataPtr());
+      dataAttribs_.col->setData(2 + offsetVtxes, math::COL4F_BLUE.asVec4().asDataPtr());
+      dataAttribs_.col->setData(3 + offsetVtxes, math::COL4F_BLUE.asVec4().asDataPtr());
 
       offsetVtxes += 4;
 

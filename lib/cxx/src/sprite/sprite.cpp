@@ -32,7 +32,7 @@ void Sprite::initialize(RenderSubsystemSharedPtr_t subsys, MaterialTypedefs::Sha
           math::rect4f_t(0, 0, size.getW(), size.getH()).offset(-quadHalfSize.getW(), -quadHalfSize.getH()), flips),
       0.0F);
 
-  quadShape->setColDataAttrib(COL4F_WHITE);
+  quadShape->setColDataAttrib(math::COL4F_WHITE);
   quadShape->setTexDataAttrib(math::rect4f_t(0.0F, 0.0F, 1.0F, 1.0F));
 
   GeomCreateInfo geomCreateInfo;
