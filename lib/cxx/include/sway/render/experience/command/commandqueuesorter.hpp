@@ -13,7 +13,13 @@ NS_BEGIN(experience)
  * @{
  */
 
-DECLARE_ENUM(SortOrder, ASCENDING, DESCENDING)
+// clang-format off
+#define SORT_ORDER_LIST(ITEM) \
+  ITEM(ASCENDING, 1) \
+  ITEM(DESCENDING, 2)
+// clang-format on
+
+DECLARE_ENUM_U32(SortOrder, SORT_ORDER_LIST)
 
 struct SortByPriorityInAscendingOrder {
   constexpr auto operator()(
@@ -38,7 +44,7 @@ struct CommandQueueSorter {
       case SortOrder::Enum::DESCENDING:
         std::stable_sort(bufs.begin(), bufs.end(), SortByPriorityInDescendingOrder());
         break;
-      case SortOrder::Enum::NONE:
+      case SortOrder::Enum::INITIAL:
       default:
         break;
     }

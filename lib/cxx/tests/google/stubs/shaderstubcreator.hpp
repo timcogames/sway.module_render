@@ -14,7 +14,7 @@ namespace sway::render {
 
 struct ShaderStubCreator {
   static auto create(render::global::GapiPluginFunctionSet *plug) -> render::ShaderStub * {
-    auto *stub = new render::ShaderStub(gapi::ShaderType::Enum::NONE);
+    auto *stub = new render::ShaderStub(gapi::ShaderType::Enum::INITIAL);
     EXPECT_CALL(*plug, createShader(testing::_)).WillRepeatedly(testing::Return(stub));
 
     return stub;

@@ -12,13 +12,15 @@ NS_BEGIN(experience)
  */
 
 // clang-format off
-DECLARE_ENUM(CommandType, 
-  BEGIN_PASS, 
-  CLEAR, 
-  BIND_PIPELINE, 
-  DRAW, 
-  END_PASS)
+#define COMMAND_TYPE_LIST(ITEM) \
+  ITEM(BEGIN_PASS, 1) \
+  ITEM(CLEAR, 2) \
+  ITEM(BIND_PIPELINE, 3) \
+  ITEM(DRAW, 4) \
+  ITEM(END_PASS, 5)
 // clang-format on
+
+DECLARE_ENUM_U32(CommandType, COMMAND_TYPE_LIST)
 
 /**
  * end of command group

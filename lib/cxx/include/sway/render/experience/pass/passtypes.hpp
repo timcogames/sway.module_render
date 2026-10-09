@@ -11,7 +11,14 @@ NS_BEGIN(experience)
  * @{
  */
 
-DECLARE_ENUM(PassType, GRAPHICS, COMPUTE, RESOURCE)
+// clang-format off
+#define PASS_TYPE_LIST(ITEM) \
+  ITEM(GRAPHICS, 1) \
+  ITEM(COMPUTE, 2) \
+  ITEM(RESOURCE, 3)
+// clang-format on
+
+DECLARE_ENUM_U32(PassType, PASS_TYPE_LIST)
 
 /**
  * end of pass group

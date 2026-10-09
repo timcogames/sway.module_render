@@ -25,7 +25,7 @@ struct GeomCreateInfo {
 
   GeomCreateInfo()
       : indexed(false)
-      , topology(gapi::TopologyType::Enum::NONE) {
+      , topology(gapi::TopologyType::Enum::INITIAL) {
     bo[Constants::IDX_VBO].desc.target = gapi::BufferTarget::Enum::ARRAY;
     bo[Constants::IDX_EBO].desc.target = gapi::BufferTarget::Enum::ELEMENT_ARRAY;
   }
