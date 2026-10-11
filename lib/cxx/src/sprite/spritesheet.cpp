@@ -41,13 +41,13 @@ void SpriteSheet::parseFrames(nlohmann::json jobject, std::string clipname, std:
   }
 }
 
-auto SpriteSheet::getAnimation(const std::string &name) const -> const std::optional<SpriteAnimation> & {
-  const auto &iter = animations_.find(name);
+auto SpriteSheet::getAnimation(const std::string &name) const -> std::optional<SpriteAnimation> {
+  auto iter = animations_.find(name);
   if (iter == animations_.end()) {
-    return std::nullopt;
+    return {};
   }
 
-  return (*iter).second;
+  return iter->second;
 }
 
 auto SpriteSheet::hasAnimation(const std::string &name) const -> bool {
